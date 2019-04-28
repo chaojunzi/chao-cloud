@@ -4,8 +4,8 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 import com.chao.cloud.common.config.web.EnableWeb;
-import com.chao.cloud.common.support.access.annotation.EnableAccessLimit;
-import com.chao.cloud.common.support.emoji.annotation.EnableEmojiFilter;
+import com.chao.cloud.common.extra.access.annotation.EnableAccessLimit;
+import com.chao.cloud.common.extra.emoji.annotation.EnableEmojiFilter;
 
 /**
  * ssh-web
