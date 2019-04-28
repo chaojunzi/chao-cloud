@@ -1,0 +1,72 @@
+package com.chao.cloud.common.support.ftp;
+
+import java.io.InputStream;
+import java.io.OutputStream;
+
+import cn.hutool.core.date.DateUtil;
+import cn.hutool.core.io.FileUtil;
+import cn.hutool.core.lang.Console;
+import cn.hutool.core.lang.Snowflake;
+import cn.hutool.core.util.IdUtil;
+import cn.hutool.core.util.StrUtil;
+
+/**
+ * 文件操作接口
+ * 
+ * @author xuechao
+ *
+ */
+public interface IFileOperation {
+
+    String PATH_DATE_PATTERN = "/yyyy/MM/dd";
+
+    Snowflake SNOW_FLAKE = IdUtil.createSnowflake(1, 1);
+
+    /**
+     * 上传图片
+     * 
+     * @param t
+     * @return 文件名字
+     */
+    String uploadImg(InputStream is, String fileName) throws Exception;
+
+    /**
+     * 
+     * @param is
+     *            文件流
+     * @param fileName
+     *            文件名称
+     * @return
+     * @throws Exception
+     */
+    String uploadInputStream(InputStream is, String fileName) throws Exception;
+
+    /**
+     * 下载
+     */
+    void downLoad(String filePath, OutputStream out) throws Exception;
+
+    /**
+     * 删除文件
+     */
+    boolean delete(String filePath);
+
+    default String genFilePath(String rootPath) {
+        // 根据时间生成目录结构
+        String url = rootPath + DateUtil.format(DateUtil.date(), PATH_DATE_PATTERN);
+        return FileUtil.normalize(url);
+    }
+
+    default String genFileName(String fileName) {
+        return StrUtil.format("{}.{}", SNOW_FLAKE.nextId(), FileUtil.extName(fileName));
+    }
+
+    public static void main(String[] args) {
+        String filePath = "2/7/8/3.png";
+        final String fileName = FileUtil.getName(filePath);
+        final String path = StrUtil.removeSuffix(filePath, fileName);
+        Console.log(fileName);
+        Console.log(path);
+    }
+
+}

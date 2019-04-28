@@ -1,0 +1,20 @@
+server:
+  port: 80
+  
+#日志
+logging.config: classpath:chao-logback.xml
+log.path: /logs/chao/${spring.application.name}
+log.maxHistory: 30
+
+
+#共享文件(功能类型)
+spring:
+  application:
+    name: chao-ssh
+  output:
+    ansi:
+      enabled: always
+  aop:
+    auto: true
+   
+            
