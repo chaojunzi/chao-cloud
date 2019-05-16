@@ -1,0 +1,29 @@
+package ${package}.service;
+
+import ${package}.dal.genentity.${className}Entity;
+
+import java.util.List;
+import java.util.Map;
+
+/**
+ * ${comments}
+ * 
+ * @author ${author}
+ * @date ${datetime}
+ */
+public interface ${className}Service {
+	
+	${className}Entity get(${pk.attrType} ${pk.attrname});
+	
+	List<${className}Entity> list(Map<String, Object> map);
+	
+	int count(Map<String, Object> map);
+	
+	int save(${className}Entity ${classname});
+	
+	int update(${className}Entity ${classname});
+	
+	int remove(${pk.attrType} ${pk.attrname});
+	
+	int batchRemove(${pk.attrType}[] ${pk.attrname}s);
+}

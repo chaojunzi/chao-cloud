@@ -1,0 +1,57 @@
+#日志
+logging.config: classpath:chao-logback.xml
+log.path: /logs/chao/${spring.application.name}
+log.maxHistory: 30
+
+server:
+  port: 80
+  tomcat.uri-encoding: utf-8
+  session:
+    timeout: 1800
+#共享文件(功能类型)
+spring:
+  application:
+    name: chao-admin
+  aop:
+    auto: true
+  output:
+    ansi:
+      enabled: always
+  jackson:
+    date-format: yyyy-MM-dd HH:mm:ss
+    time-zone: GMT+8
+  datasource:
+    url: jdbc:mysql://127.0.0.1:3306/admin?useSSL=false&useUnicode=true&characterEncoding=UTF8&allowMultiQueries=true
+    username: root
+    password: 123456
+    driver-class-name: com.mysql.jdbc.Driver
+    type: com.alibaba.druid.pool.DruidDataSource
+    druid:
+      validation-query: SELECT 1
+      test-on-borrow: true
+      connection-init-sqls: SET NAMES utf8mb4;
+      filter:
+        wall:
+          enabled: false
+  cache:
+    type: ehcache
+    ehcache:
+      config: classpath:config/ehcache.xml
+  thymeleaf:
+    mode: LEGACYHTML5
+    cache: false      
+
+mybatis:
+  configuration:
+    map-underscore-to-camel-case: true
+    log-impl: com.chao.cloud.common.extra.mybatis.log.Slf4jLogImpl
+    
+pagehelper:
+  dialect: com.github.pagehelper.dialect.helper.MySqlDialect
+  reasonable: false
+  supportMethodsArguments: true       
+  params: count=countSql
+        
+      
+ 
+       

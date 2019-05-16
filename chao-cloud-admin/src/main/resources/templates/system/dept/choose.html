@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+<meta charset="utf-8">
+<head th:include="include :: header"></head>
+<body>
+	<form class="layui-form" action="" lay-filter="dept-choose-form">
+		<div class="layui-form-item">
+			<div id="LAY-dept-tree-index"></div>
+		</div>
+	</form>
+	<div th:include="include::footer"></div>
+	<!-- 注意：如果你直接复制所有代码到本地，上述js路径需要改成你本地的 -->
+	<script>
+		layui.config({
+			base : '/system/js/',
+		}).extend({
+			authtree : 'authtree',
+		}).use([ 'authtree', 'layer', 'jquery', 'form' ], function() {
+			var $ = layui.jquery;
+			var layer = layui.layer;
+			var authtree = layui.authtree;
+			var form = layui.form;
+			//设置缓存
+			var trees = window.sessionStorage.getItem("deptCache");
+			if (trees == null) {
+				$.ajax({
+					url : "/sys/dept/list",
+					dataType : 'json',
+					async : false,
+					success : function(res) {
+						// 支持自定义递归字段、数组权限判断等
+						// 深坑注意：如果API返回的数据是字符串，那么 startPid 的数据类型也需要是字符串
+						trees = authtree.listConvert(res.data, {
+							primaryKey : 'deptId',
+							startPid : 0,
+							parentKey : 'parentId',
+							nameKey : 'name',
+							valueKey : 'deptId'
+						});
+						trees = JSON.stringify(trees);
+						window.sessionStorage.setItem("deptCache", trees);
+					},
+					error : function(xml, errstr, err) {
+						layer.alert(errstr + '，获取样例数据失败，请检查是否部署在本地服务器中！');
+					}
+				});
+			}
+			//渲染
+			// 如果页面中多个树共存，需要注意 layfilter 需要不一样，否则触发事件会混乱
+			authtree.render('#LAY-dept-tree-index', JSON.parse(trees), {
+				inputname : 'deptId',
+				layfilter : 'lay-check-dept',
+				themePath : '/system/css/',
+				theme : 'auth-skin-default',
+				//openall: true,
+				checkType : "radio",
+				autowidth : true,
+			});
+
+			//监听工具条
+			form.on('radio(lay-check-dept)', function(obj) {
+				var deptId = $('input[name="deptId"]:checked').val();
+				var deptName = $('input[name="deptId"]:checked').attr("title");
+				//赋值给父页面
+				$(window.parent.document).find("input[name=deptName]").val(deptName); 
+				$(window.parent.document).find("input[name=deptId]").val(deptId); 
+				//关闭父页面
+				var index = parent.layer.getFrameIndex(window.name); // 获取窗口索引
+                parent.layer.close(index);
+				
+			});
+
+		});
+	</script>
+</body>
+</html>

@@ -6,14 +6,19 @@ import java.io.InputStream;
 import org.springframework.web.socket.TextMessage;
 import org.springframework.web.socket.WebSocketSession;
 
-import cn.hutool.core.lang.Console;
+import com.chao.cloud.ssh.websocket.remote.SshSocketServer;
+
+import cn.hutool.core.util.StrUtil;
+import lombok.extern.slf4j.Slf4j;
 
 /**
- * 创建日期:2018年1月11日<br/>
- * 创建时间:下午10:15:48<br/>
- * 创建者    :yellowcong<br/>
- * 机能概要:用于读取ssh输出的
+ * 
+ * @功能：用于读取ssh输出的
+ * @author： 薛超
+ * @时间：2019年5月6日
+ * @version 2.0
  */
+@Slf4j
 public class SshWriteThread implements Runnable {
 
     // 定义一个flag,来停止线程用
@@ -23,9 +28,8 @@ public class SshWriteThread implements Runnable {
     private InputStream in;
 
     // 用于输出数据
+    private String sid;
     private WebSocketSession session;
-
-    private static final String ENCODING = "UTF-8";
 
     // 停止线程
     public void stopThread() {
@@ -38,12 +42,20 @@ public class SshWriteThread implements Runnable {
         this.session = session;
     }
 
+    public SshWriteThread(InputStream in, String sid) {
+        super();
+        this.in = in;
+        this.sid = sid;
+    }
+
     public void run() {
         try {
             // 读取数据
             while (!isStop && // 线程是否停止
-                    session != null && // session 不是空的
-                    session.isOpen()) { // session是打开的状态
+                    ((session != null && // session 不是空的
+                            session.isOpen()) || StrUtil.isNotBlank(sid))
+
+            ) { // session是打开的状态
                 // 获取到我们的session
                 // session.sendMessage(new TextMessage(new
                 // String(result.toString().getBytes("ISO-8859-1"),"UTF-8")));
@@ -54,8 +66,7 @@ public class SshWriteThread implements Runnable {
                 writeToWeb(in);
             }
         } catch (Exception e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
+            log.error("[error--->{}]", e);
         }
 
     }
@@ -85,12 +96,14 @@ public class SshWriteThread implements Runnable {
                 }
                 String line = new String(sb.toString().getBytes("ISO-8859-1"), "UTF-8");
                 // 写数据到服务器端
-                Console.log("ssh:{}", line);
-                session.sendMessage(new TextMessage(line));
+                if (session == null) {
+                    SshSocketServer.sendInfo(line, sid);
+                } else {
+                    session.sendMessage(new TextMessage(line));
+                }
             }
         } catch (IOException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
+            log.error("[error--->{}]", e);
         }
     }
 

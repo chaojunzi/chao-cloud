@@ -1,4 +1,5 @@
 $(function() {
+	temp = '';
 	// 计算控制台的高度和宽度
 	$width = $('.layui-body').width();
 	$height = $('.layui-body').height();
@@ -43,6 +44,16 @@ function createWebSocket() {
 		// term.on方法就是实时监控输入的字段，
 		term.on('data', function(data) {
 			client.send(data);
+			/*console.log(data);
+			temp += data;
+			if (data == '\r') {
+				// 回车
+				term.write('\r\n');
+				console.log(temp);
+				temp = '';
+				return false;
+			}
+			term.write(data);*/
 		});
 	};
 

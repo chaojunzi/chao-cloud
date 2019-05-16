@@ -18,3 +18,10 @@ spring:
     auto: true
    
             
+chao:
+  cloud:
+    ssh:
+      host: 192.168.10.9
+      username: dcdy
+      password: dcdy
+      port: 22

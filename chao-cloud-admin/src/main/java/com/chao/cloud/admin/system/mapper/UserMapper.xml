@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.chao.cloud.admin.system.mapper.UserMapper">
+
+	<select id="get" resultType="com.chao.cloud.admin.system.domain.dto.UserDTO">
+		select
+		`user_id`,`username`,`name`,`password`,`dept_id`,`dept_name`,`email`,`mobile`,`status`,`create_time`
+		from sys_user where user_id = #{value}
+	</select>
+
+	<select id="list" resultType="com.chao.cloud.admin.system.domain.dto.UserDTO">
+		select
+		`user_id`,`username`,`name`,`password`,`dept_id`,`dept_name`,`email`,`mobile`,`status`,`create_time`
+		from sys_user
+		<where>
+			<if test="userId != null and userId != ''"> and user_id = #{userId} </if>
+			<if test="username != null and username != ''"> and username = #{username} </if>
+			<if test="name != null and name != ''"> and name = #{name} </if>
+			<if test="password != null and password != ''"> and password = #{password} </if>
+			<if test="deptId != null and deptId != ''"> and dept_id = #{deptId} </if>
+			<if test="deptName != null and deptName != ''"> and dept_name = #{deptName} </if>
+			<if test="email != null and email != ''"> and email = #{email} </if>
+			<if test="mobile != null and mobile != ''"> and mobile = #{mobile} </if>
+			<if test="status != null and status != ''"> and status = #{status} </if>
+			<if test="createTime != null and createTime != ''"> and create_time = #{createTime} </if>
+		</where>
+		<choose>
+			<when test="sort != null and sort.trim() != ''">
+				order by ${sort} ${order}
+			</when>
+			<otherwise>
+				order by user_id desc
+			</otherwise>
+		</choose>
+		<if test="offset != null and limit != null">
+			limit #{offset}, #{limit}
+		</if>
+	</select>
+
+	<select id="count" resultType="int">
+		select count(*) from sys_user
+		<where>
+			<if test="userId != null and userId != ''"> and user_id = #{userId} </if>
+			<if test="username != null and username != ''"> and username = #{username} </if>
+			<if test="name != null and name != ''"> and name = #{name} </if>
+			<if test="password != null and password != ''"> and password = #{password} </if>
+			<if test="deptId != null and deptId != ''"> and dept_id = #{deptId} </if>
+			<if test="deptName != null and deptName != ''"> and dept_name = #{deptName} </if>
+			<if test="email != null and email != ''"> and email = #{email} </if>
+			<if test="mobile != null and mobile != ''"> and mobile = #{mobile} </if>
+			<if test="status != null and status != ''"> and status = #{status} </if>
+			<if test="createTime != null and createTime != ''"> and create_time = #{createTime} </if>
+		</where>
+	</select>
+
+	<insert id="save" parameterType="com.chao.cloud.admin.system.domain.dto.UserDTO"
+		useGeneratedKeys="true" keyProperty="userId">
+		insert into sys_user
+		<set>
+			<if test="username != null">`username` = #{username}, </if>
+			<if test="name != null">`name` = #{name}, </if>
+			<if test="password != null">`password` = #{password}, </if>
+			<if test="deptId != null">`dept_id` = #{deptId}, </if>
+			<if test="deptName != null">`dept_name` = #{deptName}, </if>
+			<if test="email != null">`email` = #{email}, </if>
+			<if test="mobile != null">`mobile` = #{mobile}, </if>
+			<if test="status != null">`status` = #{status}, </if>
+			<if test="createTime != null">`create_time` = #{createTime}</if>
+		</set>
+	</insert>
+
+	<update id="update" parameterType="com.chao.cloud.admin.system.domain.dto.UserDTO">
+		update sys_user
+		<set>
+			<if test="username != null">`username` = #{username}, </if>
+			<if test="name != null">`name` = #{name}, </if>
+			<if test="password != null">`password` = #{password}, </if>
+			<if test="deptId != null">`dept_id` = #{deptId}, </if>
+			<if test="deptName != null">`dept_name` = #{deptName}, </if>
+			<if test="email != null">`email` = #{email}, </if>
+			<if test="mobile != null">`mobile` = #{mobile}, </if>
+			<if test="status != null">`status` = #{status}, </if>
+			<if test="createTime != null">`create_time` = #{createTime}</if>
+		</set>
+		where user_id = #{userId}
+	</update>
+
+	<delete id="remove">
+		delete from sys_user where user_id = #{value}
+	</delete>
+
+	<delete id="batchRemove">
+		delete from sys_user where user_id in
+		<foreach item="userId" collection="array" open="(" separator=","
+			close=")">
+			#{userId}
+		</foreach>
+	</delete>
+</mapper>

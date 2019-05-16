@@ -2,6 +2,7 @@ package com.chao.cloud.ssh.websocket.remote;
 
 import java.util.Arrays;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.socket.CloseStatus;
 import org.springframework.web.socket.TextMessage;
@@ -9,18 +10,25 @@ import org.springframework.web.socket.WebSocketMessage;
 import org.springframework.web.socket.WebSocketSession;
 import org.springframework.web.socket.handler.TextWebSocketHandler;
 
+import com.chao.cloud.ssh.websocket.config.WebSocketConfig.SshConfig;
 import com.chao.cloud.ssh.websocket.core.Server;
 import com.chao.cloud.ssh.websocket.core.SshClient;
 
-/**
- * 创建日期:2018年1月11日<br/>
- * 创建时间:下午10:09:11<br/>
- * 创建者    :yellowcong<br/>
- * 机能概要:
- */
+import lombok.extern.slf4j.Slf4j;
 
+/**
+ * 
+ * @功能：
+ * @author： 薛超
+ * @时间：2019年5月6日
+ * @version 2.0
+ */
 @Component
+@Slf4j
 public class SshShellHandler extends TextWebSocketHandler {
+
+    @Autowired
+    private SshConfig sshConfig;
 
     // 客户端
     SshClient client = null;
@@ -28,9 +36,7 @@ public class SshShellHandler extends TextWebSocketHandler {
     // 关闭连接后的处理
     @Override
     public void afterConnectionClosed(WebSocketSession session, CloseStatus status) throws Exception {
-        // TODO Auto-generated method stub
         super.afterConnectionClosed(session, status);
-
         // 关闭连接
         if (client != null) {
             client.disconnect();
@@ -40,15 +46,12 @@ public class SshShellHandler extends TextWebSocketHandler {
     // 建立socket连接
     @Override
     public void afterConnectionEstablished(WebSocketSession session) throws Exception {
-        // TODO Auto-generated method stub
         super.afterConnectionEstablished(session);
         // 做多个用户处理的时候，可以在这个地方来 ,判断用户id和
         // 配置服务器信息
-        Server server = new Server("127.0.0.1", "username", "password");
-
+        Server server = new Server(sshConfig.getHost(), sshConfig.getUsername(), sshConfig.getPassword());
         // 初始化客户端
         client = new SshClient(server, session);
-
         // 连接服务器
         client.connect();
     }
@@ -77,7 +80,7 @@ public class SshShellHandler extends TextWebSocketHandler {
                 client.write(new String(msg.asBytes(), "UTF-8"));
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            log.error("[error--->{}]", e);
             session.sendMessage(new TextMessage("An error occured, websocket is closed."));
             session.close();
         }
