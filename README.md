@@ -4,3 +4,8 @@
 # chao-cloud-ssh  ---> 效果图展示
 ![Image text](https://raw.githubusercontent.com/chaojunzi/chao-cloud/master/screenshot/ssh/show1.png)
 ![Image text](https://raw.githubusercontent.com/chaojunzi/chao-cloud/master/screenshot/ssh/show2.png)
+
+# chao-cloud-admin  ---> 效果图展示
+![Image text](https://raw.githubusercontent.com/chaojunzi/chao-cloud/master/screenshot/admin/echarts1.png)
+![Image text](https://raw.githubusercontent.com/chaojunzi/chao-cloud/master/screenshot/admin/echarts2.png)
+![Image text](https://raw.githubusercontent.com/chaojunzi/chao-cloud/master/screenshot/admin/echarts3.jpg)
