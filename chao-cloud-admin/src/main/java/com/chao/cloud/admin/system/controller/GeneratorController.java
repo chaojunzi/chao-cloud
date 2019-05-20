@@ -22,6 +22,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.alibaba.fastjson.JSON;
+import com.chao.cloud.admin.system.annotation.AdminLog;
 import com.chao.cloud.admin.system.service.GeneratorService;
 import com.chao.cloud.admin.system.utils.GenUtils;
 import com.chao.cloud.admin.system.utils.R;
@@ -34,7 +35,7 @@ import cn.hutool.core.util.StrUtil;
 @Controller
 public class GeneratorController {
     String prefix = "system/generator";
-    
+
     @Autowired
     GeneratorService generatorService;
 
@@ -44,6 +45,7 @@ public class GeneratorController {
     }
 
     @ResponseBody
+    @AdminLog(AdminLog.STAT_PREFIX + "数据表")
     @GetMapping("/list")
     R list(String tableName) {
         List<Map<String, Object>> list = generatorService.list();

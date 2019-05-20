@@ -70,6 +70,7 @@ public class ShiroConfig {
         filterChainDefinitionMap.put("/getVerify", "anon");
         filterChainDefinitionMap.put("/css/**", "anon");
         filterChainDefinitionMap.put("/js/**", "anon");
+        filterChainDefinitionMap.put("/echarts/**", "anon");
         filterChainDefinitionMap.put("/system/**", "anon");
         filterChainDefinitionMap.put("/layui/**", "anon");
         filterChainDefinitionMap.put("/img/**", "anon");

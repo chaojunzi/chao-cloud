@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.chao.cloud.admin.system.annotation.AdminLog;
 import com.chao.cloud.admin.system.service.SessionService;
 import com.chao.cloud.admin.system.shiro.ShiroUserOnline;
 import com.chao.cloud.admin.system.utils.R;
@@ -33,6 +34,7 @@ public class SessionController {
     }
 
     @ResponseBody
+    @AdminLog(AdminLog.STAT_PREFIX +"在线用户列表")
     @RequestMapping("/list")
     public R list(String username) {
         List<ShiroUserOnline> list = sessionService.list();

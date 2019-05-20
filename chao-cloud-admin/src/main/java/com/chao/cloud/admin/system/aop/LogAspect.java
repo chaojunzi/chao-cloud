@@ -37,11 +37,11 @@ public class LogAspect implements BaseHttpServlet {
 
     @Around("@annotation(com.chao.cloud.admin.system.annotation.AdminLog)")
     public Object around(ProceedingJoinPoint point) throws Throwable {
-        long beginTime = System.currentTimeMillis();
+        long before = System.nanoTime();
         // 执行方法
         Object result = point.proceed();
-        // 执行时长(毫秒)
-        long time = System.currentTimeMillis() - beginTime;
+        // 执行时长(微秒)
+        long time = (System.nanoTime() - before) / 1000;
         // 异步保存日志
         saveLog(point, time);
         return result;

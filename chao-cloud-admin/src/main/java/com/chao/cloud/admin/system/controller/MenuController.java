@@ -41,6 +41,7 @@ public class MenuController extends BaseController {
         return prefix + "/menu";
     }
 
+    @AdminLog(AdminLog.STAT_PREFIX + "菜单列表")
     @RequiresPermissions("sys:menu:menu")
     @RequestMapping("/list")
     @ResponseBody

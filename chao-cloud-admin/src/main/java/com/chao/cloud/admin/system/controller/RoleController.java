@@ -34,6 +34,7 @@ public class RoleController extends BaseController {
         return prefix + "/role";
     }
 
+    @AdminLog(AdminLog.STAT_PREFIX + "权限列表")
     @RequiresPermissions("sys:role:role")
     @GetMapping("/list")
     @ResponseBody

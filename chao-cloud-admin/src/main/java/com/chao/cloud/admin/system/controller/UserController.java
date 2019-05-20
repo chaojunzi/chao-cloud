@@ -43,6 +43,7 @@ public class UserController extends BaseController {
     }
 
     @GetMapping("/list")
+    @AdminLog(AdminLog.STAT_PREFIX + "用户列表")
     @ResponseBody
     R list(@RequestParam Map<String, Object> params) {
         // 查询列表数据

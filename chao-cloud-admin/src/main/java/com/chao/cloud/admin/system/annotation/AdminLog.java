@@ -16,5 +16,7 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.RUNTIME)
 public @interface AdminLog {
 
+    String STAT_PREFIX = "stat@";
+
     String value() default "";
 }

@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.chao.cloud.admin.system.annotation.AdminLog;
 import com.chao.cloud.admin.system.domain.dto.TaskDTO;
 import com.chao.cloud.admin.system.service.JobService;
 import com.chao.cloud.admin.system.utils.Query;
@@ -42,6 +43,7 @@ public class JobController extends BaseController {
     }
 
     @ResponseBody
+    @AdminLog(AdminLog.STAT_PREFIX + "任务列表")
     @GetMapping("/list")
     public R list(@RequestParam Map<String, Object> params) {
         // 查询列表数据

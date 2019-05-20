@@ -20,8 +20,9 @@
 		</div>
 		<div class="layui-form-item input-item" id="imgCode">
 			<label for="code">验证码</label> <input placeholder="请输入验证码"
-				name="verify" autocomplete="off" class="layui-input"> <img
-				id="verify" src="/getVerify" height="36">
+				name="verify" autocomplete="off" class="layui-input"
+				lay-verify="required"> <img id="verify" src="/getVerify"
+				height="36">
 		</div>
 		<div class="layui-form-item">
 			<button id="bt-login" class="layui-btn layui-block"

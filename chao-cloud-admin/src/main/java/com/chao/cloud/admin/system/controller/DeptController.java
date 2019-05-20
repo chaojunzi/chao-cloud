@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.chao.cloud.admin.system.annotation.AdminLog;
 import com.chao.cloud.admin.system.constant.AdminConstant;
 import com.chao.cloud.admin.system.domain.dto.DeptDTO;
 import com.chao.cloud.admin.system.domain.dto.TreeDTO;
@@ -41,6 +42,7 @@ public class DeptController extends BaseController {
         return prefix + "/dept";
     }
 
+    @AdminLog(AdminLog.STAT_PREFIX + "部门列表")
     @ResponseBody
     @GetMapping("/list")
     @RequiresPermissions("system:sysDept:sysDept")

@@ -1,0 +1,9 @@
+@CHARSET "UTF-8";
+
+.layui-main-height {
+	height: 500px;
+}
+
+.layui-main-margin-top30 {
+	margin-top: 30px;
+}
