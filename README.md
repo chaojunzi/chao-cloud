@@ -7,5 +7,5 @@
 
 # chao-cloud-admin  ---> 效果图展示
 ![Image text](https://raw.githubusercontent.com/chaojunzi/chao-cloud/master/screenshot/admin/echarts1.png)
-![Image text](https://raw.githubusercontent.com/chaojunzi/chao-cloud/master/screenshot/admin/echarts2.png)
+![Image text](https://github.com/chaojunzi/chao-cloud/blob/master/screenshot/admin/echarts2.png)
 ![Image text](https://raw.githubusercontent.com/chaojunzi/chao-cloud/master/screenshot/admin/echarts3.jpg)
