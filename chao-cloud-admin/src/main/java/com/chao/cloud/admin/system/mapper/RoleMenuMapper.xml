@@ -1,14 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="com.chao.cloud.admin.system.mapper.RoleMenuMapper">
+<mapper
+	namespace="com.chao.cloud.admin.system.mapper.RoleMenuMapper">
 
-	<select id="get" resultType="com.chao.cloud.admin.system.domain.dto.RoleMenuDTO">
+	<select id="get"
+		resultType="com.chao.cloud.admin.system.domain.dto.RoleMenuDTO">
 		select `id`,`role_id`,`menu_id` from
-		sys_role_menu where id = #{value}
+		sys_role_menu where id
+		= #{value}
 	</select>
 
-	<select id="list" resultType="com.chao.cloud.admin.system.domain.dto.RoleMenuDTO">
+	<select id="list"
+		resultType="com.chao.cloud.admin.system.domain.dto.RoleMenuDTO">
 		select `id`,`role_id`,`menu_id` from sys_role_menu
 		<where>
 			<if test="id != null and id != ''"> and id = #{id} </if>
@@ -37,7 +41,8 @@
 		</where>
 	</select>
 
-	<insert id="save" parameterType="com.chao.cloud.admin.system.domain.dto.RoleMenuDTO"
+	<insert id="save"
+		parameterType="com.chao.cloud.admin.system.domain.dto.RoleMenuDTO"
 		useGeneratedKeys="true" keyProperty="id">
 		insert into sys_role_menu
 		(
@@ -51,7 +56,8 @@
 		)
 	</insert>
 
-	<update id="update" parameterType="com.chao.cloud.admin.system.domain.dto.RoleMenuDTO">
+	<update id="update"
+		parameterType="com.chao.cloud.admin.system.domain.dto.RoleMenuDTO">
 		update sys_role_menu
 		<set>
 			<if test="roleId != null">`role_id` = #{roleId}, </if>

@@ -25,10 +25,6 @@
 			<groupId>com.baidu.aip</groupId>
 			<artifactId>java-sdk</artifactId>
 		</dependency>
-		<dependency>
-			<groupId>org.freemarker</groupId>
-			<artifactId>freemarker</artifactId>
-		</dependency>
 		<!-- 工具jar=============================================================================== -->
 		<dependency>
 			<groupId>com.thoughtworks.xstream</groupId>
@@ -58,19 +54,21 @@
 			<artifactId>mysql-connector-java</artifactId>
 		</dependency>
 		<dependency>
-			<groupId>com.github.pagehelper</groupId>
-			<artifactId>pagehelper</artifactId>
-		</dependency>
-		<!-- mybatis-spring jar -->
-		<dependency>
-			<groupId>org.mybatis</groupId>
-			<artifactId>mybatis-spring</artifactId>
+			<groupId>com.baomidou</groupId>
+			<artifactId>mybatis-plus-boot-starter</artifactId>
 		</dependency>
 		<dependency>
-			<groupId>org.mybatis</groupId>
-			<artifactId>mybatis</artifactId>
+			<groupId>com.baomidou</groupId>
+			<artifactId>mybatis-plus-generator</artifactId>
 		</dependency>
-		<!-- mybatis jar -->
+		<dependency>
+			<groupId>org.apache.velocity</groupId>
+			<artifactId>velocity-engine-core</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.freemarker</groupId>
+			<artifactId>freemarker</artifactId>
+		</dependency>
 		<!-- feign -->
 		<!-- https://mvnrepository.com/artifact/io.github.openfeign/feign-core -->
 		<dependency>

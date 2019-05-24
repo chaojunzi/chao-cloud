@@ -1,14 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="com.chao.cloud.admin.system.mapper.UserRoleMapper">
+<mapper
+	namespace="com.chao.cloud.admin.system.mapper.UserRoleMapper">
 
-	<select id="get" resultType="com.chao.cloud.admin.system.domain.dto.UserRoleDTO">
+	<select id="get"
+		resultType="com.chao.cloud.admin.system.domain.dto.UserRoleDTO">
 		select `id`,`user_id`,`role_id` from
-		sys_user_role where id = #{value}
+		sys_user_role where id
+		= #{value}
 	</select>
 
-	<select id="list" resultType="com.chao.cloud.admin.system.domain.dto.UserRoleDTO">
+	<select id="list"
+		resultType="com.chao.cloud.admin.system.domain.dto.UserRoleDTO">
 		select `id`,`user_id`,`role_id` from sys_user_role
 		<where>
 			<if test="id != null and id != ''"> and id = #{id} </if>
@@ -37,7 +41,8 @@
 		</where>
 	</select>
 
-	<insert id="save" parameterType="com.chao.cloud.admin.system.domain.dto.UserRoleDTO"
+	<insert id="save"
+		parameterType="com.chao.cloud.admin.system.domain.dto.UserRoleDTO"
 		useGeneratedKeys="true" keyProperty="id">
 		insert into sys_user_role
 		(
@@ -51,7 +56,8 @@
 		)
 	</insert>
 
-	<update id="update" parameterType="com.chao.cloud.admin.system.domain.dto.UserRoleDTO">
+	<update id="update"
+		parameterType="com.chao.cloud.admin.system.domain.dto.UserRoleDTO">
 		update sys_user_role
 		<set>
 			<if test="userId != null">`user_id` = #{userId}, </if>

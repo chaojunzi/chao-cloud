@@ -7,6 +7,7 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 import org.springframework.context.annotation.Import;
+import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 /**
  * 数据库插件
@@ -15,10 +16,11 @@ import org.springframework.context.annotation.Import;
  * @时间：2019年3月19日
  * @version 1.0.0
  */
+@EnableTransactionManagement // 事务
 @Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
-@Import(MybatisPluginsConfig.class)
-public @interface EnableMybatisPlugins {
+@Import({ MybatisPlusConfig.class, MybatisGeneratorConfig.class })
+public @interface EnableMybatisPlus {
 
 }

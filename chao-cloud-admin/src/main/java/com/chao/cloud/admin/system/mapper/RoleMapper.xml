@@ -3,13 +3,15 @@
 
 <mapper namespace="com.chao.cloud.admin.system.mapper.RoleMapper">
 
-	<select id="get" resultType="com.chao.cloud.admin.system.domain.dto.RoleDTO">
+	<select id="get"
+		resultType="com.chao.cloud.admin.system.domain.dto.RoleDTO">
 		select
 		`role_id`,`role_name`,`role_sign`,`remark`,`user_id_create`,`gmt_create`,`gmt_modified`
 		from sys_role where role_id = #{value}
 	</select>
 
-	<select id="list" resultType="com.chao.cloud.admin.system.domain.dto.RoleDTO">
+	<select id="list"
+		resultType="com.chao.cloud.admin.system.domain.dto.RoleDTO">
 		select
 		`role_id`,`role_name`,`role_sign`,`remark`,`user_id_create`,`gmt_create`,`gmt_modified`
 		from sys_role
@@ -48,7 +50,8 @@
 		</where>
 	</select>
 
-	<insert id="save" parameterType="com.chao.cloud.admin.system.domain.dto.RoleDTO"
+	<insert id="save"
+		parameterType="com.chao.cloud.admin.system.domain.dto.RoleDTO"
 		useGeneratedKeys="true" keyProperty="roleId">
 		insert into sys_role
 		(
@@ -70,7 +73,8 @@
 		)
 	</insert>
 
-	<update id="update" parameterType="com.chao.cloud.admin.system.domain.dto.RoleDTO">
+	<update id="update"
+		parameterType="com.chao.cloud.admin.system.domain.dto.RoleDTO">
 		update sys_role
 		<set>
 			<if test="roleName != null">`role_name` = #{roleName}, </if>
@@ -89,8 +93,8 @@
 
 	<delete id="batchRemove">
 		delete from sys_role where role_id in
-		<foreach item="roleId" collection="array" open="(" separator=","
-			close=")">
+		<foreach item="roleId" collection="array" open="("
+			separator="," close=")">
 			#{roleId}
 		</foreach>
 	</delete>

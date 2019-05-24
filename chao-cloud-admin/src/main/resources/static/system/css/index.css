@@ -91,41 +91,63 @@ keyframes moveTop { 0% {
 opacity
 
 
+
+
 :
 
+
  
+
 
 1;
 -webkit-transform
 
 
+
+
 :
+
 
  
 
+
 translateY
+
+
 
 
 (0);
 -ms-transform
 
 
+
+
 :
+
 
  
 
+
 translateY
+
+
 
 
 (0);
 transform
 
 
+
+
 :
+
 
  
 
+
 translateY
+
+
 
 
 (0);
@@ -144,41 +166,63 @@ translateY
 opacity
 
 
+
+
 :
 
+
  
+
 
 1;
 -webkit-transform
 
 
+
+
 :
+
 
  
 
+
 translateY
+
+
 
 
 (0);
 -ms-transform
 
 
+
+
 :
+
 
  
 
+
 translateY
+
+
 
 
 (0);
 transform
 
 
+
+
 :
+
 
  
 
+
 translateY
+
+
 
 
 (0);
@@ -197,41 +241,63 @@ translateY
 opacity
 
 
+
+
 :
 
+
  
+
 
 1;
 -webkit-transform
 
 
+
+
 :
+
 
  
 
+
 translateY
+
+
 
 
 (0);
 -ms-transform
 
 
+
+
 :
+
 
  
 
+
 translateY
+
+
 
 
 (0);
 transform
 
 
+
+
 :
+
 
  
 
+
 translateY
+
+
 
 
 (0);
@@ -250,41 +316,63 @@ translateY
 opacity
 
 
+
+
 :
 
+
  
+
 
 1;
 -webkit-transform
 
 
+
+
 :
+
 
  
 
+
 translateY
+
+
 
 
 (0);
 -ms-transform
 
 
+
+
 :
+
 
  
 
+
 translateY
+
+
 
 
 (0);
 transform
 
 
+
+
 :
+
 
  
 
+
 translateY
+
+
 
 
 (0);
@@ -790,6 +878,7 @@ translateY
 .hideMenu {
 	margin-top: 10px;
 }
+
 .mag0 {
 	margin-top: 0px;
 }

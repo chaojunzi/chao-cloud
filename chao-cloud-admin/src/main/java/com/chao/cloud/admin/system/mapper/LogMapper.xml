@@ -3,13 +3,15 @@
 
 <mapper namespace="com.chao.cloud.admin.system.mapper.LogMapper">
 
-	<select id="get" resultType="com.chao.cloud.admin.system.domain.dto.LogDTO">
+	<select id="get"
+		resultType="com.chao.cloud.admin.system.domain.dto.LogDTO">
 		select
 		`id`,`user_id`,`username`,`operation`,`time`,`method`,`params`,`ip`,`gmt_create`
 		from sys_log where id = #{value}
 	</select>
 
-	<select id="list" resultType="com.chao.cloud.admin.system.domain.dto.LogDTO">
+	<select id="list"
+		resultType="com.chao.cloud.admin.system.domain.dto.LogDTO">
 		select
 		`id`,`user_id`,`username`,`operation`,`time`,`method`,`params`,`ip`,`gmt_create`
 		from sys_log
@@ -52,7 +54,8 @@
 		</where>
 	</select>
 
-	<insert id="save" parameterType="com.chao.cloud.admin.system.domain.dto.LogDTO"
+	<insert id="save"
+		parameterType="com.chao.cloud.admin.system.domain.dto.LogDTO"
 		useGeneratedKeys="true" keyProperty="id">
 		insert into sys_log
 		(
@@ -78,7 +81,8 @@
 		)
 	</insert>
 
-	<update id="update" parameterType="com.chao.cloud.admin.system.domain.dto.LogDTO">
+	<update id="update"
+		parameterType="com.chao.cloud.admin.system.domain.dto.LogDTO">
 		update sys_log
 		<set>
 			<if test="userId != null">`user_id` = #{userId}, </if>

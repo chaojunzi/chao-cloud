@@ -6,8 +6,7 @@ log.maxHistory: 30
 server:
   port: 80
   tomcat.uri-encoding: utf-8
-  session:
-    timeout: 1800
+  servlet:    session:      timeout: 1800
 #共享文件(功能类型)
 spring:
   application:
@@ -16,7 +15,10 @@ spring:
     auto: true
   output:
     ansi:
-      enabled: always
+      enabled: always 
+  jackson:
+    date-format: yyyy-MM-dd HH:mm:ss
+    time-zone: GMT+8
   datasource:
     url: jdbc:mysql://127.0.0.1:3306/admin?useSSL=false&useUnicode=true&characterEncoding=UTF8&allowMultiQueries=true
     username: root
@@ -37,7 +39,6 @@ spring:
   thymeleaf:
     mode: LEGACYHTML5
     cache: false      
-
 mybatis-plus:
   configuration:
     map-underscore-to-camel-case: true

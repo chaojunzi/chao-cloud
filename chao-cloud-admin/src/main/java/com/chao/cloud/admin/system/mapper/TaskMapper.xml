@@ -3,13 +3,15 @@
 
 <mapper namespace="com.chao.cloud.admin.system.mapper.TaskMapper">
 
-	<select id="get" resultType="com.chao.cloud.admin.system.domain.dto.TaskDTO">
+	<select id="get"
+		resultType="com.chao.cloud.admin.system.domain.dto.TaskDTO">
 		select
 		`id`,`cron_expression`,`method_name`,`is_concurrent`,`description`,`update_by`,`bean_class`,`create_date`,`job_status`,`job_group`,`update_date`,`create_by`,`spring_bean`,`job_name`
 		from sys_task where id = #{value}
 	</select>
 
-	<select id="list" resultType="com.chao.cloud.admin.system.domain.dto.TaskDTO">
+	<select id="list"
+		resultType="com.chao.cloud.admin.system.domain.dto.TaskDTO">
 		select
 		`id`,`cron_expression`,`method_name`,`is_concurrent`,`description`,`update_by`,`bean_class`,`create_date`,`job_status`,`job_group`,`update_date`,`create_by`,`spring_bean`,`job_name`
 		from sys_task
@@ -62,7 +64,8 @@
 		</where>
 	</select>
 
-	<insert id="save" parameterType="com.chao.cloud.admin.system.domain.dto.TaskDTO"
+	<insert id="save"
+		parameterType="com.chao.cloud.admin.system.domain.dto.TaskDTO"
 		useGeneratedKeys="true" keyProperty="id">
 		insert into sys_task
 		(
@@ -98,7 +101,8 @@
 		)
 	</insert>
 
-	<update id="update" parameterType="com.chao.cloud.admin.system.domain.dto.TaskDTO">
+	<update id="update"
+		parameterType="com.chao.cloud.admin.system.domain.dto.TaskDTO">
 		update sys_task
 		<set>
 			<if test="cronExpression != null">`cron_expression` = #{cronExpression}, </if>

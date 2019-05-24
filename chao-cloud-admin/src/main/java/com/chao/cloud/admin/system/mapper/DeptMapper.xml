@@ -3,13 +3,16 @@
 
 <mapper namespace="com.chao.cloud.admin.system.mapper.DeptMapper">
 
-	<select id="get" resultType="com.chao.cloud.admin.system.domain.dto.DeptDTO">
+	<select id="get"
+		resultType="com.chao.cloud.admin.system.domain.dto.DeptDTO">
 		select
-		`dept_id`,`parent_id`,`name`,`order_num`,`del_flag` from sys_dept
+		`dept_id`,`parent_id`,`name`,`order_num`,`del_flag`
+		from sys_dept
 		where dept_id = #{value}
 	</select>
 
-	<select id="list" resultType="com.chao.cloud.admin.system.domain.dto.DeptDTO">
+	<select id="list"
+		resultType="com.chao.cloud.admin.system.domain.dto.DeptDTO">
 		select `dept_id`,`parent_id`,`name`,`order_num`,`del_flag` from
 		sys_dept
 		<where>
@@ -43,7 +46,8 @@
 		</where>
 	</select>
 
-	<insert id="save" parameterType="com.chao.cloud.admin.system.domain.dto.DeptDTO"
+	<insert id="save"
+		parameterType="com.chao.cloud.admin.system.domain.dto.DeptDTO"
 		useGeneratedKeys="true" keyProperty="deptId">
 		insert into sys_dept
 		(
@@ -61,7 +65,8 @@
 		)
 	</insert>
 
-	<update id="update" parameterType="com.chao.cloud.admin.system.domain.dto.DeptDTO">
+	<update id="update"
+		parameterType="com.chao.cloud.admin.system.domain.dto.DeptDTO">
 		update sys_dept
 		<set>
 			<if test="parentId != null">`parent_id` = #{parentId}, </if>
@@ -78,8 +83,8 @@
 
 	<delete id="batchRemove">
 		delete from sys_dept where dept_id in
-		<foreach item="deptId" collection="array" open="(" separator=","
-			close=")">
+		<foreach item="deptId" collection="array" open="("
+			separator="," close=")">
 			#{deptId}
 		</foreach>
 	</delete>
