@@ -22,19 +22,19 @@ import com.chao.cloud.common.entity.ResponseResult;
 @RequestMapping("/echarts")
 public class EchartsController {
 
-    @Autowired
-    private EchartsService echartsService;
+	@Autowired
+	private EchartsService echartsService;
 
-    /**
-     * 统计请求时间
-     * @param url
-     * @return
-     */
-    @ResponseBody
-    @RequestMapping("statRequestTime")
-    public Response<StatRequestTimeDTO> statRequestTime() {
-        StatRequestTimeDTO dto = echartsService.statRequestTime(AdminLog.STAT_PREFIX);
-        return ResponseResult.getResponseResult(dto);
-    }
+	/**
+	  *    统计请求时间 
+	 * @param url
+	 * @return
+	 */
+	@ResponseBody
+	@RequestMapping("statRequestTime")
+	public Response<StatRequestTimeDTO> statRequestTime() {
+		StatRequestTimeDTO dto = echartsService.statRequestTime(AdminLog.STAT_PREFIX);
+		return ResponseResult.getResponseResult(dto);
+	}
 
 }

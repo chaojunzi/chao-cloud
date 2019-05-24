@@ -9,10 +9,10 @@ var chaoLayuiTable = {
 	},
 	// 响应
 	response : {
-		statusName : 'retCode', // 规定数据状态的字段名称，默认：code
+		statusName : 'code', // 规定数据状态的字段名称，默认：code
 		statusCode : 0000, // 规定成功的状态码，默认：0
-		msgName : 'retMsg',// 规定状态信息的字段名称，默认：msg
-		countName : 'total', // 规定数据总数的字段名称，默认：count
+		msgName : 'msg',// 规定状态信息的字段名称，默认：msg
+		countName : 'count', // 规定数据总数的字段名称，默认：count
 		dataName : 'data', // 规定数据列表的字段名称，默认：data
 	},
 	// 数据解析

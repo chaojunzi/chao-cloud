@@ -1,0 +1,21 @@
+package ${package.Mapper};
+
+import ${package.Entity}.${entity};
+import ${superMapperClassPackage};
+
+import org.apache.ibatis.annotations.Mapper;
+
+/**
+ * @功能：
+ * @author： ${author}
+ * @时间：${date}
+ * @version 1.0.0
+ */
+@Mapper
+#if(${kotlin})
+interface ${table.mapperName} : ${superMapperClass}<${entity}>
+#else
+public interface ${table.mapperName} extends ${superMapperClass}<${entity}> {
+
+}
+#end

@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:include="include :: header"></head>
+<body>
+	<form class="layui-form" lay-filter="${table.name}-update-form" style="margin-top: 20px;">
+		<input th:value="${session.formToken}" name="formToken" type="hidden" />
+		<input name="${pk.propertyName}" th:value="${${table.entityPath}.${pk.propertyName}}"
+			type="hidden">
+		#foreach($field in ${table.fields})
+		<!--  -->
+		#if(!${field.keyFlag} && ${versionFieldName}!=${field.name})
+		<div class="layui-form-item">
+			<label class="layui-form-label">${field.comment}：</label>
+			<div class="layui-input-block">
+				#if(${field.propertyType}=='Date' )
+				<input class="layui-input" lay-verify="required" autocomplete="off" id="${field.propertyName}"
+					th:value="${#dates.format(${table.entityPath}.${field.propertyName}, 'yyyy-MM-dd HH:mm:ss')}"
+					name="${field.propertyName}" placeholder="请输入${field.comment}">
+				#else
+				<input class="layui-input" lay-verify="required" autocomplete="off" id="${field.propertyName}"
+					th:value="${${table.entityPath}.${field.propertyName}}" name="${field.propertyName}"
+					placeholder="请输入${field.comment}">
+				#end
+			</div>
+		</div>
+		#end #end
+		<div class="layui-form-item">
+			<div class="layui-input-block">
+				<button class="layui-btn" lay-filter="${table.name}-update">立即提交</button>
+			</div>
+		</div>
+	</form>
+	<div th:include="include::footer"></div>
+	<!-- 注意：如果你直接复制所有代码到本地，上述js路径需要改成你本地的 -->
+	<script>
+		layui.use([ 'layer', 'jquery', 'form', 'laydate' ], function() {
+			var $ = layui.jquery;
+			var laydate = layui.laydate;
+			var layer = layui.layer;
+			var form = layui.form;
+
+			//日期时间选择器
+			#foreach($field in ${table.fields})
+			#if(!${field.keyFlag} && ${versionFieldName}!=${field.name} && ${field.propertyType}=='Date')
+			laydate.render({
+				elem : '#${field.propertyName}',
+				type : 'datetime'
+			});
+			#end #end
+
+			//监听提交
+			form.on('submit(${table.name}-update)', function(data) {
+				//提交数据data.field
+				$.ajax({
+					cache : true,
+					type : "POST",
+					url : "/${controllerMappingPrefix}/update",
+					data : data.field,
+					async : false,
+					error : function(request) {
+						laryer.alert("Connection error");
+					},
+					success : function(data) {
+						if (data.retCode == '0000') {
+							parent.layer.msg("保存成功");
+							parent.location.reload(); // 父页面刷新
+							var index = parent.layer.getFrameIndex(window.name); // 获取窗口索引
+							parent.layer.close(index);
+						} else {
+							layer.alert(data.retMsg)
+						}
+					}
+				});
+				return false;
+			});
+		});
+	</script>
+</body>
+</html>
