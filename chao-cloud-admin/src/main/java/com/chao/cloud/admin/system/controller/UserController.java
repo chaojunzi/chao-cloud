@@ -30,147 +30,147 @@ import cn.hutool.crypto.digest.DigestUtil;
 @RequestMapping("/sys/user")
 @Controller
 public class UserController extends BaseController {
-    private String prefix = "system/user";
-    @Autowired
-    UserService userService;
-    @Autowired
-    RoleService roleService;
+	private String prefix = "system/user";
+	@Autowired
+	UserService userService;
+	@Autowired
+	RoleService roleService;
 
-    @RequiresPermissions("sys:user:user")
-    @GetMapping("")
-    String user(Model model) {
-        return prefix + "/user";
-    }
+	@RequiresPermissions("sys:user:user")
+	@GetMapping("")
+	String user(Model model) {
+		return prefix + "/user";
+	}
 
-    @GetMapping("/list")
-    @AdminLog(AdminLog.STAT_PREFIX + "用户列表")
-    @ResponseBody
-    R list(@RequestParam Map<String, Object> params) {
-        // 查询列表数据
-        Query query = new Query(params);
-        int count = userService.count(query);
-        if (count < 1) {
-            return R.page(Collections.EMPTY_LIST, count);
-        }
-        List<UserDTO> sysUserList = userService.list(query);
-        sysUserList = sysUserList.stream().filter(u -> u.getUserId() > 0).collect(Collectors.toList());
-        return R.page(sysUserList, count);
-    }
+	@GetMapping("/list")
+	@AdminLog(AdminLog.STAT_PREFIX + "用户列表")
+	@ResponseBody
+	R list(@RequestParam Map<String, Object> params) {
+		// 查询列表数据
+		Query query = new Query(params);
+		int count = userService.count(query);
+		if (count < 1) {
+			return R.page(Collections.EMPTY_LIST, count);
+		}
+		List<UserDTO> sysUserList = userService.list(query);
+		sysUserList = sysUserList.stream().filter(u -> u.getUserId() > 0).collect(Collectors.toList());
+		return R.page(sysUserList, count);
+	}
 
-    @RequiresPermissions("sys:user:add")
-    @AdminLog("添加用户")
-    @GetMapping("/add")
-    String add(Model model) {
-        List<RoleDTO> roles = roleService.list(Collections.EMPTY_MAP);
-        model.addAttribute("roles", roles);
-        return prefix + "/add";
-    }
+	@RequiresPermissions("sys:user:add")
+	@AdminLog("添加用户")
+	@GetMapping("/add")
+	String add(Model model) {
+		List<RoleDTO> roles = roleService.list(Collections.emptyMap());
+		model.addAttribute("roles", roles);
+		return prefix + "/add";
+	}
 
-    @RequiresPermissions("sys:user:edit")
-    @AdminLog("编辑用户")
-    @GetMapping("/edit/{id}")
-    String edit(Model model, @PathVariable("id") Long id) {
-        UserDTO userDO = userService.get(id);
-        model.addAttribute("user", userDO);
-        List<RoleDTO> roles = roleService.list(id, userDO.getRoleIds());
-        model.addAttribute("roles", roles);
-        return prefix + "/edit";
-    }
+	@RequiresPermissions("sys:user:edit")
+	@AdminLog("编辑用户")
+	@GetMapping("/edit/{id}")
+	String edit(Model model, @PathVariable("id") Long id) {
+		UserDTO userDO = userService.get(id);
+		model.addAttribute("user", userDO);
+		List<RoleDTO> roles = roleService.list(id, userDO.getRoleIds());
+		model.addAttribute("roles", roles);
+		return prefix + "/edit";
+	}
 
-    @RequiresPermissions("sys:user:add")
-    @AdminLog("保存用户")
-    @PostMapping("/save")
-    @ResponseBody
-    R save(UserDTO user) {
-        String password = DigestUtil.md5Hex(user.getUsername() + user.getPassword());
-        user.setPassword(password);
-        if (userService.save(user) > 0) {
-            return R.ok();
-        }
-        return R.error();
-    }
+	@RequiresPermissions("sys:user:add")
+	@AdminLog("保存用户")
+	@PostMapping("/save")
+	@ResponseBody
+	R save(UserDTO user) {
+		String password = DigestUtil.md5Hex(user.getUsername() + user.getPassword());
+		user.setPassword(password);
+		if (userService.save(user) > 0) {
+			return R.ok();
+		}
+		return R.error();
+	}
 
-    @RequiresPermissions("sys:user:edit")
-    @AdminLog("更新用户")
-    @PostMapping("/update")
-    @ResponseBody
-    R update(UserDTO user) {
-        if (userService.update(user) > 0) {
-            return R.ok();
-        }
-        return R.error();
-    }
+	@RequiresPermissions("sys:user:edit")
+	@AdminLog("更新用户")
+	@PostMapping("/update")
+	@ResponseBody
+	R update(UserDTO user) {
+		if (userService.update(user) > 0) {
+			return R.ok();
+		}
+		return R.error();
+	}
 
-    @RequiresPermissions("sys:user:edit")
-    @AdminLog("更新用户")
-    @PostMapping("/updatePeronal")
-    @ResponseBody
-    R updatePeronal(UserDTO user) {
-        if (userService.updatePersonal(user) > 0) {
-            return R.ok();
-        }
-        return R.error();
-    }
+	@RequiresPermissions("sys:user:edit")
+	@AdminLog("更新用户")
+	@PostMapping("/updatePeronal")
+	@ResponseBody
+	R updatePeronal(UserDTO user) {
+		if (userService.updatePersonal(user) > 0) {
+			return R.ok();
+		}
+		return R.error();
+	}
 
-    @RequiresPermissions("sys:user:remove")
-    @AdminLog("删除用户")
-    @PostMapping("/remove")
-    @ResponseBody
-    R remove(Long id) {
+	@RequiresPermissions("sys:user:remove")
+	@AdminLog("删除用户")
+	@PostMapping("/remove")
+	@ResponseBody
+	R remove(Long id) {
 
-        if (userService.remove(id) > 0) {
-            return R.ok();
-        }
-        return R.error();
-    }
+		if (userService.remove(id) > 0) {
+			return R.ok();
+		}
+		return R.error();
+	}
 
-    @RequiresPermissions("sys:user:batchRemove")
-    @AdminLog("批量删除用户")
-    @PostMapping("/batchRemove")
-    @ResponseBody
-    R batchRemove(@RequestParam("ids[]") Long[] userIds) {
+	@RequiresPermissions("sys:user:batchRemove")
+	@AdminLog("批量删除用户")
+	@PostMapping("/batchRemove")
+	@ResponseBody
+	R batchRemove(@RequestParam("ids[]") Long[] userIds) {
 
-        int r = userService.batchremove(userIds);
-        if (r > 0) {
-            return R.ok();
-        }
-        return R.error();
-    }
+		int r = userService.batchremove(userIds);
+		if (r > 0) {
+			return R.ok();
+		}
+		return R.error();
+	}
 
-    @PostMapping("/exit")
-    @ResponseBody
-    boolean exit(@RequestParam Map<String, Object> params) {
-        // 存在，不通过，false
-        return !userService.exit(params);
-    }
+	@PostMapping("/exit")
+	@ResponseBody
+	boolean exit(@RequestParam Map<String, Object> params) {
+		// 存在，不通过，false
+		return !userService.exit(params);
+	}
 
-    @RequiresPermissions("sys:user:resetPwd")
-    @AdminLog("请求更改用户密码")
-    @GetMapping("/resetPwd/page")
-    String resetPwd() {
-        return prefix + "/reset_pwd";
-    }
+	@RequiresPermissions("sys:user:resetPwd")
+	@AdminLog("请求更改用户密码")
+	@GetMapping("/resetPwd/page")
+	String resetPwd() {
+		return prefix + "/reset_pwd";
+	}
 
-    @AdminLog("提交更改用户密码")
-    @PostMapping("/resetPwd")
-    @ResponseBody
-    R resetPwd(UserVO userVO) {
-        try {
-            userService.resetPwd(userVO, getUser());
-            return R.ok();
-        } catch (Exception e) {
-            return R.error(1, e.getMessage());
-        }
+	@AdminLog("提交更改用户密码")
+	@PostMapping("/resetPwd")
+	@ResponseBody
+	R resetPwd(UserVO userVO) {
+		try {
+			userService.resetPwd(userVO, getUser());
+			return R.ok();
+		} catch (Exception e) {
+			return R.error(1, e.getMessage());
+		}
 
-    }
+	}
 
-    @GetMapping("/personal")
-    String personal(Model model) {
-        UserDTO userDO = userService.get(getUserId());
-        model.addAttribute("user", userDO);
-        model.addAttribute("hobbyList", "");
-        model.addAttribute("sexList", "");
-        return prefix + "/personal";
-    }
+	@GetMapping("/personal")
+	String personal(Model model) {
+		UserDTO userDO = userService.get(getUserId());
+		model.addAttribute("user", userDO);
+		model.addAttribute("hobbyList", "");
+		model.addAttribute("sexList", "");
+		return prefix + "/personal";
+	}
 
 }

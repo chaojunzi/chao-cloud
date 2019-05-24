@@ -81,7 +81,7 @@ private static final long serialVersionUID=1L;
     @TableField("${field.name}")
 #end
 ## 时间注解
-#if(${versionFieldName}!=${field.name} && ${field.propertyType == 'Date'})
+#if(${versionFieldName}!=${field.name} && ${field.propertyType} =='Date')
     @DateTimeFormat(pattern = DatePattern.NORM_DATETIME_PATTERN)
 #end
 ## 乐观锁注解

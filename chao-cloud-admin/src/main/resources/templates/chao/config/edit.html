@@ -2,22 +2,39 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head th:include="include :: header"></head>
 <body>
-	<form class="layui-form" action="" lay-filter="${table.name}-add-form" style="margin-top: 20px;">
+	<form class="layui-form" action="" lay-filter="chao_config-update-form" style="margin-top: 20px;">
 		<input th:value="${session.formToken}" name="formToken" type="hidden" />
-		#foreach($field in ${table.fields})
+		<input name="id" th:value="${chaoConfig.id}" type="hidden">
 		<!--  -->
-		#if(!${field.keyFlag} && ${versionFieldName}!=${field.name})
+		<!--  -->
 		<div class="layui-form-item">
-			<label class="layui-form-label">${field.comment}：</label>
+			<label class="layui-form-label">名称：</label>
 			<div class="layui-input-block">
-				<input id="${field.propertyName}" name="${field.propertyName}" placeholder="请输入${field.comment}"
-					class="layui-input" lay-verify="required" autocomplete="off">
+				<input class="layui-input" lay-verify="required" autocomplete="off" id="name"
+					th:value="${chaoConfig.name}" name="name" placeholder="请输入名称">
 			</div>
 		</div>
-		#end #end
+		<!--  -->
+		<div class="layui-form-item">
+			<label class="layui-form-label">值：</label>
+			<div class="layui-input-block">
+				<input class="layui-input" lay-verify="required" autocomplete="off" id="val"
+					th:value="${chaoConfig.val}" name="val" placeholder="请输入值">
+			</div>
+		</div>
+		<!--  -->
+		<!--  -->
+		<div class="layui-form-item">
+			<label class="layui-form-label">创建时间：</label>
+			<div class="layui-input-block">
+				<input class="layui-input" lay-verify="required" autocomplete="off" id="createTime"
+					th:value="${#dates.format(chaoConfig.createTime, 'yyyy-MM-dd HH:mm:ss')}" name="createTime"
+					placeholder="请输入创建时间">
+			</div>
+		</div>
 		<div class="layui-form-item">
 			<div class="layui-input-block">
-				<button class="layui-btn" lay-submit="" lay-filter="${table.name}-add">立即提交</button>
+				<button class="layui-btn" lay-submit="" lay-filter="chao_config-update">立即提交</button>
 			</div>
 		</div>
 	</form>
@@ -31,20 +48,18 @@
 			var form = layui.form;
 
 			//日期时间选择器
-			#foreach($field in ${table.fields})
-			#if(!${field.keyFlag} && ${versionFieldName}!=${field.name} && ${field.propertyType}=='Date')
 			laydate.render({
-				elem : '#${field.propertyName}',
+				elem : '#createTime',
 				type : 'datetime'
 			});
-			#end #end
+
 			//监听提交
-			form.on('submit(${table.name}-add)', function(data) {
+			form.on('submit(chao_config-update)', function(data) {
 				//提交数据data.field
 				$.ajax({
 					cache : true,
 					type : "POST",
-					url : "/${controllerMappingPrefix}/save",
+					url : "/chao/config/update",
 					data : data.field,
 					async : false,
 					error : function(request) {

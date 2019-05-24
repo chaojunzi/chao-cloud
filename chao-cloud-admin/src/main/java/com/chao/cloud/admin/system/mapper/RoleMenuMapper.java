@@ -5,6 +5,7 @@ import java.util.Map;
 
 import org.apache.ibatis.annotations.Mapper;
 
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.chao.cloud.admin.system.domain.dto.RoleMenuDTO;
 
 /**
@@ -14,7 +15,7 @@ import com.chao.cloud.admin.system.domain.dto.RoleMenuDTO;
  * @date 2017-10-03 11:08:59
  */
 @Mapper
-public interface RoleMenuMapper {
+public interface RoleMenuMapper extends BaseMapper<RoleMenuDTO>{
 
     RoleMenuDTO get(Long id);
 

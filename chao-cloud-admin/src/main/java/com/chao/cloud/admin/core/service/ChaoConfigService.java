@@ -4,12 +4,10 @@ import com.chao.cloud.admin.core.dal.entity.ChaoConfig;
 import com.baomidou.mybatisplus.extension.service.IService;
 
 /**
- * <p>
- *  服务类
- * </p>
- *
- * @author 超君子
- * @since 2019-05-23
+ * @功能：
+ * @author： 超君子
+ * @时间：2019-05-24
+ * @version 1.0.0
  */
 public interface ChaoConfigService extends IService<ChaoConfig> {
 

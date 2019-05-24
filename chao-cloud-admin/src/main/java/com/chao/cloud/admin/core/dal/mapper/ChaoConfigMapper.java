@@ -6,12 +6,10 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import org.apache.ibatis.annotations.Mapper;
 
 /**
- * <p>
- *  Mapper 接口
- * </p>
- *
- * @author 超君子
- * @since 2019-05-23
+ * @功能：
+ * @author： 超君子
+ * @时间：2019-05-24
+ * @version 1.0.0
  */
 @Mapper
 public interface ChaoConfigMapper extends BaseMapper<ChaoConfig> {

@@ -58,7 +58,7 @@ public class GeneratorController {
         }
         return R.page(list);
     }
-
+ 
     @RequestMapping("/code/{tableName}")
     public void code(HttpServletResponse response, @PathVariable("tableName") String tableName) throws Exception {
         autoGenerator.getStrategy().setInclude(tableName);

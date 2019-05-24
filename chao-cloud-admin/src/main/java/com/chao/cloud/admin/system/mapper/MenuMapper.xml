@@ -114,6 +114,21 @@
 		</foreach>
 	</delete>
 
+	<select id="allMenu"
+		resultType="com.chao.cloud.admin.system.domain.dto.MenuDTO">
+		select distinct
+		m.menu_id , parent_id, name, url,
+		perms,`type`,icon,order_num,gmt_create, gmt_modified
+		from sys_menu m
+		left
+		join sys_role_menu rm on m.menu_id = rm.menu_id left join
+		sys_user_role ur
+		on rm.role_id =ur.role_id where
+		m.type in(0,1)
+		order by
+		m.order_num
+	</select>
+
 	<select id="listMenuByUserId"
 		resultType="com.chao.cloud.admin.system.domain.dto.MenuDTO">
 		select distinct
@@ -125,9 +140,8 @@
 		sys_user_role ur
 		on rm.role_id =ur.role_id where
 		m.type in(0,1)
-		<if test="id != 0">
-			and ur.user_id = #{id}
-		</if>
+		and
+		ur.user_id = #{id}
 		order by
 		m.order_num
 	</select>
@@ -140,8 +154,7 @@
 		left join sys_user_role ur
 		on rm.role_id =
 		ur.role_id
-		<if test="id != 0">
-			where ur.user_id= #{id}
-		</if>
+		where ur.user_id=
+		#{id}
 	</select>
 </mapper>

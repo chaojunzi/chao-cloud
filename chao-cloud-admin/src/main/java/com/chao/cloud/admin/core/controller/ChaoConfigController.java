@@ -17,8 +17,6 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.baomidou.mybatisplus.generator.config.po.TableField;
-import com.baomidou.mybatisplus.generator.config.rules.DbColumnType;
 import com.chao.cloud.admin.core.dal.entity.ChaoConfig;
 import com.chao.cloud.admin.core.service.ChaoConfigService;
 import com.chao.cloud.common.entity.Response;
@@ -26,11 +24,12 @@ import com.chao.cloud.common.entity.ResponseResult;
 import com.chao.cloud.common.extra.token.annotation.FormToken;
 
 import cn.hutool.core.collection.CollUtil;
+import cn.hutool.core.util.StrUtil;
 
 /**
  * @功能：
- * @author：超君子
- * @时间：2019-05-23
+ * @author： 超君子
+ * @时间：2019-05-24
  * @version 1.0.0
  */
 @Controller
@@ -47,23 +46,19 @@ public class ChaoConfigController {
 		return "chao/config/list";
 	}
 
-	public static void main(String[] args) {
-		TableField field = new TableField();
-		field.setPropertyName("name");
-		field.setColumnType(DbColumnType.STRING);
-		System.out.println(field.getCapitalName());
-	}
-
 	@ResponseBody
 	@RequestMapping("/list")
 	@RequiresPermissions("chaoConfig:list")
-	public Response<IPage<ChaoConfig>> list(
-			@RequestParam(defaultValue = "", required = false) Page<ChaoConfig> page) { // 分页
-
+	public Response<IPage<ChaoConfig>> list(Page<ChaoConfig> page //
+			, String name, String val) { // 分页
 		LambdaQueryWrapper<ChaoConfig> queryWrapper = Wrappers.lambdaQuery();
-		queryWrapper.like(ChaoConfig::getName, "");
-		return ResponseResult
-				.getResponseResult(chaoConfigService.page(page, queryWrapper));
+		if (StrUtil.isNotBlank(name)) {
+			queryWrapper.like(ChaoConfig::getName, name);
+		}
+		if (StrUtil.isNotBlank(val)) {
+			queryWrapper.like(ChaoConfig::getVal, val);
+		}
+		return ResponseResult.getResponseResult(chaoConfigService.page(page, queryWrapper));
 	}
 
 	@RequestMapping("/add")
@@ -124,8 +119,9 @@ public class ChaoConfigController {
 	@ResponseBody
 	@RequiresPermissions("chaoConfig:batchRemove")
 	public Response<String> batchRemove(
-			@NotNull(message = "不能为空") @Size(min = 1, message = "至少选择一个") @RequestParam("ids[]") Integer[] ids) {
+			@NotNull(message = "不能为空") @Size(min = 1, message = "请至少选择一个") @RequestParam("ids[]") Integer[] ids) {
 		boolean result = chaoConfigService.removeByIds(CollUtil.toList(ids));
 		return result ? ResponseResult.ok() : ResponseResult.error();
 	}
+
 }

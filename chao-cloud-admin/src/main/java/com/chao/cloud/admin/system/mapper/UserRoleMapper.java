@@ -5,6 +5,7 @@ import java.util.Map;
 
 import org.apache.ibatis.annotations.Mapper;
 
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.chao.cloud.admin.system.domain.dto.UserRoleDTO;
 
 /**
@@ -15,29 +16,29 @@ import com.chao.cloud.admin.system.domain.dto.UserRoleDTO;
  * @version 1.0.0
  */
 @Mapper
-public interface UserRoleMapper {
+public interface UserRoleMapper extends BaseMapper<UserRoleDTO> {
 
-    UserRoleDTO get(Long id);
+	UserRoleDTO get(Long id);
 
-    List<UserRoleDTO> list(Map<String, Object> map);
+	List<UserRoleDTO> list(Map<String, Object> map);
 
-    int count(Map<String, Object> map);
+	int count(Map<String, Object> map);
 
-    int save(UserRoleDTO userRole);
+	int save(UserRoleDTO userRole);
 
-    int update(UserRoleDTO userRole);
+	int update(UserRoleDTO userRole);
 
-    int remove(Long id);
+	int remove(Long id);
 
-    int batchRemove(Long[] ids);
+	int batchRemove(Long[] ids);
 
-    List<Long> listRoleId(Long userId);
+	List<Long> listRoleId(Long userId);
 
-    int removeByUserId(Long userId);
+	int removeByUserId(Long userId);
 
-    int removeByRoleId(Long roleId);
+	int removeByRoleId(Long roleId);
 
-    int batchSave(List<UserRoleDTO> list);
+	int batchSave(List<UserRoleDTO> list);
 
-    int batchRemoveByUserId(Long[] ids);
+	int batchRemoveByUserId(Long[] ids);
 }

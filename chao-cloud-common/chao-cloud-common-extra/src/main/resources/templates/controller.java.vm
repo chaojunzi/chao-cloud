@@ -5,6 +5,7 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 import cn.hutool.core.collection.CollUtil;
+import cn.hutool.core.util.StrUtil;
 
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,7 +17,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.chao.cloud.common.entity.Response;
 import com.chao.cloud.common.entity.ResponseResult;
@@ -57,15 +60,17 @@ public class ${table.controllerName} {
 	@RequiresPermissions("${table.entityPath}:list")
 	public Response<IPage<${table.entityName}>> list(Page<${table.entityName}> page //
 		#if ($likeFields)
-		#foreach($field in ${likeFields})
-		,@RequestParam(defaultValue = "", required = false)${field.propertyType} field.propertyName
+		#foreach($field in ${likeFields}) // ${field.comment}
+		,${field.propertyType} ${field.propertyName}
 		#end	
 		#end	
 		) { // 分页
 		LambdaQueryWrapper<${table.entityName}> queryWrapper = Wrappers.lambdaQuery();
 		#if ($likeFields)
 		#foreach($field in ${likeFields})
+		if (StrUtil.isNotBlank(${field.propertyName})) {
 			queryWrapper.like(${table.entityName}::get${field.capitalName}, ${field.propertyName});
+		}
 		#end	
 		#end
 		return ResponseResult.getResponseResult(${table.entityPath}Service.page(page, queryWrapper));

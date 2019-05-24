@@ -5,6 +5,7 @@ import java.util.Map;
 
 import org.apache.ibatis.annotations.Mapper;
 
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.chao.cloud.admin.system.domain.dto.TaskDTO;
 
 /**
@@ -15,19 +16,19 @@ import com.chao.cloud.admin.system.domain.dto.TaskDTO;
  * @version 1.0.0
  */
 @Mapper
-public interface TaskMapper {
+public interface TaskMapper extends BaseMapper<TaskDTO> {
 
-    TaskDTO get(Long id);
+	TaskDTO get(Long id);
 
-    List<TaskDTO> list(Map<String, Object> map);
+	List<TaskDTO> list(Map<String, Object> map);
 
-    int count(Map<String, Object> map);
+	int count(Map<String, Object> map);
 
-    int save(TaskDTO task);
+	int save(TaskDTO task);
 
-    int update(TaskDTO task);
+	int update(TaskDTO task);
 
-    int remove(Long id);
+	int remove(Long id);
 
-    int batchRemove(Long[] ids);
+	int batchRemove(Long[] ids);
 }

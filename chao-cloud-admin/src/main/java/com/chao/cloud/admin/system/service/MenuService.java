@@ -13,23 +13,23 @@ import com.chao.cloud.admin.system.domain.dto.TreeDTO;
 @Service
 public interface MenuService {
 
-    TreeDTO<MenuDTO> getSysMenuTree(Long id);
+	TreeDTO<MenuDTO> getSysMenuTree(Long id);
 
-    List<TreeDTO<MenuDTO>> listMenuTree(Long id);
+	List<TreeDTO<MenuDTO>> listMenuTree(Long id);
 
-    TreeDTO<MenuDTO> getTree();
+	TreeDTO<MenuDTO> getTree();
 
-    List<MenuDTO> list(Map<String, Object> params);
+	List<MenuDTO> list(Map<String, Object> params);
 
-    int remove(Long id);
+	int remove(Long id);
 
-    int save(MenuDTO menu);
+	int save(MenuDTO menu);
 
-    int update(MenuDTO menu);
+	int update(MenuDTO menu);
 
-    MenuDTO get(Long id);
+	MenuDTO get(Long id);
 
-    Set<String> listPerms(Long userId);
+	Set<String> listPerms(Long userId);
 
-    List<MenuLayuiDTO> listMenuLayuiTree(Long userId);
+	List<MenuLayuiDTO> listMenuLayuiTree(Long userId);
 }

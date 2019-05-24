@@ -5,6 +5,7 @@ import java.util.Map;
 
 import org.apache.ibatis.annotations.Mapper;
 
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.chao.cloud.admin.system.domain.dto.UserDTO;
 
 /**
@@ -13,7 +14,7 @@ import com.chao.cloud.admin.system.domain.dto.UserDTO;
  * @date 2019-05-10 15:36:01
  */
 @Mapper
-public interface UserMapper {
+public interface UserMapper extends BaseMapper<UserDTO>{
 
     UserDTO get(Long userId);
 

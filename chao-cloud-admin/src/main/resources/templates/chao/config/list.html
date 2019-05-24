@@ -3,29 +3,27 @@
 <head th:include="include :: header"></head>
 <body>
 	<div class="layui-fluid">
-		#if ($likeFields)
 		<hr class="layui-bg-gray">
 		<div class="layui-inline">
-			#foreach($field in ${likeFields})
 			<div class="layui-input-inline">
-				<input class="layui-input" name="${field.propertyName}" placeholder="请输入名${field.comment}"
-					autocomplete="off" />
+				<input class="layui-input" name="name" placeholder="请输入名名称" autocomplete="off" />
 			</div>
-			#end
+			<div class="layui-input-inline">
+				<input class="layui-input" name="val" placeholder="请输入名值" autocomplete="off" />
+			</div>
 			<button class="layui-btn layui-btn-normal" id="search" data-type="reload">搜索</button>
 		</div>
-		#end
-		<table id="${table.name}-table" lay-filter="${table.name}-table"></table>
+		<table id="chao_config-table" lay-filter="chao_config-table"></table>
 	</div>
 	<!-- 工具栏 -->
-	<script type="text/html" id="toolbar${table.entityName}">
+	<script type="text/html" id="toolbarChaoConfig">
         <div class="layui-btn-container">
 			<button class="layui-btn layui-btn-sm" lay-event="add"><i class="layui-icon layui-icon-add-circle" ></i>添加</button>
             <button class="layui-btn layui-btn-sm layui-btn-danger" lay-event="batchRemove"><i class="layui-icon layui-icon-delete"></i>删除</button>
         </div>
     </script>
 	<!-- 操作列 -->
-	<script type="text/html" id="${table.name}-state">
+	<script type="text/html" id="chao_config-state">
      <div class="layui-btn-group">
         <button class="layui-btn layui-btn-sm" lay-event="edit"><i class="layui-icon layui-icon-edit"></i></button>
         <button class="layui-btn layui-btn-sm" lay-event="del"><i class="layui-icon layui-icon-delete"></i></button>
@@ -40,11 +38,11 @@
 			var renderTable = function() {
 				layer.load(2);
 				table.render({
-					elem : '#${table.name}-table',
-					url : '/${controllerMappingPrefix}/list',
-					toolbar : '#toolbar${table.entityName}',
+					elem : '#chao_config-table',
+					url : '/chao/config/list',
+					toolbar : '#toolbarChaoConfig',
 					page : true,
-					id : '${table.entityPath}Reload',
+					id : 'chaoConfigReload',
 					parseData:chaoLayuiTable.parseData,
 					request:chaoLayuiTable.request,
 					response:chaoLayuiTable.response,
@@ -53,24 +51,37 @@
 						type : 'checkbox',
 						fixed : 'left'
 					}, 
-					#foreach($field in ${table.fields})
-					#if(${versionFieldName}!=${field.name})
 					{
-					  #if(${field.keyFlag})
 						fixed : 'left',
 						unresize : true,
 						sort : true,
 						width : 80,
-					   #end
 						align : 'center',
-					    field : '${field.propertyName}',
-						title : '${field.comment}',
+					    field : 'id',
+						title : 'ID',
 					 
 					}, 
-					#end #end
-					{
+ 					{
+						align : 'center',
+					    field : 'name',
+						title : '名称',
+					 
+					}, 
+ 					{
+						align : 'center',
+					    field : 'val',
+						title : '值',
+					 
+					}, 
+  					{
+						align : 'center',
+					    field : 'createTime',
+						title : '创建时间',
+					 
+					}, 
+ 					{
 						title : '操作',
-						toolbar : '#${table.name}-state',
+						toolbar : '#chao_config-state',
 						align : 'center'
 					} ] ],
 					done : function() {
@@ -84,17 +95,14 @@
 			var active = {
 				reload : function() {
 					//执行重载
-					table.reload('${table.entityPath}Reload', {
+					table.reload('chaoConfigReload', {
 						page : {
 							curr : 1
 						//重新从第 1 页开始
 						},
 						where : {
-							 #if ($likeFields)
-							 #foreach($field in ${likeFields})
-							 	${field.propertyName} : $('[name=${field.propertyName}]').val(),
-							 #end
-							 #end
+							 	name : $('[name=name]').val(),
+							 	val : $('[name=val]').val()
 
 						}
 					});
@@ -107,7 +115,7 @@
 			});
 
 			//头工具栏事件
-			table.on('toolbar(${table.name}-table)', function(obj) {
+			table.on('toolbar(chao_config-table)', function(obj) {
 				var checkStatus = table.checkStatus(obj.config.id);
 				switch (obj.event) {
 				case 'add'://增加
@@ -125,14 +133,14 @@
 			});
 
 			//监听工具条
-			table.on('tool(${table.name}-table)', function(obj) {
+			table.on('tool(chao_config-table)', function(obj) {
 				var data = obj.data;
 				console.log(data)
 				var layEvent = obj.event;
 				if (layEvent === 'del') {//删除
-					remove(data.${pk.propertyName});
+					remove(data.id);
 				} else if (layEvent === 'edit') {//修改
-					edit(data.${pk.propertyName});
+					edit(data.id);
 				}
 			});
 
@@ -141,10 +149,10 @@
 					btn : [ '确定', '取消' ]
 				}, function() {
 					$.ajax({
-						url : "/${controllerMappingPrefix}/remove",
+						url : "/chao/config/remove",
 						type : "post",
 						data : {
-							${pk.propertyName} : id
+							id : id
 						},
 						success : function(data) {
 							if (data.retCode == '0000') {
@@ -164,15 +172,15 @@
 				}, function() {
 					var ids = new Array();
 					$.each(data, function(i, row) {
-						ids[i] = row['${pk.propertyName}'];
+						ids[i] = row['id'];
 					});
 					console.log(ids);
 					$.ajax({
 						type : 'POST',
 						data : {
-							"${pk.propertyName}s" : ids
+							"ids" : ids
 						},
-						url : '/${controllerMappingPrefix}/batchRemove',
+						url : '/chao/config/batchRemove',
 						success : function(r) {
 							if (data.retCode == '0000') {
 								layer.msg("删除成功");
@@ -191,8 +199,8 @@
 					title : '修改',
 					maxmin : true,
 					shadeClose : false, // 点击遮罩关闭层
-					area : [ '60%', '${openHeight}%' ],
-					content : '/${controllerMappingPrefix}/edit/' + id // iframe的url
+					area : [ '60%', '46%' ],
+					content : '/chao/config/edit/' + id // iframe的url
 				});
 			}
 
@@ -202,8 +210,8 @@
 					title : '增加',
 					maxmin : true,
 					shadeClose : false, // 点击遮罩关闭层
-					area : [ '60%', '${openHeight}%' ],
-					content : '/${controllerMappingPrefix}/add' // iframe的url
+					area : [ '60%', '46%' ],
+					content : '/chao/config/add' // iframe的url
 				});
 			}
 		});

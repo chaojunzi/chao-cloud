@@ -2,7 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head th:include="include :: header"></head>
 <body>
-	<form class="layui-form" lay-filter="${table.name}-update-form" style="margin-top: 20px;">
+	<form class="layui-form" action="" lay-filter="${table.name}-update-form" style="margin-top: 20px;">
 		<input th:value="${session.formToken}" name="formToken" type="hidden" />
 		<input name="${pk.propertyName}" th:value="${${table.entityPath}.${pk.propertyName}}"
 			type="hidden">
@@ -26,7 +26,7 @@
 		#end #end
 		<div class="layui-form-item">
 			<div class="layui-input-block">
-				<button class="layui-btn" lay-filter="${table.name}-update">立即提交</button>
+				<button class="layui-btn" lay-submit="" lay-filter="${table.name}-update">立即提交</button>
 			</div>
 		</div>
 	</form>

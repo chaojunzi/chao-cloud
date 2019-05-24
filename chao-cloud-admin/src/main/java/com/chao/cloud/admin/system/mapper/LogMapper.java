@@ -5,6 +5,7 @@ import java.util.Map;
 
 import org.apache.ibatis.annotations.Mapper;
 
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.chao.cloud.admin.system.domain.dto.LogDTO;
 
 /**
@@ -14,7 +15,7 @@ import com.chao.cloud.admin.system.domain.dto.LogDTO;
  * @date 2017-10-03 15:45:42
  */
 @Mapper
-public interface LogMapper {
+public interface LogMapper extends BaseMapper<LogDTO>{
 
     LogDTO get(Long id);
 
