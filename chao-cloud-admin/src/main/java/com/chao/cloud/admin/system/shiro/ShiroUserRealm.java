@@ -65,4 +65,20 @@ public class ShiroUserRealm extends AuthorizingRealm {
         return info;
     }
 
+    @Override
+    public boolean isPermitted(PrincipalCollection principals, String permission) {
+        // 管理员拥有所有权限
+        Long id = ShiroUtils.getUserId();
+        // 如果是管理员拥有所有的访问权限
+        return "0".equals(id.toString()) || super.isPermitted(principals, permission);
+    }
+
+    @Override
+    public boolean hasRole(PrincipalCollection principal, String roleIdentifier) {
+        // 管理员拥有所有权限
+        Long id = ShiroUtils.getUserId();
+        // 如果是管理员拥有所有的角色权限
+        return "0".equals(id.toString()) || super.hasRole(principal, roleIdentifier);
+    }
+
 }

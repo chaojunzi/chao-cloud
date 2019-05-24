@@ -6,9 +6,8 @@ import java.util.Map;
 import org.apache.ibatis.annotations.Mapper;
 
 import com.chao.cloud.admin.system.domain.dto.DeptDTO;
-import com.chao.cloud.common.extra.mybatis.annotation.VersionLocker;
 
-/**
+/** 
  * 部门管理
  * @author chglee
  * @email 1992lcg@163.com
@@ -25,7 +24,6 @@ public interface DeptMapper {
 
     int save(DeptDTO dept);
 
-    @VersionLocker(false)
     int update(DeptDTO dept);
 
     int remove(Long deptId);

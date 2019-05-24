@@ -6,7 +6,6 @@ import java.util.Map;
 import org.apache.ibatis.annotations.Mapper;
 
 import com.chao.cloud.admin.system.domain.dto.TaskDTO;
-import com.chao.cloud.common.extra.mybatis.annotation.VersionLocker;
 
 /**
  * 
@@ -26,7 +25,6 @@ public interface TaskMapper {
 
     int save(TaskDTO task);
 
-    @VersionLocker(false)
     int update(TaskDTO task);
 
     int remove(Long id);

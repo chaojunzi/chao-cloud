@@ -134,18 +134,18 @@
 				$.each(data, function(i, row) {
 					tables[i] = row['tableName'];
 				});
-				location.href = "/sys/generator/batchCode?tables=" + JSON.stringify(tables).replace('[', '%5B').replace(']', '%5D');
+				location.href = "/sys/generator/batchCode?tables=" + tables;
 			}
 
 			function edit() {
 				console.log('打开配置页面');
 				layer.open({
 					type : 2,
-					title : '增加',
+					title : '配置',
 					//maxmin : true,
-					shadeClose : false,
-					area : [ '50%', '70%' ],
-					content : '/sys/generator/edit'
+					shadeClose : true,
+					area : [ '68%', '70%' ],
+					content : [ '/sys/generator/edit', 'no' ]
 				});
 			}
 

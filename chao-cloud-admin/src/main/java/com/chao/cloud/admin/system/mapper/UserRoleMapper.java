@@ -6,7 +6,6 @@ import java.util.Map;
 import org.apache.ibatis.annotations.Mapper;
 
 import com.chao.cloud.admin.system.domain.dto.UserRoleDTO;
-import com.chao.cloud.common.extra.mybatis.annotation.VersionLocker;
 
 /**
  * 
@@ -18,7 +17,7 @@ import com.chao.cloud.common.extra.mybatis.annotation.VersionLocker;
 @Mapper
 public interface UserRoleMapper {
 
-    UserRoleDTO get(Long id); 
+    UserRoleDTO get(Long id);
 
     List<UserRoleDTO> list(Map<String, Object> map);
 
@@ -26,7 +25,6 @@ public interface UserRoleMapper {
 
     int save(UserRoleDTO userRole);
 
-    @VersionLocker(false)
     int update(UserRoleDTO userRole);
 
     int remove(Long id);

@@ -6,7 +6,6 @@ import java.util.Map;
 import org.apache.ibatis.annotations.Mapper;
 
 import com.chao.cloud.admin.system.domain.dto.RoleMenuDTO;
-import com.chao.cloud.common.extra.mybatis.annotation.VersionLocker;
 
 /**
  * 角色与菜单对应关系
@@ -18,14 +17,13 @@ import com.chao.cloud.common.extra.mybatis.annotation.VersionLocker;
 public interface RoleMenuMapper {
 
     RoleMenuDTO get(Long id);
- 
+
     List<RoleMenuDTO> list(Map<String, Object> map);
 
     int count(Map<String, Object> map);
 
     int save(RoleMenuDTO roleMenu);
 
-    @VersionLocker(false)
     int update(RoleMenuDTO roleMenu);
 
     int remove(Long id);

@@ -6,7 +6,6 @@ import java.util.Map;
 import org.apache.ibatis.annotations.Mapper;
 
 import com.chao.cloud.admin.system.domain.dto.LogDTO;
-import com.chao.cloud.common.extra.mybatis.annotation.VersionLocker;
 
 /**
  * 系统日志
@@ -25,7 +24,6 @@ public interface LogMapper {
 
     int save(LogDTO log);
 
-    @VersionLocker(false)
     int update(LogDTO log);
 
     int remove(Long id);

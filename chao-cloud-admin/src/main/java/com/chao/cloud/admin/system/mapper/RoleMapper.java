@@ -6,7 +6,6 @@ import java.util.Map;
 import org.apache.ibatis.annotations.Mapper;
 
 import com.chao.cloud.admin.system.domain.dto.RoleDTO;
-import com.chao.cloud.common.extra.mybatis.annotation.VersionLocker;
 
 /**
  * 角色
@@ -26,7 +25,6 @@ public interface RoleMapper {
 
     int save(RoleDTO role);
 
-    @VersionLocker(false)
     int update(RoleDTO role);
 
     int remove(Long roleId);

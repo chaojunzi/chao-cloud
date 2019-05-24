@@ -17,9 +17,6 @@ spring:
   output:
     ansi:
       enabled: always
-  jackson:
-    date-format: yyyy-MM-dd HH:mm:ss
-    time-zone: GMT+8
   datasource:
     url: jdbc:mysql://127.0.0.1:3306/admin?useSSL=false&useUnicode=true&characterEncoding=UTF8&allowMultiQueries=true
     username: root
@@ -41,17 +38,22 @@ spring:
     mode: LEGACYHTML5
     cache: false      
 
-mybatis:
+mybatis-plus:
   configuration:
     map-underscore-to-camel-case: true
-    log-impl: com.chao.cloud.common.extra.mybatis.log.Slf4jLogImpl
-    
-pagehelper:
-  dialect: com.github.pagehelper.dialect.helper.MySqlDialect
-  reasonable: false
-  supportMethodsArguments: true       
-  params: count=countSql
-        
-      
- 
-       
+    log-impl:  com.chao.cloud.common.extra.mybatis.log.Slf4jLogImpl
+
+#默认使用本地数据源
+chao:
+  cloud:
+    codegen:
+        datasource:
+          url: ${spring.datasource.url}
+          username: ${spring.datasource.username}
+          password: ${spring.datasource.password}
+          driver-name: ${spring.datasource.driver-class-name}
+        package:
+          parent: com.chao.cloud.admin.core #parent
+        global:
+         author: 超君子
+            

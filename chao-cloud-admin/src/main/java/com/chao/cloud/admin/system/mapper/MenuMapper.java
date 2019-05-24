@@ -7,7 +7,6 @@ import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
 import com.chao.cloud.admin.system.domain.dto.MenuDTO;
-import com.chao.cloud.common.extra.mybatis.annotation.VersionLocker;
 
 /**
  * 菜单管理
@@ -26,7 +25,6 @@ public interface MenuMapper {
 
     int save(MenuDTO menu);
 
-    @VersionLocker(false)
     int update(MenuDTO menu);
 
     int remove(Long menuId);

@@ -6,7 +6,6 @@ import java.util.Map;
 import org.apache.ibatis.annotations.Mapper;
 
 import com.chao.cloud.admin.system.domain.dto.UserDTO;
-import com.chao.cloud.common.extra.mybatis.annotation.VersionLocker;
 
 /**
  * 
@@ -24,7 +23,6 @@ public interface UserMapper {
 
     int save(UserDTO user);
 
-    @VersionLocker(false)
     int update(UserDTO user);
 
     int remove(Long user_id);

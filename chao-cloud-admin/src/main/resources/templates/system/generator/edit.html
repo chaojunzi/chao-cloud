@@ -9,39 +9,48 @@
 			<label class="layui-form-label">作者：</label>
 			<div class="layui-input-block">
 				<input name="author" placeholder="请输入作者" autocomplete="off"
-					class="layui-input" th:value="${property.author}"
+					class="layui-input" th:value="${config.author}"
 					lay-verify="required">
-			</div>
-		</div>
-		<div class="layui-form-item">
-			<label class="layui-form-label">邮箱：</label>
-			<div class="layui-input-block">
-				<input name="email" placeholder="请输入邮箱" autocomplete="off"
-					class="layui-input" th:value="${property.email}" readonly
-					lay-verify="required|email">
 			</div>
 		</div>
 		<div class="layui-form-item">
 			<label class="layui-form-label">包名：</label>
 			<div class="layui-input-block">
-				<input name="package" placeholder="请输入任务类" autocomplete="off"
-					class="layui-input" th:value="${property.package}"
+				<input name="parent" placeholder="请输入包名" autocomplete="off"
+					class="layui-input" th:value="${config.parent}"
 					lay-verify="required">
 			</div>
 		</div>
 		<div class="layui-form-item">
-			<label class="layui-form-label">自动去掉表前缀：</label>
+			<label class="layui-form-label">连接url：</label>
 			<div class="layui-input-block">
-				<input type="checkbox" name="autoRemovePre" lay-skin="switch"
-					lay-filter="autoRemovePre" th:checked="${property.autoRemovePre}"
-					lay-text="ON|OFF">
+				<input name="url" placeholder="请输入连接url" autocomplete="off"
+					class="layui-input" th:value="${config.url}" lay-verify="required"
+					readonly>
+			</div>
+		</div>
+		<div class="layui-form-item">
+			<label class="layui-form-label">用户名：</label>
+			<div class="layui-input-block">
+				<input name="username" placeholder="请输入用户名" autocomplete="off"
+					class="layui-input" th:value="${config.username}"
+					lay-verify="required" readonly>
 			</div>
 		</div>
 		<div class="layui-form-item layui-form-text">
-			<label class="layui-form-label">去掉指定表前缀：</label>
+			<label class="layui-form-label">密码：</label>
 			<div class="layui-input-block">
-				<input name="tablePrefix" placeholder="请输入指定表前缀" autocomplete="off"
-					class="layui-input" th:value="${property.tablePrefix}">
+				<input name="password" placeholder="请输入密码" autocomplete="off"
+					class="layui-input" th:value="${config.password}"
+					lay-verify="required" readonly>
+			</div>
+		</div>
+		<div class="layui-form-item layui-form-text">
+			<label class="layui-form-label">驱动class：</label>
+			<div class="layui-input-block">
+				<input name="driverName" placeholder="请输入驱动class" autocomplete="off"
+					class="layui-input" th:value="${config.driverName}"
+					lay-verify="required" readonly>
 			</div>
 		</div>
 		<div class="layui-form-item">
