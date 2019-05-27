@@ -7,7 +7,7 @@
 [echarts](https://github.com/apache/incubator-echarts)  
 
 # chao-cloud-admin  ---> 效果图展示
-![Image text](https://github.com/chaojunzi/chao-cloud/blob/master/screenshot/admin/world.png)
+![Image text](https://github.com/chaojunzi/chao-cloud/blob/master/screenshot/admin/world.gif)
 ![Image text](https://github.com/chaojunzi/chao-cloud/blob/master/screenshot/admin/echarts1.png)
 ![Image text](https://github.com/chaojunzi/chao-cloud/blob/master/screenshot/admin/echarts2.png)
 ![Image text](https://github.com/chaojunzi/chao-cloud/blob/master/screenshot/admin/echarts3.jpg)
