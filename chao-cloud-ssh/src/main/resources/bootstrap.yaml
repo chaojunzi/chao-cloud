@@ -21,7 +21,7 @@ spring:
 chao:
   cloud:
     ssh:
-      host: 192.168.10.9
-      username: dcdy
-      password: dcdy
+      host: 127.0.0.1
+      username: chao #ssh 用户名
+      password: 123456 #ssh 密码
       port: 22

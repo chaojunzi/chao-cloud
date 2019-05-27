@@ -11,8 +11,10 @@ import org.springframework.stereotype.Component;
 
 /**
  * 参数转换的标志
- * @author Administrator
- *
+ * @功能：
+ * @author： 薛超
+ * @时间： 2019年5月27日
+ * @version 1.0.0
  */
 @Target(ElementType.TYPE)
 @Inherited

@@ -5,10 +5,14 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
+
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -17,6 +21,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.chao.cloud.admin.system.annotation.AdminLog;
+import com.chao.cloud.admin.system.constant.AdminConstant;
 import com.chao.cloud.admin.system.domain.dto.RoleDTO;
 import com.chao.cloud.admin.system.domain.dto.UserDTO;
 import com.chao.cloud.admin.system.domain.vo.UserVO;
@@ -24,11 +29,14 @@ import com.chao.cloud.admin.system.service.RoleService;
 import com.chao.cloud.admin.system.service.UserService;
 import com.chao.cloud.admin.system.utils.Query;
 import com.chao.cloud.admin.system.utils.R;
+import com.chao.cloud.common.exception.BusinessException;
 
+import cn.hutool.core.util.ArrayUtil;
 import cn.hutool.crypto.digest.DigestUtil;
 
 @RequestMapping("/sys/user")
 @Controller
+@Validated
 public class UserController extends BaseController {
 	private String prefix = "system/user";
 	@Autowired
@@ -116,8 +124,11 @@ public class UserController extends BaseController {
 	@AdminLog("删除用户")
 	@PostMapping("/remove")
 	@ResponseBody
-	R remove(Long id) {
-
+	R remove(@NotNull Long id) {
+		boolean isAdmin = id.equals(AdminConstant.ADMIN_ID);
+		if (isAdmin) {
+			throw new BusinessException("admin 不可删除");
+		}
 		if (userService.remove(id) > 0) {
 			return R.ok();
 		}
@@ -128,8 +139,11 @@ public class UserController extends BaseController {
 	@AdminLog("批量删除用户")
 	@PostMapping("/batchRemove")
 	@ResponseBody
-	R batchRemove(@RequestParam("ids[]") Long[] userIds) {
-
+	R batchRemove(@RequestParam("ids[]") @Size(min = 1) Long[] userIds) {
+		boolean hasAdmin = ArrayUtil.contains(userIds, AdminConstant.ADMIN_ID);
+		if (hasAdmin) {
+			throw new BusinessException("admin 不可删除");
+		}
 		int r = userService.batchremove(userIds);
 		if (r > 0) {
 			return R.ok();

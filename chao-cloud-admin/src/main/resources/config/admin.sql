@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50505
 File Encoding         : 65001
 
-Date: 2019-05-24 19:19:38
+Date: 2019-05-27 15:34:54
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -616,7 +616,7 @@ CREATE TABLE `sys_user` (
 -- ----------------------------
 -- Records of sys_user
 -- ----------------------------
-INSERT INTO `sys_user` VALUES ('0', 'admin', '超级管理员', 'a66abb5684c45962d887564f08346e8d', '0', '顶级', 'admin@example.com', '17699999999', '1', '2019-05-10 15:52:03');
+INSERT INTO `sys_user` VALUES ('1', 'admin', '超级管理员', 'a66abb5684c45962d887564f08346e8d', '0', '顶级', 'admin@example.com', '17699999999', '1', '2019-05-10 15:52:03');
 INSERT INTO `sys_user` VALUES ('146', 'xuechao', '薛超', 'c5881e3ceb092c3aebeb4153cf017914', '0', '顶级', 'asdada@qq.com', '15711066461', '1', '2019-05-10 15:52:05');
 INSERT INTO `sys_user` VALUES ('147', 'chaojunzi', '超君子', '23d3e9a8eba3160054450a5851e8708c', '20', '测试1部', '15215@qq.com', '15711066462', '1', '2019-05-10 21:15:49');
 

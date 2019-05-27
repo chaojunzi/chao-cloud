@@ -4,7 +4,19 @@ import java.io.Serializable;
 
 import com.chao.cloud.common.constants.ResultCodeEnum;
 
+/**
+ * 返回值
+ * @功能：
+ * @author： 薛超
+ * @时间： 2019年5月27日
+ * @version 1.0.0
+ */
 public class Response<T> implements Serializable {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
 	private String retCode = ResultCodeEnum.CODE_200.code();
 
 	private String retMsg = "操作成功";

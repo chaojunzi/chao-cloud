@@ -4,6 +4,8 @@ public interface AdminConstant {
 
 	String ADMIN = "admin";
 
+	Long ADMIN_ID = 1L;
+
 	// 自动去除表前缀
 	String AUTO_REOMVE_PRE = "true";
 	// 停止计划任务

@@ -2,55 +2,22 @@ package com.chao.cloud.admin.system.shiro;
 
 import java.io.Serializable;
 
+import lombok.Data;
+
 /**
- * @author bootdo 1992lcg@163.com
- * @version V1.0
+ * 
+ * @功能：
+ * @author： 薛超
+ * @时间： 2019年5月27日
+ * @version 1.0.0
  */
+@Data
 public class ShiroUserToken implements Serializable {
-    private static final long serialVersionUID = 1L;
-    private Long userId;
-    private String username;
-    private String name;
-    private String password;
-    private Long deptId;
+	private static final long serialVersionUID = 1L;
+	private Long userId;
+	private String username;
+	private String name;
+	private String password;
+	private Long deptId;
 
-    public Long getUserId() {
-        return userId;
-    }
-
-    public void setUserId(Long userId) {
-        this.userId = userId;
-    }
-
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public Long getDeptId() {
-        return deptId;
-    }
-
-    public void setDeptId(Long deptId) {
-        this.deptId = deptId;
-    }
 }

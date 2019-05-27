@@ -14,7 +14,7 @@ import lombok.extern.slf4j.Slf4j;
 @Configuration
 public class TokenizerConfig {
 
-    @Value("${chao.cloud.tokenizer.word:我想要,我要,我要找}")
+    @Value("${chao.cloud.tokenizer.word:什么是}")
     private String tokenizerWord;
 
     @Bean

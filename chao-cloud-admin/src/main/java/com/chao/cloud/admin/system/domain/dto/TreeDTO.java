@@ -7,10 +7,11 @@ import java.util.Map;
 import com.alibaba.fastjson.JSON;
 
 /**
- * tree TODO <br>
  * 
- * @author kangxu2 2017-1-7
- * 
+ * @功能：tree
+ * @author： 薛超
+ * @时间： 2019年5月27日
+ * @version 1.0.0
  */
 public class TreeDTO<T> {
 	/**
@@ -122,24 +123,6 @@ public class TreeDTO<T> {
 
 	public void setParentId(String parentId) {
 		this.parentId = parentId;
-	}
-
-	public TreeDTO(String id, String text, Map<String, Object> state, boolean checked, Map<String, Object> attributes,
-			List<TreeDTO<T>> children, boolean isParent, boolean isChildren, String parentID) {
-		super();
-		this.id = id;
-		this.text = text;
-		this.state = state;
-		this.checked = checked;
-		this.attributes = attributes;
-		this.children = children;
-		this.hasParent = isParent;
-		this.hasChildren = isChildren;
-		this.parentId = parentID;
-	}
-
-	public TreeDTO() {
-		super();
 	}
 
 	@Override

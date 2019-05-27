@@ -24,10 +24,10 @@ import feign.codec.Encoder;
 
 /**
  * The type Spring multipart encoder.
- *
- * @author dax.
- * @version v1.0
- * @since 2017 /12/26 14:16
+ * @功能：
+ * @author： 薛超
+ * @时间： 2019年5月27日
+ * @version 1.0.0
  */
 public class SpringMultipartEncoder implements Encoder {
 

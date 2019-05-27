@@ -5,11 +5,11 @@ import org.jsoup.nodes.Document;
 import org.jsoup.safety.Whitelist;
 
 /**
- * xss非法标签过滤
- * {@link http://www.jianshu.com/p/32abc12a175a?nomobile=yes}
- * @author yangwenkui
- * @version v2.0
- * @time 2017年4月27日 下午5:47:09
+ * 
+ * @功能：xss非法标签过滤
+ * @author： 薛超
+ * @时间： 2019年5月27日
+ * @version 1.0.0
  */
 public class JsoupUtil {
 

@@ -24,9 +24,10 @@ import cn.hutool.core.util.StrUtil;
 
 /**
  * 获取容器中的资源
- * 
- * @author Administrator
- *
+ * @功能：
+ * @author： 薛超
+ * @时间： 2019年5月27日
+ * @version 1.0.0
  */
 public class SpringApplicationBeanUtil {
 

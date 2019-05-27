@@ -11,9 +11,10 @@ import lombok.Data;
 
 /**
  * 
- * 
- * @author xuechao
- * @date 2019-05-10 15:36:01
+ * @功能：
+ * @author： 薛超
+ * @时间： 2019年5月27日
+ * @version 1.0.0
  */
 @Data
 public class UserDTO implements Serializable {

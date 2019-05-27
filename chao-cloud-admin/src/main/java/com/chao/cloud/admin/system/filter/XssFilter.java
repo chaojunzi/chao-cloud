@@ -19,40 +19,45 @@ import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-  
-/** 
- * 拦截防止xss注入
- * 通过Jsoup过滤请求参数内的特定字符
- * @author yangwk 
- */  
-public class XssFilter implements Filter {  
+
+/**
+ *  * 拦截防止xss注入
+ * 通过Jsoup过滤请求参数内的特定字符 
+ * @功能：
+ * @author： 薛超
+ * @时间： 2019年5月27日
+ * @version 1.0.0
+ */
+public class XssFilter implements Filter {
 	private static Logger logger = LoggerFactory.getLogger(XssFilter.class);
 
 	/**
 	 * 是否过滤富文本内容
 	 */
 	private static boolean IS_INCLUDE_RICH_TEXT = false;
-	
+
 	public List<String> excludes = new ArrayList<>();
-  
-    @Override
-	public void doFilter(ServletRequest request, ServletResponse response, FilterChain filterChain) throws IOException,ServletException {
-    	if(logger.isDebugEnabled()){
-  			logger.debug("xss filter is open");
-  		}
-  		
-  		HttpServletRequest req = (HttpServletRequest) request;
+
+	@Override
+	public void doFilter(ServletRequest request, ServletResponse response, FilterChain filterChain)
+			throws IOException, ServletException {
+		if (logger.isDebugEnabled()) {
+			logger.debug("xss filter is open");
+		}
+
+		HttpServletRequest req = (HttpServletRequest) request;
 		HttpServletResponse resp = (HttpServletResponse) response;
-  		if(handleExcludeURL(req, resp)){
-  			filterChain.doFilter(request, response);
+		if (handleExcludeURL(req, resp)) {
+			filterChain.doFilter(request, response);
 			return;
 		}
-  		
-  		XssHttpServletRequestWrapper xssRequest = new XssHttpServletRequestWrapper((HttpServletRequest) request,IS_INCLUDE_RICH_TEXT);
-  		filterChain.doFilter(xssRequest, response);
-    }
-    
-    private boolean handleExcludeURL(HttpServletRequest request, HttpServletResponse response) {
+
+		XssHttpServletRequestWrapper xssRequest = new XssHttpServletRequestWrapper((HttpServletRequest) request,
+				IS_INCLUDE_RICH_TEXT);
+		filterChain.doFilter(xssRequest, response);
+	}
+
+	private boolean handleExcludeURL(HttpServletRequest request, HttpServletResponse response) {
 
 		if (excludes == null || excludes.isEmpty()) {
 			return false;
@@ -72,14 +77,14 @@ public class XssFilter implements Filter {
 
 	@Override
 	public void init(FilterConfig filterConfig) throws ServletException {
-		if(logger.isDebugEnabled()){
+		if (logger.isDebugEnabled()) {
 			logger.debug("xss filter init~~~~~~~~~~~~");
 		}
 		String isIncludeRichText = filterConfig.getInitParameter("isIncludeRichText");
-		if(StringUtils.isNotBlank(isIncludeRichText)){
+		if (StringUtils.isNotBlank(isIncludeRichText)) {
 			IS_INCLUDE_RICH_TEXT = BooleanUtils.toBoolean(isIncludeRichText);
 		}
-		
+
 		String temp = filterConfig.getInitParameter("excludes");
 		if (temp != null) {
 			String[] url = temp.split(",");
@@ -90,6 +95,7 @@ public class XssFilter implements Filter {
 	}
 
 	@Override
-	public void destroy() {}  
-  
-}  
+	public void destroy() {
+	}
+
+}

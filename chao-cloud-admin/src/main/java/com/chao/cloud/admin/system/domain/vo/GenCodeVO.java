@@ -3,7 +3,13 @@ package com.chao.cloud.admin.system.domain.vo;
 import javax.validation.constraints.NotBlank;
 
 import lombok.Data;
-
+/**
+ * 
+ * @功能：生成代码配置vo
+ * @author： 薛超
+ * @时间： 2019年5月27日
+ * @version 1.0.0
+ */
 public interface GenCodeVO {
 
     @Data

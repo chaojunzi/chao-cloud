@@ -28,7 +28,9 @@ public class ShiroUserRealm extends AuthorizingRealm {
 	private UserMapper userMapper;
 	@Autowired
 	private MenuService menuService;
-
+	/**
+	 * 授权
+	 */
 	@Override
 	protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection arg0) {
 		Long userId = ShiroUtils.getUserId();
@@ -37,7 +39,9 @@ public class ShiroUserRealm extends AuthorizingRealm {
 		info.setStringPermissions(perms);
 		return info;
 	}
-
+	/**
+	 * 认证
+	 */
 	@Override
 	protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken token) throws AuthenticationException {
 		String username = (String) token.getPrincipal();

@@ -10,10 +10,11 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.chao.cloud.admin.system.domain.dto.MenuDTO;
 
 /**
- * 菜单管理
- * @author chglee
- * @email 1992lcg@163.com
- * @date 2017-10-03 09:45:09
+ * 
+ * @功能： 菜单管理
+ * @author： 薛超
+ * @时间： 2019年5月27日
+ * @version 1.0.0
  */
 @Mapper
 public interface MenuMapper extends BaseMapper<MenuDTO> {

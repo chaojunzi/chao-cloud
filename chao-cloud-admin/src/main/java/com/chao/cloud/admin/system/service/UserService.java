@@ -11,31 +11,31 @@ import com.chao.cloud.admin.system.domain.vo.UserVO;
 
 @Service
 public interface UserService {
-    UserDTO get(Long id);
+	UserDTO get(Long id);
 
-    List<UserDTO> list(Map<String, Object> map);
+	List<UserDTO> list(Map<String, Object> map);
 
-    int count(Map<String, Object> map);
+	int count(Map<String, Object> map);
 
-    int save(UserDTO user);
+	int save(UserDTO user);
 
-    int update(UserDTO user);
+	int update(UserDTO user);
 
-    int remove(Long userId);
+	int remove(Long userId);
 
-    int batchremove(Long[] userIds);
+	int batchremove(Long[] userIds);
 
-    boolean exit(Map<String, Object> params);
+	boolean exit(Map<String, Object> params);
 
-    Set<String> listRoles(Long userId);
+	Set<String> listRoles(Long userId);
 
-    int resetPwd(UserVO userVO, UserDTO userDO) throws Exception;
+	int resetPwd(UserVO userVO, UserDTO userDO) throws Exception;
 
-    /**
-     * 更新个人信息
-     * @param userDO
-     * @return
-     */
-    int updatePersonal(UserDTO userDO);
+	/**
+	 * 更新个人信息
+	 * @param userDO
+	 * @return
+	 */
+	int updatePersonal(UserDTO userDO);
 
 }

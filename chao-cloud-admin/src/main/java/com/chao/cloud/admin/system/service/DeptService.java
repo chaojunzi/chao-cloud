@@ -7,31 +7,31 @@ import com.chao.cloud.admin.system.domain.dto.DeptDTO;
 import com.chao.cloud.admin.system.domain.dto.TreeDTO;
 
 /**
- * 部门管理
  * 
- * @author chglee
- * @email 1992lcg@163.com
- * @date 2017-09-27 14:28:36
+ * @功能：部门管理
+ * @author： 薛超
+ * @时间： 2019年5月27日
+ * @version 1.0.0
  */
 public interface DeptService {
 
-    DeptDTO get(Long deptId);
+	DeptDTO get(Long deptId);
 
-    List<DeptDTO> list(Map<String, Object> map);
+	List<DeptDTO> list(Map<String, Object> map);
 
-    int count(Map<String, Object> map);
+	int count(Map<String, Object> map);
 
-    int save(DeptDTO sysDept);
+	int save(DeptDTO sysDept);
 
-    int update(DeptDTO sysDept);
+	int update(DeptDTO sysDept);
 
-    int remove(Long deptId);
+	int remove(Long deptId);
 
-    int batchRemove(Long[] deptIds);
+	int batchRemove(Long[] deptIds);
 
-    TreeDTO<DeptDTO> getTree();
+	TreeDTO<DeptDTO> getTree();
 
-    boolean checkDeptHasUser(Long deptId);
+	boolean checkDeptHasUser(Long deptId);
 
-   // List<Long> listChildrenIds(Long parentId);
+	// List<Long> listChildrenIds(Long parentId);
 }

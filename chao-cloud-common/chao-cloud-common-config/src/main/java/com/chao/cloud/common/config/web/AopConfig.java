@@ -7,9 +7,11 @@ import org.springframework.context.annotation.Configuration;
 import com.chao.cloud.common.convert.ConvertInterceptor;
 
 /**
- * <p>
- * aop配置
- * </p>
+ * aop 配置
+ * @功能：
+ * @author： 薛超
+ * @时间： 2019年5月27日
+ * @version 1.0.0
  */
 @Configuration
 public class AopConfig {

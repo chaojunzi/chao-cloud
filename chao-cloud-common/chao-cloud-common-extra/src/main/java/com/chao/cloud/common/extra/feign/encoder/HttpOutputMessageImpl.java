@@ -6,11 +6,11 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpOutputMessage;
 
 /**
- * The type Http output message.
- *
- * @author dax.
- * @version v1.0
- * @since 2017 /12/27 11:21
+ * 
+ * @功能：The type Http output message.
+ * @author： 薛超
+ * @时间： 2019年5月27日
+ * @version 1.0.0
  */
 public class HttpOutputMessageImpl implements HttpOutputMessage {
 

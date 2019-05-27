@@ -1,7 +1,7 @@
 window.onload = function() {
-		if (window.parent.window != window) {
-			window.top.location = "/login";
-		}
+	if (window.parent.window != window) {
+		window.top.location = "/login";
+	}
 }
 
 layui.use([ 'form', 'layer', 'jquery' ], function() {

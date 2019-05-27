@@ -11,11 +11,12 @@ import com.chao.cloud.admin.system.shiro.ShiroUserOnline;
 
 @Service
 public interface SessionService {
-    List<ShiroUserOnline> list();
+	
+	List<ShiroUserOnline> list();
 
-    List<UserDTO> listOnlineUser();
+	List<UserDTO> listOnlineUser();
 
-    Collection<Session> sessionList();
+	Collection<Session> sessionList();
 
-    boolean forceLogout(String sessionId);
+	boolean forceLogout(String sessionId);
 }

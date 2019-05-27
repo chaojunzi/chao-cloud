@@ -14,21 +14,21 @@ import com.chao.cloud.admin.system.domain.dto.UserDTO;
  */
 public class ShiroUtils {
 
-    public static Subject getSubjct() {
-        return SecurityUtils.getSubject();
-    }
+	public static Subject getSubjct() {
+		return SecurityUtils.getSubject();
+	}
 
-    public static UserDTO getUser() {
-        Object object = getSubjct().getPrincipal();
-        return (UserDTO) object;
-    }
+	public static UserDTO getUser() {
+		Object object = getSubjct().getPrincipal();
+		return (UserDTO) object;
+	}
 
-    public static Long getUserId() {
-        return getUser().getUserId();
-    }
+	public static Long getUserId() {
+		return getUser().getUserId();
+	}
 
-    public static void logout() {
-        getSubjct().logout();
-    }
+	public static void logout() {
+		getSubjct().logout();
+	}
 
 }
