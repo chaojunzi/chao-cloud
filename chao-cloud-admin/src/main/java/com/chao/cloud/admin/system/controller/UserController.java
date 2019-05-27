@@ -29,7 +29,6 @@ import com.chao.cloud.admin.system.service.RoleService;
 import com.chao.cloud.admin.system.service.UserService;
 import com.chao.cloud.admin.system.utils.Query;
 import com.chao.cloud.admin.system.utils.R;
-import com.chao.cloud.common.exception.BusinessException;
 
 import cn.hutool.core.util.ArrayUtil;
 import cn.hutool.crypto.digest.DigestUtil;
@@ -58,10 +57,11 @@ public class UserController extends BaseController {
 		Query query = new Query(params);
 		int count = userService.count(query);
 		if (count < 1) {
-			return R.page(Collections.EMPTY_LIST, count);
+			return R.page(Collections.emptyList(), count);
 		}
 		List<UserDTO> sysUserList = userService.list(query);
-		sysUserList = sysUserList.stream().filter(u -> u.getUserId() > 0).collect(Collectors.toList());
+		sysUserList = sysUserList.stream().filter(u -> !AdminConstant.ADMIN_ID.equals(u.getUserId()))
+				.collect(Collectors.toList());
 		return R.page(sysUserList, count);
 	}
 
@@ -127,7 +127,7 @@ public class UserController extends BaseController {
 	R remove(@NotNull Long id) {
 		boolean isAdmin = id.equals(AdminConstant.ADMIN_ID);
 		if (isAdmin) {
-			throw new BusinessException("admin 不可删除");
+			return R.error("admin 不可删除");
 		}
 		if (userService.remove(id) > 0) {
 			return R.ok();
@@ -142,7 +142,7 @@ public class UserController extends BaseController {
 	R batchRemove(@RequestParam("ids[]") @Size(min = 1) Long[] userIds) {
 		boolean hasAdmin = ArrayUtil.contains(userIds, AdminConstant.ADMIN_ID);
 		if (hasAdmin) {
-			throw new BusinessException("admin 不可删除");
+			return R.error("admin 不可删除");
 		}
 		int r = userService.batchremove(userIds);
 		if (r > 0) {

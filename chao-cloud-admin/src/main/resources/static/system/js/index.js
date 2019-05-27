@@ -10,19 +10,19 @@ layui.use([ 'bodyTab', 'form', 'element', 'layer', 'jquery' ], function() {
 	layer = parent.layer === undefined ? layui.layer : top.layer;
 	tab = layui.bodyTab({
 		openTabNum : "50", // 最大可打开窗口数量
-		url : "/sys/menu/userList" // 获取菜单json地址
+		url : "/sys/menu/leftList" // 获取左侧菜单json地址
 	});
 
 	// 通过顶部菜单获取左侧二三级菜单 注：此处只做演示之用，实际开发中通过接口传参的方式获取导航数据
 	function getData(json) {
 		var menus = window.sessionStorage.getItem("auth_menus");
 		if (menus == null) {
-			$.ajaxSettings.async = false;//同步执行
+			$.ajaxSettings.async = false;// 同步执行
 			$.getJSON(tab.tabConfig.url, function(data) {
 				window.sessionStorage.setItem("auth_menus", JSON.stringify(data))
 				menus = data;
 			});
-		}else{
+		} else {
 			console.log("menu 已缓存")
 		}
 		dataStr = menus;

@@ -28,6 +28,7 @@ public class ShiroUserRealm extends AuthorizingRealm {
 	private UserMapper userMapper;
 	@Autowired
 	private MenuService menuService;
+
 	/**
 	 * 授权
 	 */
@@ -39,6 +40,7 @@ public class ShiroUserRealm extends AuthorizingRealm {
 		info.setStringPermissions(perms);
 		return info;
 	}
+
 	/**
 	 * 认证
 	 */
@@ -73,13 +75,15 @@ public class ShiroUserRealm extends AuthorizingRealm {
 	@Override
 	public boolean isPermitted(PrincipalCollection principals, String permission) {
 		// 如果是管理员拥有所有的访问权限
-		return AdminConstant.ADMIN.equals(ShiroUtils.getUser().getName()) || super.isPermitted(principals, permission);
+		return AdminConstant.ADMIN.equals(ShiroUtils.getUser().getUsername())
+				|| super.isPermitted(principals, permission);
 	}
 
 	@Override
 	public boolean hasRole(PrincipalCollection principal, String roleIdentifier) {
 		// 如果是管理员拥有所有的角色权限
-		return AdminConstant.ADMIN.equals(ShiroUtils.getUser().getName()) || super.hasRole(principal, roleIdentifier);
+		return AdminConstant.ADMIN.equals(ShiroUtils.getUser().getUsername())
+				|| super.hasRole(principal, roleIdentifier);
 	}
 
 }

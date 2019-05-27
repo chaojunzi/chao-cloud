@@ -137,7 +137,7 @@ public class MenuServiceImpl implements MenuService {
 	@Override
 	public List<MenuLayuiDTO> listMenuLayuiTree(Long userId) {
 		List<MenuLayuiDTO> trees = new ArrayList<>();
-		List<MenuDTO> list = AdminConstant.ADMIN.equals(ShiroUtils.getUser().getName()) ? menuMapper.allMenu()
+		List<MenuDTO> list = AdminConstant.ADMIN.equals(ShiroUtils.getUser().getUsername()) ? menuMapper.allMenu()
 				: menuMapper.listMenuByUserId(userId);
 		// 获取根节点
 		if (!CollUtil.isEmpty(list)) {
