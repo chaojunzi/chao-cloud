@@ -5,7 +5,6 @@
 [mybatis-plus](https://github.com/baomidou/mybatis-plus)  
 [layui](https://github.com/sentsin/layui/)  
 [echarts](https://github.com/apache/incubator-echarts)  
-......
 
 # chao-cloud-admin  ---> 效果图展示
 ![Image text](https://github.com/chaojunzi/chao-cloud/blob/master/screenshot/admin/world.png)
