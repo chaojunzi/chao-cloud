@@ -1,5 +1,11 @@
 # chao-cloud
 以 spring-boot 为基础，开源的web-ssh ，视频流推送，权限管理，rpc ，配置，注册中心等
+开源项目依赖：
+[hutool-超级工具类](https://github.com/looly/hutool)
+[mybatis-plus](https://github.com/baomidou/mybatis-plus)
+[layui](https://github.com/sentsin/layui/)
+[echarts](https://github.com/apache/incubator-echarts)
+......
 
 # chao-cloud-admin  ---> 效果图展示
 ![Image text](https://github.com/chaojunzi/chao-cloud/blob/master/screenshot/admin/world.png)
