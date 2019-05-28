@@ -21,7 +21,7 @@ import cn.binarywang.wx.miniapp.config.WxMaInMemoryConfig;
 @Configuration
 public class WxMaSingletonConfig {
 
-	private static final String WX_MA_PREFIX = "wx.ma.config";
+	private static final String WX_MA_PREFIX = "chao.wx.ma.config";
 
 	@Bean
 	public WxMaService wxMaService(WxMaInMemoryConfig config) {

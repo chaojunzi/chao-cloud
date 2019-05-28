@@ -12,6 +12,7 @@ import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurationSupport;
 
+import com.chao.cloud.common.annotation.ArgumentAnnotation;
 import com.chao.cloud.common.convert.JsonHttpMessageConverter;
 import com.chao.cloud.common.core.ApplicationOperation;
 
