@@ -11,7 +11,7 @@ import com.chao.cloud.admin.core.dal.entity.StatRequestTimeEntity;
 import com.chao.cloud.admin.core.dal.mapper.XcStatLogMapper;
 import com.chao.cloud.admin.core.domain.dto.StatRequestTimeDTO;
 import com.chao.cloud.admin.core.service.EchartsService;
-import com.chao.cloud.admin.system.annotation.AdminLog;
+import com.chao.cloud.admin.sys.log.AdminLog;
 
 @Service
 public class EchartsServiceImpl implements EchartsService {

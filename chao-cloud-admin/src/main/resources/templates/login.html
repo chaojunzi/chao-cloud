@@ -2,31 +2,30 @@
 <html class="loginHtml">
 <title>登录</title>
 <head th:include="include::header"></head>
-<link rel="stylesheet" href="/system/css/public.css" media="all" />
+<link rel="stylesheet" href="/sys/css/public.css" media="all" />
 <body class="loginBody">
 	<form class="layui-form">
 		<div class="login_face">
-			<img src="/system/images/face.jpg" class="userAvatar">
+			<img src="/sys/images/face.jpg" class="userAvatar">
 		</div>
 		<div class="layui-form-item input-item">
-			<label for="userName">用户名</label> <input placeholder="请输入用户名"
-				autocomplete="off" name="username" value="admin" class="layui-input"
+			<label for="userName">用户名</label>
+			<input placeholder="请输入用户名" autocomplete="off" name="username" value="admin" class="layui-input"
 				lay-verify="required">
 		</div>
 		<div class="layui-form-item input-item">
-			<label for="password">密码</label> <input type="password"
-				placeholder="请输入密码" autocomplete="off" name="password"
-				value="123456" class="layui-input" lay-verify="required">
+			<label for="password">密码</label>
+			<input type="password" placeholder="请输入密码" autocomplete="off" name="password" value="123456"
+				class="layui-input" lay-verify="required">
 		</div>
 		<div class="layui-form-item input-item" id="imgCode">
-			<label for="code">验证码</label> <input placeholder="请输入验证码"
-				name="verify" autocomplete="off" class="layui-input"
-				lay-verify="required"> <img id="verify" src="/getVerify"
-				height="36">
+			<label for="code">验证码</label>
+			<input placeholder="请输入验证码" name="verify" autocomplete="off" class="layui-input"
+				lay-verify="required">
+			<img id="verify" src="/getVerify" height="36">
 		</div>
 		<div class="layui-form-item">
-			<button id="bt-login" class="layui-btn layui-block"
-				lay-filter="login" lay-submit>登录</button>
+			<button id="bt-login" class="layui-btn layui-block" lay-filter="login" lay-submit>登录</button>
 		</div>
 		<div class="layui-form-item layui-row">
 			<a href="javascript:;"
@@ -38,7 +37,7 @@
 		</div>
 	</form>
 	<div th:include="include::footer"></div>
-	<script type="text/javascript" src="/system/js/login.js"></script>
-	<script type="text/javascript" src="/system/js/cache.js"></script>
+	<script type="text/javascript" src="/sys/js/login.js"></script>
+	<script type="text/javascript" src="/sys/js/cache.js"></script>
 </body>
 </html>

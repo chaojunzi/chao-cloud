@@ -146,12 +146,12 @@
 						data : {
 							${pk.propertyName} : id
 						},
-						success : function(data) {
-							if (data.retCode == '0000') {
+						success : function(r) {
+							if (r.retCode == '0000') {
 								layer.msg("删除成功");
 								renderTable();
 							} else {
-								layer.msg(data.retMsg);
+								layer.msg(r.retMsg);
 							}
 						}
 					});
@@ -174,7 +174,7 @@
 						},
 						url : '/${controllerMappingPrefix}/batchRemove',
 						success : function(r) {
-							if (data.retCode == '0000') {
+							if (r.retCode == '0000') {
 								layer.msg("删除成功");
 								renderTable();
 							} else {

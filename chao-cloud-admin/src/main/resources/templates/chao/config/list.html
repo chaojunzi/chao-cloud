@@ -43,43 +43,38 @@
 					toolbar : '#toolbarChaoConfig',
 					page : true,
 					id : 'chaoConfigReload',
-					parseData:chaoLayuiTable.parseData,
-					request:chaoLayuiTable.request,
-					response:chaoLayuiTable.response,
+					parseData : chaoLayuiTable.parseData,
+					request : chaoLayuiTable.request,
+					response : chaoLayuiTable.response,
 					//limit : 1,
 					cols : [ [ {
 						type : 'checkbox',
 						fixed : 'left'
-					}, 
-					{
+					}, {
 						fixed : 'left',
 						unresize : true,
 						sort : true,
 						width : 80,
 						align : 'center',
-					    field : 'id',
+						field : 'id',
 						title : 'ID',
-					 
-					}, 
- 					{
+
+					}, {
 						align : 'center',
-					    field : 'name',
+						field : 'name',
 						title : '名称',
-					 
-					}, 
- 					{
+
+					}, {
 						align : 'center',
-					    field : 'val',
+						field : 'val',
 						title : '值',
-					 
-					}, 
-  					{
+
+					}, {
 						align : 'center',
-					    field : 'createTime',
+						field : 'createTime',
 						title : '创建时间',
-					 
-					}, 
- 					{
+
+					}, {
 						title : '操作',
 						toolbar : '#chao_config-state',
 						align : 'center'
@@ -101,8 +96,8 @@
 						//重新从第 1 页开始
 						},
 						where : {
-							 	name : $('[name=name]').val(),
-							 	val : $('[name=val]').val()
+							name : $('[name=name]').val(),
+							val : $('[name=val]').val()
 
 						}
 					});
@@ -154,12 +149,12 @@
 						data : {
 							id : id
 						},
-						success : function(data) {
-							if (data.retCode == '0000') {
+						success : function(r) {
+							if (r.retCode == '0000') {
 								layer.msg("删除成功");
 								renderTable();
 							} else {
-								layer.msg(data.retMsg);
+								layer.msg(r.retMsg);
 							}
 						}
 					});
@@ -182,7 +177,7 @@
 						},
 						url : '/chao/config/batchRemove',
 						success : function(r) {
-							if (data.retCode == '0000') {
+							if (r.retCode == '0000') {
 								layer.msg("删除成功");
 								renderTable();
 							} else {

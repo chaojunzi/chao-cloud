@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html>
+<meta charset="utf-8">
+<head th:include="include :: header"></head>
+<body>
+	<form class="layui-form" action="" lay-filter="menu-edit-form" style="margin-top: 20px;">
+		<div class="layui-form-item">
+			<label class="layui-form-label">上级菜单：</label>
+			<div class="layui-input-block">
+				<input id="parentId" name="parentId" type="hidden" th:value="${pId}" />
+				<input id="menuId" name="menuId" type="hidden" th:value="${menu.menuId}" />
+				<input name="" lay-verify="required" autocomplete="off" class="layui-input" th:value="${pName}"
+					readonly="readonly">
+			</div>
+		</div>
+		<div class="layui-form-item">
+			<label class="layui-form-label">菜单类型：</label>
+			<div class="layui-input-block">
+				<input type="radio" th:field="*{menu.type}" name="type" value="0" title="目录" checked>
+				<input type="radio" th:field="*{menu.type}" name="type" value="1" title="菜单">
+				<input type="radio" th:field="*{menu.type}" name="type" value="2" title="按钮">
+			</div>
+		</div>
+		<div class="layui-form-item">
+			<label class="layui-form-label">菜单名称：</label>
+			<div class="layui-input-block">
+				<input name="name" placeholder="请输入菜单名称" autocomplete="off" class="layui-input"
+					th:value="${menu.name}" lay-verify="required">
+			</div>
+		</div>
+		<div class="layui-form-item">
+			<div class="layui-inline">
+				<label class="layui-form-label">菜单图标：</label>
+				<div class="layui-input-inline">
+					<input name="icon" lay-verify="required" readonly="readonly" th:value="${menu.icon}"
+						class="layui-input layui-elip">
+				</div>
+			</div>
+			<div class="layui-inline">
+				<div class="layui-input-inline">
+					<input id="iconPicker" lay-filter="iconPicker" style="display: none;" th:value="${menu.icon}">
+				</div>
+			</div>
+		</div>
+		<div class="layui-form-item">
+			<label class="layui-form-label">链接地址：</label>
+			<div class="layui-input-block">
+				<input name="url" placeholder="请输入链接地址" autocomplete="off" class="layui-input"
+					th:value="${menu.url}" lay-verify="">
+			</div>
+		</div>
+		<div class="layui-form-item">
+			<label class="layui-form-label">权限标识：</label>
+			<div class="layui-input-block">
+				<input name="perms" placeholder="请输入权限标识" autocomplete="off" th:value="${menu.perms}"
+					class="layui-input">
+			</div>
+		</div>
+		<div class="layui-form-item">
+			<label class="layui-form-label">排序号：</label>
+			<div class="layui-input-block">
+				<input name="orderNum" placeholder="请输入排序号" autocomplete="off" class="layui-input"
+					lay-verify="number" th:value="${menu.orderNum}">
+			</div>
+		</div>
+		<div class="layui-form-item">
+			<div class="layui-input-block">
+				<button class="layui-btn" lay-submit="" lay-filter="menu-edit">立即提交</button>
+			</div>
+		</div>
+	</form>
+	<div th:include="include::footer"></div>
+	<!-- 注意：如果你直接复制所有代码到本地，上述js路径需要改成你本地的 -->
+	<script>
+		layui.config({
+			base : "/sys/js/"
+		}).extend({
+			iconPicker : "iconPicker"
+		})
+		layui.use([ 'iconPicker', 'form', 'layedit', 'laydate' ], function() {
+			var iconPicker = layui.iconPicker, form = layui.form, layer = layui.layer, layedit = layui.layedit, laydate = layui.laydate;
+			var $ = layui.jquery;
+			//渲染icon
+			iconPicker.render({
+				// 选择器，推荐使用input
+				elem : '#iconPicker',
+				// 数据类型：fontClass/unicode，推荐使用fontClass
+				type : 'fontClass',
+				// 是否开启搜索：true/false，默认true
+				search : true,
+				// 是否开启分页：true/false，默认true
+				page : true,
+				// 每页显示数量，默认12
+				limit : 12,
+				// 点击回调
+				click : function(data) {
+					$("[name=icon]").val("layui-icon " + data.icon);
+				},
+				// 渲染成功后的回调
+				success : function(d) {
+					//console.log(d);
+				}
+			});
+
+			//监听提交
+			form.on('submit(menu-edit)', function(data) {
+				//提交数据data.field
+				$.ajax({
+					cache : true,
+					type : "POST",
+					url : "/sys/menu/update",
+					data : data.field,
+					async : false,
+					error : function(request) {
+						laryer.alert("Connection error");
+					},
+					success : function(r) {
+						if (r.retCode == '0000') {
+							parent.layer.msg("保存成功");
+							parent.location.reload(); // 父页面刷新
+							var index = parent.layer.getFrameIndex(window.name); // 获取窗口索引
+							parent.layer.close(index);
+						} else {
+							layer.alert(data.msg)
+						}
+					}
+				});
+				return false;
+			});
+		});
+	</script>
+</body>
+</html>

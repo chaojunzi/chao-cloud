@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.chao.cloud.admin.core.domain.dto.StatRequestTimeDTO;
 import com.chao.cloud.admin.core.service.EchartsService;
-import com.chao.cloud.admin.system.annotation.AdminLog;
+import com.chao.cloud.admin.sys.log.AdminLog;
 import com.chao.cloud.common.entity.Response;
 import com.chao.cloud.common.entity.ResponseResult;
 
@@ -22,7 +22,7 @@ import com.chao.cloud.common.entity.ResponseResult;
 @RequestMapping("/echarts")
 public class EchartsController {
 
-	@Autowired
+	@Autowired 
 	private EchartsService echartsService;
 
 	/**

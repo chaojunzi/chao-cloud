@@ -22,10 +22,8 @@ import com.chao.cloud.common.config.valid.EnableValidator;
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
 @Import({ //
-        AopConfig.class, // controller 拦截和vo转换
-        ExceptionController.class, // 全局异常处理
-        MyControllerAdvice.class, // 全局控制层异常处理
-        WebParameterConfig.class,// web资源-参数处理
+		AopConfig.class, // controller 拦截和vo转换
+		WebParameterConfig.class,// web资源-参数处理
 })
 @EnableRequired // 通用配置
 @EnableValidator // 参数校验
