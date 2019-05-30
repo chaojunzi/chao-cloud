@@ -19,7 +19,12 @@ import lombok.Data;
 @Data
 public class TableCommentParse {
 	/**
-	 *  目前只解析模糊搜索
+	 * 表标题
+	 */
+	private String title;
+
+	/**
+	 * 模糊搜索
 	 */
 	private String like;
 

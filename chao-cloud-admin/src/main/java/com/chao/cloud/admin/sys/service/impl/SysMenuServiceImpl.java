@@ -5,8 +5,11 @@ import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import javax.validation.constraints.NotNull;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
@@ -21,7 +24,10 @@ import com.chao.cloud.admin.sys.dal.mapper.SysUserRoleMapper;
 import com.chao.cloud.admin.sys.domain.dto.MenuLayuiDTO;
 import com.chao.cloud.admin.sys.service.SysMenuService;
 import com.chao.cloud.admin.sys.shiro.ShiroUtils;
+import com.chao.cloud.common.exception.BusinessException;
+import com.chao.cloud.common.extra.mybatis.generator.menu.MenuAdmin;
 
+import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.util.StrUtil;
 
@@ -44,8 +50,14 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> impl
 		LambdaQueryWrapper<SysMenu> queryWrapper = Wrappers.<SysMenu>lambdaQuery().select(SysMenu::getPerms);
 		List<SysMenu> menus = listUserMenu(userId, queryWrapper);
 		if (CollUtil.isNotEmpty(menus)) {
-			return menus.stream().filter(m -> StrUtil.isNotBlank(m.getPerms())).map(SysMenu::getPerms)
-					.collect(Collectors.toSet());
+			Set<String> result = CollUtil.newHashSet();
+			for (SysMenu m : menus) {
+				String perms = m.getPerms();
+				if (StrUtil.isNotBlank(perms)) {
+					result.addAll(CollUtil.newHashSet(perms.split(",")));
+				}
+			}
+			return result;
 		}
 		return null;
 	}
@@ -114,4 +126,70 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> impl
 			root.setChildren(trees);
 		}
 	}
+
+	/**
+	 * 批量添加
+	 */
+	@Transactional
+	@Override
+	public boolean adminSaveBatch(MenuAdmin root, List<MenuAdmin> menus) {
+		// 添加root
+		root.setMenuId(null);// id 置空
+		SysMenu menu = BeanUtil.toBean(root, SysMenu.class);
+		int i = baseMapper.insert(menu);
+		if (i < 1) {
+			throw new BusinessException("添加菜单失败：" + root.getName());
+		}
+		// 批量添加
+		if (CollUtil.isNotEmpty(menus)) {
+			List<SysMenu> list = menus.stream().map(m -> {
+				SysMenu target = BeanUtil.toBean(m, SysMenu.class);
+				target.setMenuId(null);
+				target.setParentId(menu.getMenuId());
+				return target;
+			}).collect(Collectors.toList());
+			this.saveBatch(list, list.size());
+		}
+		return i > 0;
+	}
+
+	/**
+	 * 递归删除
+	 */
+	@Transactional
+	@Override
+	public boolean recursionRemove(@NotNull Long menuId) {
+		// 查询全部菜单
+		List<SysMenu> data = this.list();
+		// 获取根目录菜单
+		SysMenu rootMenu = data.stream().filter(d -> menuId.equals(d.getMenuId())).findFirst().orElse(null);
+		if (BeanUtil.isEmpty(rootMenu)) {
+			throw new BusinessException("此菜单已被删除");
+		}
+		// 递归获取此id下的所有菜单id
+		List<Long> menuIds = new ArrayList<>();
+		this.recursionMenu(data, rootMenu, menuIds);
+		// 删除所有菜单id
+		int del = this.baseMapper.deleteBatchIds(menuIds);
+		// 删除所有权限->menuId
+		sysRoleMenuMapper.delete(Wrappers.<SysRoleMenu>lambdaQuery().in(SysRoleMenu::getMenuId, menuIds));
+		return del > 0;
+	}
+
+	/**
+	 * 
+	 * @param data 数据源
+	 * @param root 根菜单
+	 * @param result 返回值
+	 */
+	private void recursionMenu(List<SysMenu> data, SysMenu root, List<Long> result) {
+		// 获取根菜单下所有菜单
+		List<SysMenu> childMenus = data.stream().filter(d -> root.getMenuId().equals(d.getParentId()))
+				.collect(Collectors.toList());
+		if (CollUtil.isNotEmpty(childMenus)) {
+			childMenus.forEach(m -> recursionMenu(data, m, result));
+		}
+		result.add(root.getMenuId());
+	}
+
 }

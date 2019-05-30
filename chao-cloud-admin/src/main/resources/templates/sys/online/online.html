@@ -16,7 +16,7 @@
 	<!-- 操作列 -->
 	<script type="text/html" id="online-state">
      <div class="layui-btn-group">
-        <button class="layui-btn layui-btn-sm" lay-event="del"><i class="layui-icon layui-icon-delete"></i></button>
+        <button shiro:hasPermission="sys:online:forceLogout"  class="layui-btn layui-btn-sm" lay-event="del"><i class="layui-icon layui-icon-delete"></i></button>
     </div>
     </script>
 	<div th:include="include::footer"></div>
@@ -81,7 +81,8 @@
 				});
 
 			};
-			renderTable();
+			
+		renderTable();
 			// 搜索 
 			var active = {
 				reload : function() {
@@ -110,11 +111,14 @@
 				console.log(data)
 				var layEvent = obj.event;
 				if (layEvent === 'del') {//删除
-					remove(data.id);
+					remove(data.id, data.username);
 				}
 			});
 
-			function remove(id) {
+			var username = '[[${username}]]';
+			console.log(username);
+
+			function remove(id, user) {
 				layer.confirm('确定要强制选中用户下线吗？', {
 					btn : [ '确定', '取消' ]
 				}, function() {
@@ -127,7 +131,12 @@
 						success : function(r) {
 							if (r.retCode == '0000') {
 								//前往登录页面
-								top.window.location.href = "/login";
+								if (username == user) {
+									top.window.location.href = "/login";
+								} else {
+									layer.msg(r.retMsg);
+									renderTable();
+								}
 							} else {
 								layer.msg(r.retMsg);
 							}

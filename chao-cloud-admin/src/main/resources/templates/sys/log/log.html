@@ -18,13 +18,13 @@
 	</div>
 	<!-- 工具栏 -->
 	<script type="text/html" id="toolbarUser">
-        <div class="layui-btn-container">
+        <div class="layui-btn-container" shiro:hasPermission="sys:log:batchRemove" >
             <button class="layui-btn layui-btn-sm layui-btn-danger" lay-event="batchRemove"><i class="layui-icon layui-icon-delete"></i>删除</button>
         </div>
     </script>
 	<!-- 操作列 -->
 	<script type="text/html" id="log-state">
-     <div class="layui-btn-group">
+     <div class="layui-btn-group" shiro:hasPermission="sys:log:remove" >
         <button class="layui-btn layui-btn-sm" lay-event="del"><i class="layui-icon layui-icon-delete"></i></button>
     </div>
     </script>

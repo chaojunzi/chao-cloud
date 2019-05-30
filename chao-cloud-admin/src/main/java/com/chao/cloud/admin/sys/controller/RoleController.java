@@ -8,9 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -24,39 +22,44 @@ import com.chao.cloud.admin.sys.service.SysRoleService;
 import com.chao.cloud.common.entity.Response;
 import com.chao.cloud.common.entity.ResponseResult;
 import com.chao.cloud.common.exception.BusinessException;
+import com.chao.cloud.common.extra.mybatis.generator.menu.MenuEnum;
+import com.chao.cloud.common.extra.mybatis.generator.menu.MenuMapping;
 
 @RequestMapping("/sys/role")
 @Controller
 @Validated
+@MenuMapping
 public class RoleController extends BaseController {
 	String prefix = "sys/role";
 	@Autowired
 	private SysRoleService sysRoleService;
 
-	@RequiresPermissions("sys:role:role")
-	@GetMapping
+	@MenuMapping(value = "角色管理", type = MenuEnum.MENU)
+	@RequiresPermissions("sys:role:list")
+	@RequestMapping
 	String role() {
 		return prefix + "/role";
 	}
 
 	@AdminLog(AdminLog.STAT_PREFIX + "权限列表")
-	@RequiresPermissions("sys:role:role")
-	@GetMapping("/list")
+	@MenuMapping("列表")
+	@RequiresPermissions("sys:role:list")
+	@RequestMapping("/list")
 	@ResponseBody
 	Response<IPage<SysRole>> list(Page<SysRole> page) {
 		return ResponseResult.getResponseResult(sysRoleService.page(page));
 	}
 
-	@AdminLog("添加角色")
+	@MenuMapping("增加")
 	@RequiresPermissions("sys:role:add")
-	@GetMapping("/add")
+	@RequestMapping("/add")
 	String add() {
 		return prefix + "/add";
 	}
 
-	@AdminLog("编辑角色")
+	@MenuMapping("编辑")
 	@RequiresPermissions("sys:role:edit")
-	@GetMapping("/edit/{id}")
+	@RequestMapping("/edit/{id}")
 	String edit(@PathVariable("id") Long id, Model model) {
 		RoleDTO roleDO = sysRoleService.get(id);
 		model.addAttribute("role", roleDO);
@@ -65,7 +68,7 @@ public class RoleController extends BaseController {
 
 	@AdminLog("保存角色")
 	@RequiresPermissions("sys:role:add")
-	@PostMapping("/save")
+	@RequestMapping("/save")
 	@ResponseBody
 	Response<String> save(RoleDTO role) {
 		if (sysRoleService.save(role)) {
@@ -76,7 +79,7 @@ public class RoleController extends BaseController {
 
 	@AdminLog("更新角色")
 	@RequiresPermissions("sys:role:edit")
-	@PostMapping("/update")
+	@RequestMapping("/update")
 	@ResponseBody
 	Response<String> update(RoleDTO role) {
 		if (sysRoleService.update(role)) {
@@ -86,8 +89,9 @@ public class RoleController extends BaseController {
 	}
 
 	@AdminLog("删除角色")
+	@MenuMapping("删除")
 	@RequiresPermissions("sys:role:remove")
-	@PostMapping("/remove")
+	@RequestMapping("/remove")
 	@ResponseBody
 	Response<String> save(@NotNull Long id) {
 		if (sysRoleService.remove(id)) {
@@ -97,9 +101,10 @@ public class RoleController extends BaseController {
 
 	}
 
-	@RequiresPermissions("sys:role:batchRemove")
 	@AdminLog("批量删除角色")
-	@PostMapping("/batchRemove")
+	@MenuMapping("批量删除")
+	@RequiresPermissions("sys:role:batchRemove")
+	@RequestMapping("/batchRemove")
 	@ResponseBody
 	Response<String> batchRemove(@Size(min = 1) @RequestParam("ids[]") Long[] ids) {
 		if (sysRoleService.batchRemove(ids)) {

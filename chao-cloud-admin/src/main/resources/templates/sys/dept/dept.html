@@ -9,7 +9,7 @@
 	<!-- 工具栏 -->
 	<script type="text/html" id="toolbarDept">
         <div class="layui-btn-container">
-			<button class="layui-btn layui-btn-sm" lay-event="save"><i class="layui-icon layui-icon-add-circle" ></i>添加</button>
+			<button shiro:hasPermission="sys:dept:add" class="layui-btn layui-btn-sm" lay-event="save"><i class="layui-icon layui-icon-add-circle" ></i>添加</button>
 			<button class="layui-btn layui-btn-sm" lay-event="expand"><i class="layui-icon layui-icon-add-1" ></i>全部展开</button>
 			<button class="layui-btn layui-btn-sm" lay-event="fold">-- 全部折叠</button>
 			<button class="layui-btn layui-btn-sm" lay-event="refresh"><i class="layui-icon layui-icon-refresh" ></i>刷新表格</button>
@@ -18,9 +18,9 @@
 	<!-- 操作列 -->
 	<script type="text/html" id="dept-state">
      <div class="layui-btn-group">
-        <button class="layui-btn layui-btn-sm" lay-event="save"><i class="layui-icon layui-icon-add-1"></i></button>
-        <button class="layui-btn layui-btn-sm" lay-event="edit"><i class="layui-icon layui-icon-edit"></i></button>
-        <button class="layui-btn layui-btn-sm" lay-event="del"><i class="layui-icon layui-icon-delete"></i></button>
+        <button shiro:hasPermission="sys:dept:add" class="layui-btn layui-btn-sm" lay-event="save"><i class="layui-icon layui-icon-add-1"></i></button>
+        <button shiro:hasPermission="sys:dept:edit" class="layui-btn layui-btn-sm" lay-event="edit"><i class="layui-icon layui-icon-edit"></i></button>
+        <button shiro:hasPermission="sys:dept:remove" class="layui-btn layui-btn-sm" lay-event="del"><i class="layui-icon layui-icon-delete"></i></button>
     </div>
     </script>
 	<div th:include="include::footer"></div>

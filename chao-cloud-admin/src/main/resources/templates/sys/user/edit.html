@@ -2,6 +2,7 @@
 <html>
 <meta charset="utf-8">
 <head th:include="include :: header"></head>
+<link rel="stylesheet" href="/sys/css/formSelects-v4.css" />
 <body>
 	<form class="layui-form" action="" lay-filter="user-update-form" style="margin-top: 20px;">
 		<input name="userId" th:value="${user.userId}" type="hidden">
@@ -34,10 +35,13 @@
 			</div>
 		</div>
 		<div class="layui-form-item">
-			<label class="layui-form-label">状态：</label>
+			<label class="layui-form-label">选择角色：</label>
 			<div class="layui-input-block">
-				<input th:field="*{user.status}" type="radio" name="status" value="1" title="正常" checked>
-				<input th:field="*{user.status}" type="radio" name="status" value="0" title="禁用">
+				<select name="roleIds" xm-select="roleIds">
+					<option value="">请选择角色</option>
+					<option th:each="role:${roles}" th:value="${role.roleId}" th:text="${role.roleName}"
+						th:selected="${role.roleSign}"></option>
+				</select>
 			</div>
 		</div>
 		<div class="layui-form-item">
@@ -58,10 +62,10 @@
 			</div>
 		</div>
 		<div class="layui-form-item">
-			<label class="layui-form-label">选择角色：</label>
-			<div class="layui-input-inline" th:each="role:${roles}">
-				<input type="checkbox" name="roleIds[]" th:value="${role.roleId}" th:title="${role.roleName}"
-					th:checked="${role.roleSign}">
+			<label class="layui-form-label">状态：</label>
+			<div class="layui-input-block">
+				<input th:field="*{user.status}" type="radio" name="status" value="1" title="正常" checked>
+				<input th:field="*{user.status}" type="radio" name="status" value="0" title="禁用">
 			</div>
 		</div>
 		<div class="layui-form-item">
@@ -73,11 +77,18 @@
 	<div th:include="include::footer"></div>
 	<!-- 注意：如果你直接复制所有代码到本地，上述js路径需要改成你本地的 -->
 	<script>
-		layui.use([ 'layer', 'jquery', 'form' ], function() {
+		layui.config({
+			base : '/sys/js/' //此处路径请自行处理, 可以使用绝对路径
+		}).extend({
+			formSelects : 'formSelects-v4'
+		});
+		layui.use([ 'layer', 'jquery', 'form', 'formSelects' ], function() {
 			var $ = layui.jquery;
 			var layer = layui.layer;
 			var form = layui.form;
-
+			var formSelects = layui.formSelects;
+			//角色下拉框
+			formSelects.render('roleIds');
 			//选择 部门
 			$("#userGroup").click(function() {
 				layer.open({

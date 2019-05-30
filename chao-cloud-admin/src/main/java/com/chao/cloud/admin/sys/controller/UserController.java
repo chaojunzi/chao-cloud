@@ -4,17 +4,17 @@ import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 import org.apache.shiro.authz.annotation.RequiresPermissions;
+import org.apache.shiro.authz.annotation.RequiresUser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -34,6 +34,8 @@ import com.chao.cloud.admin.sys.service.SysUserService;
 import com.chao.cloud.common.entity.Response;
 import com.chao.cloud.common.entity.ResponseResult;
 import com.chao.cloud.common.exception.BusinessException;
+import com.chao.cloud.common.extra.mybatis.generator.menu.MenuEnum;
+import com.chao.cloud.common.extra.mybatis.generator.menu.MenuMapping;
 
 import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.util.ArrayUtil;
@@ -43,6 +45,7 @@ import cn.hutool.crypto.digest.DigestUtil;
 @RequestMapping("/sys/user")
 @Controller
 @Validated
+@MenuMapping
 public class UserController extends BaseController {
 	private String prefix = "sys/user";
 	@Autowired
@@ -50,14 +53,17 @@ public class UserController extends BaseController {
 	@Autowired
 	SysRoleService sysRoleService;
 
-	@RequiresPermissions("sys:user:user")
-	@GetMapping("")
-	String user(Model model) {
+	@RequiresPermissions("sys:user:list")
+	@MenuMapping(value = "用户管理", type = MenuEnum.MENU)
+	@RequestMapping
+	String list(Model model) {
 		return prefix + "/user";
 	}
 
-	@GetMapping("/list")
 	@AdminLog(AdminLog.STAT_PREFIX + "用户列表")
+	@MenuMapping("列表")
+	@RequiresPermissions("sys:user:list")
+	@RequestMapping("/list")
 	@ResponseBody
 	Response<IPage<SysUser>> list(Page<SysUser> page, String username) {
 		// 查询列表数据
@@ -74,9 +80,10 @@ public class UserController extends BaseController {
 		return ResponseResult.getResponseResult(result);
 	}
 
-	@RequiresPermissions("sys:user:add")
 	@AdminLog("添加用户")
-	@GetMapping("/add")
+	@MenuMapping("增加")
+	@RequiresPermissions("sys:user:add")
+	@RequestMapping("/add")
 	String add(Model model) {
 		List<RoleDTO> roles = sysRoleService.list(Collections.emptyList());
 		model.addAttribute("roles", roles);
@@ -85,7 +92,8 @@ public class UserController extends BaseController {
 
 	@RequiresPermissions("sys:user:edit")
 	@AdminLog("编辑用户")
-	@GetMapping("/edit/{id}")
+	@MenuMapping("编辑")
+	@RequestMapping("/edit/{id}")
 	String edit(Model model, @PathVariable("id") Long id) {
 		UserDTO user = sysUserService.get(id);
 		model.addAttribute("user", user);
@@ -94,18 +102,17 @@ public class UserController extends BaseController {
 		return prefix + "/edit";
 	}
 
-	@RequiresPermissions("sys:user:resetPwd")
-	@AdminLog("请求更改用户密码")
-	@GetMapping("/resetPwd/page")
-	String resetPwd() {
-		return prefix + "/reset_pwd";
-	}
-
 	@RequiresPermissions("sys:user:add")
 	@AdminLog("保存用户")
-	@PostMapping("/save")
+	@RequestMapping("/save")
 	@ResponseBody
-	Response<String> save(UserDTO user) {
+	Response<String> save(@Valid UserDTO user) {
+		// 判断用户是否已经注册
+		Integer userCount = sysUserService
+				.count(Wrappers.<SysUser>lambdaQuery().eq(SysUser::getUsername, user.getUsername()));
+		if (userCount > 0) {
+			throw new BusinessException("用户已经注册:" + user.getUsername());
+		}
 		String password = DigestUtil.md5Hex(user.getUsername() + user.getPassword());
 		user.setPassword(password);
 		if (sysUserService.save(user) > 0) {
@@ -116,7 +123,7 @@ public class UserController extends BaseController {
 
 	@RequiresPermissions("sys:user:edit")
 	@AdminLog("更新用户")
-	@PostMapping("/update")
+	@RequestMapping("/update")
 	@ResponseBody
 	Response<String> update(UserDTO user) {
 		if (sysUserService.update(user) > 0) {
@@ -125,9 +132,10 @@ public class UserController extends BaseController {
 		throw new BusinessException("更新失败");
 	}
 
-	@RequiresPermissions("sys:user:remove")
 	@AdminLog("删除用户")
-	@PostMapping("/remove")
+	@MenuMapping("删除")
+	@RequiresPermissions("sys:user:remove")
+	@RequestMapping("/remove")
 	@ResponseBody
 	Response<String> remove(@NotNull Long id) {
 		boolean isAdmin = id.equals(AdminConstant.ADMIN_ID);
@@ -140,9 +148,10 @@ public class UserController extends BaseController {
 		throw new BusinessException("删除失败");
 	}
 
-	@RequiresPermissions("sys:user:batchRemove")
 	@AdminLog("批量删除用户")
-	@PostMapping("/batchRemove")
+	@MenuMapping("批量删除")
+	@RequiresPermissions("sys:user:batchRemove")
+	@RequestMapping("/batchRemove")
 	@ResponseBody
 	Response<String> batchRemove(@RequestParam("ids[]") @Size(min = 1) Long[] userIds) {
 		boolean hasAdmin = ArrayUtil.contains(userIds, AdminConstant.ADMIN_ID);
@@ -156,8 +165,15 @@ public class UserController extends BaseController {
 		throw new BusinessException("删除失败");
 	}
 
+	@RequiresUser
+	@RequestMapping("/resetPwd/page")
+	String resetPwd() {
+		return prefix + "/reset_pwd";
+	}
+
 	@AdminLog("提交更改用户密码")
-	@PostMapping("/resetPwd")
+	@RequiresUser
+	@RequestMapping("/resetPwd")
 	@ResponseBody
 	Response<String> resetPwd(UserVO userVO) {
 		sysUserService.resetPwd(userVO, getUser());

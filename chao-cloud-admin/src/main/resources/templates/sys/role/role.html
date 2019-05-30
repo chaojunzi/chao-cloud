@@ -9,15 +9,15 @@
 	<!-- 工具栏 -->
 	<script type="text/html" id="toolbarRole">
         <div class="layui-btn-container">
-			<button class="layui-btn layui-btn-sm" lay-event="add"><i class="layui-icon layui-icon-add-circle" ></i>添加</button>
-            <button class="layui-btn layui-btn-sm layui-btn-danger" lay-event="batchRemove"><i class="layui-icon layui-icon-delete"></i>删除</button>
+			<button shiro:hasPermission="sys:role:add" class="layui-btn layui-btn-sm" lay-event="add"><i class="layui-icon layui-icon-add-circle" ></i>添加</button>
+            <button shiro:hasPermission="sys:role:batchRemove" class="layui-btn layui-btn-sm layui-btn-danger" lay-event="batchRemove"><i class="layui-icon layui-icon-delete"></i>删除</button>
         </div>
     </script>
 	<!-- 操作列 -->
 	<script type="text/html" id="role-state">
      <div class="layui-btn-group">
-        <button class="layui-btn layui-btn-sm" lay-event="edit"><i class="layui-icon layui-icon-edit"></i>编辑</button>
-        <button class="layui-btn layui-btn-sm layui-btn-danger" lay-event="del"><i class="layui-icon layui-icon-delete"></i>删除</button>
+        <button shiro:hasPermission="sys:role:edit" class="layui-btn layui-btn-sm" lay-event="edit"><i class="layui-icon layui-icon-edit"></i>编辑</button>
+        <button shiro:hasPermission="sys:role:remove" class="layui-btn layui-btn-sm layui-btn-danger" lay-event="del"><i class="layui-icon layui-icon-delete"></i>删除</button>
     </div>
     </script>
 	<div th:include="include::footer"></div>
@@ -135,7 +135,7 @@
 						url : '/sys/role/batchRemove',
 						success : function(r) {
 							if (r.retCode == '0000') {
-								layer.msg(r.msg);
+								layer.msg(r.retMsg);
 								renderTable();
 							} else {
 								layer.msg(r.retMsg);

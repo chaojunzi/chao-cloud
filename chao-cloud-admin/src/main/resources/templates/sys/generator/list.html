@@ -16,13 +16,13 @@
 	<!-- 工具栏 -->
 	<script type="text/html" id="toolbarUser">
         <div class="layui-btn-container">
-            <button class="layui-btn layui-btn-sm" lay-event="batchCode"><i class="layui-icon layui-icon-code-circle" ></i>批量生成</button>
-            <button class="layui-btn layui-btn-sm layui-btn-normal" lay-event="policy"><i class="layui-icon layui-icon-link"></i>生成策略</button>
+            <button shiro:hasPermission="sys:generator:batchCode" class="layui-btn layui-btn-sm" lay-event="batchCode"><i class="layui-icon layui-icon-code-circle" ></i>批量生成</button>
+            <button shiro:hasPermission="sys:generator:edit" class="layui-btn layui-btn-sm layui-btn-normal" lay-event="policy"><i class="layui-icon layui-icon-link"></i>生成策略</button>
         </div>
     </script>
 	<!-- 操作列 -->
 	<script type="text/html" id="generator-state">
-     <div class="layui-btn-group">
+     <div class="layui-btn-group" shiro:hasPermission="sys:generator:code">
         <button class="layui-btn layui-btn-sm" lay-event="code"><i class="layui-icon layui-icon-fonts-code"></i>生成</button>
     </div>
     </script>

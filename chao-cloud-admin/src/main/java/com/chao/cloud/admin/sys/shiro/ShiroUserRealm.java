@@ -1,5 +1,6 @@
 package com.chao.cloud.admin.sys.shiro;
 
+import java.util.List;
 import java.util.Set;
 
 import org.apache.shiro.authc.AuthenticationException;
@@ -21,12 +22,15 @@ import com.chao.cloud.admin.sys.constant.AdminConstant;
 import com.chao.cloud.admin.sys.dal.entity.SysUser;
 import com.chao.cloud.admin.sys.dal.mapper.SysUserMapper;
 import com.chao.cloud.admin.sys.domain.dto.UserDTO;
+import com.chao.cloud.admin.sys.service.SessionService;
 import com.chao.cloud.admin.sys.service.SysMenuService;
 
 import cn.hutool.core.bean.BeanUtil;
 
 public class ShiroUserRealm extends AuthorizingRealm {
 
+	@Autowired
+	private SessionService sessionService;
 	@Autowired
 	private SysUserMapper sysUserMapper;
 	@Autowired
@@ -69,6 +73,10 @@ public class ShiroUserRealm extends AuthorizingRealm {
 		if (user.getStatus() == 0) {
 			throw new LockedAccountException("账号已被锁定,请联系管理员");
 		}
+		// 踢人
+		List<UserDTO> sessions = sessionService.listOnlineUser();
+		sessions.stream().filter(s -> s.getUsername().equals(username)).forEach(s -> s.getSession().setTimeout(0));
+		// 登录成功
 		SimpleAuthenticationInfo info = new SimpleAuthenticationInfo(BeanUtil.toBean(user, UserDTO.class), password,
 				getName());
 		return info;

@@ -5,11 +5,10 @@ import java.util.ArrayList;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -22,6 +21,8 @@ import com.chao.cloud.admin.sys.dal.entity.SysLog;
 import com.chao.cloud.admin.sys.service.SysLogService;
 import com.chao.cloud.common.entity.Response;
 import com.chao.cloud.common.entity.ResponseResult;
+import com.chao.cloud.common.extra.mybatis.generator.menu.MenuEnum;
+import com.chao.cloud.common.extra.mybatis.generator.menu.MenuMapping;
 
 import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.util.StrUtil;
@@ -29,6 +30,7 @@ import cn.hutool.core.util.StrUtil;
 @RequestMapping("/sys/log")
 @Controller
 @Validated
+@MenuMapping
 public class LogController {
 
 	@Autowired
@@ -36,13 +38,17 @@ public class LogController {
 
 	String prefix = "sys/log";
 
-	@GetMapping()
+	@MenuMapping(value = "系统日志", type = MenuEnum.MENU)
+	@RequiresPermissions("sys:log:list")
+	@RequestMapping
 	String log() {
 		return prefix + "/log";
 	}
 
+	@MenuMapping("列表")
+	@RequiresPermissions("sys:log:list")
+	@RequestMapping("/list")
 	@ResponseBody
-	@GetMapping("/list")
 	Response<IPage<SysLog>> list(Page<SysLog> page, String username, String operation) {
 		LambdaQueryWrapper<SysLog> queryWrapper = Wrappers.<SysLog>lambdaQuery();
 		if (StrUtil.isNotBlank(username)) {
@@ -56,8 +62,10 @@ public class LogController {
 		return ResponseResult.getResponseResult(sysLogService.page(page, queryWrapper));
 	}
 
+	@MenuMapping("删除")
+	@RequiresPermissions("sys:log:remove")
+	@RequestMapping("/remove")
 	@ResponseBody
-	@PostMapping("/remove")
 	Response<String> remove(@NotNull Long id) {
 		if (sysLogService.removeById(id)) {
 			return ResponseResult.ok();
@@ -65,8 +73,10 @@ public class LogController {
 		return ResponseResult.error();
 	}
 
+	@MenuMapping("批量删除")
+	@RequiresPermissions("sys:log:batchRemove")
+	@RequestMapping("/batchRemove")
 	@ResponseBody
-	@PostMapping("/batchRemove")
 	Response<String> batchRemove(@Size(min = 1) @RequestParam("ids[]") Long[] ids) {
 		ArrayList<Long> idList = CollUtil.toList(ids);
 		if (sysLogService.removeByIds(idList)) {

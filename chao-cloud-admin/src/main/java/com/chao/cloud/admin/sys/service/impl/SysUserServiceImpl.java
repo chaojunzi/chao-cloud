@@ -53,8 +53,10 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
 	@Transactional
 	@Override
 	public int save(UserDTO user) {
-		int count = this.baseMapper.insert(BeanUtil.toBean(user, SysUser.class));
-		Long userId = user.getUserId();
+		// 添加
+		SysUser sysUser = BeanUtil.toBean(user, SysUser.class);
+		int count = this.baseMapper.insert(sysUser);
+		Long userId = sysUser.getUserId();
 		this.removeUserRoleByUserId(userId);
 		this.batchSaveUserRole(userId, user.getRoleIds());
 		return count;

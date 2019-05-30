@@ -1,5 +1,6 @@
 package com.chao.cloud.admin.sys.service.impl;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -43,6 +44,8 @@ public class SysRoleServiceImpl extends ServiceImpl<SysRoleMapper, SysRole> impl
 			List<SysRoleMenu> list = sysRoleMenuService.list(queryWrapper);
 			if (CollUtil.isNotEmpty(list)) {
 				role.setMenuIds(list.stream().map(SysRoleMenu::getMenuId).collect(Collectors.toList()));
+			} else {
+				role.setMenuIds(Collections.emptyList());
 			}
 		}
 		return role;
@@ -60,9 +63,10 @@ public class SysRoleServiceImpl extends ServiceImpl<SysRoleMapper, SysRole> impl
 	@Transactional
 	@Override
 	public boolean save(RoleDTO role) {
-		int count = this.baseMapper.insert(BeanUtil.toBean(role, SysRole.class));
+		SysRole sysRole = BeanUtil.toBean(role, SysRole.class);
+		int count = this.baseMapper.insert(sysRole);
 		List<Long> menuIds = role.getMenuIds();
-		Long roleId = role.getRoleId();
+		Long roleId = sysRole.getRoleId();
 		this.batchSaveRoleMenu(roleId, menuIds);
 		sysRoleMenuService.remove(Wrappers.<SysRoleMenu>lambdaQuery().eq(SysRoleMenu::getRoleId, roleId));
 		return count > 0;

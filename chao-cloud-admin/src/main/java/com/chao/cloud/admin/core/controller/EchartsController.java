@@ -1,5 +1,6 @@
 package com.chao.cloud.admin.core.controller;
 
+import org.apache.shiro.authz.annotation.RequiresUser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -10,6 +11,7 @@ import com.chao.cloud.admin.core.service.EchartsService;
 import com.chao.cloud.admin.sys.log.AdminLog;
 import com.chao.cloud.common.entity.Response;
 import com.chao.cloud.common.entity.ResponseResult;
+import com.chao.cloud.common.extra.mybatis.generator.menu.MenuMapping;
 
 /**
  * echarts绘图
@@ -18,11 +20,12 @@ import com.chao.cloud.common.entity.ResponseResult;
  * @时间：2019年5月16日
  * @version 2.0
  */
-@Controller
 @RequestMapping("/echarts")
+@Controller
+@MenuMapping
 public class EchartsController {
 
-	@Autowired 
+	@Autowired
 	private EchartsService echartsService;
 
 	/**
@@ -30,8 +33,9 @@ public class EchartsController {
 	 * @param url
 	 * @return
 	 */
-	@ResponseBody
+	@RequiresUser
 	@RequestMapping("statRequestTime")
+	@ResponseBody
 	public Response<StatRequestTimeDTO> statRequestTime() {
 		StatRequestTimeDTO dto = echartsService.statRequestTime(AdminLog.STAT_PREFIX);
 		return ResponseResult.getResponseResult(dto);

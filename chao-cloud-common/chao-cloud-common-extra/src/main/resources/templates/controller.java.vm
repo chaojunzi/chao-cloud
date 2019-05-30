@@ -24,6 +24,8 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.chao.cloud.common.entity.Response;
 import com.chao.cloud.common.entity.ResponseResult;
 import com.chao.cloud.common.extra.token.annotation.FormToken;
+import com.chao.cloud.common.extra.mybatis.generator.menu.MenuEnum;
+import com.chao.cloud.common.extra.mybatis.generator.menu.MenuMapping;
 import ${package.Entity}.${entity};
 import ${package.Service}.${table.serviceName};
 
@@ -37,9 +39,10 @@ import ${superControllerClassPackage};
  * @时间：${date}
  * @version 1.0.0
  */
+@RequestMapping("/${controllerMappingPrefix}")
 @Controller
 @Validated
-@RequestMapping("${controllerMappingPrefix}")
+@MenuMapping
 #if(${superControllerClass})
 public class ${table.controllerName} extends ${superControllerClass} {
 #else
@@ -49,19 +52,21 @@ public class ${table.controllerName} {
 	@Autowired
 	private ${table.serviceName} ${table.entityPath}Service;
 
+	@MenuMapping(value = "${menuTitle}", type = MenuEnum.MENU)
+	@RequiresPermissions("${shiroPermissionsPrefix}:list")
 	@RequestMapping
-	@RequiresPermissions("${table.entityPath}:list")
 	public String list() {
 		return "${controllerMappingPrefix}/list";
 	}
 
-	@ResponseBody
+	@MenuMapping("列表")
+	@RequiresPermissions("${shiroPermissionsPrefix}:list")
 	@RequestMapping("/list")
-	@RequiresPermissions("${table.entityPath}:list")
+	@ResponseBody
 	public Response<IPage<${table.entityName}>> list(Page<${table.entityName}> page //
 		#if ($likeFields)
-		#foreach($field in ${likeFields}) // ${field.comment}
-		,${field.propertyType} ${field.propertyName}
+		#foreach($field in ${likeFields}) 
+		,${field.propertyType} ${field.propertyName} // ${field.comment}
 		#end	
 		#end	
 		) { // 分页
@@ -76,15 +81,17 @@ public class ${table.controllerName} {
 		return ResponseResult.getResponseResult(${table.entityPath}Service.page(page, queryWrapper));
 	}
 
+	@MenuMapping("增加")
+	@RequiresPermissions("${shiroPermissionsPrefix}:add")
 	@RequestMapping("/add")
-	@RequiresPermissions("${table.entityPath}:add")
 	@FormToken(save = true)
 	public String add() {
 		return "${controllerMappingPrefix}/add";
 	}
-
+	
+	@MenuMapping("编辑")
+	@RequiresPermissions("${shiroPermissionsPrefix}:edit")
 	@RequestMapping("/edit/{${pk.propertyName}}")
-	@RequiresPermissions("${table.entityPath}:edit")
 	@FormToken(save = true)
 	public String edit(@PathVariable("${pk.propertyName}") ${pk.propertyType} ${pk.propertyName}, Model model) {
 		${table.entityName} ${table.entityPath} = ${table.entityPath}Service.getById(${pk.propertyName});
@@ -97,7 +104,7 @@ public class ${table.controllerName} {
 	 */
 	@ResponseBody
 	@RequestMapping("/save")
-	@RequiresPermissions("${table.entityPath}:add")
+	@RequiresPermissions("${shiroPermissionsPrefix}:add")
 	@FormToken(remove = true)
 	public Response<String> save(${table.entityName} ${table.entityPath}) {
 		boolean result = ${table.entityPath}Service.save(${table.entityPath});
@@ -109,7 +116,7 @@ public class ${table.controllerName} {
 	 */
 	@ResponseBody
 	@RequestMapping("/update")
-	@RequiresPermissions("${table.entityPath}:edit")
+	@RequiresPermissions("${shiroPermissionsPrefix}:edit")
 	@FormToken(remove = true)
 	public Response<String> update(${table.entityName} ${table.entityPath}) {
 		boolean result = ${table.entityPath}Service.updateById(${table.entityPath});
@@ -119,9 +126,10 @@ public class ${table.controllerName} {
 	/**
 	 * 删除
 	 */
+	@MenuMapping("删除")
+	@RequiresPermissions("${shiroPermissionsPrefix}:remove")
 	@RequestMapping("/remove")
 	@ResponseBody
-	@RequiresPermissions("${table.entityPath}:remove")
 	public Response<String> remove(@NotNull(message = "${pk.propertyName} 不能为空") ${pk.propertyType} ${pk.propertyName}) {
 		boolean result = ${table.entityPath}Service.removeById(${pk.propertyName});
 		return result ? ResponseResult.ok() : ResponseResult.error();
@@ -130,9 +138,10 @@ public class ${table.controllerName} {
 	/**
 	 * 批量删除
 	 */
+	@MenuMapping("批量删除")
+	@RequiresPermissions("${shiroPermissionsPrefix}:batchRemove")
 	@RequestMapping("/batchRemove")
 	@ResponseBody
-	@RequiresPermissions("${table.entityPath}:batchRemove")
 	public Response<String> batchRemove(
 			@NotNull(message = "不能为空") @Size(min = 1, message = "请至少选择一个") @RequestParam("${pk.propertyName}s[]") ${pk.propertyType}[] ${pk.propertyName}s) {
 		boolean result = ${table.entityPath}Service.removeByIds(CollUtil.toList(${pk.propertyName}s));

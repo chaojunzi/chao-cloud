@@ -16,18 +16,24 @@
 	<!-- 工具栏 -->
 	<script type="text/html" id="toolbarUser">
         <div class="layui-btn-container">
-            <button class="layui-btn layui-btn-sm" lay-event="add"><i class="layui-icon layui-icon-add-circle" ></i>添加</button>
-            <button class="layui-btn layui-btn-sm layui-btn-danger" lay-event="batchRemove"><i class="layui-icon layui-icon-delete"></i>删除</button>
+            <button shiro:hasPermission="sys:task:add" class="layui-btn layui-btn-sm" lay-event="add"><i class="layui-icon layui-icon-add-circle" ></i>添加</button>
+            <button shiro:hasPermission="sys:task:batchRemove" class="layui-btn layui-btn-sm layui-btn-danger" lay-event="batchRemove"><i class="layui-icon layui-icon-delete"></i>删除</button>
         </div>
     </script>
 	<!-- 操作列 -->
 	<script type="text/html" id="task-state">
      <div class="layui-btn-group">
-        <button class="layui-btn layui-btn-sm" lay-event="edit"><i class="layui-icon layui-icon-edit"></i></button>
-        <button class="layui-btn layui-btn-sm" lay-event="del"><i class="layui-icon layui-icon-delete"></i></button>
+        <button shiro:hasPermission="sys:task:edit" class="layui-btn layui-btn-sm" lay-event="edit"><i class="layui-icon layui-icon-edit"></i></button>
+        <button shiro:hasPermission="sys:task:remove" class="layui-btn layui-btn-sm" lay-event="del"><i class="layui-icon layui-icon-delete"></i></button>
     </div>
     </script>
 	<div th:include="include::footer"></div>
+	<script>
+		changeJobStatus = false;
+	</script>
+	<script shiro:hasPermission="sys:task:changeJobStatus">
+		changeJobStatus = true;
+	</script>
 	<script>
 		layui.use([ 'table' ], function() {
 			var $ = layui.jquery;
@@ -76,11 +82,14 @@
 						field : 'jobStatus',
 						title : '停起操作',
 						templet : function(d) {
-							if (d.jobStatus == 0) {
-								return '<button  class="layui-btn layui-btn-sm" lay-event="changeStatus"><i class="layui-icon layui-icon-play"></i>开启</button>';
-							} else {
-								return '<button class="layui-btn layui-btn-danger layui-btn-sm" lay-event="changeStatus"><i class="layui-icon layui-icon-close"></i>关闭</button>';
+							if(changeJobStatus){
+								if (d.jobStatus == 0) {
+									return '<button class="layui-btn layui-btn-sm" lay-event="changeStatus"><i class="layui-icon layui-icon-play"></i>开启</button>';
+								} else {
+									return '<button class="layui-btn layui-btn-danger layui-btn-sm" lay-event="changeStatus"><i class="layui-icon layui-icon-close"></i>关闭</button>';
+								}
 							}
+							return "无";
 						},
 					}, {
 						title : '操作',

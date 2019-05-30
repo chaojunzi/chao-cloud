@@ -5,7 +5,7 @@ import java.io.IOException;
 import java.io.StringWriter;
 import java.util.List;
 import java.util.Map;
-import java.util.Properties;
+import java.util.stream.Stream;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
@@ -31,9 +31,9 @@ import com.chao.cloud.common.extra.mybatis.generator.template.HtmlTemplateConfig
 
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.io.FileUtil;
+import cn.hutool.core.map.MapUtil;
 import cn.hutool.core.util.ReflectUtil;
 import cn.hutool.core.util.StrUtil;
-import jodd.util.PropertiesUtil;
 
 /**
  * 将模板输出至浏览器
@@ -172,6 +172,8 @@ public class ZipVelocityTemplateEngine extends VelocityTemplateEngine {
 	private void appendTableInfo(TableInfo tableInfo, Map<String, Object> objectMap) {
 		// 请求路径前缀
 		objectMap.put("controllerMappingPrefix", tableInfo.getName().replaceFirst("_", "/"));
+		// shiroPermissionsPrefix
+		objectMap.put("shiroPermissionsPrefix", tableInfo.getName().replaceFirst("_", ":"));
 		// 是否存在date 数据类型
 		boolean hasDate = tableInfo.getFields().stream()
 				.anyMatch(f -> DbColumnType.DATE.getType().equals(f.getPropertyType()));
@@ -188,13 +190,23 @@ public class ZipVelocityTemplateEngine extends VelocityTemplateEngine {
 		objectMap.put("openHeight", 30 + (i - 1) * 8);
 		// 模糊查询 tableInfo
 		String comment = tableInfo.getComment();
-		try {
-			Properties properties = PropertiesUtil.createFromString(comment);
-			TableCommentParse parse = BeanUtil.mapToBean(properties, TableCommentParse.class, true);
-			objectMap.put("likeFields", parse.parseLike(tableInfo.getFields()));
-		} catch (IOException e) {
-			logger.info("[comment is error : {} ]", e.getMessage());
+		Map<String, String> map = this.commentToMap(comment);
+		TableCommentParse parse = BeanUtil.mapToBean(map, TableCommentParse.class, true);
+		objectMap.put("likeFields", parse.parseLike(tableInfo.getFields()));
+		// 标题
+		objectMap.put("menuTitle", parse.getTitle());
+	}
+
+	private Map<String, String> commentToMap(String comment) {
+		Map<String, String> map = MapUtil.newHashMap();
+		// 读取注释为单行对象
+		if (StrUtil.isNotBlank(comment)) {
+			Stream.of(comment.replace("\r", "").split("\n")).filter(c -> c.contains("=")).forEach(c -> {
+				List<String> comList = StrUtil.split(c, "=", 2, true, true);// 该list size固定为2
+				map.put(comList.get(0), comList.get(1));
+			});
 		}
+		return map;
 	}
 
 	/**

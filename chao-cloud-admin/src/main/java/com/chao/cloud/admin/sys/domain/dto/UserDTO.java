@@ -1,8 +1,12 @@
 package com.chao.cloud.admin.sys.domain.dto;
 
+import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
+import javax.validation.constraints.NotBlank;
+
+import org.apache.shiro.session.Session;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import cn.hutool.core.date.DatePattern;
@@ -16,13 +20,17 @@ import lombok.Data;
  * @version 1.0.0
  */
 @Data
-public class UserDTO {
+public class UserDTO implements Serializable {
+
+	private static final long serialVersionUID = 1L;
 	//
 	private Long userId;
 	// 用户名
+	@NotBlank(message = "用户名不能为空")
 	private String username;
 	//
 	private String name;
+
 	// 密码
 	private String password;
 	//
@@ -40,5 +48,6 @@ public class UserDTO {
 	//
 	@DateTimeFormat(pattern = DatePattern.NORM_DATETIME_PATTERN)
 	private Date createTime;
-
+	// 登录凭证
+	private Session session;
 }

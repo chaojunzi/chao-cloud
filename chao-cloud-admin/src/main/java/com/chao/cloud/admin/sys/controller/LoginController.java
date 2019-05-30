@@ -16,6 +16,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.chao.cloud.admin.sys.log.AdminLog;
@@ -35,12 +36,12 @@ import lombok.extern.slf4j.Slf4j;
 @Validated
 public class LoginController extends BaseController {
 
-	@GetMapping({ "/", "" })
+	@RequestMapping({ "/", "" })
 	String welcome(Model model) {
 		return "redirect:/index";
 	}
 
-	@GetMapping({ "/index" })
+	@RequestMapping({ "/index" })
 	String index(Model model) {
 		model.addAttribute("name", getUser().getName());
 		model.addAttribute("username", getUser().getUsername());
@@ -78,13 +79,13 @@ public class LoginController extends BaseController {
 		}
 	}
 
-	@GetMapping("/logout")
+	@RequestMapping("/logout")
 	String logout() {
 		ShiroUtils.logout();
 		return "redirect:/login";
 	}
 
-	@GetMapping("/main")
+	@RequestMapping("/main")
 	String main() {
 		return "main";
 	}
@@ -92,7 +93,7 @@ public class LoginController extends BaseController {
 	/**
 	 * 生成验证码
 	 */
-	@GetMapping(value = "/getVerify")
+	@RequestMapping(value = "/getVerify")
 	public void getVerify(HttpServletRequest request, HttpServletResponse response) {
 		try (OutputStream os = response.getOutputStream()) {
 			response.setContentType("image/jpeg");// 设置相应类型,告诉浏览器输出的内容为图片

@@ -3,9 +3,12 @@ package com.chao.cloud.admin.sys.service;
 import java.util.List;
 import java.util.Set;
 
+import javax.validation.constraints.NotNull;
+
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.chao.cloud.admin.sys.dal.entity.SysMenu;
 import com.chao.cloud.admin.sys.domain.dto.MenuLayuiDTO;
+import com.chao.cloud.common.extra.mybatis.generator.menu.MenuAdmin;
 
 import cn.hutool.core.collection.CollUtil;
 
@@ -32,4 +35,19 @@ public interface SysMenuService extends IService<SysMenu> {
 	 * @return
 	 */
 	List<MenuLayuiDTO> listMenuLayuiTree(Long userId);
+
+	/**
+	 * 递归删除
+	 * @param id
+	 * @return
+	 */
+	boolean recursionRemove(@NotNull Long id);
+
+	/**
+	 * 批量添加
+	 * @param root
+	 * @param menus
+	 * @return
+	 */
+	boolean adminSaveBatch(MenuAdmin root, List<MenuAdmin> menus);
 }

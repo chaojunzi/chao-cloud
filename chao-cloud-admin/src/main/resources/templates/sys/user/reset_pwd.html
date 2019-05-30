@@ -50,9 +50,15 @@
 							var index = parent.layer.getFrameIndex(window.name); // 获取窗口索引
 							parent.layer.close(index);
 						} else {
-							layer.msg(data.msg);
-							var index = parent.layer.getFrameIndex(window.name); // 获取窗口索引
-							parent.layer.close(index);
+							layer.msg(r.retMsg, {
+								icon : 1,
+								time : 1000
+							//2秒关闭（如果不配置，默认是3秒）
+							}, function() {
+								var index = parent.layer.getFrameIndex(window.name); // 获取窗口索引
+								parent.layer.close(index);
+							});
+
 						}
 					}
 				});

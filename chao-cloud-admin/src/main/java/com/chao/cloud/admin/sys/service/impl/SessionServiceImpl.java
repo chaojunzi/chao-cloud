@@ -14,7 +14,7 @@ import org.springframework.stereotype.Service;
 import com.chao.cloud.admin.sys.domain.dto.UserDTO;
 import com.chao.cloud.admin.sys.service.SessionService;
 import com.chao.cloud.admin.sys.shiro.ShiroUserOnline;
- 
+
 /**
  * 
  * @功能：待完善
@@ -58,7 +58,7 @@ public class SessionServiceImpl implements SessionService {
 	@Override
 	public List<UserDTO> listOnlineUser() {
 		List<UserDTO> list = new ArrayList<>();
-		UserDTO userDO;
+		UserDTO user;
 		Collection<Session> sessions = sessionDAO.getActiveSessions();
 		for (Session session : sessions) {
 			SimplePrincipalCollection principalCollection = new SimplePrincipalCollection();
@@ -67,8 +67,9 @@ public class SessionServiceImpl implements SessionService {
 			} else {
 				principalCollection = (SimplePrincipalCollection) session
 						.getAttribute(DefaultSubjectContext.PRINCIPALS_SESSION_KEY);
-				userDO = (UserDTO) principalCollection.getPrimaryPrincipal();
-				list.add(userDO);
+				user = (UserDTO) principalCollection.getPrimaryPrincipal();
+				user.setSession(session);
+				list.add(user);
 			}
 		}
 		return list;
@@ -83,6 +84,7 @@ public class SessionServiceImpl implements SessionService {
 	public boolean forceLogout(String sessionId) {
 		Session session = sessionDAO.readSession(sessionId);
 		session.setTimeout(0);
+		sessionDAO.delete(session);
 		return true;
 	}
 }

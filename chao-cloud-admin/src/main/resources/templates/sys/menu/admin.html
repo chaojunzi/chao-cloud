@@ -9,18 +9,14 @@
 	<!-- 工具栏 -->
 	<script type="text/html" id="toolbarMenu">
         <div class="layui-btn-container">
-			<button shiro:hasPermission="sys:menu:add" class="layui-btn layui-btn-sm" lay-event="save"><i class="layui-icon layui-icon-add-circle" ></i>添加</button>
 			<button class="layui-btn layui-btn-sm" lay-event="expand"><i class="layui-icon layui-icon-add-1" ></i>全部展开</button>
 			<button class="layui-btn layui-btn-sm" lay-event="fold">-- 全部折叠</button>
-			<button class="layui-btn layui-btn-sm" lay-event="refresh"><i class="layui-icon layui-icon-refresh" ></i>刷新表格</button>
         </div>
     </script>
 	<!-- 操作列 -->
 	<script type="text/html" id="menu-state">
      <div class="layui-btn-group">
-        <button shiro:hasPermission="sys:menu:add" class="layui-btn layui-btn-sm" lay-event="save"><i class="layui-icon layui-icon-add-1"></i></button>
-        <button shiro:hasPermission="sys:menu:edit" class="layui-btn layui-btn-sm" lay-event="edit"><i class="layui-icon layui-icon-edit"></i></button>
-        <button shiro:hasPermission="sys:menu:remove" class="layui-btn layui-btn-sm" lay-event="del"><i class="layui-icon layui-icon-delete"></i></button>
+        <button class="layui-btn layui-btn-sm" lay-event="add"><i class="layui-icon layui-icon-add-1"></i>生成菜单</button>
     </div>
     </script>
 	<div th:include="include::footer"></div>
@@ -44,7 +40,7 @@
 					treeIdName : 'menuId',
 					treePidName : 'parentId',
 					elem : '#menu-table',
-					url : '/sys/menu/list',
+					url : '/sys/menu/admin/list',
 					page : false,
 					cols : [ [ {
 						type : 'numbers',
@@ -79,11 +75,12 @@
 						},
 						title : '类型'
 					}, {
-						field : 'orderNum',
-						align : 'center',
-						title : '排序'
-					}, {
-						templet : '#menu-state',
+						templet : function(d) {
+							if (d.type == 1) {
+								return $('#menu-state').text();
+							}
+							return '<span class="layui-badge layui-bg-gray"><i class="layui-icon layui-icon-add-1"></i>按钮</span>';
+						},
 						align : 'center',
 						title : '操作'
 					} ] ],
@@ -96,76 +93,32 @@
 			//头工具栏事件
 			table.on('toolbar(menu-table)', function(obj) {
 				switch (obj.event) {
-				case 'save': //添加
-					openSave(0);
-					break;
 				case 'expand': //展开
 					treetable.expandAll('#menu-table');
 					break;
 				case 'fold'://折叠
 					treetable.foldAll('#menu-table');
 					break;
-				case 'refresh'://刷新
-					renderTable();
-					break;
 				}
-				;
 			});
 
 			//监听工具条
 			table.on('tool(menu-table)', function(obj) {
 				var data = obj.data;
 				var layEvent = obj.event;
-				if (layEvent === 'del') {//删除
-					remove(data.menuId);
-				} else if (layEvent === 'edit') {//修改
-					edit(data.menuId);
-				} else if (layEvent === 'save') {//添加
-					openSave(data.menuId);
+				if (layEvent === 'add') {//生成
+					adminAdd(data.menuId);
 				}
 			});
 
-			function remove(id) {
-				layer.confirm('确定要删除选中的记录？', {
-					btn : [ '确定', '取消' ]
-				}, function() {
-					$.ajax({
-						url : "/sys/menu/remove",
-						type : "post",
-						data : {
-							'id' : id
-						},
-						success : function(r) {
-							if (r.retCode == '0000') {
-								layer.msg("删除成功");
-								renderTable();
-							} else {
-								layer.msg(r.retMsg);
-							}
-						}
-					});
-				})
-			}
-
-			function edit(id) {
+			function adminAdd(id) {
 				layer.open({
 					type : 2,
-					title : '菜单修改',
+					title : 'Admin生成菜单',
 					maxmin : true,
 					shadeClose : false, // 点击遮罩关闭层
-					area : [ '60%', '90%' ],
-					content : '/sys/menu/edit/' + id // iframe的url
-				});
-			}
-
-			function openSave(pid) {
-				layer.open({
-					type : 2,
-					title : '增加菜单',
-					maxmin : true,
-					shadeClose : false, // 点击遮罩关闭层
-					area : [ '60%', '90%' ],
-					content : '/sys/menu/add/' + pid // iframe的url
+					area : [ '60%', '75%' ],
+					content : '/sys/menu/adminAdd/' + id // iframe的url
 				});
 			}
 

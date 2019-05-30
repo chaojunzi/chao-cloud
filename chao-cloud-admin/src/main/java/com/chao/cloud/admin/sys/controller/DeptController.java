@@ -10,9 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -28,6 +26,8 @@ import com.chao.cloud.admin.sys.service.SysUserService;
 import com.chao.cloud.common.entity.Response;
 import com.chao.cloud.common.entity.ResponseResult;
 import com.chao.cloud.common.exception.BusinessException;
+import com.chao.cloud.common.extra.mybatis.generator.menu.MenuEnum;
+import com.chao.cloud.common.extra.mybatis.generator.menu.MenuMapping;
 
 import cn.hutool.core.collection.CollUtil;
 
@@ -38,9 +38,10 @@ import cn.hutool.core.collection.CollUtil;
  * @时间：2019年5月9日 
  * @version 2.0
  */
-@Controller
 @RequestMapping("/sys/dept")
+@Controller
 @Validated
+@MenuMapping
 public class DeptController extends BaseController {
 	private String prefix = "sys/dept";
 	@Autowired
@@ -48,27 +49,25 @@ public class DeptController extends BaseController {
 	@Autowired
 	private SysUserService sysUserService;
 
-	@GetMapping()
-	@RequiresPermissions("system:sysDept:sysDept")
+	@MenuMapping(value = "部门管理", type = MenuEnum.MENU)
+	@RequiresPermissions("sys:dept:list")
+	@RequestMapping
 	String dept() {
 		return prefix + "/dept";
 	}
 
 	@AdminLog(AdminLog.STAT_PREFIX + "部门列表")
+	@MenuMapping("列表")
+	@RequiresPermissions("sys:dept:list")
+	@RequestMapping("/list")
 	@ResponseBody
-	@GetMapping("/list")
-	@RequiresPermissions("system:sysDept:sysDept")
 	public R<List<SysDept>> list() {
 		return R.ok(sysDeptService.list());
 	}
 
-	@GetMapping("/choose")
-	String deptChoose() {
-		return prefix + "/choose";
-	}
-
-	@GetMapping("/add/{pId}")
-	@RequiresPermissions("system:sysDept:add")
+	@MenuMapping("增加")
+	@RequiresPermissions("sys:dept:add")
+	@RequestMapping("/add/{pId}")
 	String add(@PathVariable("pId") Long pId, Model model) {
 		model.addAttribute("pId", pId);
 		if (pId == 0) {
@@ -79,8 +78,9 @@ public class DeptController extends BaseController {
 		return prefix + "/add";
 	}
 
-	@GetMapping("/edit/{deptId}")
-	@RequiresPermissions("system:sysDept:edit")
+	@MenuMapping("编辑")
+	@RequiresPermissions("sys:dept:edit")
+	@RequestMapping("/edit/{deptId}")
 	String edit(@PathVariable("deptId") Long deptId, Model model) {
 		SysDept sysDept = sysDeptService.getById(deptId);
 		model.addAttribute("sysDept", sysDept);
@@ -96,9 +96,9 @@ public class DeptController extends BaseController {
 	/**
 	 * 保存
 	 */
+	@RequiresPermissions("sys:dept:add")
+	@RequestMapping("/save")
 	@ResponseBody
-	@PostMapping("/save")
-	@RequiresPermissions("system:sysDept:add")
 	public Response<String> save(SysDept sysDept) {
 		if (sysDeptService.save(sysDept)) {
 			return ResponseResult.ok();
@@ -109,9 +109,9 @@ public class DeptController extends BaseController {
 	/**
 	 * 修改
 	 */
-	@ResponseBody
+	@RequiresPermissions("sys:dept:edit")
 	@RequestMapping("/update")
-	@RequiresPermissions("system:sysDept:edit")
+	@ResponseBody
 	public Response<String> update(SysDept sysDept) {
 		if (sysDeptService.updateById(sysDept)) {
 			return ResponseResult.ok();
@@ -122,18 +122,19 @@ public class DeptController extends BaseController {
 	/**
 	 * 删除
 	 */
-	@PostMapping("/remove")
+	@MenuMapping("删除")
+	@RequiresPermissions("sys:dept:remove")
+	@RequestMapping("/remove")
 	@ResponseBody
-	@RequiresPermissions("system:sysDept:remove")
 	public Response<String> remove(@NotNull Long deptId) {
 		int deptCount = sysDeptService.count(Wrappers.<SysDept>lambdaQuery().eq(SysDept::getParentId, deptId));
 		if (deptCount > 0) {
-			throw new BusinessException("部门包含用户,不允许修改");
+			throw new BusinessException("部门包含用户,不允许删除");
 		}
 
 		int userCount = sysUserService.count(Wrappers.<SysUser>lambdaQuery().eq(SysUser::getDeptId, deptId));
 		if (userCount > 0) {
-			throw new BusinessException("部门包含用户,不允许修改");
+			throw new BusinessException("部门包含用户,不允许删除");
 		}
 
 		if (sysDeptService.removeById(deptId)) {
@@ -145,12 +146,19 @@ public class DeptController extends BaseController {
 	/**
 	 * 删除
 	 */
-	@PostMapping("/batchRemove")
+	@MenuMapping("批量删除")
+	@RequiresPermissions("sys:dept:batchRemove")
+	@RequestMapping("/batchRemove")
 	@ResponseBody
-	@RequiresPermissions("system:sysDept:batchRemove")
 	public Response<String> remove(@Size(min = 1) @RequestParam("ids[]") Long[] deptIds) {
 		sysDeptService.removeByIds(CollUtil.toList(deptIds));
 		return ResponseResult.ok();
 	}
 
+	@MenuMapping("选择部门")
+	@RequiresPermissions("sys:dept:choose")
+	@RequestMapping("/choose")
+	String deptChoose() {
+		return prefix + "/choose";
+	}
 }
