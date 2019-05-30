@@ -19,7 +19,7 @@ import cn.hutool.core.util.StrUtil;
  */
 public interface IFileOperation {
 
-	String PATH_DATE_PATTERN = "/yyyy/MM/dd";
+	String PATH_DATE_PATTERN = "/yyyy/MM/dd/";
 
 	Snowflake SNOW_FLAKE = IdUtil.createSnowflake(1, 1);
 

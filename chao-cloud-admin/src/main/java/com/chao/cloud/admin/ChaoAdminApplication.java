@@ -6,6 +6,7 @@ import org.springframework.cache.annotation.EnableCaching;
 
 import com.chao.cloud.common.config.exception.EnableGlobalException;
 import com.chao.cloud.common.config.web.EnableWeb;
+import com.chao.cloud.common.extra.ftp.annotation.EnableFtp;
 import com.chao.cloud.common.extra.mybatis.annotation.EnableMybatisPlus;
 import com.chao.cloud.common.extra.token.annotation.EnableFormToken;
 
@@ -22,6 +23,7 @@ import com.chao.cloud.common.extra.token.annotation.EnableFormToken;
 @EnableGlobalException // 全局异常处理
 @EnableFormToken // 防止表单重复提交
 @EnableMybatisPlus // 数据库插件-乐观锁
+@EnableFtp // 文件上传
 public class ChaoAdminApplication {
 
 	public static void main(String[] args) {

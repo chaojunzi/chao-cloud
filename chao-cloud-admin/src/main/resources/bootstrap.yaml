@@ -38,7 +38,12 @@ spring:
       config: classpath:config/ehcache.xml
   thymeleaf:
     mode: LEGACYHTML5
-    cache: false      
+    cache: false   
+  servlet:
+    multipart:
+      max-file-size: 5MB
+      max-request-size: 5MB 
+         
 mybatis-plus:
   configuration:
     map-underscore-to-camel-case: true
@@ -47,6 +52,11 @@ mybatis-plus:
 #默认使用本地数据源
 chao:
   cloud:
+    ftp:
+      config:
+        local: true
+        path: D:/Users/xuechao/work/git-local/chao-cloud/chao-cloud-admin/target/classes/public/img
+        prefix: D:/Users/xuechao/work/git-local/chao-cloud/chao-cloud-admin/target/classes/public
     codegen:
         datasource:
           url: ${spring.datasource.url}
