@@ -7,7 +7,7 @@
 [echarts](https://github.com/apache/incubator-echarts)  
 
 # chao-cloud-admin  ---> 效果图展示
-#### springboot+mybatis+mysql+shiro+layui+echart.js
+#### springboot+mybatis+mysql+shiro+layui+echarts
 ![Image text](https://github.com/chaojunzi/chao-cloud/blob/master/screenshot/admin/world.gif)
 ![Image text](https://github.com/chaojunzi/chao-cloud/blob/master/screenshot/admin/echarts1.png)
 ![Image text](https://github.com/chaojunzi/chao-cloud/blob/master/screenshot/admin/echarts2.png)
