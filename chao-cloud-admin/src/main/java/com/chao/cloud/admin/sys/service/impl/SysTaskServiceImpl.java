@@ -28,15 +28,15 @@ import cn.hutool.cron.task.Task;
 public class SysTaskServiceImpl extends ServiceImpl<SysTaskMapper, SysTask> implements SysTaskService {
 
 	@Override
-	public int remove(Long id) {
+	public int remove(Integer id) {
 		// 删除任务id
 		CronUtil.remove(id.toString());
 		return this.baseMapper.deleteById(id);
 	}
 
 	@Override
-	public int batchRemove(Long[] ids) {
-		for (Long id : ids) {
+	public int batchRemove(Integer[] ids) {
+		for (Integer id : ids) {
 			CronUtil.remove(id.toString());
 		}
 		return this.baseMapper.deleteBatchIds(CollUtil.toList(ids));
@@ -59,7 +59,7 @@ public class SysTaskServiceImpl extends ServiceImpl<SysTaskMapper, SysTask> impl
 	}
 
 	@Override
-	public void changeStatus(Long taskId, String cmd) {
+	public void changeStatus(Integer taskId, String cmd) {
 		SysTask task = this.baseMapper.selectById(taskId);
 		if (BeanUtil.isEmpty(task)) {
 			return;
@@ -84,7 +84,7 @@ public class SysTaskServiceImpl extends ServiceImpl<SysTaskMapper, SysTask> impl
 	}
 
 	@Override
-	public void updateCron(Long taskId) {
+	public void updateCron(Integer taskId) {
 		SysTask task = this.baseMapper.selectById(taskId);
 		if (BeanUtil.isEmpty(task)) {
 			return;

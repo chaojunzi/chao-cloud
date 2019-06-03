@@ -32,7 +32,7 @@ public class SysLog implements Serializable {
 	/**
 	 * 用户id
 	 */
-	private Long userId;
+	private Integer userId;
 
 	/**
 	 * 用户名

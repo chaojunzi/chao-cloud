@@ -99,9 +99,9 @@ public class MenuController extends BaseController {
 	@MenuMapping("编辑")
 	@RequiresPermissions("sys:menu:edit")
 	@RequestMapping("/edit/{id}")
-	String edit(Model model, @PathVariable("id") Long id) {
+	String edit(Model model, @PathVariable("id") Integer id) {
 		SysMenu mdo = sysMenuService.getById(id);
-		Long pId = mdo.getParentId();
+		Integer pId = mdo.getParentId();
 		model.addAttribute("pId", pId);
 		if (pId == 0) {
 			model.addAttribute("pName", "根目录");
@@ -144,7 +144,7 @@ public class MenuController extends BaseController {
 	@RequiresPermissions("sys:menu:remove")
 	@RequestMapping("/remove")
 	@ResponseBody
-	Response<String> remove(@NotNull Long id) {
+	Response<String> remove(@NotNull Integer id) {
 		// 递归删除
 		if (sysMenuService.recursionRemove(id)) {
 			return ResponseResult.ok();
@@ -160,7 +160,7 @@ public class MenuController extends BaseController {
 	@ResponseBody
 	@RequiresUser
 	List<MenuLayuiDTO> userList() {
-		return sysMenuService.listMenuLayuiTree(getUserId());
+		return sysMenuService.listMenuLayuiTree(getRoles());
 	}
 
 	/**

@@ -60,7 +60,7 @@ public class RoleController extends BaseController {
 	@MenuMapping("编辑")
 	@RequiresPermissions("sys:role:edit")
 	@RequestMapping("/edit/{id}")
-	String edit(@PathVariable("id") Long id, Model model) {
+	String edit(@PathVariable("id") Integer id, Model model) {
 		RoleDTO roleDO = sysRoleService.get(id);
 		model.addAttribute("role", roleDO);
 		return prefix + "/edit";
@@ -71,6 +71,7 @@ public class RoleController extends BaseController {
 	@RequestMapping("/save")
 	@ResponseBody
 	Response<String> save(RoleDTO role) {
+		role.setMenuIds(super.removeEmpty(role.getMenuIds()));
 		if (sysRoleService.save(role)) {
 			return ResponseResult.ok();
 		}
@@ -82,6 +83,8 @@ public class RoleController extends BaseController {
 	@RequestMapping("/update")
 	@ResponseBody
 	Response<String> update(RoleDTO role) {
+		// 去重//去空
+		role.setMenuIds(super.removeEmpty(role.getMenuIds()));
 		if (sysRoleService.update(role)) {
 			return ResponseResult.ok();
 		}
@@ -93,7 +96,7 @@ public class RoleController extends BaseController {
 	@RequiresPermissions("sys:role:remove")
 	@RequestMapping("/remove")
 	@ResponseBody
-	Response<String> save(@NotNull Long id) {
+	Response<String> save(@NotNull Integer id) {
 		if (sysRoleService.remove(id)) {
 			return ResponseResult.ok();
 		}
@@ -106,7 +109,7 @@ public class RoleController extends BaseController {
 	@RequiresPermissions("sys:role:batchRemove")
 	@RequestMapping("/batchRemove")
 	@ResponseBody
-	Response<String> batchRemove(@Size(min = 1) @RequestParam("ids[]") Long[] ids) {
+	Response<String> batchRemove(@Size(min = 1) @RequestParam("ids[]") Integer[] ids) {
 		if (sysRoleService.batchRemove(ids)) {
 			return ResponseResult.ok();
 		}

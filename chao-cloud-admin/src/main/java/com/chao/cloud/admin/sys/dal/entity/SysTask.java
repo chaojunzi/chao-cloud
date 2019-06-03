@@ -27,7 +27,7 @@ public class SysTask implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@TableId(value = "id", type = IdType.AUTO)
-	private Long id;
+	private Integer id;
 
 	/**
 	 * cron表达式
@@ -48,11 +48,6 @@ public class SysTask implements Serializable {
 	 * 任务描述
 	 */
 	private String description;
-
-	/**
-	 * 更新者
-	 */
-	private String updateBy;
 
 	/**
 	 * 任务执行时调用哪个类的方法 包名+类名
@@ -80,16 +75,6 @@ public class SysTask implements Serializable {
 	 */
 	@DateTimeFormat(pattern = DatePattern.NORM_DATETIME_PATTERN)
 	private Date updateDate;
-
-	/**
-	 * 创建者
-	 */
-	private String createBy;
-
-	/**
-	 * Spring bean
-	 */
-	private String springBean;
 
 	/**
 	 * 任务名

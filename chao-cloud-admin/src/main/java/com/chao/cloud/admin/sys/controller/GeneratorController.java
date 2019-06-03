@@ -2,7 +2,6 @@ package com.chao.cloud.admin.sys.controller;
 
 import java.io.OutputStream;
 import java.util.List;
-import java.util.Map;
 import java.util.stream.Collectors;
 
 import javax.servlet.http.HttpServletResponse;
@@ -22,6 +21,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.generator.config.DataSourceConfig;
+import com.chao.cloud.admin.sys.domain.dto.MysqlTableDTO;
 import com.chao.cloud.admin.sys.domain.vo.GenCodeVO;
 import com.chao.cloud.admin.sys.log.AdminLog;
 import com.chao.cloud.admin.sys.service.GeneratorService;
@@ -33,7 +33,6 @@ import com.chao.cloud.common.extra.mybatis.generator.menu.MenuMapping;
 
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.collection.CollUtil;
-import cn.hutool.core.util.StrUtil;
 
 @RequestMapping("/sys/generator")
 @Controller
@@ -59,15 +58,22 @@ public class GeneratorController {
 	@RequiresPermissions("sys:generator:list")
 	@RequestMapping("/list")
 	@ResponseBody
-	Response<IPage<Map<String, Object>>> list(String tableName) {
-		Page<Map<String, Object>> result = new Page<>();
-		List<Map<String, Object>> list = generatorService.list();
-		if (CollUtil.isNotEmpty(list) && StrUtil.isNotBlank(tableName)) {
-			list = list.stream().filter(l -> StrUtil.containsIgnoreCase(l.get("tableName").toString(), tableName))
-					.collect(Collectors.toList());
+	Response<IPage<MysqlTableDTO>> list(Page<MysqlTableDTO> page, String tableName) {
+		List<MysqlTableDTO> list = generatorService.list(tableName);
+		page.setTotal(list.size());
+		// 分页
+		if (CollUtil.isNotEmpty(list)) {
+			// 判断总页数
+			long pages = page.getPages();
+			if (pages > 0 && page.getCurrent() <= pages) {// 当前页不超过总页数
+				// 获取偏移量
+				long offset = page.offset();
+				list = list.stream().skip(offset).limit(page.getSize()).collect(Collectors.toList());
+				page.setRecords(list);
+			}
 		}
-		result.setRecords(list);
-		return ResponseResult.getResponseResult(result);
+
+		return ResponseResult.getResponseResult(page);
 	}
 
 	@MenuMapping("生成策略")
@@ -108,6 +114,11 @@ public class GeneratorController {
 	@ResponseBody
 	Response<String> update(@Valid GenCodeVO.Base vo) {
 		DataSourceConfig config = autoGenerator.getDataSource();
+		if (!vo.getDriverName().equals(config.getDriverName())) {
+			config.setTypeConvert(null);
+			config.setDbQuery(null);
+			config.setDbType(null);
+		}
 		BeanUtil.copyProperties(vo, config);
 		autoGenerator.getPackageInfo().setParent(vo.getParent());
 		autoGenerator.getGlobalConfig().setAuthor(vo.getAuthor());

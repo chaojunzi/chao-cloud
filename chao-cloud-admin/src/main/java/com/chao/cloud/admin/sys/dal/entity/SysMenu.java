@@ -27,12 +27,12 @@ public class SysMenu implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@TableId(value = "menu_id", type = IdType.AUTO)
-	private Long menuId;
+	private Integer menuId;
 
 	/**
 	 * 父菜单ID，一级菜单为0
 	 */
-	private Long parentId;
+	private Integer parentId;
 
 	/**
 	 * 菜单名称

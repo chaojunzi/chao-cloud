@@ -11,14 +11,14 @@ import com.chao.cloud.admin.sys.dal.entity.SysTask;
  */
 public interface SysTaskService extends IService<SysTask> {
 
-	int remove(Long id);
+	int remove(Integer id);
 
-	int batchRemove(Long[] ids);
+	int batchRemove(Integer[] ids);
 
 	void initSchedule();
 
-	void changeStatus(Long taskId, String cmd);
+	void changeStatus(Integer taskId, String cmd);
 
-	void updateCron(Long taskId);
+	void updateCron(Integer taskId);
 
 }

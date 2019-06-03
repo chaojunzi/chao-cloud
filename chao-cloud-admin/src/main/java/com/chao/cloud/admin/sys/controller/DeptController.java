@@ -81,7 +81,7 @@ public class DeptController extends BaseController {
 	@MenuMapping("编辑")
 	@RequiresPermissions("sys:dept:edit")
 	@RequestMapping("/edit/{deptId}")
-	String edit(@PathVariable("deptId") Long deptId, Model model) {
+	String edit(@PathVariable("deptId") Integer deptId, Model model) {
 		SysDept sysDept = sysDeptService.getById(deptId);
 		model.addAttribute("sysDept", sysDept);
 		if (AdminConstant.DEPT_ROOT_ID.equals(sysDept.getParentId())) {
@@ -126,7 +126,7 @@ public class DeptController extends BaseController {
 	@RequiresPermissions("sys:dept:remove")
 	@RequestMapping("/remove")
 	@ResponseBody
-	public Response<String> remove(@NotNull Long deptId) {
+	public Response<String> remove(@NotNull Integer deptId) {
 		int deptCount = sysDeptService.count(Wrappers.<SysDept>lambdaQuery().eq(SysDept::getParentId, deptId));
 		if (deptCount > 0) {
 			throw new BusinessException("部门包含用户,不允许删除");
@@ -150,7 +150,7 @@ public class DeptController extends BaseController {
 	@RequiresPermissions("sys:dept:batchRemove")
 	@RequestMapping("/batchRemove")
 	@ResponseBody
-	public Response<String> remove(@Size(min = 1) @RequestParam("ids[]") Long[] deptIds) {
+	public Response<String> remove(@Size(min = 1) @RequestParam("ids[]") Integer[] deptIds) {
 		sysDeptService.removeByIds(CollUtil.toList(deptIds));
 		return ResponseResult.ok();
 	}

@@ -23,12 +23,12 @@ public class SysDept implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@TableId(value = "dept_id", type = IdType.AUTO)
-	private Long deptId;
+	private Integer deptId;
 
 	/**
 	 * 上级部门ID，一级部门为0
 	 */
-	private Long parentId;
+	private Integer parentId;
 
 	/**
 	 * 部门名称

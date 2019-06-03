@@ -78,6 +78,19 @@
 			<artifactId>thymeleaf-extras-shiro</artifactId>
 		</dependency>
 	</dependencies>
+
+	<!-- maven 仓库 -->
+	<repositories>
+		<repository>
+			<id>mvn-repo</id>
+			<url>https://raw.github.com/chaojunzi/mvn-repo/master</url>
+			<snapshots>
+				<enabled>true</enabled>
+				<updatePolicy>always</updatePolicy>
+			</snapshots>
+		</repository>
+	</repositories>
+	<!-- maven 仓库 -->
 	<build>
 		<finalName>chao-admin</finalName>
 		<plugins>

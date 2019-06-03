@@ -27,21 +27,21 @@ public interface SysMenuService extends IService<SysMenu> {
 	 * @param userId
 	 * @return
 	 */
-	Set<String> listPerms(Long userId);
+	Set<String> listPerms(String roles);
 
 	/**
 	 * 获取用户左侧菜单
 	 * @param userId
 	 * @return
 	 */
-	List<MenuLayuiDTO> listMenuLayuiTree(Long userId);
+	List<MenuLayuiDTO> listMenuLayuiTree(String roles);
 
 	/**
 	 * 递归删除
 	 * @param id
 	 * @return
 	 */
-	boolean recursionRemove(@NotNull Long id);
+	boolean recursionRemove(@NotNull Integer id);
 
 	/**
 	 * 批量添加

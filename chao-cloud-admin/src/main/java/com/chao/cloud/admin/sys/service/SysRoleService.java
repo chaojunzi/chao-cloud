@@ -14,16 +14,16 @@ import com.chao.cloud.admin.sys.domain.dto.RoleDTO;
  */
 public interface SysRoleService extends IService<SysRole> {
 
-	RoleDTO get(Long roleId);
+	RoleDTO get(Integer roleId);
 
-	List<RoleDTO> list(List<Long> rolesIds);
+	List<RoleDTO> list(String roles);
 
 	boolean save(RoleDTO role);
 
 	boolean update(RoleDTO role);
 
-	boolean remove(Long roleId);
+	boolean remove(Integer roleId);
 
-	boolean batchRemove(Long[] roleIds);
+	boolean batchRemove(Integer[] roleIds);
 
 }

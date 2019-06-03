@@ -24,17 +24,18 @@ public class UserDTO implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 	//
-	private Long userId;
+	private Integer userId;
 	// 用户名
 	@NotBlank(message = "用户名不能为空")
 	private String username;
 	//
 	private String name;
-
 	// 密码
 	private String password;
 	//
-	private Long deptId;
+	private String roles;
+	//
+	private Integer deptId;
 	//
 	private String deptName;
 	// 邮箱
@@ -44,7 +45,7 @@ public class UserDTO implements Serializable {
 	// 0.禁用1.正常
 	private Byte status;
 	// 角色
-	private List<Long> roleIds;
+	private List<Integer> roleIds;
 	//
 	@DateTimeFormat(pattern = DatePattern.NORM_DATETIME_PATTERN)
 	private Date createTime;

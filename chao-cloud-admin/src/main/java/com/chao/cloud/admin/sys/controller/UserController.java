@@ -1,6 +1,5 @@
 package com.chao.cloud.admin.sys.controller;
 
-import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -85,7 +84,7 @@ public class UserController extends BaseController {
 	@RequiresPermissions("sys:user:add")
 	@RequestMapping("/add")
 	String add(Model model) {
-		List<RoleDTO> roles = sysRoleService.list(Collections.emptyList());
+		List<RoleDTO> roles = sysRoleService.list(StrUtil.EMPTY);
 		model.addAttribute("roles", roles);
 		return prefix + "/add";
 	}
@@ -94,10 +93,10 @@ public class UserController extends BaseController {
 	@AdminLog("编辑用户")
 	@MenuMapping("编辑")
 	@RequestMapping("/edit/{id}")
-	String edit(Model model, @PathVariable("id") Long id) {
+	String edit(Model model, @PathVariable("id") Integer id) {
 		UserDTO user = sysUserService.get(id);
 		model.addAttribute("user", user);
-		List<RoleDTO> roles = sysRoleService.list(user.getRoleIds());
+		List<RoleDTO> roles = sysRoleService.list(user.getRoles());
 		model.addAttribute("roles", roles);
 		return prefix + "/edit";
 	}
@@ -107,6 +106,7 @@ public class UserController extends BaseController {
 	@RequestMapping("/save")
 	@ResponseBody
 	Response<String> save(@Valid UserDTO user) {
+		user.setRoleIds(super.removeEmpty(user.getRoleIds()));
 		// 判断用户是否已经注册
 		Integer userCount = sysUserService
 				.count(Wrappers.<SysUser>lambdaQuery().eq(SysUser::getUsername, user.getUsername()));
@@ -126,6 +126,7 @@ public class UserController extends BaseController {
 	@RequestMapping("/update")
 	@ResponseBody
 	Response<String> update(UserDTO user) {
+		user.setRoleIds(super.removeEmpty(user.getRoleIds()));
 		if (sysUserService.update(user) > 0) {
 			return ResponseResult.ok();
 		}
@@ -137,8 +138,8 @@ public class UserController extends BaseController {
 	@RequiresPermissions("sys:user:remove")
 	@RequestMapping("/remove")
 	@ResponseBody
-	Response<String> remove(@NotNull Long id) {
-		boolean isAdmin = id.equals(AdminConstant.ADMIN_ID);
+	Response<String> remove(@NotNull Integer id) {
+		boolean isAdmin = AdminConstant.ADMIN_ID.equals(id);
 		if (isAdmin) {
 			throw new BusinessException("admin 不可删除");
 		}
@@ -153,7 +154,7 @@ public class UserController extends BaseController {
 	@RequiresPermissions("sys:user:batchRemove")
 	@RequestMapping("/batchRemove")
 	@ResponseBody
-	Response<String> batchRemove(@RequestParam("ids[]") @Size(min = 1) Long[] userIds) {
+	Response<String> batchRemove(@RequestParam("ids[]") @Size(min = 1) Integer[] userIds) {
 		boolean hasAdmin = ArrayUtil.contains(userIds, AdminConstant.ADMIN_ID);
 		if (hasAdmin) {
 			throw new BusinessException("admin 不可删除");

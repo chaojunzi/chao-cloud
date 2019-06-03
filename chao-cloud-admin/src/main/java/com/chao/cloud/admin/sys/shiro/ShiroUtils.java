@@ -23,8 +23,12 @@ public class ShiroUtils {
 		return (UserDTO) object;
 	}
 
-	public static Long getUserId() {
+	public static Integer getUserId() {
 		return getUser().getUserId();
+	}
+	
+	public static String getRoles() {
+		return getUser().getRoles();
 	}
 
 	public static void logout() {

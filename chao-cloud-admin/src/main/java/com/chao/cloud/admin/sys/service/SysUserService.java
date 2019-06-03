@@ -13,15 +13,15 @@ import com.chao.cloud.admin.sys.domain.vo.UserVO;
  */
 public interface SysUserService extends IService<SysUser> {
 
-	UserDTO get(Long userId);
+	UserDTO get(Integer userId);
 
 	int save(UserDTO user);
 
 	int update(UserDTO user);
 
-	int remove(Long userId);
+	int remove(Integer userId);
 
-	int removeBatch(Long[] userIds);
+	int removeBatch(Integer[] userIds);
 
 	int resetPwd(UserVO userVO, UserDTO user);
 }

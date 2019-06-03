@@ -1,9 +1,10 @@
 package com.chao.cloud.admin.sys.service;
 
 import java.util.List;
-import java.util.Map;
 
 import org.springframework.stereotype.Service;
+
+import com.chao.cloud.admin.sys.domain.dto.MysqlTableDTO;
 
 /**
  * 
@@ -14,7 +15,12 @@ import org.springframework.stereotype.Service;
  */
 @Service
 public interface GeneratorService {
-
-	List<Map<String, Object>> list();
+	/**
+	 * 查询表信息
+	 * @param iDbQuery
+	 * @param connection
+	 * @return
+	 */
+	List<MysqlTableDTO> list(String tableName);
 
 }

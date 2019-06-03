@@ -7,7 +7,7 @@ import lombok.Data;
 @Data
 public class MenuLayuiDTO {
 
-	private Long menuId;// 节点id
+	private Integer menuId;// 节点id
 	private String title;// 名称
 	private String icon;// 图标
 	private String href;// 链接

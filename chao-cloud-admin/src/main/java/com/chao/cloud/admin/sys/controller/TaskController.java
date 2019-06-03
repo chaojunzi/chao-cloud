@@ -76,7 +76,7 @@ public class TaskController extends BaseController {
 	@MenuMapping("编辑")
 	@RequiresPermissions("sys:task:edit")
 	@RequestMapping("/edit/{id}")
-	String edit(@PathVariable("id") Long id, Model model) {
+	String edit(@PathVariable("id") Integer id, Model model) {
 		SysTask task = sysTaskService.getById(id);
 		model.addAttribute("task", task);
 		return prefix + "/edit";
@@ -113,7 +113,7 @@ public class TaskController extends BaseController {
 	@RequiresPermissions("sys:task:remove")
 	@RequestMapping("/remove")
 	@ResponseBody
-	public Response<String> remove(@NotNull Long id) {
+	public Response<String> remove(@NotNull Integer id) {
 		if (sysTaskService.remove(id) > 0) {
 			return ResponseResult.ok();
 		}
@@ -127,7 +127,7 @@ public class TaskController extends BaseController {
 	@RequiresPermissions("sys:task:batchRemove")
 	@RequestMapping("/batchRemove")
 	@ResponseBody
-	public Response<String> remove(@Size(min = 1) @RequestParam("ids[]") Long[] ids) {
+	public Response<String> remove(@Size(min = 1) @RequestParam("ids[]") Integer[] ids) {
 		sysTaskService.batchRemove(ids);
 		return ResponseResult.ok();
 	}
@@ -136,7 +136,7 @@ public class TaskController extends BaseController {
 	@RequiresPermissions("sys:task:changeJobStatus")
 	@RequestMapping("/changeJobStatus")
 	@ResponseBody
-	public Response<String> changeJobStatus(@NotNull Long id, String cmd) {
+	public Response<String> changeJobStatus(@NotNull Integer id, String cmd) {
 		sysTaskService.changeStatus(id, cmd);
 		return ResponseResult.getResponseResult(StrUtil.format("任务{}成功", cmd));
 	}

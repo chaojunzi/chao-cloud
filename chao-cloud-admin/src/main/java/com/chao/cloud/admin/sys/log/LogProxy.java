@@ -83,7 +83,7 @@ public class LogProxy implements BaseHttpServlet {
 		// 用户名
 		UserDTO currUser = ShiroUtils.getUser();
 		if (null == currUser) {
-			sysLog.setUserId(-1L);
+			sysLog.setUserId(-1);
 			sysLog.setUsername("获取用户信息为空");
 		} else {
 			sysLog.setUserId(ShiroUtils.getUserId());

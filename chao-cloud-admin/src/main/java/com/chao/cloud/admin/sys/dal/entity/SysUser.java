@@ -27,7 +27,7 @@ public class SysUser implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@TableId(value = "user_id", type = IdType.AUTO)
-	private Long userId;
+	private Integer userId;
 
 	/**
 	 * 用户名
@@ -40,9 +40,17 @@ public class SysUser implements Serializable {
 	 * 密码
 	 */
 	private String password;
-
-	private Long deptId;
-
+	/**
+	 * 角色
+	 */
+	private String roles;
+	/**
+	 * 部门id 
+	 */
+	private Integer deptId;
+	/**
+	 * 部门名称
+	 */
 	private String deptName;
 
 	/**
