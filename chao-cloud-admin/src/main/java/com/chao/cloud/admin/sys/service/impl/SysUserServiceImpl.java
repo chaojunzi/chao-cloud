@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.chao.cloud.admin.sys.constant.AdminConstant;
 import com.chao.cloud.admin.sys.dal.entity.SysRole;
 import com.chao.cloud.admin.sys.dal.entity.SysUser;
 import com.chao.cloud.admin.sys.dal.mapper.SysRoleMapper;
@@ -75,6 +76,8 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
 		if (CollUtil.isNotEmpty(user.getRoleIds())) {
 			BigInteger rights = RightsUtil.sumRights(user.getRoleIds());
 			user.setRoles(rights.toString());
+		} else {
+			user.setRoles(AdminConstant.RIGHTS_DEFAULT_VALUE);
 		}
 		int r = this.baseMapper.updateById(BeanUtil.toBean(user, SysUser.class));
 		return r;

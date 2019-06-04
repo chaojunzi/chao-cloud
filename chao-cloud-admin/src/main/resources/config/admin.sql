@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50505
 File Encoding         : 65001
 
-Date: 2019-06-03 12:29:22
+Date: 2019-06-04 10:16:48
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -83,7 +83,7 @@ CREATE TABLE `sys_log` (
   `ip` varchar(64) DEFAULT NULL COMMENT 'IP地址',
   `gmt_create` datetime DEFAULT NULL COMMENT '创建时间',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=838 DEFAULT CHARSET=utf8 COMMENT='系统日志';
+) ENGINE=InnoDB AUTO_INCREMENT=869 DEFAULT CHARSET=utf8 COMMENT='系统日志';
 
 -- ----------------------------
 -- Records of sys_log
@@ -913,6 +913,37 @@ INSERT INTO `sys_log` VALUES ('834', '1', 'admin', '登录', '6938', 'com.chao.c
 INSERT INTO `sys_log` VALUES ('835', '146', 'xuechao', '登录', '10242', 'com.chao.cloud.admin.sys.controller.LoginController.ajaxLogin()', '[\"xuechao\",\"123456\",\"plb4\",{\"request\":{},\"servletContext\":{},\"session\":{\"servletContext\":{},\"session\":{}},\"httpSessions\":false}]', '0:0:0:0:0:0:0:1', '2019-06-03 12:27:18');
 INSERT INTO `sys_log` VALUES ('836', '146', 'xuechao', 'stat@数据表', '81656', 'com.chao.cloud.admin.sys.controller.GeneratorController.list()', '[{\"total\":7,\"current\":1,\"size\":10,\"records\":[{\"engine\":\"InnoDB\",\"createTime...Time\":1559300041000,\"name\":\"sys_user\",\"comment\":\"\"}],\"isSearchCount\":true}]', '0:0:0:0:0:0:0:1', '2019-06-03 12:28:09');
 INSERT INTO `sys_log` VALUES ('837', '146', 'xuechao', 'stat@数据表', '5993', 'com.chao.cloud.admin.sys.controller.GeneratorController.list()', '[{\"total\":0,\"current\":1,\"size\":10,\"records\":[],\"isSearchCount\":true},\"b\"]', '0:0:0:0:0:0:0:1', '2019-06-03 12:28:14');
+INSERT INTO `sys_log` VALUES ('838', '1', 'admin', '登录', '533479', 'com.chao.cloud.admin.sys.controller.LoginController.ajaxLogin()', '[\"admin\",\"123456\",\"0ldx\",{\"request\":{},\"servletContext\":{},\"session\":{\"servletContext\":{},\"session\":{}},\"httpSessions\":false}]', '0:0:0:0:0:0:0:1', '2019-06-04 09:51:45');
+INSERT INTO `sys_log` VALUES ('839', '1', 'admin', 'stat@用户列表', '74473', 'com.chao.cloud.admin.sys.controller.UserController.list()', '[{\"total\":4,\"current\":1,\"size\":10,\"records\":[{\"deptName\":\"顶级\",\"password\":\"a...,\"email\":\"123@qq.com\",\"username\":\"chao\",\"status\":1}],\"isSearchCount\":true}]', '0:0:0:0:0:0:0:1', '2019-06-04 09:52:16');
+INSERT INTO `sys_log` VALUES ('840', '1', 'admin', '添加用户', '57457', 'com.chao.cloud.admin.sys.controller.UserController.add()', '[{\"roles\":[{\"roleId\":61,\"rights\":\"53505226185857877141717903589960696810485...,\"remark\":\"1\"},{\"roleId\":64,\"rights\":\"0\",\"roleName\":\"测试4号\",\"remark\":\"1\"}]}]', '0:0:0:0:0:0:0:1', '2019-06-04 09:52:18');
+INSERT INTO `sys_log` VALUES ('841', '1', 'admin', '添加用户', '6419', 'com.chao.cloud.admin.sys.controller.UserController.add()', '[{\"roles\":[{\"roleId\":61,\"rights\":\"53505226185857877141717903589960696810485...,\"remark\":\"1\"},{\"roleId\":64,\"rights\":\"0\",\"roleName\":\"测试4号\",\"remark\":\"1\"}]}]', '0:0:0:0:0:0:0:1', '2019-06-04 09:52:29');
+INSERT INTO `sys_log` VALUES ('842', '1', 'admin', '编辑用户', '25921', 'com.chao.cloud.admin.sys.controller.UserController.edit()', '[{\"user\":{\"deptName\":\"顶级\",\"password\":\"a66abb5684c45962d887564f08346e8d\",\"ro...remark\":\"1\"},{\"roleId\":64,\"rights\":\"0\",\"roleName\":\"测试4号\",\"remark\":\"1\"}]},1]', '0:0:0:0:0:0:0:1', '2019-06-04 09:52:43');
+INSERT INTO `sys_log` VALUES ('843', '1', 'admin', '删除用户', '30292', 'com.chao.cloud.admin.sys.controller.UserController.remove()', '[1]', '0:0:0:0:0:0:0:1', '2019-06-04 09:52:56');
+INSERT INTO `sys_log` VALUES ('844', '1', 'admin', 'stat@用户列表', '11785', 'com.chao.cloud.admin.sys.controller.UserController.list()', '[{\"total\":3,\"current\":1,\"size\":10,\"records\":[{\"deptName\":\"研发部\",\"password\":\"...,\"email\":\"123@qq.com\",\"username\":\"chao\",\"status\":1}],\"isSearchCount\":true}]', '0:0:0:0:0:0:0:1', '2019-06-04 09:52:56');
+INSERT INTO `sys_log` VALUES ('845', '1', 'admin', '添加用户', '12187', 'com.chao.cloud.admin.sys.controller.UserController.add()', '[{\"roles\":[{\"roleId\":61,\"rights\":\"53505226185857877141717903589960696810485...,\"remark\":\"1\"},{\"roleId\":64,\"rights\":\"0\",\"roleName\":\"测试4号\",\"remark\":\"1\"}]}]', '0:0:0:0:0:0:0:1', '2019-06-04 09:54:05');
+INSERT INTO `sys_log` VALUES ('846', '1', 'admin', 'stat@部门列表', '9727', 'com.chao.cloud.admin.sys.controller.DeptController.list()', '[]', '0:0:0:0:0:0:0:1', '2019-06-04 09:54:56');
+INSERT INTO `sys_log` VALUES ('847', '1', 'admin', '保存用户', '47507', 'com.chao.cloud.admin.sys.controller.UserController.save()', '[{\"deptName\":\"研发部\",\"password\":\"a66abb5684c45962d887564f08346e8d\",\"name\":\"超级...e\":\"15711066461\",\"email\":\"chaojunzi@qq.com\",\"username\":\"admin\",\"status\":1}]', '0:0:0:0:0:0:0:1', '2019-06-04 09:55:19');
+INSERT INTO `sys_log` VALUES ('848', '1', 'admin', 'stat@用户列表', '7047', 'com.chao.cloud.admin.sys.controller.UserController.list()', '[{\"total\":4,\"current\":1,\"size\":10,\"records\":[{\"deptName\":\"研发部\",\"password\":\"...\":\"chaojunzi@qq.com\",\"username\":\"admin\",\"status\":1}],\"isSearchCount\":true}]', '0:0:0:0:0:0:0:1', '2019-06-04 09:55:19');
+INSERT INTO `sys_log` VALUES ('849', '1', 'admin', 'stat@用户列表', '10694', 'com.chao.cloud.admin.sys.controller.UserController.list()', '[{\"total\":4,\"current\":1,\"size\":10,\"records\":[{\"deptName\":\"研发部\",\"password\":\"...mail\":\"123@qq.com\",\"username\":\"chao\",\"status\":1}],\"isSearchCount\":true},\"\"]', '0:0:0:0:0:0:0:1', '2019-06-04 09:55:50');
+INSERT INTO `sys_log` VALUES ('850', '1', 'admin', '删除用户', '34065', 'com.chao.cloud.admin.sys.controller.UserController.remove()', '[1]', '0:0:0:0:0:0:0:1', '2019-06-04 09:55:54');
+INSERT INTO `sys_log` VALUES ('851', '1', 'admin', 'stat@用户列表', '6605', 'com.chao.cloud.admin.sys.controller.UserController.list()', '[{\"total\":3,\"current\":1,\"size\":10,\"records\":[{\"deptName\":\"研发部\",\"password\":\"...,\"email\":\"123@qq.com\",\"username\":\"chao\",\"status\":1}],\"isSearchCount\":true}]', '0:0:0:0:0:0:0:1', '2019-06-04 09:55:54');
+INSERT INTO `sys_log` VALUES ('852', '1', 'admin', '登录', '230380', 'com.chao.cloud.admin.sys.controller.LoginController.ajaxLogin()', '[\"admin\",\"123456\",\"fruv\",{\"request\":{},\"servletContext\":{},\"session\":{\"servletContext\":{},\"session\":{}},\"httpSessions\":false}]', '0:0:0:0:0:0:0:1', '2019-06-04 10:07:20');
+INSERT INTO `sys_log` VALUES ('853', '1', 'admin', 'stat@用户列表', '42607', 'com.chao.cloud.admin.sys.controller.UserController.list()', '[{\"total\":4,\"current\":1,\"size\":10,\"records\":[{\"deptName\":\"研发部\",\"password\":\"...,\"email\":\"123@qq.com\",\"username\":\"chao\",\"status\":1}],\"isSearchCount\":true}]', '0:0:0:0:0:0:0:1', '2019-06-04 10:07:25');
+INSERT INTO `sys_log` VALUES ('854', '1', 'admin', '删除用户', '15979774', 'com.chao.cloud.admin.sys.controller.UserController.remove()', '[148]', '0:0:0:0:0:0:0:1', '2019-06-04 10:07:55');
+INSERT INTO `sys_log` VALUES ('855', '1', 'admin', 'stat@用户列表', '8928', 'com.chao.cloud.admin.sys.controller.UserController.list()', '[{\"total\":3,\"current\":1,\"size\":10,\"records\":[{\"deptName\":\"研发部\",\"password\":\"...\":\"15215@qq.com\",\"username\":\"chaojunzi\",\"status\":1}],\"isSearchCount\":true}]', '0:0:0:0:0:0:0:1', '2019-06-04 10:07:55');
+INSERT INTO `sys_log` VALUES ('856', '1', 'admin', 'stat@用户列表', '11415', 'com.chao.cloud.admin.sys.controller.UserController.list()', '[{\"total\":4,\"current\":1,\"size\":10,\"records\":[{\"deptName\":\"研发部\",\"password\":\"...mail\":\"123@qq.com\",\"username\":\"chao\",\"status\":1}],\"isSearchCount\":true},\"\"]', '0:0:0:0:0:0:0:1', '2019-06-04 10:08:51');
+INSERT INTO `sys_log` VALUES ('857', '1', 'admin', '编辑用户', '24180', 'com.chao.cloud.admin.sys.controller.UserController.edit()', '[{\"user\":{\"deptName\":\"研发部\",\"password\":\"ed3c6f5acc8f9a9065cf57928f73c126\",\"r...mark\":\"1\"},{\"roleId\":64,\"rights\":\"0\",\"roleName\":\"测试4号\",\"remark\":\"1\"}]},148]', '0:0:0:0:0:0:0:1', '2019-06-04 10:08:54');
+INSERT INTO `sys_log` VALUES ('858', '1', 'admin', '更新用户', '101291', 'com.chao.cloud.admin.sys.controller.UserController.update()', '[{\"deptName\":\"研发部\",\"roleIds\":[61,62],\"roles\":\"6917529027641081856\",\"name\":\"...711066461\",\"userId\":148,\"email\":\"123@qq.com\",\"username\":\"chao\",\"status\":1}]', '0:0:0:0:0:0:0:1', '2019-06-04 10:09:07');
+INSERT INTO `sys_log` VALUES ('859', '1', 'admin', 'stat@用户列表', '8979', 'com.chao.cloud.admin.sys.controller.UserController.list()', '[{\"total\":4,\"current\":1,\"size\":10,\"records\":[{\"deptName\":\"研发部\",\"password\":\"...,\"email\":\"123@qq.com\",\"username\":\"chao\",\"status\":1}],\"isSearchCount\":true}]', '0:0:0:0:0:0:0:1', '2019-06-04 10:09:07');
+INSERT INTO `sys_log` VALUES ('860', '1', 'admin', '编辑用户', '21019', 'com.chao.cloud.admin.sys.controller.UserController.edit()', '[{\"user\":{\"deptName\":\"研发部\",\"password\":\"ed3c6f5acc8f9a9065cf57928f73c126\",\"r...mark\":\"1\"},{\"roleId\":64,\"rights\":\"0\",\"roleName\":\"测试4号\",\"remark\":\"1\"}]},148]', '0:0:0:0:0:0:0:1', '2019-06-04 10:09:09');
+INSERT INTO `sys_log` VALUES ('861', '1', 'admin', '更新用户', '13238', 'com.chao.cloud.admin.sys.controller.UserController.update()', '[{\"deptName\":\"研发部\",\"name\":\"asd\",\"deptId\":6,\"mobile\":\"15711066461\",\"userId\":148,\"email\":\"123@qq.com\",\"username\":\"chao\",\"status\":1}]', '0:0:0:0:0:0:0:1', '2019-06-04 10:09:31');
+INSERT INTO `sys_log` VALUES ('862', '1', 'admin', 'stat@用户列表', '6997', 'com.chao.cloud.admin.sys.controller.UserController.list()', '[{\"total\":4,\"current\":1,\"size\":10,\"records\":[{\"deptName\":\"研发部\",\"password\":\"...,\"email\":\"123@qq.com\",\"username\":\"chao\",\"status\":1}],\"isSearchCount\":true}]', '0:0:0:0:0:0:0:1', '2019-06-04 10:09:31');
+INSERT INTO `sys_log` VALUES ('863', '1', 'admin', '编辑用户', '16531', 'com.chao.cloud.admin.sys.controller.UserController.edit()', '[{\"user\":{\"deptName\":\"研发部\",\"password\":\"ed3c6f5acc8f9a9065cf57928f73c126\",\"r...mark\":\"1\"},{\"roleId\":64,\"rights\":\"0\",\"roleName\":\"测试4号\",\"remark\":\"1\"}]},148]', '0:0:0:0:0:0:0:1', '2019-06-04 10:09:47');
+INSERT INTO `sys_log` VALUES ('864', '1', 'admin', '更新用户', '2897', 'com.chao.cloud.admin.sys.controller.UserController.update()', '[{\"deptName\":\"研发部\",\"name\":\"asd\",\"deptId\":6,\"mobile\":\"15711066461\",\"userId\":148,\"email\":\"123@qq.com\",\"username\":\"chao\",\"status\":1}]', '0:0:0:0:0:0:0:1', '2019-06-04 10:10:09');
+INSERT INTO `sys_log` VALUES ('865', '1', 'admin', 'stat@用户列表', '5765', 'com.chao.cloud.admin.sys.controller.UserController.list()', '[{\"total\":4,\"current\":1,\"size\":10,\"records\":[{\"deptName\":\"研发部\",\"password\":\"...,\"email\":\"123@qq.com\",\"username\":\"chao\",\"status\":1}],\"isSearchCount\":true}]', '0:0:0:0:0:0:0:1', '2019-06-04 10:10:09');
+INSERT INTO `sys_log` VALUES ('866', '1', 'admin', '编辑用户', '14880', 'com.chao.cloud.admin.sys.controller.UserController.edit()', '[{\"user\":{\"deptName\":\"研发部\",\"password\":\"ed3c6f5acc8f9a9065cf57928f73c126\",\"r...mark\":\"1\"},{\"roleId\":64,\"rights\":\"0\",\"roleName\":\"测试4号\",\"remark\":\"1\"}]},148]', '0:0:0:0:0:0:0:1', '2019-06-04 10:10:22');
+INSERT INTO `sys_log` VALUES ('867', '1', 'admin', '更新用户', '37237047', 'com.chao.cloud.admin.sys.controller.UserController.update()', '[{\"deptName\":\"研发部\",\"name\":\"asd\",\"deptId\":6,\"mobile\":\"15711066461\",\"userId\":148,\"email\":\"123@qq.com\",\"username\":\"chao\",\"status\":1}]', '0:0:0:0:0:0:0:1', '2019-06-04 10:11:01');
+INSERT INTO `sys_log` VALUES ('868', '1', 'admin', 'stat@用户列表', '5599', 'com.chao.cloud.admin.sys.controller.UserController.list()', '[{\"total\":4,\"current\":1,\"size\":10,\"records\":[{\"deptName\":\"研发部\",\"password\":\"...,\"email\":\"123@qq.com\",\"username\":\"chao\",\"status\":1}],\"isSearchCount\":true}]', '0:0:0:0:0:0:0:1', '2019-06-04 10:11:01');
 
 -- ----------------------------
 -- Table structure for sys_menu
@@ -1052,15 +1083,16 @@ CREATE TABLE `sys_user` (
   `dept_name` varchar(50) DEFAULT '',
   `email` varchar(100) DEFAULT NULL COMMENT '邮箱',
   `mobile` varchar(100) DEFAULT NULL COMMENT '手机号',
+  `deleted` tinyint(4) DEFAULT 0 COMMENT '逻辑删除  1 删除',
   `status` tinyint(4) DEFAULT 1 COMMENT '0.禁用1.正常',
   `create_time` datetime DEFAULT current_timestamp(),
   PRIMARY KEY (`user_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=149 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=150 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of sys_user
 -- ----------------------------
-INSERT INTO `sys_user` VALUES ('1', 'admin', '超级管理员', 'a66abb5684c45962d887564f08346e8d', '0', '0', '顶级', 'admin@example.com', '17699999999', '1', '2019-05-10 15:52:03');
-INSERT INTO `sys_user` VALUES ('146', 'xuechao', '薛超', '5753487aa8da1fc20bfa71847f85be80', '2305843009213693952', '6', '研发部', 'asdada@qq.com', '15711066461', '1', '2019-05-10 15:52:05');
-INSERT INTO `sys_user` VALUES ('147', 'chaojunzi', '超君子', '23d3e9a8eba3160054450a5851e8708c', '0', '20', '测试1部', '15215@qq.com', '15711066462', '1', '2019-05-10 21:15:49');
-INSERT INTO `sys_user` VALUES ('148', 'chao', 'asd', 'ed3c6f5acc8f9a9065cf57928f73c126', '0', '6', '研发部', '123@qq.com', '15711066461', '1', '2019-05-30 12:45:54');
+INSERT INTO `sys_user` VALUES ('1', 'admin', '超级管理员', 'a66abb5684c45962d887564f08346e8d', '0', '6', '研发部', 'chaojunzi@qq.com', '15711066461', '0', '1', '2019-06-04 09:55:19');
+INSERT INTO `sys_user` VALUES ('146', 'xuechao', '薛超', '5753487aa8da1fc20bfa71847f85be80', '2305843009213693952', '6', '研发部', 'asdada@qq.com', '15711066461', '0', '1', '2019-05-10 15:52:05');
+INSERT INTO `sys_user` VALUES ('147', 'chaojunzi', '超君子', '23d3e9a8eba3160054450a5851e8708c', '0', '20', '测试1部', '15215@qq.com', '15711066462', '0', '1', '2019-05-10 21:15:49');
+INSERT INTO `sys_user` VALUES ('148', 'chao', 'asd', 'ed3c6f5acc8f9a9065cf57928f73c126', '6917529027641081856', '6', '研发部', '123@qq.com', '15711066461', '0', '1', '2019-05-30 12:45:54');

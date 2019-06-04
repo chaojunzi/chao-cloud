@@ -7,6 +7,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableLogic;
 
 import cn.hutool.core.date.DatePattern;
 import lombok.Data;
@@ -62,6 +63,12 @@ public class SysUser implements Serializable {
 	 * 手机号
 	 */
 	private String mobile;
+	
+	/**
+	 * 逻辑删除
+	 */
+	@TableLogic
+	private Byte deleted;
 
 	/**
 	 * 0.禁用1.正常

@@ -67,4 +67,6 @@ chao:
           parent: com.chao.cloud.admin.core #parent
         global:
          author: 超君子
+        strategy:
+         logic-delete-field-name: deleted
             
