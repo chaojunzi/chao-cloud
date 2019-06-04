@@ -7,6 +7,8 @@
 [echarts](https://github.com/apache/incubator-echarts)  
 
 # chao-cloud-admin  ---> 效果图展示
+### 环境依赖
+#### jdk1.8+  Eclipse 4.7（Oxygen[氧气]）+  maven阿里云仓库   
 #### springboot+mybatis+mysql+shiro+layui+echarts
 ![Image text](https://github.com/chaojunzi/chao-cloud/blob/master/screenshot/admin/world.gif)
 ![Image text](https://github.com/chaojunzi/chao-cloud/blob/master/screenshot/admin/echarts1.png)
