@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html>
-<title>Chao-后台管理</title>
+<title class="logoTitle"></title>
 <head th:include="include::header"></head>
 <link rel="stylesheet" href="/sys/css/index.css" media="all" />
 <body class="main_body">
@@ -8,7 +8,7 @@
 		<!-- 顶部 -->
 		<div class="layui-header header">
 			<div class="layui-main mag0">
-				<a href="#" class="logo">Chao-后台管理</a>
+				<a href="#" class="logo logoTitle"></a>
 				<!-- 显示/隐藏菜单 -->
 				<a href="javascript:;" class="seraph hideMenu icon-caidan layui-icon layui-icon-shrink-right"></a>
 				<!-- 顶部右侧菜单 -->
@@ -27,7 +27,7 @@
 					</li>
 					<li class="layui-nav-item" id="userInfo">
 						<a href="javascript:;">
-							<img src="/sys/images/face.jpg" class="layui-nav-img userAvatar" width="35" height="35">
+							<img id="headImg" class="layui-nav-img userAvatar" width="35" height="35">
 							<cite class="adminName" th:text="${username}"></cite>
 						</a>
 						<dl class="layui-nav-child">
@@ -110,7 +110,7 @@
 		</div>
 		<!-- 底部 -->
 		<div class="layui-footer footer">
-			<span>Copyright @2019-2020 Chao Junzi</span>
+			<span id="footer"></span>
 		</div>
 	</div>
 

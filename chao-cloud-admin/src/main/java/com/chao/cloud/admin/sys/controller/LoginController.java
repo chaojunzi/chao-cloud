@@ -45,7 +45,7 @@ public class LoginController extends BaseController {
 	String index(Model model) {
 		model.addAttribute("name", getUser().getName());
 		model.addAttribute("username", getUser().getUsername());
-		return "chao_index";
+		return "index";
 	}
 
 	@GetMapping("/login")

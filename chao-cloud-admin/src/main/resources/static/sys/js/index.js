@@ -7,6 +7,11 @@ layui.config({
 layui.use([ 'bodyTab', 'form', 'element', 'layer', 'jquery' ], function() {
 	var form = layui.form, element = layui.element;
 	$ = layui.$;
+	// 内容初始化
+	$("#footer").text(adminConfig.footer);// 页脚
+	$("#headImg").attr('src', adminConfig.headImg);// 头像
+	$(".logoTitle").text(adminConfig.logoTitle);// logo 标题
+	//
 	layer = parent.layer === undefined ? layui.layer : top.layer;
 	tab = layui.bodyTab({
 		openTabNum : "50", // 最大可打开窗口数量

@@ -3,6 +3,7 @@ package com.chao.cloud.admin.sys.config;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.LinkedHashMap;
+import java.util.List;
 
 import org.apache.shiro.cache.ehcache.EhCacheManager;
 import org.apache.shiro.mgt.SecurityManager;
@@ -24,6 +25,9 @@ import com.chao.cloud.admin.sys.shiro.ShiroSessionListener;
 import com.chao.cloud.admin.sys.shiro.ShiroUserRealm;
 
 import at.pollux.thymeleaf.shiro.dialect.ShiroDialect;
+import cn.hutool.core.collection.CollUtil;
+import cn.hutool.core.io.resource.ResourceUtil;
+import cn.hutool.core.util.StrUtil;
 import net.sf.ehcache.CacheManager;
 
 /**
@@ -75,11 +79,12 @@ public class ShiroConfig {
 		filterChainDefinitionMap.put("/css/**", "anon");
 		filterChainDefinitionMap.put("/js/**", "anon");
 		filterChainDefinitionMap.put("/img/**", "anon");
-		//
-		filterChainDefinitionMap.put("/echarts/**", "anon");
-		filterChainDefinitionMap.put("/layui/**", "anon");
-		filterChainDefinitionMap.put("/sys/**", "anon");
-		filterChainDefinitionMap.put("/wangEditor/**", "anon");
+		// 获取static 静态目录
+		String pathTemplate = "/{}/**";
+		List<String> paths = CollUtil.toList(ResourceUtil.readUtf8Str("static").split("\n"));
+		if (CollUtil.isNotEmpty(paths)) {
+			paths.forEach(p -> filterChainDefinitionMap.put(StrUtil.format(pathTemplate, p), "anon"));
+		}
 		//
 		filterChainDefinitionMap.put("/", "anon");
 		filterChainDefinitionMap.put("/**", "authc");
