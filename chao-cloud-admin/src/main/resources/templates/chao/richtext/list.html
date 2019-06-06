@@ -6,43 +6,41 @@
 		<hr class="layui-bg-gray">
 		<div class="layui-inline">
 			<div class="layui-input-inline">
-				<input class="layui-input" name="name" placeholder="请输入名名称" autocomplete="off" />
-			</div>
-			<div class="layui-input-inline">
-				<input class="layui-input" name="val" placeholder="请输入名值" autocomplete="off" />
+				<input class="layui-input" name="title" placeholder="请输入标题" autocomplete="off" />
 			</div>
 			<button class="layui-btn layui-btn-normal" id="search" data-type="reload">搜索</button>
 		</div>
-		<table id="chao_config-table" lay-filter="chao_config-table"></table>
+		<table id="chao_richtext-table" lay-filter="chao_richtext-table"></table>
 	</div>
 	<!-- 工具栏 -->
-	<script type="text/html" id="toolbarChaoConfig">
+	<script type="text/html" id="toolbarChaoRichtext">
         <div class="layui-btn-container">
-			<button shiro:hasPermission="chao:config:add" class="layui-btn layui-btn-sm" lay-event="add"><i class="layui-icon layui-icon-add-circle" ></i>添加</button>
-            <button shiro:hasPermission="chao:config:batchRemove" class="layui-btn layui-btn-sm layui-btn-danger" lay-event="batchRemove"><i class="layui-icon layui-icon-delete"></i>删除</button>
+			<button shiro:hasPermission="chao:richtext:add" class="layui-btn layui-btn-sm" lay-event="add"><i class="layui-icon layui-icon-add-circle" ></i>添加</button>
+            <button shiro:hasPermission="chao:richtext:batchRemove" class="layui-btn layui-btn-sm layui-btn-danger" lay-event="batchRemove"><i class="layui-icon layui-icon-delete"></i>删除</button>
         </div>
     </script>
 	<!-- 操作列 -->
-	<script type="text/html" id="chao_config-state">
+	<script type="text/html" id="chao_richtext-state">
      <div class="layui-btn-group">
-        <button shiro:hasPermission="chao:config:edit" class="layui-btn layui-btn-sm" lay-event="edit"><i class="layui-icon layui-icon-edit"></i>编辑</button>
-        <button shiro:hasPermission="chao:config:remove" class="layui-btn layui-btn-sm" lay-event="del"><i class="layui-icon layui-icon-delete"></i>删除</button>
+		<button class="layui-btn layui-btn-sm" lay-event="look"><i class="layui-icon layui-icon-search"></i>预览</button>
+        <button shiro:hasPermission="chao:richtext:edit" class="layui-btn layui-btn-sm" lay-event="edit"><i class="layui-icon layui-icon-edit"></i></button>
+        <button shiro:hasPermission="chao:richtext:remove" class="layui-btn layui-btn-sm" lay-event="del"><i class="layui-icon layui-icon-delete"></i></button>
     </div>
     </script>
 	<div th:include="include::footer"></div>
 	<script>
-		layui.use([ 'table', 'element' ], function() {
+		layui.use([ 'table' ], function() {
 			var $ = layui.jquery;
 			var table = layui.table;
 			// 渲染表格
 			var renderTable = function() {
 				layer.load(2);
 				table.render({
-					elem : '#chao_config-table',
-					url : '/chao/config/list',
-					toolbar : '#toolbarChaoConfig',
+					elem : '#chao_richtext-table',
+					url : '/chao/richtext/list',
+					toolbar : '#toolbarChaoRichtext',
 					page : true,
-					id : 'chaoConfigReload',
+					id : 'chaoRichtextReload',
 					parseData : chaoLayuiTable.parseData,
 					request : chaoLayuiTable.request,
 					response : chaoLayuiTable.response,
@@ -61,13 +59,18 @@
 
 					}, {
 						align : 'center',
-						field : 'name',
-						title : '名称',
+						field : 'title',
+						title : '标题',
 
 					}, {
 						align : 'center',
-						field : 'val',
-						title : '值',
+						field : 'img',
+						title : '展示图',
+
+					}, {
+						align : 'center',
+						field : 'content',
+						title : '内容',
 
 					}, {
 						align : 'center',
@@ -76,7 +79,7 @@
 
 					}, {
 						title : '操作',
-						toolbar : '#chao_config-state',
+						toolbar : '#chao_richtext-state',
 						align : 'center'
 					} ] ],
 					done : function() {
@@ -90,15 +93,13 @@
 			var active = {
 				reload : function() {
 					//执行重载
-					table.reload('chaoConfigReload', {
+					table.reload('chaoRichtextReload', {
 						page : {
 							curr : 1
 						//重新从第 1 页开始
 						},
 						where : {
-							name : $('[name=name]').val(),
-							val : $('[name=val]').val(),
-
+							title : $('[name=title]').val(),
 						}
 					});
 				}
@@ -110,7 +111,7 @@
 			});
 
 			//头工具栏事件
-			table.on('toolbar(chao_config-table)', function(obj) {
+			table.on('toolbar(chao_richtext-table)', function(obj) {
 				var checkStatus = table.checkStatus(obj.config.id);
 				switch (obj.event) {
 				case 'add'://增加
@@ -128,7 +129,7 @@
 			});
 
 			//监听工具条
-			table.on('tool(chao_config-table)', function(obj) {
+			table.on('tool(chao_richtext-table)', function(obj) {
 				var data = obj.data;
 				console.log(data)
 				var layEvent = obj.event;
@@ -136,15 +137,22 @@
 					remove(data.id);
 				} else if (layEvent === 'edit') {//修改
 					edit(data.id);
+				} else if (layEvent === 'look') {//查看
+					look(data);
 				}
 			});
+
+			function look(data) {
+				//触发事件
+				parent.leafTabAdd("/chao/config/add", "添加");
+			}
 
 			function remove(id) {
 				layer.confirm('确定要删除选中的记录？', {
 					btn : [ '确定', '取消' ]
 				}, function() {
 					$.ajax({
-						url : "/chao/config/remove",
+						url : "/chao/richtext/remove",
 						type : "post",
 						data : {
 							id : id
@@ -175,7 +183,7 @@
 						data : {
 							"ids" : ids
 						},
-						url : '/chao/config/batchRemove',
+						url : '/chao/richtext/batchRemove',
 						success : function(r) {
 							if (r.retCode == '0000') {
 								layer.msg("删除成功");
@@ -194,8 +202,8 @@
 					title : '修改',
 					maxmin : true,
 					shadeClose : false, // 点击遮罩关闭层
-					area : [ '60%', '60%' ],
-					content : '/chao/config/edit/' + id // iframe的url
+					area : [ '60%', '80%' ],
+					content : '/chao/richtext/edit/' + id // iframe的url
 				});
 			}
 
@@ -205,8 +213,8 @@
 					title : '增加',
 					maxmin : true,
 					shadeClose : false, // 点击遮罩关闭层
-					area : [ '60%', '60%' ],
-					content : '/chao/config/add' // iframe的url
+					area : [ '60%', '80%' ],
+					content : '/chao/richtext/add' // iframe的url
 				});
 			}
 		});

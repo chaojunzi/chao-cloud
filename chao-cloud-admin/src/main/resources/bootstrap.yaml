@@ -56,11 +56,12 @@ mybatis-plus:
 #默认使用本地数据源
 chao:
   cloud:
+  #  globle:
+  #    config:
+  #      rich-path:    # 富文本编辑器生成的html地址
     ftp:
-      config: # 请换成你自己项目的路径
-        local: true
-        path: D:/Users/xuechao/work/git-local/chao-cloud/chao-cloud-admin/target/classes/public/img
-        prefix: D:/Users/xuechao/work/git-local/chao-cloud/chao-cloud-admin/target/classes/public
+      config: 
+        local: true #使用本地硬盘->默认ftp
     codegen:
         datasource:
           url: ${spring.datasource.url}

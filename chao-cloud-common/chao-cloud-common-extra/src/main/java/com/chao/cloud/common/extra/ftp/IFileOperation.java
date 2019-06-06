@@ -52,14 +52,23 @@ public interface IFileOperation {
 	 */
 	boolean delete(String filePath);
 
-	default String genFilePath(String rootPath) {
+	public static String genFilePath(String rootPath) {
 		// 根据时间生成目录结构
 		String url = rootPath + DateUtil.format(DateUtil.date(), PATH_DATE_PATTERN);
 		return FileUtil.normalize(url);
 	}
 
-	default String genFileName(String fileName) {
+	public static String genFileName(String fileName) {
 		return StrUtil.format("{}.{}", SNOW_FLAKE.nextId(), FileUtil.extName(fileName));
+	}
+
+	/**
+	 * 生成随机文件全路径
+	 * @param fileName
+	 * @return
+	 */
+	public static String genRandomFullFileName(String rootPath, String fileName) {
+		return genFilePath(rootPath) + genFileName(fileName);
 	}
 
 	public static void main(String[] args) {
@@ -68,6 +77,7 @@ public interface IFileOperation {
 		final String path = StrUtil.removeSuffix(filePath, fileName);
 		Console.log(fileName);
 		Console.log(path);
+		Console.log(genRandomFullFileName("d:/rich/", ".html"));
 	}
 
 }

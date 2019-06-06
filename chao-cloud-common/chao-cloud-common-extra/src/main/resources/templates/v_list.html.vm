@@ -127,7 +127,6 @@
 			//监听工具条
 			table.on('tool(${table.name}-table)', function(obj) {
 				var data = obj.data;
-				console.log(data)
 				var layEvent = obj.event;
 				if (layEvent === 'del') {//删除
 					remove(data.${pk.propertyName});
@@ -186,7 +185,7 @@
 			}
 
 			function edit(id) {
-				layer.open({
+				 layer.open({
 					type : 2,
 					title : '修改',
 					maxmin : true,
@@ -197,7 +196,7 @@
 			}
 
 			function openAdd() {
-				layer.open({
+				 layer.open({
 					type : 2,
 					title : '增加',
 					maxmin : true,

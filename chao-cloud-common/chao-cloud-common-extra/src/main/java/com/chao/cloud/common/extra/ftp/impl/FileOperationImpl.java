@@ -51,8 +51,8 @@ public class FileOperationImpl implements IFileOperation {
 	@Override
 	public String uploadInputStream(InputStream in, String fileName) throws Exception {
 		try (InputStream fileStream = in) {
-			String name = this.genFileName(fileName);
-			String path = this.genFilePath(ftpConfig.getPath());
+			String name = IFileOperation.genFileName(fileName);
+			String path = IFileOperation.genFilePath(ftpConfig.getPath());
 			String fullPath = path + name;
 			// 判断是否为ftp 上传
 			boolean upload = false;

@@ -11,6 +11,10 @@ public class LayImgDTO {
 	 */
 	private String src;
 	/**
+	 * 图片域名
+	 */
+	private String domain;
+	/**
 	 * 图片名称（可选）
 	 */
 	private String title;

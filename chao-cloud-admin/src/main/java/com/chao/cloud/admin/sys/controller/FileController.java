@@ -17,6 +17,7 @@ import org.springframework.web.multipart.MultipartFile;
 import com.baomidou.mybatisplus.extension.api.R;
 import com.chao.cloud.admin.sys.domain.dto.LayImgDTO;
 import com.chao.cloud.common.extra.ftp.IFileOperation;
+import com.chao.cloud.common.extra.ftp.annotation.FtpConfig;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -38,6 +39,9 @@ public class FileController {
 	@Autowired
 	private IFileOperation fileOperation;
 
+	@Autowired
+	private FtpConfig ftpConfig;
+
 	/**
 	 * 图片上传
 	 * @return
@@ -46,7 +50,7 @@ public class FileController {
 	@PostMapping(value = "uploadImg")
 	public R<LayImgDTO> uploadImg(@NotNull(message = MESSAGE) MultipartFile file) throws Exception {
 		String uploadImg = fileOperation.uploadImg(file.getInputStream(), file.getOriginalFilename());
-		return R.ok(LayImgDTO.builder().src(uploadImg).title("").build());
+		return R.ok(LayImgDTO.builder().src(uploadImg).domain(ftpConfig.getDomain()).title("").build());
 	}
 
 	/**

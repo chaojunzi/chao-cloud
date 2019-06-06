@@ -12,7 +12,7 @@ import lombok.Data;
  * @version 2.0
  */
 @Data
-public class StatRequestTimeEntity {
+public class StatRequestTime {
 
     private String operation;// 操作
     private BigDecimal max;// 操作

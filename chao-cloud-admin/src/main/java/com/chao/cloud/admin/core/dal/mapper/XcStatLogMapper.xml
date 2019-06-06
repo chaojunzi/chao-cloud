@@ -6,7 +6,7 @@
 
 	<!-- 统计执行时间 -->
 	<select id="statRequestTime" parameterType="java.lang.String"
-		resultType="com.chao.cloud.admin.core.dal.entity.StatRequestTimeEntity">
+		resultType="com.chao.cloud.admin.core.dal.entity.StatRequestTime">
 		SELECT
 		operation,
 		MAX(time) max,

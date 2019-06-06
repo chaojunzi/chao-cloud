@@ -22,23 +22,11 @@
 			</div>
 		</div>
 		<!--  -->
-		<!--  -->
 		<div class="layui-form-item">
-			<label class="layui-form-label">文件上传：</label>
+			<label class="layui-form-label">创建时间：</label>
 			<div class="layui-input-block">
-				<input type="hidden" name="img" lay-verify="required">
-				<img class="layui-upload-img" id="showImg">
-				<div class="layui-upload-drag" id="uploadImg">
-					<i class="layui-icon"></i>
-					<p>点击上传，或将文件拖拽到此处</p>
-				</div>
-			</div>
-		</div>
-		<div class="layui-form-item">
-			<label class="layui-form-label">配置内容：</label>
-			<div class="layui-input-block">
-				<div id="editor"></div>
-				<input type="hidden" id="content" name="content">
+				<input id="createTime" name="createTime" placeholder="请选择时间" class="layui-input"
+					lay-verify="required" autocomplete="off">
 			</div>
 		</div>
 
@@ -51,46 +39,11 @@
 	<div th:include="include::footer"></div>
 	<!-- 注意：如果你直接复制所有代码到本地，上述js路径需要改成你本地的 -->
 	<script>
-		layui.config({
-			base : '/wangEditor/'
-		}).use([ 'layer', 'jquery', 'form', 'laydate', 'upload', 'wangEditor' ], function() {
+		layui.use([ 'layer', 'jquery', 'form', 'laydate' ], function() {
 			var $ = layui.jquery;
 			var laydate = layui.laydate;
 			var layer = layui.layer;
 			var form = layui.form;
-			var upload = layui.upload;
-			var wangEditor = layui.wangEditor;
-			//https://www.kancloud.cn/wangfupeng/wangeditor3/335780 在线文档
-			//富文本编辑器
-			var editor = new wangEditor('#editor');
-			editor.customConfig.uploadImgMaxSize = 5 * 1024 * 1024; //图片大小 默认1M
-			editor.customConfig.uploadImgMaxLength = 5; //图片数量
-			editor.customConfig.uploadImgShowBase64 = true;
-			var content = $('#content')
-			editor.customConfig.onchange = function(html) {
-				// 监控变化，同步更新到 textarea
-				content.val(html)
-			}
-			editor.create()
-			editor.txt.html('');//内容初始化
-			// 初始化 textarea 的值
-			content.val(editor.txt.html())
-
-			//拖拽上传
-			upload.render({
-				elem : '#uploadImg',
-				url : '/file/uploadImg/',
-				done : function(res) {
-					//修改数据属性
-					console.log(res);
-					var src = res.data.src;
-					$("#uploadImg").hide();
-					$("[name=img]").val(src);
-					$("#showImg").attr("style", "width: 93px;height: 93px;");
-					$("#showImg").attr("src", src);
-
-				}
-			});
 
 			//日期时间选择器
 			laydate.render({
