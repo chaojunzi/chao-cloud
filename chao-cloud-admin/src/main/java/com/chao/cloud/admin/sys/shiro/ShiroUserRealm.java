@@ -41,10 +41,11 @@ public class ShiroUserRealm extends AuthorizingRealm {
 	 */
 	@Override
 	protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection arg0) {
-		String roles = ShiroUtils.getRoles();
-		Set<String> perms = menuService.listPerms(roles);
+		UserDTO user = ShiroUtils.getUser();
+		Set<String> perms = menuService.listPerms(user.getRoles());
 		SimpleAuthorizationInfo info = new SimpleAuthorizationInfo();
 		info.setStringPermissions(perms);
+		user.setPerms(perms);// 赋值给本人
 		return info;
 	}
 

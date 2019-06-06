@@ -6,6 +6,7 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 import org.apache.shiro.authz.annotation.RequiresPermissions;
+import org.apache.shiro.authz.annotation.RequiresUser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -20,6 +21,7 @@ import com.baomidou.mybatisplus.extension.api.R;
 import com.chao.cloud.admin.sys.constant.AdminConstant;
 import com.chao.cloud.admin.sys.dal.entity.SysDept;
 import com.chao.cloud.admin.sys.dal.entity.SysUser;
+import com.chao.cloud.admin.sys.domain.dto.SelectTreeDTO;
 import com.chao.cloud.admin.sys.log.AdminLog;
 import com.chao.cloud.admin.sys.service.SysDeptService;
 import com.chao.cloud.admin.sys.service.SysUserService;
@@ -155,10 +157,11 @@ public class DeptController extends BaseController {
 		return ResponseResult.ok();
 	}
 
-	@MenuMapping("选择部门")
-	@RequiresPermissions("sys:dept:choose")
+	@RequiresUser
 	@RequestMapping("/choose")
-	String deptChoose() {
-		return prefix + "/choose";
+	@ResponseBody
+	public R<List<SelectTreeDTO>> choose() {
+		return R.ok(sysDeptService.selectTree());
 	}
+
 }

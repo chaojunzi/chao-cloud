@@ -1,7 +1,10 @@
 package com.chao.cloud.admin.sys.service;
 
-import com.chao.cloud.admin.sys.dal.entity.SysDept;
+import java.util.List;
+
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.chao.cloud.admin.sys.dal.entity.SysDept;
+import com.chao.cloud.admin.sys.domain.dto.SelectTreeDTO;
 
 /**
  * @功能：
@@ -10,5 +13,10 @@ import com.baomidou.mybatisplus.extension.service.IService;
  * @version 1.0.0
  */
 public interface SysDeptService extends IService<SysDept> {
+	/**
+	 * 下拉树
+	 * @return
+	 */
+	List<SelectTreeDTO> selectTree();
 
 }

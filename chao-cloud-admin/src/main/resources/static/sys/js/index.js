@@ -20,15 +20,16 @@ layui.use([ 'bodyTab', 'form', 'element', 'layer', 'jquery' ], function() {
 
 	// 通过顶部菜单获取左侧二三级菜单 注：此处只做演示之用，实际开发中通过接口传参的方式获取导航数据
 	function getData(json) {
-		var menus = window.sessionStorage.getItem("auth_menus");
+		var user_menu = $("#userkey").val() + ":menus";
+		var menus = window.sessionStorage.getItem(user_menu);
 		if (menus == null) {
 			$.ajaxSettings.async = false;// 同步执行
 			$.getJSON(tab.tabConfig.url, function(data) {
-				window.sessionStorage.setItem("auth_menus", JSON.stringify(data))
+				window.sessionStorage.setItem(user_menu, JSON.stringify(data))
 				menus = data;
 			});
 		} else {
-			console.log("menu 已缓存")
+			console.log("user_menu 已缓存:" + user_menu)
 		}
 		dataStr = menus;
 		// 重新渲染左侧菜单
@@ -138,19 +139,23 @@ layui.use([ 'bodyTab', 'form', 'element', 'layer', 'jquery' ], function() {
 		window.sessionStorage.removeItem("curmenu");
 	}
 })
-
 // 打开新窗口
 function addTab(_this) {
 	tab.tabAdd(_this);
 }
-
-// 图片管理弹窗
-function showImg() {
-	$.getJSON('json/images.json', function(json) {
-		var res = json;
-		layer.photos({
-			photos : res,
-			anim : 5
-		});
-	});
+// 新增tab（子页面）
+function leafTabAdd(url, title, icon) {
+	tab.leafTabAdd(url, title, strToNumber(url), icon);
+}
+function strToNumber(str) {
+	var result = '1';
+	var reg = /[a-z]/i;
+	for (var i = 0; i < str.length; i++) {
+		if (reg.test(str[i])) {
+			result += str[i].charCodeAt();
+		} else {
+			result += 0;
+		}
+	}
+	return result;
 }

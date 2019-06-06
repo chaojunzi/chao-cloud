@@ -53,7 +53,7 @@
 			<label class="layui-form-label">权限标识：</label>
 			<div class="layui-input-block">
 				<input name="perms" placeholder="请输入权限标识" autocomplete="off" th:value="${menu.perms}"
-					class="layui-input">
+					class="layui-input" lay-verify="required">
 			</div>
 		</div>
 		<div class="layui-form-item">

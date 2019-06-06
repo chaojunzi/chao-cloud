@@ -3,6 +3,7 @@ package com.chao.cloud.admin.sys.domain.dto;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
 
 import javax.validation.constraints.NotBlank;
 
@@ -46,6 +47,7 @@ public class UserDTO implements Serializable {
 	private Byte status;
 	// 角色
 	private List<Integer> roleIds;
+	private Set<String> perms;//权限值
 	//
 	@DateTimeFormat(pattern = DatePattern.NORM_DATETIME_PATTERN)
 	private Date createTime;

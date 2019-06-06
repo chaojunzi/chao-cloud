@@ -152,7 +152,7 @@ layui.define([ "element", "jquery" ],
 						}
 						tabIdIndex++;
 						title += '<cite>' + _this.find("cite").text() + '</cite>';
-						title += '<i class="layui-icon layui-unselect layui-tab-close" data-id="' + tabIdIndex + '">&#x1006;</i>';
+						title += '<i class="layui-icon layui-icon-close layui-unselect layui-tab-close" data-id="' + tabIdIndex + '"></i>';
 						element.tabAdd(tabFilter, {
 							title : title,
 							content : "<iframe src='" + _this.attr("data-url") + "' data-id='" + tabIdIndex + "'></frame>",
@@ -185,6 +185,30 @@ layui.define([ "element", "jquery" ],
 						that.tabMove(); // 顶部窗口是否可滚动
 					}
 				}
+			}
+			// 新增tab（子页面）
+			Tab.prototype.leafTabAdd = function(url, title, layId, icon) {
+				var that = this;
+				tabFilter = that.tabConfig.tabFilter;
+				// 判断是否存在
+				if (that.hasTab(title) == -1) {
+					var topTitle = "";
+					var reg = new RegExp('^layui-icon-.*$');
+					if (!reg.test(icon)) {
+						icon = 'layui-icon-rate-half';
+					}
+					topTitle = '<i class="seraph layui-icon ' + icon + '" ></i>';
+					topTitle += "<cite>" + title + "</cite>"
+					topTitle += '<i class="layui-icon layui-icon-close layui-unselect layui-tab-close" data-id="' + layId + '"></i>';
+					element.tabAdd(tabFilter, {
+						title : topTitle,
+						content : "<iframe src='" + url + "' data-id='" + layId + "'></frame>",
+						id : layId
+					});
+				}
+				// 当前窗口内容
+				element.tabChange(tabFilter, layId);
+				that.tabMove(); // 顶部窗口是否可滚动
 			}
 
 			// 顶部窗口移动

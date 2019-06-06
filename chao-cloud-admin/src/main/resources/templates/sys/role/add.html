@@ -44,42 +44,36 @@
 			var authtree = layui.authtree;
 			var form = layui.form;
 			//加载权限树
-			//设置缓存
-			var trees = window.sessionStorage.getItem("menuCache");
-			if (trees == null) {
-				$.ajax({
-					url : "/sys/menu/list",
-					dataType : 'json',
-					async : false,
-					success : function(res) {
-						// 支持自定义递归字段、数组权限判断等
-						// 深坑注意：如果API返回的数据是字符串，那么 startPid 的数据类型也需要是字符串
-						trees = authtree.listConvert(res.data, {
-							primaryKey : 'menuId',
-							startPid : 0,
-							parentKey : 'parentId',
-							nameKey : 'name',
-							valueKey : 'menuId',
-						//checkedKey : res.data.checkedId,
-						//disabledKey : res.data.disabledId
-						});
-						trees = JSON.stringify(trees);
-						window.sessionStorage.setItem("menuCache", trees);
-					},
-					error : function(xml, errstr, err) {
-						layer.alert(errstr + '，获取样例数据失败，请检查是否部署在本地服务器中！');
-					}
-				});
-			}
-			//渲染
-			// 如果页面中多个树共存，需要注意 layfilter 需要不一样，否则触发事件会混乱
-			authtree.render('#LAY-auth-tree-index', JSON.parse(trees), {
-				inputname : 'menuIds[]',
-				layfilter : 'lay-check-auth',
-				themePath : '/sys/css/',
-				theme : 'auth-skin-default',
-				//openall: true,
-				autowidth : true,
+			$.ajax({
+				url : "/sys/menu/choose",
+				dataType : 'json',
+				async : false,
+				success : function(res) {
+					// 支持自定义递归字段、数组权限判断等
+					// 深坑注意：如果API返回的数据是字符串，那么 startPid 的数据类型也需要是字符串
+					var trees = authtree.listConvert(res.data, {
+						primaryKey : 'menuId',
+						startPid : 0,
+						parentKey : 'parentId',
+						nameKey : 'name',
+						valueKey : 'menuId',
+					//checkedKey : res.data.checkedId,
+					//disabledKey : res.data.disabledId
+					});
+					//渲染
+					// 如果页面中多个树共存，需要注意 layfilter 需要不一样，否则触发事件会混乱
+					authtree.render('#LAY-auth-tree-index', trees, {
+						inputname : 'menuIds[]',
+						layfilter : 'lay-check-auth',
+						themePath : '/sys/css/',
+						theme : 'auth-skin-default',
+						//openall: true,
+						autowidth : true,
+					});
+				},
+				error : function(xml, errstr, err) {
+					layer.alert(errstr + '，获取样例数据失败，请检查是否部署在本地服务器中！');
+				}
 			});
 			//监听提交
 			form.on('submit(role-add)', function(data) {

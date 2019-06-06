@@ -48,9 +48,9 @@ import cn.hutool.crypto.digest.DigestUtil;
 public class UserController extends BaseController {
 	private String prefix = "sys/user";
 	@Autowired
-	SysUserService sysUserService;
+	private SysUserService sysUserService;
 	@Autowired
-	SysRoleService sysRoleService;
+	private SysRoleService sysRoleService;
 
 	@RequiresPermissions("sys:user:list")
 	@MenuMapping(value = "用户管理", type = MenuEnum.MENU)

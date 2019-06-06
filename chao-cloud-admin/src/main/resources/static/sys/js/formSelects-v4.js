@@ -5,9 +5,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
 /**
- * name: formSelects
- * 基于Layui Select多选
- * version: 4.0.0.0910
+ * name: formSelects 基于Layui Select多选 version: 4.0.0.0910
  * http://sun.faysunshine.com/layui/formSelects-v4/dist/formSelects-v4.js
  */
 (function (layui, window, factory) {
@@ -18,7 +16,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 		// 支持 AMD
 		define(factory);
 	} else if (window.layui && layui.define) {
-		//layui加载
+		// layui加载
 		layui.define(['jquery'], function (exports) {
 			exports('formSelects', factory());
 		});
@@ -125,7 +123,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 		var _this = this;
 
 		this.config = {
-			name: null, //xm-select="xxx"
+			name: null, // xm-select="xxx"
 			max: null,
 			maxTips: function maxTips(id, vals, val, max) {
 				var ipt = $('[xid="' + _this.config.name + '"]').prev().find('.' + NAME);
@@ -137,8 +135,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 					ipt.removeAttr('style');
 				}, 300);
 			},
-			init: null, //初始化的选择值,
-			on: null, //select值发生变化
+			init: null, // 初始化的选择值,
+			on: null, // select值发生变化
 			opened: null,
 			closed: null,
 			filter: function filter(id, inputVal, val, isDisabled) {
@@ -173,7 +171,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 		}
 	};
 
-	//一些简单的处理方法
+	// 一些简单的处理方法
 	var Common = function Common() {
 		this.appender();
 		this.on();
@@ -181,8 +179,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 	};
 
 	Common.prototype.appender = function () {
-		//针对IE做的一些拓展
-		//拓展Array map方法
+		// 针对IE做的一些拓展
+		// 拓展Array map方法
 		if (!Array.prototype.map) {
 			Array.prototype.map = function (i, h) {
 				var b,
@@ -199,7 +197,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 			};
 		};
 
-		//拓展Array foreach方法
+		// 拓展Array foreach方法
 		if (!Array.prototype.forEach) {
 			Array.prototype.forEach = function forEach(g, b) {
 				var d, c;if (this == null) {
@@ -216,7 +214,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 			};
 		};
 
-		//拓展Array filter方法
+		// 拓展Array filter方法
 		if (!Array.prototype.filter) {
 			Array.prototype.filter = function (b) {
 				if (this === void 0 || this === null) {
@@ -237,7 +235,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 	Common.prototype.init = function (target) {
 		var _this2 = this;
 
-		//初始化页面上已有的select
+		// 初始化页面上已有的select
 		$(target ? target : 'select[' + NAME + ']').each(function (index, select) {
 			var othis = $(select),
 			    id = othis.attr(NAME),
@@ -262,7 +260,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 				showCount: othis.attr(SHOW_COUNT) - 0
 			},
 			    value = othis.find('option[selected]').toArray().map(function (option) {
-				//获取已选中的数据
+				// 获取已选中的数据
 				return {
 					name: option.innerHTML,
 					value: option.value
@@ -293,11 +291,11 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
 			data[id] = fs;
 
-			//先取消layui对select的渲染
+			// 先取消layui对select的渲染
 			hasLayuiRender[0] && hasLayuiRender.remove();
 			hasRender[0] && hasRender.remove();
 
-			//构造渲染div
+			// 构造渲染div
 			var dinfo = _this2.renderSelect(id, fs.config.placeholder, select);
 			var heightStyle = !fs.config.height || fs.config.height == 'auto' ? '' : 'xm-hg style="height: 34px;"';
 			var inputHtml = ['<div class="' + LABEL + '">', '<input type="text" fsw class="' + FORM_INPUT + ' ' + INPUT + '" ' + (fs.config.isSearch ? '' : 'style="display: none;"') + ' autocomplete="off" debounce="0" />', '</div>'];
@@ -310,18 +308,18 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 			othis.removeAttr('name') && othis.attr('_name', fs.config.formname);
 			othis.removeAttr('lay-verify') && othis.attr('_lay-verify', fs.config.layverify);
 
-			//如果可搜索, 加上事件
+			// 如果可搜索, 加上事件
 			if (fs.config.isSearch) {
 				ajaxs[id] = $.extend({}, ajax, { searchUrl: fs.config.searchUrl }, ajaxs[id]);
 				$(document).on('input', 'div.' + PNAME + '[FS_ID="' + id + '"] .' + INPUT, function (e) {
 					_this2.search(id, e, fs.config.searchUrl);
 				});
 				if (fs.config.searchUrl) {
-					//触发第一次请求事件
+					// 触发第一次请求事件
 					_this2.triggerSearch(reElem, true);
 				}
 			} else {
-				//隐藏第二个dl
+				// 隐藏第二个dl
 				reElem.find('dl dd.' + FORM_DL_INPUT).css('display', 'none');
 			}
 		});
@@ -341,7 +339,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 			}
 		}
 		var inputValue = $.trim(input.value);
-		//过滤一下tips
+		// 过滤一下tips
 		this.changePlaceHolder($(input));
 
 		var ajaxConfig = ajaxs[id] ? ajaxs[id] : ajax;
@@ -349,7 +347,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 		var fs = data[id],
 		    isCreate = fs.config.isCreate,
 		    reElem = $('dl[xid="' + id + '"]').parents('.' + FORM_SELECT);
-		//如果开启了远程搜索
+		// 如果开启了远程搜索
 		if (searchUrl) {
 			if (ajaxConfig.searchVal) {
 				inputValue = ajaxConfig.searchVal;
@@ -370,7 +368,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 			}
 		} else {
 			reElem.find('dl .' + DD_HIDE).removeClass(DD_HIDE);
-			//遍历选项, 选择可以显示的值
+			// 遍历选项, 选择可以显示的值
 			reElem.find('dl dd:not(.' + FORM_SELECT_TIPS + ')').each(function (idx, item) {
 				var _item = $(item);
 				var searchFun = events.filter[id] || data[id].config.filter;
@@ -378,13 +376,13 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 					_item.addClass(DD_HIDE);
 				}
 			});
-			//控制分组名称
+			// 控制分组名称
 			reElem.find('dl dt').each(function (index, item) {
 				if (!$(item).nextUntil('dt', ':not(.' + DD_HIDE + ')').length) {
 					$(item).addClass(DD_HIDE);
 				}
 			});
-			//动态创建
+			// 动态创建
 			this.create(id, isCreate, inputValue);
 			var shows = reElem.find('dl dd:not(.' + FORM_SELECT_TIPS + '):not(.' + DD_HIDE + ')');
 			if (!shows.length) {
@@ -427,8 +425,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 		var ajaxConfig = ajaxs[id] ? ajaxs[id] : ajax;
 		var ajaxData = $.extend(true, {}, ajaxConfig.data);
 		ajaxData[ajaxConfig.searchName] = inputValue;
-		//是否需要对ajax添加随机时间
-		//ajaxData['_'] = Date.now();
+		// 是否需要对ajax添加随机时间
+		// ajaxData['_'] = Date.now();
 		$.ajax({
 			type: ajaxConfig.type,
 			headers: ajaxConfig.header,
@@ -468,7 +466,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 		var _this6 = this;
 
 		if (linkage) {
-			//渲染多级联动
+			// 渲染多级联动
 			this.renderLinkage(id, dataArr, linkageWidth);
 			return;
 		}
@@ -501,7 +499,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 		var label = reElem.find('.' + LABEL);
 		var dl = reElem.find('dl[xid]');
 		if (isSearch) {
-			//如果是远程搜索, 这里需要判重
+			// 如果是远程搜索, 这里需要判重
 			var oldVal = data[id].values;
 			oldVal.forEach(function (item, index) {
 				dl.find('dd[lay-value="' + item.value + '"]').addClass(THIS);
@@ -570,7 +568,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 		html.push('<div style="clear: both; height: 288px;"></div>');
 		html.push('</div>');
 		reElem.find('dl').html(html.join(''));
-		reElem.find('.' + INPUT).css('display', 'none'); //联动暂时不支持搜索
+		reElem.find('.' + INPUT).css('display', 'none'); // 联动暂时不支持搜索
 	};
 
 	Common.prototype.renderReplace = function (id, dataArr) {
@@ -599,7 +597,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 	};
 
 	Common.prototype.exchangeData = function (id, arr) {
-		//这里处理树形结构
+		// 这里处理树形结构
 		var ajaxConfig = ajaxs[id] ? ajaxs[id] : ajax;
 		var childrenName = ajaxConfig['keyChildren'];
 		var disabledName = ajaxConfig['keyDis'];
@@ -648,7 +646,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 				}
 			});
 			if (!tdd) {
-				//如果不存在, 则创建
+				// 如果不存在, 则创建
 				var val = fs.config.create(id, inputValue);
 				if (temp[0]) {
 					temp.attr('lay-value', val);
@@ -748,12 +746,12 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 	Common.prototype.on = function () {
 		var _this10 = this;
 
-		//事件绑定
+		// 事件绑定
 		this.one();
 
 		$(document).on('click', function (e) {
 			if (!$(e.target).parents('.' + FORM_TITLE)[0]) {
-				//清空input中的值
+				// 清空input中的值
 				$('.' + PNAME + ' dl .' + DD_HIDE).removeClass(DD_HIDE);
 				$('.' + PNAME + ' dl dd.' + FORM_EMPTY).removeClass(FORM_EMPTY);
 				$('.' + PNAME + ' dl dd.' + TEMP).remove();
@@ -777,7 +775,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 		if (!label.find('span').length) {
 			left = 0;
 		} else if (call) {
-			//校正归位
+			// 校正归位
 			var span = label.find('span:last');
 			span.css('display') == 'none' ? span = span.prev()[0] : span = span[0];
 			var spos = this.getPosition(span);
@@ -812,29 +810,29 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 	Common.prototype.one = function (target) {
 		var _this11 = this;
 
-		//一次性事件绑定
+		// 一次性事件绑定
 		$(target ? target : document).off('click', '.' + FORM_TITLE).on('click', '.' + FORM_TITLE, function (e) {
 			var othis = $(e.target),
 			    title = othis.is(FORM_TITLE) ? othis : othis.parents('.' + FORM_TITLE),
 			    dl = title.next(),
 			    id = dl.attr('xid');
 
-			//清空非本select的input val
+			// 清空非本select的input val
 			$('dl[xid]').not(dl).each(function (index, item) {
 				_this11.clearInput($(item).attr('xid'));
 			});
 			$('dl[xid]').not(dl).find('dd.' + DD_HIDE).removeClass(DD_HIDE);
 
-			//如果是disabled select
+			// 如果是disabled select
 			if (title.hasClass(DIS)) {
 				return false;
 			}
-			//如果点击的是右边的三角或者只读的input
+			// 如果点击的是右边的三角或者只读的input
 			if (othis.is('.' + SANJIAO) || othis.is('.' + INPUT + '[readonly]')) {
 				_this11.changeShow(title, !title.parents('.' + FORM_SELECT).hasClass(FORM_SELECTED));
 				return false;
 			}
-			//如果点击的是input的右边, focus一下
+			// 如果点击的是input的右边, focus一下
 			if (title.find('.' + INPUT + ':not(readonly)')[0]) {
 				var input = title.find('.' + INPUT),
 				    epos = { x: e.pageX, y: e.pageY },
@@ -850,17 +848,17 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 				}
 			}
 
-			//如果点击的是可搜索的input
+			// 如果点击的是可搜索的input
 			if (othis.is('.' + INPUT)) {
 				_this11.changeShow(title, true);
 				return false;
 			}
-			//如果点击的是x按钮
+			// 如果点击的是x按钮
 			if (othis.is('i[fsw="' + NAME + '"]')) {
 				var val = _this11.getItem(id, othis),
 				    dd = dl.find('dd[lay-value=\'' + val.value + '\']');
 				if (dd.hasClass(DISABLED)) {
-					//如果是disabled状态, 不可选, 不可删
+					// 如果是disabled状态, 不可选, 不可删
 					return false;
 				}
 				_this11.handlerLabel(id, dd, false, val);
@@ -873,22 +871,22 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 		$(target ? target : document).off('click', 'dl.' + DL).on('click', 'dl.' + DL, function (e) {
 			var othis = $(e.target);
 			if (othis.is('.' + LINKAGE) || othis.parents('.' + LINKAGE)[0]) {
-				//linkage的处理
+				// linkage的处理
 				othis = othis.is('li') ? othis : othis.parents('li[xm-value]');
 				var _group = othis.parents('.xm-select-linkage-group'),
 				    _id = othis.parents('dl').attr('xid');
 				if (!_id) {
 					return false;
 				}
-				//激活li
+				// 激活li
 				_group.find('.xm-select-active').removeClass('xm-select-active');
 				othis.addClass('xm-select-active');
-				//激活下一个group, 激活前显示对应数据
+				// 激活下一个group, 激活前显示对应数据
 				_group.nextAll('.xm-select-linkage-group').addClass('xm-select-linkage-hide');
 				var nextGroup = _group.next('.xm-select-linkage-group');
 				nextGroup.find('li').addClass('xm-select-linkage-hide');
 				nextGroup.find('li[pid="' + othis.attr('xm-value') + '"]').removeClass('xm-select-linkage-hide');
-				//如果没有下一个group, 或没有对应的值
+				// 如果没有下一个group, 或没有对应的值
 				if (!nextGroup[0] || nextGroup.find('li:not(.xm-select-linkage-hide)').length == 0) {
 					var vals = [],
 					    index = 0,
@@ -936,11 +934,11 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 			var id = dd.parent('dl').attr('xid');
 
 			if (dd.hasClass(DISABLED)) {
-				//被禁用选项的处理
+				// 被禁用选项的处理
 				return false;
 			}
 
-			//菜单功效
+			// 菜单功效
 			if (othis.is('i.icon-caidan')) {
 				var opens = [],
 				    closes = [];
@@ -953,10 +951,10 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 				});
 				return false;
 			}
-			//树状结构的选择
+			// 树状结构的选择
 			var treeId = dd.attr('tree-id');
 			if (treeId) {
-				//忽略右边的图标
+				// 忽略右边的图标
 				if (othis.is('i:not(.icon-expand)')) {
 					_this11.handlerLabel(id, dd, !dd.hasClass(THIS));
 					return false;
@@ -996,7 +994,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 			}
 
 			if (dd.hasClass(FORM_SELECT_TIPS)) {
-				//tips的处理
+				// tips的处理
 				var btn = othis.is('.' + CZ) ? othis : othis.parents('.' + CZ);
 				if (!btn[0]) {
 					return false;
@@ -1108,14 +1106,14 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 			return;
 		}
 		this.checkHideSpan(key, label);
-		//计算input的提示语
+		// 计算input的提示语
 		this.changePlaceHolder(label);
-		//计算高度
+		// 计算高度
 		this.retop(label.parents('.' + FORM_SELECT));
 		this.calcLabelLeft(label, 0, true);
-		//表单默认值
+		// 表单默认值
 		this.setHidnVal(key, label);
-		//title值
+		// title值
 		label.parents('.' + FORM_TITLE + ' .' + NAME).attr('title', data[key].values.map(function (val) {
 			return val.name;
 		}).join(','));
@@ -1181,14 +1179,14 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 		var dl = $('dl[xid="' + id + '"]');
 		isAdd ? (dd && dd[0] ? (dd.addClass(THIS), dd.removeClass(TEMP)) : dl.find('.xm-select-linkage')[0] && this.linkageAdd(id, val), this.addLabel(id, div, val), vals.push(val)) : (dd && dd[0] ? dd.removeClass(THIS) : dl.find('.xm-select-linkage')[0] && this.linkageDel(id, val), this.delLabel(id, div, val), this.remove(vals, val));
 		if (!div[0]) return;
-		//单选选完后直接关闭选择域
+		// 单选选完后直接关闭选择域
 		if (fs.config.radio) {
 			this.changeShow(div, false);
 		}
-		//移除表单验证的红色边框
+		// 移除表单验证的红色边框
 		div.parents('.' + FORM_TITLE).prev().removeClass('layui-form-danger');
 
-		//清空搜索值
+		// 清空搜索值
 		fs.config.clearInput && this.clearInput(id);
 
 		this.commonHandler(id, div);
@@ -1204,14 +1202,14 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 		    $close = _ref[1];
 
 		$label.append($close);
-		//如果是radio模式
+		// 如果是radio模式
 		var fs = data[id];
 		if (fs.config.radio) {
 			fs.values.length = 0;
 			$('dl[xid="' + id + '"]').find('dd.' + THIS + ':not([lay-value="' + val.value + '"])').removeClass(THIS);
 			div.find('span').remove();
 		}
-		//如果是固定高度
+		// 如果是固定高度
 		div.find('input').css('width', '50px');
 		div.find('input').before($label);
 	};
@@ -1238,7 +1236,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 	};
 
 	Common.prototype.retop = function (div) {
-		//计算dl显示的位置
+		// 计算dl显示的位置
 		var dl = div.find('dl'),
 		    top = div.offset().top + div.outerHeight() + 5 - $win.scrollTop(),
 		    dlHeight = dl.outerHeight();
@@ -1268,7 +1266,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 	};
 
 	Common.prototype.changeShow = function (children, isShow) {
-		//显示于隐藏
+		// 显示于隐藏
 		$('.layui-form-selected').removeClass('layui-form-selected');
 		var top = children.parents('.' + FORM_SELECT),
 		    realShow = top.hasClass(FORM_SELECTED),
@@ -1287,7 +1285,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 			top.find('dl .' + FORM_EMPTY).removeClass(FORM_EMPTY);
 			top.find('dl dd.' + DD_HIDE).removeClass(DD_HIDE);
 			top.find('dl dd.' + TEMP).remove();
-			//计算ajax数据是否为空, 然后重新请求数据
+			// 计算ajax数据是否为空, 然后重新请求数据
 			if (id && data[id] && data[id].config.isEmpty) {
 				this.triggerSearch(top);
 			}
@@ -1302,8 +1300,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 	};
 
 	Common.prototype.changePlaceHolder = function (div) {
-		//显示于隐藏提示语
-		//调整pane模式下的高度
+		// 显示于隐藏提示语
+		// 调整pane模式下的高度
 		var title = div.parents('.' + FORM_TITLE);
 		title[0] || (title = div.parents('dl').prev());
 		if (!title[0]) {
@@ -1311,12 +1309,12 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 		}
 
 		var id = div.parents('.' + PNAME).find('dl[xid]').attr('xid');
-		if (data[id] && data[id].config.height) {//既然固定高度了, 那就看着办吧
+		if (data[id] && data[id].config.height) {// 既然固定高度了, 那就看着办吧
 
 		} else {
 			var height = title.find('.' + NAME)[0].clientHeight;
 			title.css('height', (height > 36 ? height + 4 : height) + 'px');
-			//如果是layui pane模式, 处理label的高度
+			// 如果是layui pane模式, 处理label的高度
 			var label = title.parents('.' + PNAME).parent().prev();
 			if (label.is('.layui-form-label') && title.parents('.layui-form-pane')[0]) {
 				height = height > 36 ? height + 4 : height;
@@ -1384,7 +1382,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 			return;
 		}
 		if (dl.find('.xm-select-linkage')[0]) {
-			//针对多级联动的处理
+			// 针对多级联动的处理
 			data[id].values.concat([]).forEach(function (item, idx) {
 				var vs = item.value.split('/');
 				var pid = void 0,
@@ -1441,7 +1439,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 	};
 
 	Common.prototype.onreset = function () {
-		//监听reset按钮, 然后重置多选
+		// 监听reset按钮, 然后重置多选
 		$(document).on('click', '[type=reset]', function (e) {
 			$(e.target).parents('form').find('.' + PNAME + ' dl[xid]').each(function (index, item) {
 				var id = item.getAttribute('xid'),
@@ -1543,13 +1541,13 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 			    dd = void 0,
 			    isAdd = true;
 			if (isAppend == false) {
-				//删除传入的数组
+				// 删除传入的数组
 				isAdd = false;
 			} else if (isAppend == true) {
-				//追加模式
+				// 追加模式
 				isAdd = true;
 			} else {
-				//删除原有的数据
+				// 删除原有的数据
 				common.removeAll(id);
 			}
 			if (isAdd) {
@@ -1786,6 +1784,11 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 			}, true);
 		}
 	};
-
+	// 薛超拓展
+	Select4.prototype.clear = function (id) {
+		 common.removeAll(id);
+		return this;
+	};
+	
 	return new Select4();
 });

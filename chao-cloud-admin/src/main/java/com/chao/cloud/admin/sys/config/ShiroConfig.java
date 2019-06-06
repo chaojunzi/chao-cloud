@@ -93,17 +93,7 @@ public class ShiroConfig {
 	}
 
 	@Bean
-	public SecurityManager securityManager() {
-		DefaultWebSecurityManager securityManager = new DefaultWebSecurityManager();
-		// 设置realm.
-		securityManager.setRealm(userRealm());
-		securityManager.setCacheManager(ehCacheManager());
-		securityManager.setSessionManager(sessionManager());
-		return securityManager;
-	}
-
-	@Bean
-	ShiroUserRealm userRealm() {
+	public ShiroUserRealm userRealm() {
 		ShiroUserRealm userRealm = new ShiroUserRealm();
 		return userRealm;
 	}
@@ -145,15 +135,20 @@ public class ShiroConfig {
 	}
 
 	@Bean
-	public EhCacheManager ehCacheManager() {
-		EhCacheManager em = new EhCacheManager();
-		em.setCacheManager(cacheManager());
-		return em;
+	public SecurityManager securityManager(EhCacheManager ehCacheManager) {
+		DefaultWebSecurityManager securityManager = new DefaultWebSecurityManager();
+		// 设置realm.
+		securityManager.setRealm(userRealm());
+		securityManager.setCacheManager(ehCacheManager);
+		securityManager.setSessionManager(sessionManager());
+		return securityManager;
 	}
 
-	@Bean("myCacheManager")
-	public CacheManager cacheManager() {
-		return CacheManager.create();
+	@Bean
+	public EhCacheManager ehCacheManager(CacheManager cacheManager) {
+		EhCacheManager em = new EhCacheManager();
+		em.setCacheManager(cacheManager);
+		return em;
 	}
 
 }

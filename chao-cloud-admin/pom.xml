@@ -72,6 +72,10 @@
 			<groupId>org.apache.shiro</groupId>
 			<artifactId>shiro-ehcache</artifactId>
 		</dependency>
+		<dependency>
+			<groupId>net.sf.ehcache</groupId>
+			<artifactId>ehcache</artifactId>
+		</dependency>
 		<!-- html中 shiro标签的权限控制 -->
 		<dependency>
 			<groupId>com.github.theborakompanioni</groupId>

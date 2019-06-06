@@ -6,12 +6,10 @@
 		<hr class="layui-bg-gray">
 		<div class="layui-inline">
 			<div class="layui-input-inline">
-				<input class="layui-input" name="name" placeholder="请输入名名称"
-					autocomplete="off" />
+				<input class="layui-input" name="name" placeholder="请输入名名称" autocomplete="off" />
 			</div>
 			<div class="layui-input-inline">
-				<input class="layui-input" name="val" placeholder="请输入名值"
-					autocomplete="off" />
+				<input class="layui-input" name="val" placeholder="请输入名值" autocomplete="off" />
 			</div>
 			<button class="layui-btn layui-btn-normal" id="search" data-type="reload">搜索</button>
 		</div>
@@ -27,13 +25,14 @@
 	<!-- 操作列 -->
 	<script type="text/html" id="chao_config-state">
      <div class="layui-btn-group">
-        <button shiro:hasPermission="chao:config:edit" class="layui-btn layui-btn-sm" lay-event="edit"><i class="layui-icon layui-icon-edit"></i></button>
-        <button shiro:hasPermission="chao:config:remove" class="layui-btn layui-btn-sm" lay-event="del"><i class="layui-icon layui-icon-delete"></i></button>
+        <button class="layui-btn layui-btn-sm" lay-event="look"><i class="layui-icon layui-icon-search"></i>跳转新页面</button>
+        <button shiro:hasPermission="chao:config:edit" class="layui-btn layui-btn-sm" lay-event="edit"><i class="layui-icon layui-icon-edit"></i>编辑</button>
+        <button shiro:hasPermission="chao:config:remove" class="layui-btn layui-btn-sm" lay-event="del"><i class="layui-icon layui-icon-delete"></i>删除</button>
     </div>
     </script>
 	<div th:include="include::footer"></div>
 	<script>
-		layui.use([ 'table' ], function() {
+		layui.use([ 'table', 'element' ], function() {
 			var $ = layui.jquery;
 			var table = layui.table;
 			// 渲染表格
@@ -45,43 +44,38 @@
 					toolbar : '#toolbarChaoConfig',
 					page : true,
 					id : 'chaoConfigReload',
-					parseData:chaoLayuiTable.parseData,
-					request:chaoLayuiTable.request,
-					response:chaoLayuiTable.response,
+					parseData : chaoLayuiTable.parseData,
+					request : chaoLayuiTable.request,
+					response : chaoLayuiTable.response,
 					//limit : 1,
 					cols : [ [ {
 						type : 'checkbox',
 						fixed : 'left'
-					}, 
-					{
+					}, {
 						fixed : 'left',
 						unresize : true,
 						sort : true,
 						width : 80,
 						align : 'center',
-					    field : 'id',
+						field : 'id',
 						title : 'ID',
-					 
-					}, 
- 					{
+
+					}, {
 						align : 'center',
-					    field : 'name',
+						field : 'name',
 						title : '名称',
-					 
-					}, 
- 					{
+
+					}, {
 						align : 'center',
-					    field : 'val',
+						field : 'val',
 						title : '值',
-					 
-					}, 
-  					{
+
+					}, {
 						align : 'center',
-					    field : 'createTime',
+						field : 'createTime',
 						title : '创建时间',
-					 
-					}, 
- 					{
+
+					}, {
 						title : '操作',
 						toolbar : '#chao_config-state',
 						align : 'center'
@@ -103,8 +97,8 @@
 						//重新从第 1 页开始
 						},
 						where : {
-							 	name : $('[name=name]').val(),
-							 	val : $('[name=val]').val(),
+							name : $('[name=name]').val(),
+							val : $('[name=val]').val(),
 
 						}
 					});
@@ -143,8 +137,15 @@
 					remove(data.id);
 				} else if (layEvent === 'edit') {//修改
 					edit(data.id);
+				} else if (layEvent === 'look') {//查看
+					look(data);
 				}
 			});
+
+			function look(data) {
+				//触发事件
+				parent.leafTabAdd("/chao/config/add", "添加");
+			}
 
 			function remove(id) {
 				layer.confirm('确定要删除选中的记录？', {

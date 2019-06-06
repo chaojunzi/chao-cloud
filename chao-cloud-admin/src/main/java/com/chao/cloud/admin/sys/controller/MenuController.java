@@ -12,6 +12,7 @@ import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.apache.shiro.authz.annotation.RequiresRoles;
 import org.apache.shiro.authz.annotation.RequiresUser;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.annotation.Validated;
@@ -79,6 +80,24 @@ public class MenuController extends BaseController {
 	@ResponseBody
 	R<List<SysMenu>> list() {
 		return R.ok(sysMenuService.list());
+	}
+
+	/**
+	 * 菜单选择
+	 * @return
+	 */
+	@Cacheable(cacheNames = "menu")
+	@RequestMapping("/choose")
+	@RequiresUser
+	@ResponseBody
+	public R<List<SysMenu>> choose() {
+		// 获取当前角色的权限
+		// UserDTO user = getUser();
+		// Set<String> perms = getUser().getPerms();
+		List<SysMenu> list = sysMenuService.list();
+		// list.stream().filter(l ->
+		// perms.contains(l.getPerms())).collect(Collectors.toList());
+		return R.ok(list);
 	}
 
 	@AdminLog("添加菜单")

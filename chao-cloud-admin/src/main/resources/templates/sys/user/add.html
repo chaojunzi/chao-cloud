@@ -20,6 +20,24 @@
 			</div>
 		</div>
 		<div class="layui-form-item">
+			<label class="layui-form-label">选择部门：</label>
+			<div class="layui-input-block">
+				<input name="deptName" type="hidden">
+				<select name="deptId" xm-select="deptId" lay-verify="required">
+					<option value="">请选择部门</option>
+				</select>
+			</div>
+		</div>
+		<div class="layui-form-item">
+			<label class="layui-form-label">选择角色：</label>
+			<div class="layui-input-block">
+				<select name="roleIds" xm-select="roleIds">
+					<option value="">请选择角色</option>
+					<option th:each="role:${roles}" th:value="${role.roleId}" th:text="${role.roleName}"></option>
+				</select>
+			</div>
+		</div>
+		<div class="layui-form-item">
 			<label class="layui-form-label">真实名称：</label>
 			<div class="layui-input-block">
 				<input name="name" placeholder="请输入真实名称" autocomplete="off" class="layui-input"
@@ -38,32 +56,6 @@
 			<div class="layui-input-block">
 				<input name="email" placeholder="请输入邮箱地址" autocomplete="off" class="layui-input"
 					lay-verify="required|email">
-			</div>
-		</div>
-		<div class="layui-form-item">
-			<label class="layui-form-label">选择角色：</label>
-			<div class="layui-input-block">
-				<select name="roleIds" xm-select="roleIds">
-					<option value="">请选择角色</option>
-					<option th:each="role:${roles}" th:value="${role.roleId}" th:text="${role.roleName}"></option>
-				</select>
-			</div>
-		</div>
-		<div class="layui-form-item">
-			<label class="layui-form-label">选择部门：</label>
-			<div class="layui-inline">
-				<div class="layui-input-inline">
-					<input name="deptId" type="hidden">
-					<input name="deptName" lay-verify="required" readonly="readonly" class="layui-input layui-elip"
-						placeholder="请选择部门">
-				</div>
-			</div>
-			<div class="layui-inline">
-				<div class="layui-input-inline">
-					<a id="userGroup" href="javascript:;" class="layui-btn layui-btn-sm" lay-event="edit">
-						<i class="layui-icon  layui-icon-group"></i>
-					</a>
-				</div>
 			</div>
 		</div>
 		<div class="layui-form-item">
@@ -96,20 +88,30 @@
 			//角色下拉框
 			formSelects.render('roleIds');
 			//选择 部门
-			$("#userGroup").click(function() {
-				layer.open({
-					type : 2,
-					title : '选择部门',
-					maxmin : false,
-					shadeClose : false, // 点击遮罩关闭层
-					area : [ '40%', '50%' ],
-					content : '/sys/dept/choose' // iframe的url
-				});
-			})
+			formSelects.data('deptId', 'server', {
+				url : '/sys/dept/choose'
+			}).on('deptId', function(id, vals, val, isAdd, isDisabled) {
+				//id:           点击select的id
+				//vals:         当前select已选中的值
+				//val:          当前select点击的值
+				//isAdd:        当前操作选中or取消
+				//isDisabled:   当前选项是否是disabled
+				var name = "";
+				if (isAdd) {//选中
+					formSelects.clear(id);//重置
+					name = val.name;
+					formSelects.value(id, [ val.value ]);
+				}
+				//赋值
+				$("[name=deptName]").val(name);
+
+			}, true);
 
 			//监听提交
 			form.on('submit(user-add)', function(data) {
 				//提交数据data.field
+				console.log(data.field)
+				return false;
 				$.ajax({
 					cache : true,
 					type : "POST",
