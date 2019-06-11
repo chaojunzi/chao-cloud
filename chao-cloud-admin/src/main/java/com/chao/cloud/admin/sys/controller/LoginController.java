@@ -27,8 +27,12 @@ import com.chao.cloud.common.exception.BusinessException;
 
 import cn.hutool.captcha.CaptchaUtil;
 import cn.hutool.captcha.CircleCaptcha;
+import cn.hutool.core.io.FileUtil;
+import cn.hutool.core.util.NumberUtil;
 import cn.hutool.core.util.StrUtil;
 import cn.hutool.crypto.digest.DigestUtil;
+import cn.hutool.system.RuntimeInfo;
+import cn.hutool.system.SystemUtil;
 import lombok.extern.slf4j.Slf4j;
 
 @Controller
@@ -86,7 +90,21 @@ public class LoginController extends BaseController {
 	}
 
 	@RequestMapping("/main")
-	String main() {
+	String main(Model model) {
+		int scale = 2;
+		RuntimeInfo runtime = SystemUtil.getRuntimeInfo();
+		// 分配内存百分比
+		double distribute = NumberUtil.div(runtime.getFreeMemory(), runtime.getTotalMemory(), scale);
+		// 物理内存
+		double physics = NumberUtil.div(runtime.getUsableMemory(), runtime.getMaxMemory(), scale);
+		model.addAttribute("distribute", NumberUtil.formatPercent(distribute, scale));
+		model.addAttribute("physics", NumberUtil.formatPercent(physics, scale));
+		// 内存详情
+		model.addAttribute("totalMemory", FileUtil.readableFileSize(runtime.getTotalMemory()));
+		model.addAttribute("freeMemory", FileUtil.readableFileSize(runtime.getFreeMemory()));
+		model.addAttribute("maxMemory", FileUtil.readableFileSize(runtime.getMaxMemory()));
+		model.addAttribute("usableMemory", FileUtil.readableFileSize(runtime.getUsableMemory()));
+		model.addAttribute("threadCount", SystemUtil.getTotalThreadCount());
 		return "main";
 	}
 

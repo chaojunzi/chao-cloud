@@ -5,7 +5,6 @@
 	<form class="layui-form" action="" lay-filter="chao_config-add-form" style="margin-top: 20px;">
 		<input th:value="${session.formToken}" name="formToken" type="hidden" />
 		<!--  -->
-		<!--  -->
 		<div class="layui-form-item">
 			<label class="layui-form-label">名称：</label>
 			<div class="layui-input-block">
@@ -53,26 +52,7 @@
 			//监听提交
 			form.on('submit(chao_config-add)', function(data) {
 				//提交数据data.field
-				$.ajax({
-					cache : true,
-					type : "POST",
-					url : "/chao/config/save",
-					data : data.field,
-					async : false,
-					error : function(request) {
-						laryer.alert("Connection error");
-					},
-					success : function(data) {
-						if (data.retCode == '0000') {
-							parent.layer.msg("保存成功");
-							parent.location.reload(); // 父页面刷新
-							var index = parent.layer.getFrameIndex(window.name); // 获取窗口索引
-							parent.layer.close(index);
-						} else {
-							layer.alert(data.retMsg)
-						}
-					}
-				});
+				ajaxPostLoad("/chao/config/save", data.field);
 				return false;
 			});
 		});

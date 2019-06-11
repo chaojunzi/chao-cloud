@@ -147,15 +147,28 @@ function addTab(_this) {
 function leafTabAdd(url, title, icon) {
 	tab.leafTabAdd(url, title, strToNumber(url), icon);
 }
+
+// 刷新当前页面
+function reloadCurrTab() {
+	$(".clildFrame .layui-tab-item.layui-show").find("iframe")[0].contentWindow.location.reload();
+}
+
 function strToNumber(str) {
 	var result = '1';
 	var reg = /[a-z]/i;
 	for (var i = 0; i < str.length; i++) {
 		if (reg.test(str[i])) {
 			result += str[i].charCodeAt();
+		} else if (isPositiveInteger(str[i])) {
+			result += str[i];
 		} else {
 			result += 0;
 		}
 	}
 	return result;
+}
+//是否为正整数
+function isPositiveInteger(s) {
+	var re = /^[0-9]+$/;
+	return re.test(s)
 }

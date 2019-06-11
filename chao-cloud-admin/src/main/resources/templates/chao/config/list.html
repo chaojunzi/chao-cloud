@@ -130,7 +130,6 @@
 			//监听工具条
 			table.on('tool(chao_config-table)', function(obj) {
 				var data = obj.data;
-				console.log(data)
 				var layEvent = obj.event;
 				if (layEvent === 'del') {//删除
 					remove(data.id);
@@ -140,56 +139,32 @@
 			});
 
 			function remove(id) {
-				layer.confirm('确定要删除选中的记录？', {
+				parent.layer.confirm('确定要删除选中的记录？', {
 					btn : [ '确定', '取消' ]
 				}, function() {
-					$.ajax({
-						url : "/chao/config/remove",
-						type : "post",
-						data : {
-							id : id
-						},
-						success : function(r) {
-							if (r.retCode == '0000') {
-								layer.msg("删除成功");
-								renderTable();
-							} else {
-								layer.msg(r.retMsg);
-							}
-						}
+					ajaxPostLoad("/chao/config/remove", {
+						id : id
 					});
 				})
 			}
 
 			function batchRemove(data) {
-				layer.confirm("确认要删除选中的'" + data.length + "'条数据吗?", {
+				parent.layer.confirm("确认要删除选中的'" + data.length + "'条数据吗?", {
 					btn : [ '确定', '取消' ]
 				}, function() {
 					var ids = new Array();
 					$.each(data, function(i, row) {
 						ids[i] = row['id'];
 					});
-					console.log(ids);
-					$.ajax({
-						type : 'POST',
-						data : {
-							"ids" : ids
-						},
-						url : '/chao/config/batchRemove',
-						success : function(r) {
-							if (r.retCode == '0000') {
-								layer.msg("删除成功");
-								renderTable();
-							} else {
-								layer.msg(r.retMsg);
-							}
-						}
+					console.log("remove->ids:" + ids);
+					ajaxPostLoad("/chao/config/batchRemove", {
+						ids : ids
 					});
 				});
 			}
 
 			function edit(id) {
-				layer.open({
+				parent.layer.open({
 					type : 2,
 					title : '修改',
 					maxmin : true,
@@ -200,7 +175,7 @@
 			}
 
 			function openAdd() {
-				layer.open({
+				parent.layer.open({
 					type : 2,
 					title : '增加',
 					maxmin : true,

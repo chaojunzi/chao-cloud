@@ -22,15 +22,16 @@
 	<!-- 操作列 -->
 	<script type="text/html" id="chao_richtext-state">
      <div class="layui-btn-group">
-		<button class="layui-btn layui-btn-sm" lay-event="look"><i class="layui-icon layui-icon-search"></i>预览</button>
+		<button class="layui-btn layui-btn-sm" lay-event="preview"><i class="layui-icon layui-icon-search"></i>预览</button>
         <button shiro:hasPermission="chao:richtext:edit" class="layui-btn layui-btn-sm" lay-event="edit"><i class="layui-icon layui-icon-edit"></i></button>
         <button shiro:hasPermission="chao:richtext:remove" class="layui-btn layui-btn-sm" lay-event="del"><i class="layui-icon layui-icon-delete"></i></button>
     </div>
     </script>
 	<div th:include="include::footer"></div>
 	<script>
-		layui.use([ 'table' ], function() {
+		layui.use([ 'layer', 'jquery', 'table' ], function() {
 			var $ = layui.jquery;
+			var layer = layui.layer;
 			var table = layui.table;
 			// 渲染表格
 			var renderTable = function() {
@@ -66,11 +67,9 @@
 						align : 'center',
 						field : 'img',
 						title : '展示图',
-
-					}, {
-						align : 'center',
-						field : 'content',
-						title : '内容',
+						templet : function(d) {
+							return '<img src="'+d.img+'" lay-event="showImg" >';
+						},
 
 					}, {
 						align : 'center',
@@ -89,6 +88,7 @@
 
 			};
 			renderTable();
+
 			// 搜索 
 			var active = {
 				reload : function() {
@@ -131,73 +131,46 @@
 			//监听工具条
 			table.on('tool(chao_richtext-table)', function(obj) {
 				var data = obj.data;
-				console.log(data)
 				var layEvent = obj.event;
 				if (layEvent === 'del') {//删除
 					remove(data.id);
 				} else if (layEvent === 'edit') {//修改
 					edit(data.id);
-				} else if (layEvent === 'look') {//查看
-					look(data);
+				} else if (layEvent === 'preview') {//预览
+					preview(data);
+				} else if (layEvent === 'showImg') {//查看
+					showImg(data.img);
 				}
 			});
 
-			function look(data) {
-				//触发事件
-				parent.leafTabAdd("/chao/config/add", "添加");
-			}
-
 			function remove(id) {
-				layer.confirm('确定要删除选中的记录？', {
+				parent.layer.confirm('确定要删除选中的记录？', {
 					btn : [ '确定', '取消' ]
 				}, function() {
-					$.ajax({
-						url : "/chao/richtext/remove",
-						type : "post",
-						data : {
-							id : id
-						},
-						success : function(r) {
-							if (r.retCode == '0000') {
-								layer.msg("删除成功");
-								renderTable();
-							} else {
-								layer.msg(r.retMsg);
-							}
-						}
+					ajaxPostLoad("/chao/richtext/remove", {
+						id : id
 					});
 				})
 			}
 
 			function batchRemove(data) {
-				layer.confirm("确认要删除选中的'" + data.length + "'条数据吗?", {
+				parent.layer.confirm("确认要删除选中的'" + data.length + "'条数据吗?", {
 					btn : [ '确定', '取消' ]
 				}, function() {
 					var ids = new Array();
 					$.each(data, function(i, row) {
 						ids[i] = row['id'];
 					});
-					console.log(ids);
-					$.ajax({
-						type : 'POST',
-						data : {
-							"ids" : ids
-						},
-						url : '/chao/richtext/batchRemove',
-						success : function(r) {
-							if (r.retCode == '0000') {
-								layer.msg("删除成功");
-								renderTable();
-							} else {
-								layer.msg(r.retMsg);
-							}
-						}
+					console.log("remove->ids:" + ids);
+					//删除
+					ajaxPostLoad("/chao/richtext/batchRemove", {
+						ids : ids
 					});
 				});
 			}
 
 			function edit(id) {
-				layer.open({
+				parent.layer.open({
 					type : 2,
 					title : '修改',
 					maxmin : true,
@@ -208,7 +181,7 @@
 			}
 
 			function openAdd() {
-				layer.open({
+				parent.layer.open({
 					type : 2,
 					title : '增加',
 					maxmin : true,
@@ -217,6 +190,28 @@
 					content : '/chao/richtext/add' // iframe的url
 				});
 			}
+
+			function preview(data) {
+				parent.leafTabAdd("/chao/richtext/preview/" + data.id, data.title + "-" + data.id);
+			}
+
+			//显示大图片
+			function showImg(img) {
+				//页面层
+				parent.layer.open({
+					type : 1,
+					title : "图片详情",
+					skin : 'layui-layer-rim', //加上边框
+					area : [ '50%', '80%' ], //宽高
+					maxmin : true,
+					shadeClose : true, //开启遮罩关闭
+					end : function(index, layero) {
+						return false;
+					},
+					content : '<div style="text-align:center"><img src="' + img + '" /></div>'
+				});
+			}
+
 		});
 	</script>
 </body>

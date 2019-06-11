@@ -136,56 +136,34 @@
 			});
 
 			function remove(id) {
-				layer.confirm('确定要删除选中的记录？', {
+				parent.layer.confirm('确定要删除选中的记录？', {
 					btn : [ '确定', '取消' ]
 				}, function() {
-					$.ajax({
-						url : "/${controllerMappingPrefix}/remove",
-						type : "post",
-						data : {
-							${pk.propertyName} : id
-						},
-						success : function(r) {
-							if (r.retCode == '0000') {
-								layer.msg("删除成功");
-								renderTable();
-							} else {
-								layer.msg(r.retMsg);
-							}
-						}
+					//删除
+					ajaxPostLoad('/${controllerMappingPrefix}/remove', {
+						${pk.propertyName} : id
 					});
 				})
 			}
 
 			function batchRemove(data) {
-				layer.confirm("确认要删除选中的'" + data.length + "'条数据吗?", {
+				parent.layer.confirm("确认要删除选中的'" + data.length + "'条数据吗?", {
 					btn : [ '确定', '取消' ]
 				}, function() {
 					var ids = new Array();
 					$.each(data, function(i, row) {
 						ids[i] = row['${pk.propertyName}'];
 					});
-					console.log(ids);
-					$.ajax({
-						type : 'POST',
-						data : {
-							"${pk.propertyName}s" : ids
-						},
-						url : '/${controllerMappingPrefix}/batchRemove',
-						success : function(r) {
-							if (r.retCode == '0000') {
-								layer.msg("删除成功");
-								renderTable();
-							} else {
-								layer.msg(r.retMsg);
-							}
-						}
+					console.log("remove->ids:" + ids);
+					//批量删除
+					ajaxPostLoad('/${controllerMappingPrefix}/batchRemove', {
+						${pk.propertyName}s : ids
 					});
 				});
 			}
 
 			function edit(id) {
-				 layer.open({
+				parent.layer.open({
 					type : 2,
 					title : '修改',
 					maxmin : true,
@@ -196,7 +174,7 @@
 			}
 
 			function openAdd() {
-				 layer.open({
+				parent.layer.open({
 					type : 2,
 					title : '增加',
 					maxmin : true,

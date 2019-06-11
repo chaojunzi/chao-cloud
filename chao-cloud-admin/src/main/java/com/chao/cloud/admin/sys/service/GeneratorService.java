@@ -4,7 +4,7 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
-import com.chao.cloud.admin.sys.domain.dto.MysqlTableDTO;
+import com.chao.cloud.admin.sys.constant.IDatabaseInfo;
 
 /**
  * 
@@ -21,6 +21,6 @@ public interface GeneratorService {
 	 * @param connection
 	 * @return
 	 */
-	List<MysqlTableDTO> list(String tableName);
+	List<IDatabaseInfo> list(String tableName);
 
 }

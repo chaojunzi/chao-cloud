@@ -44,7 +44,7 @@
 			<label class="layui-form-label">驱动class：</label>
 			<div class="layui-input-block">
 				<input name="driverName" placeholder="请输入驱动class" autocomplete="off" class="layui-input"
-					th:value="${config.driverName}" lay-verify="required" readonly>
+					th:value="${config.driverName}" lay-verify="required">
 			</div>
 		</div>
 		<div class="layui-form-item">
@@ -75,7 +75,7 @@
 					data : data.field,
 					async : false,
 					error : function(request) {
-						laryer.alert("Connection error");
+						layer.alert("Connection error");
 					},
 					success : function(data) {
 						if (data.retCode == '0000') {

@@ -31,7 +31,6 @@ import com.chao.cloud.common.extra.token.annotation.FormToken;
 import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.io.FileUtil;
 import cn.hutool.core.util.StrUtil;
-import cn.hutool.http.HtmlUtil;
 
 /**
  * @功能：
@@ -73,6 +72,23 @@ public class ChaoRichtextController {
 		return ResponseResult.getResponseResult(chaoRichtextService.page(page, queryWrapper));
 	}
 
+	/**
+	 * 预览
+	 * @param id
+	 * @return
+	 */
+	@RequestMapping("/preview/{id}")
+	public String preview(@PathVariable("id") Integer id, Model model) {
+		ChaoRichtext chaoRichtext = chaoRichtextService.getById(id);
+		String content = "";
+		// 读取富文本编辑器的内容
+		if (StrUtil.isNotBlank(chaoRichtext.getContent()) && FileUtil.exist(chaoRichtext.getContent())) {
+			content = FileUtil.readUtf8String(chaoRichtext.getContent());
+		}
+		model.addAttribute("content", content);
+		return "chao/richtext/preview";
+	}
+
 	@MenuMapping("增加")
 	@RequiresPermissions("chao:richtext:add")
 	@RequestMapping("/add")
@@ -88,10 +104,11 @@ public class ChaoRichtextController {
 	public String edit(@PathVariable("id") Integer id, Model model) {
 		ChaoRichtext chaoRichtext = chaoRichtextService.getById(id);
 		// 读取富文本编辑器的内容
-		if (StrUtil.isNotBlank(chaoRichtext.getContent())) {
-			String html = FileUtil.readUtf8String(chaoRichtext.getContent());
-			chaoRichtext.setContent(html);// 还原
+		String html = "";
+		if (StrUtil.isNotBlank(chaoRichtext.getContent()) && FileUtil.exist(chaoRichtext.getContent())) {
+			html = FileUtil.readUtf8String(chaoRichtext.getContent());
 		}
+		chaoRichtext.setContent(html);// 还原
 		model.addAttribute("domain", ftpConfig.getDomain());
 		model.addAttribute("chaoRichtext", chaoRichtext);
 		return "chao/richtext/edit";
@@ -130,7 +147,7 @@ public class ChaoRichtextController {
 		if (StrUtil.isNotBlank(chaoRichtext.getContent())) {
 			// 获取文件名
 			String fileName = richtext.getContent();
-			FileUtil.writeUtf8String(HtmlUtil.escape(chaoRichtext.getContent()), fileName);
+			FileUtil.writeUtf8String(chaoRichtext.getContent(), fileName);
 			chaoRichtext.setContent(fileName);
 		}
 		boolean result = chaoRichtextService.updateById(chaoRichtext);

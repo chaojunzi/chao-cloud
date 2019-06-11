@@ -103,26 +103,7 @@
 			//监听提交
 			form.on('submit(chao_richtext-update)', function(data) {
 				//提交数据data.field
-				$.ajax({
-					cache : true,
-					type : "POST",
-					url : "/chao/richtext/update",
-					data : data.field,
-					async : false,
-					error : function(request) {
-						laryer.alert("Connection error");
-					},
-					success : function(data) {
-						if (data.retCode == '0000') {
-							parent.layer.msg("保存成功");
-							parent.location.reload(); // 父页面刷新
-							var index = parent.layer.getFrameIndex(window.name); // 获取窗口索引
-							parent.layer.close(index);
-						} else {
-							layer.alert(data.retMsg)
-						}
-					}
-				});
+				ajaxPostLoad("/chao/richtext/update", data.field);
 				return false;
 			});
 		});

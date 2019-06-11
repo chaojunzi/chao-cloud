@@ -1,4 +1,20 @@
- 
+/*
+Navicat MySQL Data Transfer
+
+Source Server         : localhost
+Source Server Version : 50505
+Source Host           : localhost:3306
+Source Database       : admin
+
+Target Server Type    : MYSQL
+Target Server Version : 50505
+File Encoding         : 65001
+
+Date: 2019-06-10 15:36:45
+*/
+
+SET FOREIGN_KEY_CHECKS=0;
+
 -- ----------------------------
 -- Table structure for chao_config
 -- ----------------------------
@@ -10,7 +26,21 @@ CREATE TABLE `chao_config` (
   `version` int(11) DEFAULT 0 COMMENT '乐观锁',
   `create_time` timestamp NULL DEFAULT current_timestamp() COMMENT '创建时间',
   PRIMARY KEY (`id`)
-)  ;
+);
+
+-- ----------------------------
+-- Table structure for chao_richtext
+-- ----------------------------
+DROP TABLE IF EXISTS `chao_richtext`;
+CREATE TABLE `chao_richtext` (
+  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'ID',
+  `title` varchar(255) DEFAULT '' COMMENT '标题',
+  `img` varchar(255) DEFAULT '' COMMENT '展示图',
+  `content` varchar(255) DEFAULT '' COMMENT '内容',
+  `version` int(11) DEFAULT 0 COMMENT '乐观锁',
+  `create_time` timestamp NULL DEFAULT current_timestamp() COMMENT '创建时间',
+  PRIMARY KEY (`id`)
+);
 
 -- ----------------------------
 -- Table structure for sys_dept
@@ -23,7 +53,7 @@ CREATE TABLE `sys_dept` (
   `order_num` int(11) DEFAULT 0 COMMENT '排序',
   `del_flag` tinyint(4) DEFAULT 1 COMMENT '是否删除  0：已删除  1：正常',
   PRIMARY KEY (`dept_id`)
-)  ;
+);
 
 -- ----------------------------
 -- Table structure for sys_log
@@ -40,7 +70,7 @@ CREATE TABLE `sys_log` (
   `ip` varchar(64) DEFAULT NULL COMMENT 'IP地址',
   `gmt_create` datetime DEFAULT NULL COMMENT '创建时间',
   PRIMARY KEY (`id`)
-)  ;
+);
 
 -- ----------------------------
 -- Table structure for sys_menu
@@ -58,7 +88,7 @@ CREATE TABLE `sys_menu` (
   `gmt_create` datetime DEFAULT current_timestamp() COMMENT '创建时间',
   `gmt_modified` datetime DEFAULT current_timestamp() COMMENT '修改时间',
   PRIMARY KEY (`menu_id`)
-)  ;
+);
 
 -- ----------------------------
 -- Table structure for sys_role
@@ -70,7 +100,7 @@ CREATE TABLE `sys_role` (
   `remark` varchar(100) DEFAULT NULL COMMENT '备注',
   `rights` varchar(303) DEFAULT '0' COMMENT '权限->id 请不要超过1000',
   PRIMARY KEY (`role_id`)
-)  ;
+);
 
 -- ----------------------------
 -- Table structure for sys_task
@@ -89,7 +119,7 @@ CREATE TABLE `sys_task` (
   `job_group` varchar(255) DEFAULT NULL COMMENT '任务分组',
   `update_date` datetime DEFAULT NULL COMMENT '更新时间',
   PRIMARY KEY (`id`)
-)  ;
+);
 
 -- ----------------------------
 -- Table structure for sys_user

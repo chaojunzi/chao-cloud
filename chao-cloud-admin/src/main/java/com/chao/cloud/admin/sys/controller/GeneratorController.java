@@ -21,7 +21,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.generator.config.DataSourceConfig;
-import com.chao.cloud.admin.sys.domain.dto.MysqlTableDTO;
+import com.chao.cloud.admin.sys.constant.IDatabaseInfo;
 import com.chao.cloud.admin.sys.domain.vo.GenCodeVO;
 import com.chao.cloud.admin.sys.log.AdminLog;
 import com.chao.cloud.admin.sys.service.GeneratorService;
@@ -58,8 +58,8 @@ public class GeneratorController {
 	@RequiresPermissions("sys:generator:list")
 	@RequestMapping("/list")
 	@ResponseBody
-	Response<IPage<MysqlTableDTO>> list(Page<MysqlTableDTO> page, String tableName) {
-		List<MysqlTableDTO> list = generatorService.list(tableName);
+	Response<IPage<IDatabaseInfo>> list(Page<IDatabaseInfo> page, String tableName) {
+		List<IDatabaseInfo> list = generatorService.list(tableName);
 		page.setTotal(list.size());
 		// 分页
 		if (CollUtil.isNotEmpty(list)) {
@@ -72,7 +72,6 @@ public class GeneratorController {
 				page.setRecords(list);
 			}
 		}
-
 		return ResponseResult.getResponseResult(page);
 	}
 
