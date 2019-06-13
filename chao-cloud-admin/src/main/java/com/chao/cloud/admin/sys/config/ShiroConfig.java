@@ -3,11 +3,11 @@ package com.chao.cloud.admin.sys.config;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.LinkedHashMap;
-import java.util.List;
 
 import org.apache.shiro.cache.ehcache.EhCacheManager;
 import org.apache.shiro.mgt.SecurityManager;
 import org.apache.shiro.session.SessionListener;
+import org.apache.shiro.session.mgt.SessionManager;
 import org.apache.shiro.session.mgt.eis.MemorySessionDAO;
 import org.apache.shiro.session.mgt.eis.SessionDAO;
 import org.apache.shiro.spring.LifecycleBeanPostProcessor;
@@ -25,9 +25,8 @@ import com.chao.cloud.admin.sys.shiro.ShiroSessionListener;
 import com.chao.cloud.admin.sys.shiro.ShiroUserRealm;
 
 import at.pollux.thymeleaf.shiro.dialect.ShiroDialect;
-import cn.hutool.core.collection.CollUtil;
-import cn.hutool.core.io.resource.ResourceUtil;
-import cn.hutool.core.util.StrUtil;
+import cn.hutool.json.JSONUtil;
+import lombok.extern.slf4j.Slf4j;
 import net.sf.ehcache.CacheManager;
 
 /**
@@ -38,6 +37,7 @@ import net.sf.ehcache.CacheManager;
  * @version 1.0.0
  */
 @Configuration
+@Slf4j
 public class ShiroConfig {
 
 	@Value("${server.servlet.session.timeout:1800}")
@@ -45,11 +45,6 @@ public class ShiroConfig {
 
 	@Value("${chao.cloud.admin.shiro.session-id-name:SHIRO-COOKIE}")
 	private String sessionIdName;
-
-	@Bean
-	public static LifecycleBeanPostProcessor getLifecycleBeanPostProcessor() {
-		return new LifecycleBeanPostProcessor();
-	}
 
 	/**
 	 * ShiroDialect，为了在thymeleaf里使用shiro的标签的bean
@@ -62,14 +57,14 @@ public class ShiroConfig {
 	}
 
 	@Bean
-	ShiroFilterFactoryBean shiroFilterFactoryBean(SecurityManager securityManager) {
+	public ShiroFilterFactoryBean shiroFilterFactoryBean(SecurityManager securityManager) {
 		ShiroFilterFactoryBean shiroFilterFactoryBean = new ShiroFilterFactoryBean();
 		shiroFilterFactoryBean.setSecurityManager(securityManager);
 		shiroFilterFactoryBean.setLoginUrl("/login");
 		shiroFilterFactoryBean.setSuccessUrl("/index");
-		shiroFilterFactoryBean.setUnauthorizedUrl("/error/403.html");
+		// shiroFilterFactoryBean.setUnauthorizedUrl(""); // 全局异常处理配置
 		LinkedHashMap<String, String> filterChainDefinitionMap = new LinkedHashMap<>();
-		filterChainDefinitionMap.put("/login", "anon");
+		filterChainDefinitionMap.put("/login/**", "anon");
 		filterChainDefinitionMap.put("/logout", "anon");
 		filterChainDefinitionMap.put("/error/**", "anon");
 		//
@@ -80,22 +75,20 @@ public class ShiroConfig {
 		filterChainDefinitionMap.put("/js/**", "anon");
 		filterChainDefinitionMap.put("/img/**", "anon");
 		// 获取static 静态目录
-		String pathTemplate = "/{}/**";
-		List<String> paths = CollUtil.toList(ResourceUtil.readUtf8Str("static").split("\n"));
-		if (CollUtil.isNotEmpty(paths)) {
-			paths.forEach(p -> filterChainDefinitionMap.put(StrUtil.format(pathTemplate, p), "anon"));
-		}
+		filterChainDefinitionMap.put("/echarts/**", "anon");
+		filterChainDefinitionMap.put("/layui/**", "anon");
+		filterChainDefinitionMap.put("/core/**", "anon");
 		//
-		filterChainDefinitionMap.put("/", "anon");
 		filterChainDefinitionMap.put("/**", "authc");
+		// 获取顺序图
+		log.info("[shiro->filter:{}]", JSONUtil.toJsonPrettyStr(filterChainDefinitionMap));
 		shiroFilterFactoryBean.setFilterChainDefinitionMap(filterChainDefinitionMap);
 		return shiroFilterFactoryBean;
 	}
 
 	@Bean
-	public ShiroUserRealm userRealm() {
-		ShiroUserRealm userRealm = new ShiroUserRealm();
-		return userRealm;
+	public static LifecycleBeanPostProcessor getLifecycleBeanPostProcessor() {
+		return new LifecycleBeanPostProcessor();
 	}
 
 	/**
@@ -121,10 +114,10 @@ public class ShiroConfig {
 	 * shiro session的管理
 	 */
 	@Bean
-	public DefaultWebSessionManager sessionManager() {
+	public SessionManager sessionManager(SessionDAO sessionDAO) {
 		DefaultWebSessionManager sessionManager = new DefaultWebSessionManager();
 		sessionManager.setGlobalSessionTimeout(tomcatTimeout * 1000);
-		sessionManager.setSessionDAO(sessionDAO());
+		sessionManager.setSessionDAO(sessionDAO);
 		Collection<SessionListener> listeners = new ArrayList<SessionListener>();
 		listeners.add(new ShiroSessionListener());
 		sessionManager.setSessionListeners(listeners);
@@ -135,12 +128,19 @@ public class ShiroConfig {
 	}
 
 	@Bean
-	public SecurityManager securityManager(EhCacheManager ehCacheManager) {
+	public ShiroUserRealm userRealm() {
+		ShiroUserRealm userRealm = new ShiroUserRealm();
+		return userRealm;
+	}
+
+	@Bean
+	public SecurityManager securityManager(EhCacheManager ehCacheManager, ShiroUserRealm realm,
+			SessionManager sessionManager) {
 		DefaultWebSecurityManager securityManager = new DefaultWebSecurityManager();
 		// 设置realm.
-		securityManager.setRealm(userRealm());
+		securityManager.setRealm(realm);
 		securityManager.setCacheManager(ehCacheManager);
-		securityManager.setSessionManager(sessionManager());
+		securityManager.setSessionManager(sessionManager);
 		return securityManager;
 	}
 

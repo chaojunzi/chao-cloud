@@ -14,6 +14,8 @@ import com.chao.cloud.common.entity.Response;
 import com.chao.cloud.common.entity.ResponseResult;
 import com.chao.cloud.common.exception.BusinessException;
 
+import lombok.extern.slf4j.Slf4j;
+
 /**
  * controller 增强器
  * 
@@ -21,6 +23,7 @@ import com.chao.cloud.common.exception.BusinessException;
  * @version 1.0
  */
 @RestControllerAdvice
+@Slf4j
 public class ExceptionControllerAdvice implements BaseHttpServlet {
 
 	/**
@@ -31,6 +34,7 @@ public class ExceptionControllerAdvice implements BaseHttpServlet {
 	 */
 	@ExceptionHandler(value = { Throwable.class, Exception.class, BusinessException.class })
 	public Response<String> errorHandler(Exception ex) {
+		log.info("AdviceError={}", ex.getMessage());
 		// 判断是否为 ajax 请求
 		HttpServletRequest request = getRequest();
 		if (requestIsAjax(request)) {
@@ -38,7 +42,7 @@ public class ExceptionControllerAdvice implements BaseHttpServlet {
 		}
 		// 返回错误页面
 		HttpServletResponse response = getResponse();
-		ErrorUtil.writeErrorHtml(response);
+		ErrorUtil.writeErrorHtml(response, ex.getClass());
 		return null;
 	}
 

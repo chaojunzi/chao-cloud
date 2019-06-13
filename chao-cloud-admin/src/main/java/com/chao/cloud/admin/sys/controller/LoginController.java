@@ -1,5 +1,6 @@
 package com.chao.cloud.admin.sys.controller;
 
+import java.io.File;
 import java.io.OutputStream;
 
 import javax.servlet.http.HttpServletRequest;
@@ -24,9 +25,10 @@ import com.chao.cloud.admin.sys.shiro.ShiroUtils;
 import com.chao.cloud.common.entity.Response;
 import com.chao.cloud.common.entity.ResponseResult;
 import com.chao.cloud.common.exception.BusinessException;
+import com.chao.cloud.common.util.HyalineCaptchaUtil;
+import com.chao.cloud.common.util.HyalineCaptchaUtil.HyalineCircleCaptcha;
 
-import cn.hutool.captcha.CaptchaUtil;
-import cn.hutool.captcha.CircleCaptcha;
+import cn.hutool.core.img.ImgUtil;
 import cn.hutool.core.io.FileUtil;
 import cn.hutool.core.util.NumberUtil;
 import cn.hutool.core.util.StrUtil;
@@ -41,26 +43,26 @@ import lombok.extern.slf4j.Slf4j;
 public class LoginController extends BaseController {
 
 	@RequestMapping({ "/", "" })
-	String welcome(Model model) {
+	public String welcome(Model model) {
 		return "redirect:/index";
 	}
 
 	@RequestMapping({ "/index" })
-	String index(Model model) {
+	public String index(Model model) {
 		model.addAttribute("name", getUser().getName());
 		model.addAttribute("username", getUser().getUsername());
 		return "index";
 	}
 
 	@GetMapping("/login")
-	String login(Model model) {
+	public String login(Model model) {
 		return "login";
 	}
 
 	@AdminLog("登录")
 	@PostMapping("/login")
 	@ResponseBody
-	Response<String> ajaxLogin(@NotBlank(message = "请输入用户名") String username, //
+	public Response<String> ajaxLogin(@NotBlank(message = "请输入用户名") String username, //
 			@NotBlank(message = "请输入密码") String password, //
 			@NotBlank(message = "请输入验证码") String verify, //
 			HttpServletRequest request) {
@@ -84,13 +86,13 @@ public class LoginController extends BaseController {
 	}
 
 	@RequestMapping("/logout")
-	String logout() {
+	public String logout() {
 		ShiroUtils.logout();
 		return "redirect:/login";
 	}
 
 	@RequestMapping("/main")
-	String main(Model model) {
+	public String main(Model model) {
 		int scale = 2;
 		RuntimeInfo runtime = SystemUtil.getRuntimeInfo();
 		// 分配内存百分比
@@ -119,7 +121,7 @@ public class LoginController extends BaseController {
 			response.setHeader("Cache-Control", "no-cache");
 			response.setDateHeader("Expire", 0);
 			// 制作验证码
-			CircleCaptcha captcha = CaptchaUtil.createCircleCaptcha(200, 100, 4, 3);
+			HyalineCircleCaptcha captcha = HyalineCaptchaUtil.createCircleCaptcha(100, 42, 4, 3);
 			String code = captcha.getCode();
 			log.info("[验证码: {}]", code);
 			// 存入session
@@ -133,4 +135,9 @@ public class LoginController extends BaseController {
 			log.error("获取验证码失败>>>> ", e);
 		}
 	}
+
+	public static void main(String[] args) {
+		ImgUtil.scale(new File("D:/user.png"), new File("D:/a.png"), 0.5F);
+	}
+
 }

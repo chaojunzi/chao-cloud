@@ -143,10 +143,9 @@ public class ChaoRichtextController {
 	@FormToken(remove = true)
 	public Response<String> update(ChaoRichtext chaoRichtext) {
 		// 富文本编辑器转义
-		ChaoRichtext richtext = chaoRichtextService.getById(chaoRichtext.getId());
 		if (StrUtil.isNotBlank(chaoRichtext.getContent())) {
 			// 获取文件名
-			String fileName = richtext.getContent();
+			String fileName = getHtmlFileName();
 			FileUtil.writeUtf8String(chaoRichtext.getContent(), fileName);
 			chaoRichtext.setContent(fileName);
 		}

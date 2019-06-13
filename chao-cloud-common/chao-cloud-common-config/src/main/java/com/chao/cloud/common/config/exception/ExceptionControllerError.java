@@ -24,6 +24,9 @@ import com.chao.cloud.common.constants.ResultCodeEnum;
 import com.chao.cloud.common.entity.Response;
 import com.chao.cloud.common.entity.ResponseResult;
 
+import cn.hutool.json.JSONUtil;
+import lombok.extern.slf4j.Slf4j;
+
 /**
  * Springboot全局异常统一处理
  * @功能：
@@ -33,6 +36,7 @@ import com.chao.cloud.common.entity.ResponseResult;
  */
 @RestController
 @EnableConfigurationProperties({ ServerProperties.class })
+@Slf4j
 public class ExceptionControllerError implements ErrorController, BaseHttpServlet {
 
 	private static final String ERROR_PATH = "/error";
@@ -56,6 +60,7 @@ public class ExceptionControllerError implements ErrorController, BaseHttpServle
 	@RequestMapping(value = ERROR_PATH)
 	public Response<Object> error(HttpServletRequest request) {
 		Map<String, Object> body = getErrorAttributes(request, isIncludeStackTrace(request, MediaType.ALL));
+		log.error("error={}", JSONUtil.toJsonPrettyStr(body));
 		HttpStatus status = getStatus(request);
 		if (requestIsAjax(request)) {
 			Response<Object> response = ResponseResult.getResponseCodeAndMsg(ResultCodeEnum.CODE_500.code(),

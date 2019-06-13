@@ -4,14 +4,14 @@ log.path: /logs/chao/${spring.application.name}
 log.maxHistory: 30
 
 server:
-  port: 80
+  port: 9000
   tomcat.uri-encoding: utf-8
   servlet:    session:      timeout: 1800
 #共享文件(功能类型)
 spring:
   application:
     name: chao-admin
-  aop:
+  aop:  
     auto: true
   output:
     ansi:
@@ -43,11 +43,14 @@ spring:
   thymeleaf:
     mode: LEGACYHTML5
     cache: false   
+  resources: #这里必须使用字符串 后面的 / 必须有
+    static-locations: file:/softrun/tech/dcdy/web/chao/resource/public/
+    
   servlet:
     multipart:
       max-file-size: 5MB
       max-request-size: 5MB 
-         
+  
 mybatis-plus:
   configuration:
     map-underscore-to-camel-case: true
@@ -56,12 +59,14 @@ mybatis-plus:
 #默认使用本地数据源
 chao:
   cloud:
-  #  globle:
-  #    config:
-  #      rich-path:    # 富文本编辑器生成的html地址
+    globle:
+      config:
+        rich-path: /softrun/tech/dcdy/web/chao/resource/html   # 富文本编辑器生成的html地址
     ftp:
       config: 
-        local: true #使用本地硬盘->默认ftp
+        local: true #使用本地硬盘
+        prefix: /softrun/tech/dcdy/web/chao/resource/public
+        path: ${chao.cloud.ftp.config.prefix}/img
     codegen:
         datasource:
           url: ${spring.datasource.url}
