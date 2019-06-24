@@ -1,0 +1,104 @@
+package ${package.Controller};
+
+
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
+
+import cn.hutool.core.collection.CollUtil;
+import cn.hutool.core.util.StrUtil;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.RestController;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.core.toolkit.Wrappers;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.chao.cloud.common.entity.Response;
+import com.chao.cloud.common.entity.ResponseResult;
+import ${package.Entity}.${entity};
+import ${package.Service}.${table.serviceName};
+
+#if(${superControllerClassPackage})
+import ${superControllerClassPackage};
+#end
+
+/**
+ * @功能：
+ * @author： ${author}
+ * @时间：${date}
+ * @version 1.0.0
+ */
+@RequestMapping("/${controllerMappingPrefix}")
+@RestController
+@Validated
+#if(${superControllerClass})
+public class ${table.controllerName} extends ${superControllerClass} {
+#else
+public class ${table.controllerName} {
+#end
+
+	@Autowired
+	private ${table.serviceName} ${table.entityPath}Service;
+
+
+	@RequestMapping("/list")
+	public Response<IPage<${table.entityName}>> list(Page<${table.entityName}> page //
+		#if ($likeFields)
+		#foreach($field in ${likeFields}) 
+		,${field.propertyType} ${field.propertyName} // ${field.comment}
+		#end	
+		#end	
+		) { // 分页
+		LambdaQueryWrapper<${table.entityName}> queryWrapper = Wrappers.lambdaQuery();
+		#if ($likeFields)
+		#foreach($field in ${likeFields})
+		if (StrUtil.isNotBlank(${field.propertyName})) {
+			queryWrapper.like(${table.entityName}::get${field.capitalName}, ${field.propertyName});
+		}
+		#end	
+		#end
+		return ResponseResult.getResponseResult(${table.entityPath}Service.page(page, queryWrapper));
+	}
+
+	
+	/**
+	 * 保存
+	 */
+	@RequestMapping("/save")
+	public Response<String> save(${table.entityName} ${table.entityPath}) {
+		boolean result = ${table.entityPath}Service.save(${table.entityPath});
+		return result ? ResponseResult.ok() : ResponseResult.error();
+	}
+
+	/**
+	 * 修改
+	 */
+	@RequestMapping("/update")
+	public Response<String> update(${table.entityName} ${table.entityPath}) {
+		boolean result = ${table.entityPath}Service.updateById(${table.entityPath});
+		return result ? ResponseResult.ok() : ResponseResult.error();
+	}
+
+	/**
+	 * 删除
+	 */
+	@RequestMapping("/remove")
+	public Response<String> remove(@NotNull(message = "${pk.propertyName} 不能为空") ${pk.propertyType} ${pk.propertyName}) {
+		boolean result = ${table.entityPath}Service.removeById(${pk.propertyName});
+		return result ? ResponseResult.ok() : ResponseResult.error();
+	}
+
+	/**
+	 * 批量删除
+	 */
+	@RequestMapping("/batchRemove")
+	public Response<String> batchRemove(
+			@NotNull(message = "不能为空") @Size(min = 1, message = "请至少选择一个") @RequestParam("${pk.propertyName}s[]") ${pk.propertyType}[] ${pk.propertyName}s) {
+		boolean result = ${table.entityPath}Service.removeByIds(CollUtil.toList(${pk.propertyName}s));
+		return result ? ResponseResult.ok() : ResponseResult.error();
+	}
+
+}

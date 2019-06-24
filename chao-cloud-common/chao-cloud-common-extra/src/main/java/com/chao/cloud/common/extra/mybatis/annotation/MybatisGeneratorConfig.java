@@ -18,7 +18,7 @@ import com.baomidou.mybatisplus.generator.config.rules.DateType;
 import com.baomidou.mybatisplus.generator.config.rules.NamingStrategy;
 import com.chao.cloud.common.extra.mybatis.generator.ZipAutoGenerator;
 import com.chao.cloud.common.extra.mybatis.generator.engine.ZipVelocityTemplateEngine;
-import com.chao.cloud.common.extra.mybatis.generator.template.HtmlTemplateConfig;
+import com.chao.cloud.common.extra.mybatis.generator.template.BeforeConfig;
 
 /**
  * 代码生成器
@@ -33,6 +33,7 @@ public class MybatisGeneratorConfig {
 	private String author = "薛超";
 
 	private final static String GLOBAL_CONFIG_PREFIX = "chao.cloud.codegen.global";
+	private final static String BEFORE_CONFIG_PREFIX = "chao.cloud.codegen.before";
 	private final static String DATA_SOURCE_CONFIG_PREFIX = "chao.cloud.codegen.datasource";
 	private final static String PACKAGE_CONFIG_PREFIX = "chao.cloud.codegen.package";
 	private final static String TEMPLATE_CONFIG_PREFIX = "chao.cloud.codegen.template";
@@ -57,6 +58,12 @@ public class MybatisGeneratorConfig {
 		mpg.setStrategy(sc);
 		mpg.setTemplateEngine(new ZipVelocityTemplateEngine());
 		return mpg;
+	}
+
+	@Bean
+	@ConfigurationProperties(prefix = BEFORE_CONFIG_PREFIX)
+	public BeforeConfig beforeConfig() {
+		return new BeforeConfig();
 	}
 
 	@Bean
@@ -94,8 +101,8 @@ public class MybatisGeneratorConfig {
 
 	@Bean
 	@ConfigurationProperties(prefix = TEMPLATE_CONFIG_PREFIX)
-	public TemplateConfig templateConfig() {
-		HtmlTemplateConfig config = new HtmlTemplateConfig();
+	public TemplateConfig templateConfig(BeforeConfig bc) {
+		TemplateConfig config = bc.geTemplate();
 		// 配置自定义输出模板
 		// 指定自定义模板路径，注意不要带上.ftl/.vm, 会根据使用的模板引擎自动识别
 		// templateConfig.setEntity("templates/entity2.java");
