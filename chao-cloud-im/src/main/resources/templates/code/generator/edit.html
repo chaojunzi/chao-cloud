@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+<meta charset="utf-8">
+<head th:include="include :: header"></head>
+<body>
+	<hr class="layui-bg-gray">
+	<form class="layui-form" lay-filter="generator-edit-form">
+		<div class="layui-form-item">
+			<label class="layui-form-label">作者：</label>
+			<div class="layui-input-block">
+				<input name="author" placeholder="请输入作者" autocomplete="off" class="layui-input"
+					th:value="${config.author}" lay-verify="required">
+			</div>
+		</div>
+		<div class="layui-form-item">
+			<label class="layui-form-label">包名：</label>
+			<div class="layui-input-block">
+				<input name="parent" placeholder="请输入包名" autocomplete="off" class="layui-input"
+					th:value="${config.parent}" lay-verify="required">
+			</div>
+		</div>
+		<div class="layui-form-item">
+			<label class="layui-form-label">连接url：</label>
+			<div class="layui-input-block">
+				<input name="url" placeholder="请输入连接url" autocomplete="off" class="layui-input"
+					th:value="${config.url}" lay-verify="required">
+			</div>
+		</div>
+		<div class="layui-form-item">
+			<label class="layui-form-label">用户名：</label>
+			<div class="layui-input-block">
+				<input name="username" placeholder="请输入用户名" autocomplete="off" class="layui-input"
+					th:value="${config.username}" lay-verify="required">
+			</div>
+		</div>
+		<div class="layui-form-item layui-form-text">
+			<label class="layui-form-label">密码：</label>
+			<div class="layui-input-block">
+				<input name="password" placeholder="请输入密码" autocomplete="off" class="layui-input"
+					th:value="${config.password}" lay-verify="required">
+			</div>
+		</div>
+		<div class="layui-form-item layui-form-text">
+			<label class="layui-form-label">驱动class：</label>
+			<div class="layui-input-block">
+				<input name="driverName" placeholder="请输入驱动class" autocomplete="off" class="layui-input"
+					th:value="${config.driverName}" lay-verify="required">
+			</div>
+		</div>
+		<div class="layui-form-item">
+			<div class="layui-input-block">
+				<button class="layui-btn" lay-submit="" lay-filter="generator-edit">立即提交</button>
+			</div>
+		</div>
+	</form>
+	<div th:include="include::footer"></div>
+	<!-- 注意：如果你直接复制所有代码到本地，上述js路径需要改成你本地的 -->
+	<script>
+		layui.use([ 'form', 'layedit', 'laydate' ], function() {
+			var form = layui.form, layer = layui.layer, layedit = layui.layedit, laydate = layui.laydate;
+			var $ = layui.jquery;
+
+			//监听指定开关
+			form.on('switch(autoRemovePre)', function(data) {
+				$("[name=autoRemovePre]").val((this.checked ? 'true' : 'false'));
+			});
+
+			//监听提交
+			form.on('submit(generator-edit)', function(data) {
+				//提交数据data.field
+				$.ajax({
+					cache : true,
+					type : "POST",
+					url : "/code/generator/update",
+					data : data.field,
+					async : false,
+					error : function(request) {
+						layer.alert("Connection error");
+					},
+					success : function(data) {
+						if (data.retCode == '0000') {
+							parent.layer.msg("保存成功");
+							parent.location.reload(); // 父页面刷新
+							var index = parent.layer.getFrameIndex(window.name); // 获取窗口索引
+							parent.layer.close(index);
+						} else {
+							layer.alert(data.retMsg)
+						}
+					}
+				});
+				return false;
+			});
+		});
+	</script>
+</body>
+</html>

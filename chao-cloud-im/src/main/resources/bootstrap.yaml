@@ -1,0 +1,72 @@
+#日志
+logging.config: classpath:chao-logback.xml
+log.path: /logs/im/${spring.application.name}
+log.maxHistory: 30
+
+server:
+  port: 80
+  tomcat.uri-encoding: utf-8
+  servlet:    session:      timeout: 1800
+#共享文件(功能类型)
+spring:
+  application:
+    name: chao-im
+  aop:  
+    auto: true
+  output:
+    ansi:
+      enabled: always 
+  jackson:
+    date-format: yyyy-MM-dd HH:mm:ss
+    time-zone: GMT+8
+  datasource:
+    #url: jdbc:h2:mem:test;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE;MODE=MYSQL
+    #driver-class-name: org.h2.Driver
+    #schema: classpath:config/schema.sql  #仅数据库结构
+    #data: classpath:config/data.sql  #数据库结构+数据
+    url: jdbc:mysql://127.0.0.1:3306/test?useSSL=false&useUnicode=true&characterEncoding=UTF8&allowMultiQueries=true
+    driver-class-name: com.mysql.jdbc.Driver
+    username: root
+    password: 123456
+    type: com.alibaba.druid.pool.DruidDataSource
+    druid:
+      validation-query: SELECT 1
+      test-on-borrow: true
+      connection-init-sqls: SET NAMES utf8mb4;
+      filter:
+        wall:
+          enabled: false
+  thymeleaf:
+    mode: LEGACYHTML5
+    cache: false   
+  servlet: #文件上传
+    multipart:
+      max-file-size: 5MB
+      max-request-size: 5MB 
+  
+mybatis-plus:
+  configuration:
+    map-underscore-to-camel-case: true
+    log-impl:  com.chao.cloud.common.extra.mybatis.log.Slf4jLogImpl
+
+#默认使用本地数据源-代码自动生成
+chao:
+  cloud:
+    ftp:
+      config: 
+        local: true #使用本地硬盘
+    codegen: #代码自动生成
+        before:
+          template-style: rest #rest 风格
+        datasource:
+          url: ${spring.datasource.url}
+          username: ${spring.datasource.username}
+          password: ${spring.datasource.password}
+          driver-name: ${spring.datasource.driver-class-name}
+        package:
+          parent: com.chao.cloud.im #parent
+        global:
+         author: 超君子
+        strategy:
+         logic-delete-field-name: deleted
+            

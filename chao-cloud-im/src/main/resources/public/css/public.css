@@ -1,0 +1,41 @@
+@CHARSET "UTF-8";
+
+.layui-main-height450 {
+	height: 450px;
+}
+
+.layui-main-height400 {
+	height: 400px;
+}
+
+.layui-main-height380 {
+	height: 380px;
+}
+
+.layui-height20 {
+	height: 20px;
+}
+.layui-height80 {
+	height: 80px;
+}
+
+.layui-padding5 {
+	padding: 5px;
+}
+.layui-margin5 {
+	margin: 5px;
+}
+.layui-padding10 {
+	padding: 10px;
+}
+.layui-margin10 {
+	margin: 10px;
+}
+
+.layui-padding20 {
+	padding: 20px;
+}
+
+.layui-margin20 {
+	margin: 20px;
+}

@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+
+<html lang="zh_CN" xmlns:th="http://www.thymeleaf.org">
+<head th:include="include :: header"></head>
+<style>
+body .layim-chat-main {
+	height: auto;
+}
+</style>
+<body>
+
+	<div class="layim-chat-main">
+		<ul id="LAY_view"></ul>
+	</div>
+
+	<div id="LAY_page" style="margin: 0 10px;"></div>
+
+
+	<textarea title="消息模版" id="LAY_tpl" style="display: none;">
+{{# layui.each(d.data, function(index, item){
+  if(item.id == parent.layui.layim.cache().mine.id){ }}
+    <li class="layim-chat-mine">
+			<div class="layim-chat-user">
+				<img src="{{ item.avatar }}">
+				<cite>
+					<i>{{ layui.data.date(item.timestamp) }}</i>{{ item.username }}</cite>
+			</div>
+			<div class="layim-chat-text">{{ layui.layim.content(item.content) }}</div>
+		</li>
+  {{# } else { }}
+    <li>
+			<div class="layim-chat-user">
+				<img src="{{ item.avatar }}">
+				<cite>{{ item.username }}<i>{{ layui.data.date(item.timestamp) }}</i>
+				</cite>
+			</div>
+			<div class="layim-chat-text">{{ layui.layim.content(item.content) }}</div>
+		</li>
+  {{# }
+}); }}
+</textarea>
+
+	<div th:include="include::footer"></div>
+	<script>
+		layui.use([ 'layim', 'laypage' ], function() {
+			var layim = layui.layim, layer = layui.layer, laytpl = layui.laytpl, $ = layui.jquery, laypage = layui.laypage;
+			//聊天记录的分页此处不做演示，你可以采用laypage，不了解的同学见文档：http://www.layui.com/doc/modules/laypage.html
+			//开始请求聊天记录
+			var param = location.search;//获得URL参数。该窗口url会携带会话id和type，他们是你请求聊天记录的重要凭据
+			//console.log(param)
+			//渲染数据
+			renderData();
+			//分页处理
+			laypage.render({
+				elem : 'LAY_page',
+				count : '[[${count}]]',//数据总数
+				groups : 3, //连续显示分页数
+				skip : true,
+				jump : function(obj, first) {
+					//得到了当前页，用于向服务端请求对应数据
+					var curr = obj.curr;
+					if (!first) {
+						renderData({
+							current : curr
+						})
+					}
+				}
+			});
+
+			function renderData(page) {
+				$.ajax({
+					cache : true,
+					type : "POST",
+					url : "/im/msg_his/list" + param,
+					data : page,
+					success : function(data) {
+						if (data.retCode == '0000') {
+							//渲染模板
+							var html = laytpl(LAY_tpl.value).render({
+								data : data.body.records
+							});
+							$('#LAY_view').html(html);
+						} else {
+							layer.alert(data.retMsg)
+						}
+					}
+				});
+			}
+
+		});
+	</script>
+</body>
+</html>
