@@ -1,10 +1,10 @@
 #日志
 logging.config: classpath:chao-logback.xml
-log.path: /logs/im/${spring.application.name}
+log.path: /logs/chao/${spring.application.name}
 log.maxHistory: 30
 
 server:
-  port: 80
+  port: 9001
   tomcat.uri-encoding: utf-8
   servlet:    session:      timeout: 1800
 #共享文件(功能类型)
@@ -39,6 +39,8 @@ spring:
   thymeleaf:
     mode: LEGACYHTML5
     cache: false   
+  resources: #这里必须使用字符串 后面的 / 必须有
+    static-locations: file:/softrun/tech/dcdy/web/chao/resource/im/
   servlet: #文件上传
     multipart:
       max-file-size: 5MB
@@ -55,6 +57,8 @@ chao:
     ftp:
       config: 
         local: true #使用本地硬盘
+        prefix: /softrun/tech/dcdy/web/chao/resource/im
+        path: ${chao.cloud.ftp.config.prefix}/img
     codegen: #代码自动生成
         before:
           template-style: rest #rest 风格
