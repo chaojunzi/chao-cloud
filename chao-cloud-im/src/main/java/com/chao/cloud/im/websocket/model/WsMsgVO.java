@@ -26,6 +26,15 @@ public class WsMsgVO {
 	private Integer toid;
 
 	/**
+	 * 接收人名称
+	 */
+	private String toname;
+	/**
+	 * 接收人头像
+	 */
+	private String toavatar;
+
+	/**
 	 * 以下为页面消息展示使用
 	 */
 	private Boolean system;

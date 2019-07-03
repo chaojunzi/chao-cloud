@@ -54,6 +54,17 @@ mybatis-plus:
 #默认使用本地数据源-代码自动生成
 chao:
   cloud:
+    im:
+      tai: #腾讯
+        app-id: 2118014633
+        app-key: LirwLm1HMBGXDThB
+        session: chaojunzi
+      bai:
+        app-id: 16704965
+        api-key: Qp5FlLOztEannkQrb4CKop1o
+        secret-key: ssT7zQLPMqxsR3QDa0wnTlCnaxd6vyUY
+        access-token: 24.683971a063a6c5dc6c807195711e4709.2592000.1564740084.282335-16704965
+        robot: S19840 #机器人
     ftp:
       config: 
         local: true #使用本地硬盘

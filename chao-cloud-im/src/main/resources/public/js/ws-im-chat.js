@@ -46,6 +46,7 @@ layui.use([ 'layer', 'jquery' ], function() {
 				layim.setFriendStatus(r.msg, 'offline');
 				break;
 			case 5:// 聊天->追加消息
+				layim.setChatStatus('');//清除对方正在输入
 				layim.getMessage(r.msg);
 				break;
 			case 6:// 离线消息
@@ -53,6 +54,10 @@ layui.use([ 'layer', 'jquery' ], function() {
 					layim.getMessage(item);
 　				　});
 				break;
+			case 7:// 对方正在输入
+				layim.setChatStatus(r.msg);
+				break;
+				
 			}
 
 		};

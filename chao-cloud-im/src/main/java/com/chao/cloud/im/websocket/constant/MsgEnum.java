@@ -15,7 +15,8 @@ public enum MsgEnum {
 	ON_LINE(3), // 上线
 	OFF_LINE(4), // 下线
 	CHAT(5), // 聊天
-	OFF_MSG(6) // 离线消息
+	OFF_MSG(6), // 离线消息
+	OTHER_INPUT(7), // 对方正在输入
 	;
 
 	public Integer type;

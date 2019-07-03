@@ -8,6 +8,9 @@ package com.chao.cloud.im.websocket.constant;
  * @version 1.0.0
  */
 public interface ImConstant {
+
+	String OTHER_INPUT = "<span style=\"color:#FF5722;\">对方正在输入...</span>";
+
 	/**
 	 * 状态
 	 */

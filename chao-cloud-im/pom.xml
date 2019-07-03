@@ -5,14 +5,23 @@
 	<modelVersion>4.0.0</modelVersion>
 	<artifactId>chao-cloud-im</artifactId>
 	<packaging>jar</packaging>
-	<name>carpool-cloud-server</name>
+	<name>chao-cloud-im</name>
 	<description>chao-cloud-im-聊天</description>
 	<parent>
 		<groupId>com.chao.cloud</groupId>
 		<artifactId>chao-cloud-parent</artifactId>
 		<version>1.0.0</version>
 	</parent>
+	<properties>
+		<taip.version>4.3.5</taip.version>
+	</properties>
 	<dependencies>
+		<!-- https://mvnrepository.com/artifact/cn.xsshome/taip -->
+		<dependency>
+			<groupId>cn.xsshome</groupId>
+			<artifactId>taip</artifactId>
+			<version>${taip.version}</version>
+		</dependency>
 		<dependency>
 			<groupId>com.chao.cloud.common</groupId>
 			<artifactId>chao-cloud-common-config</artifactId>

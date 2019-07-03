@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.api.R;
+import com.chao.cloud.im.ai.constant.AiConstant;
 import com.chao.cloud.im.dal.entity.ImGroupUser;
 import com.chao.cloud.im.dal.entity.ImMsgHis;
 import com.chao.cloud.im.dal.entity.ImUser;
@@ -110,8 +111,9 @@ public class LayimController extends BaseController {
 				friend.setGroupname(dept[1]);
 				List<User> users = v.stream().map(u -> {
 					User user = LayimModel.userConvert(u);
-					user.setStatus(
-							onlineKey.contains(u.getId()) ? ImConstant.LineStatus.ON : ImConstant.LineStatus.OFF);
+					user.setStatus(AiConstant.REBOT_ID_LIST.contains(u.getId()) || onlineKey.contains(u.getId())
+							? ImConstant.LineStatus.ON
+							: ImConstant.LineStatus.OFF);
 					return user;
 				}).collect(Collectors.toList());
 				friend.setList(users);

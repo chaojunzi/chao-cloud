@@ -21,6 +21,9 @@ import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.chao.cloud.common.core.SpringContextUtil;
 import com.chao.cloud.common.exception.BusinessException;
 import com.chao.cloud.common.util.EntityUtil;
+import com.chao.cloud.im.ai.constant.AiConstant;
+import com.chao.cloud.im.ai.service.BAiUnitService;
+import com.chao.cloud.im.ai.service.TAiRobotService;
 import com.chao.cloud.im.dal.entity.ImGroupUser;
 import com.chao.cloud.im.dal.entity.ImMsg;
 import com.chao.cloud.im.service.ImGroupUserService;
@@ -78,6 +81,11 @@ public class LayimChatWebSocket extends BaseWsSocket<Integer> {
 		WsMsgVO vo = JSONUtil.toBean(msg, WsMsgVO.class);
 		// 分类发送消息
 		if (!BeanUtil.isEmpty(vo)) {
+			// 判断是否为机器人
+			if (AiConstant.REBOT_ID_LIST.contains(vo.getToid()) && ImConstant.Type.FRIEND.equals(vo.getType())) {
+				this.rebotReply(vo);
+				return;
+			}
 			// 获取接收人
 			List<Integer> receiveIds = CollUtil.toList(vo.getToid());
 			if (ImConstant.Type.GROUP.equals(vo.getType())) {// 是否为group
@@ -179,7 +187,33 @@ public class LayimChatWebSocket extends BaseWsSocket<Integer> {
 			List<Integer> ids = list.stream().map(ImMsg::getMsgId).collect(Collectors.toList());
 			imMsgService.removeByIds(ids);
 		}
-
 	}
 
+	/**
+	 * 机器人回复
+	 * @param vo
+	 */
+	private void rebotReply(WsMsgVO vo) {
+		// 设置对方正在输入
+		sendMessage(WsMsgDTO.buildMsg(MsgEnum.OTHER_INPUT, ImConstant.OTHER_INPUT));
+		List<String> results = CollUtil.newArrayList();
+		if (vo.getToid().equals(AiConstant.XUE)) {
+			// 查询
+			TAiRobotService robotService = SpringContextUtil.getBean(TAiRobotService.class);
+			String text = robotService.text(vo.getContent());
+			results.add(text);
+		} else if (vo.getToid().equals(AiConstant.CHAO)) {
+			BAiUnitService unitService = SpringContextUtil.getBean(BAiUnitService.class);
+			results.addAll(unitService.text(vo.getContent()));
+		}
+		// 循环
+		results.forEach(result -> {
+			vo.setId(vo.getToid());
+			vo.setFromid(vo.getToid());
+			vo.setUsername(vo.getToname());
+			vo.setAvatar(vo.getToavatar());
+			vo.setContent(result);
+			sendMessage(WsMsgDTO.buildMsg(MsgEnum.CHAT, vo));
+		});
+	}
 }
