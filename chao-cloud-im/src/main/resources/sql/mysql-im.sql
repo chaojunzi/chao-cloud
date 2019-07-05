@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50505
 File Encoding         : 65001
 
-Date: 2019-06-28 18:05:32
+Date: 2019-07-05 17:53:07
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -26,7 +26,7 @@ CREATE TABLE `im_dept` (
   `version` int(11) DEFAULT 0 COMMENT '乐观锁',
   `create_time` datetime DEFAULT current_timestamp() COMMENT '创建日期',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8 COMMENT='部门';
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8 COMMENT='部门';
 
 -- ----------------------------
 -- Records of im_dept
@@ -35,6 +35,7 @@ INSERT INTO `im_dept` VALUES ('1', '技术部', '0', '0', '2019-06-26 17:02:14')
 INSERT INTO `im_dept` VALUES ('2', '测试部', '0', '0', '2019-06-26 17:02:14');
 INSERT INTO `im_dept` VALUES ('3', '市场部', '0', '0', '2019-06-26 17:02:14');
 INSERT INTO `im_dept` VALUES ('4', '财务部', '0', '0', '2019-06-26 17:02:14');
+INSERT INTO `im_dept` VALUES ('5', 'AI部', '0', '0', '2019-07-03 14:39:02');
 
 -- ----------------------------
 -- Table structure for im_group
@@ -87,7 +88,7 @@ CREATE TABLE `im_msg` (
   `version` int(11) DEFAULT 0 COMMENT '乐观锁',
   `create_time` datetime DEFAULT current_timestamp() COMMENT '创建日期',
   PRIMARY KEY (`msg_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=196 DEFAULT CHARSET=utf8 COMMENT='消息表';
+) ENGINE=InnoDB AUTO_INCREMENT=198 DEFAULT CHARSET=utf8 COMMENT='消息表';
 
 -- ----------------------------
 -- Records of im_msg
@@ -115,6 +116,8 @@ INSERT INTO `im_msg` VALUES ('192', '1', '2', '1', '薛超', 'https://wx.qlogo.c
 INSERT INTO `im_msg` VALUES ('193', '1', '2', '1', '薛超', 'https://wx.qlogo.cn/mmopen/vi_32/DYAIOgq83eoSLMMV0Gic9Zy3Nk56dZfkdm9DB5vWYQyucYOon0BG1vfVaz2d8kcsnetwM2eVzXgTJsvN2Pq45Fg/132', 'v', 'group', '0', '2019-06-28 15:52:58');
 INSERT INTO `im_msg` VALUES ('194', '1', '2', '1', '薛超', 'https://wx.qlogo.cn/mmopen/vi_32/DYAIOgq83eoSLMMV0Gic9Zy3Nk56dZfkdm9DB5vWYQyucYOon0BG1vfVaz2d8kcsnetwM2eVzXgTJsvN2Pq45Fg/132', 'h', 'group', '0', '2019-06-28 15:52:59');
 INSERT INTO `im_msg` VALUES ('195', '1', '2', '1', '薛超', 'https://wx.qlogo.cn/mmopen/vi_32/DYAIOgq83eoSLMMV0Gic9Zy3Nk56dZfkdm9DB5vWYQyucYOon0BG1vfVaz2d8kcsnetwM2eVzXgTJsvN2Pq45Fg/132', 'k', 'group', '0', '2019-06-28 15:53:01');
+INSERT INTO `im_msg` VALUES ('196', '1', '2', '1', '薛超', 'https://wx.qlogo.cn/mmopen/vi_32/DYAIOgq83eoSLMMV0Gic9Zy3Nk56dZfkdm9DB5vWYQyucYOon0BG1vfVaz2d8kcsnetwM2eVzXgTJsvN2Pq45Fg/132', '阿迪', 'friend', '0', '2019-07-03 15:23:10');
+INSERT INTO `im_msg` VALUES ('197', '1', '3', '1', '薛超', 'https://wx.qlogo.cn/mmopen/vi_32/DYAIOgq83eoSLMMV0Gic9Zy3Nk56dZfkdm9DB5vWYQyucYOon0BG1vfVaz2d8kcsnetwM2eVzXgTJsvN2Pq45Fg/132', 'asd', 'friend', '0', '2019-07-03 19:19:02');
 
 -- ----------------------------
 -- Table structure for im_msg_his
@@ -131,7 +134,7 @@ CREATE TABLE `im_msg_his` (
   `version` int(11) DEFAULT 0 COMMENT '乐观锁',
   `create_time` datetime DEFAULT current_timestamp() COMMENT '创建日期',
   PRIMARY KEY (`msg_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=198 DEFAULT CHARSET=utf8 COMMENT='消息表';
+) ENGINE=InnoDB AUTO_INCREMENT=201 DEFAULT CHARSET=utf8 COMMENT='消息表';
 
 -- ----------------------------
 -- Records of im_msg_his
@@ -161,6 +164,9 @@ INSERT INTO `im_msg_his` VALUES ('194', '1-1', '1', '薛超', 'https://wx.qlogo.
 INSERT INTO `im_msg_his` VALUES ('195', '1-1', '1', '薛超', 'https://wx.qlogo.cn/mmopen/vi_32/DYAIOgq83eoSLMMV0Gic9Zy3Nk56dZfkdm9DB5vWYQyucYOon0BG1vfVaz2d8kcsnetwM2eVzXgTJsvN2Pq45Fg/132', 'v', 'group', '0', '2019-06-28 15:52:58');
 INSERT INTO `im_msg_his` VALUES ('196', '1-1', '1', '薛超', 'https://wx.qlogo.cn/mmopen/vi_32/DYAIOgq83eoSLMMV0Gic9Zy3Nk56dZfkdm9DB5vWYQyucYOon0BG1vfVaz2d8kcsnetwM2eVzXgTJsvN2Pq45Fg/132', 'h', 'group', '0', '2019-06-28 15:52:59');
 INSERT INTO `im_msg_his` VALUES ('197', '1-1', '1', '薛超', 'https://wx.qlogo.cn/mmopen/vi_32/DYAIOgq83eoSLMMV0Gic9Zy3Nk56dZfkdm9DB5vWYQyucYOon0BG1vfVaz2d8kcsnetwM2eVzXgTJsvN2Pq45Fg/132', 'k', 'group', '0', '2019-06-28 15:53:01');
+INSERT INTO `im_msg_his` VALUES ('198', '1-1', '1', '薛超', 'https://wx.qlogo.cn/mmopen/vi_32/DYAIOgq83eoSLMMV0Gic9Zy3Nk56dZfkdm9DB5vWYQyucYOon0BG1vfVaz2d8kcsnetwM2eVzXgTJsvN2Pq45Fg/132', 'nishi', 'friend', '0', '2019-07-03 15:17:05');
+INSERT INTO `im_msg_his` VALUES ('199', '1-2', '1', '薛超', 'https://wx.qlogo.cn/mmopen/vi_32/DYAIOgq83eoSLMMV0Gic9Zy3Nk56dZfkdm9DB5vWYQyucYOon0BG1vfVaz2d8kcsnetwM2eVzXgTJsvN2Pq45Fg/132', '阿迪', 'friend', '0', '2019-07-03 15:23:10');
+INSERT INTO `im_msg_his` VALUES ('200', '1-3', '1', '薛超', 'https://wx.qlogo.cn/mmopen/vi_32/DYAIOgq83eoSLMMV0Gic9Zy3Nk56dZfkdm9DB5vWYQyucYOon0BG1vfVaz2d8kcsnetwM2eVzXgTJsvN2Pq45Fg/132', 'asd', 'friend', '0', '2019-07-03 19:19:02');
 
 -- ----------------------------
 -- Table structure for im_user
@@ -180,10 +186,12 @@ CREATE TABLE `im_user` (
   `version` int(11) DEFAULT 0 COMMENT '乐观锁',
   `create_time` datetime DEFAULT current_timestamp() COMMENT '创建日期',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COMMENT='用户帐号';
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8 COMMENT='用户帐号';
 
 -- ----------------------------
 -- Records of im_user
 -- ----------------------------
 INSERT INTO `im_user` VALUES ('1', 'xuechao', '1', '薛超', '玉汝于成', 'https://wx.qlogo.cn/mmopen/vi_32/DYAIOgq83eoSLMMV0Gic9Zy3Nk56dZfkdm9DB5vWYQyucYOon0BG1vfVaz2d8kcsnetwM2eVzXgTJsvN2Pq45Fg/132', '1', '技术部', '1', '0', '0', '2019-06-26 16:48:21');
 INSERT INTO `im_user` VALUES ('2', 'chaojunzi', '1', '超君子', '君子如玉', 'https://ss1.bdstatic.com/70cFvXSh_Q1YnxGkpoWK1HF6hhy/it/u=2260373675,224366072&fm=27&gp=0.jpg', '1', '技术部', '1', '0', '0', '2019-06-26 16:48:59');
+INSERT INTO `im_user` VALUES ('3', 'xuexue', '0', '小薛', '玉不琢，不成器', 'https://ss0.bdstatic.com/70cFvHSh_Q1YnxGkpoWK1HF6hhy/it/u=844831047,446771757&fm=26&gp=0.jpg', '5', 'AI部', '1', '0', '0', '2019-07-03 14:39:31');
+INSERT INTO `im_user` VALUES ('4', 'chaochao', '0', '小超', '超越极限', 'https://ss1.bdstatic.com/70cFuXSh_Q1YnxGkpoWK1HF6hhy/it/u=3166569812,977304273&fm=26&gp=0.jpg', '5', 'AI部', '1', '0', '0', '2019-07-03 19:05:10');

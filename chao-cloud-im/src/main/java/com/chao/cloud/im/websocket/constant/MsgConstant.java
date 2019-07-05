@@ -17,5 +17,13 @@ public interface MsgConstant {
 	 * 已读
 	 */
 	Byte IS_READ = 1;
+	/**
+	 * 图片正则
+	 */
+	String LAYIM_IMG_REGEX = "^img\\[(.*)\\]$";
+	/**
+	 * 文件正则
+	 */
+	String LAYIM_FILE_REGEX = "^file\\((.*)\\)\\[.*\\]$";
 
 }

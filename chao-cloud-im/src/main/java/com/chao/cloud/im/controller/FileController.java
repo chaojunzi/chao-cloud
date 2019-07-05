@@ -3,6 +3,7 @@ package com.chao.cloud.im.controller;
 import java.io.BufferedOutputStream;
 import java.io.OutputStream;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
@@ -19,6 +20,7 @@ import com.chao.cloud.common.extra.ftp.IFileOperation;
 import com.chao.cloud.common.extra.ftp.annotation.FtpConfig;
 import com.chao.cloud.im.domain.dto.LayFileDTO;
 
+import cn.hutool.extra.servlet.ServletUtil;
 import lombok.extern.slf4j.Slf4j;
 
 /**
@@ -48,9 +50,12 @@ public class FileController {
 	 * @throws Exception
 	 */
 	@PostMapping(value = "uploadImg")
-	public R<LayFileDTO> uploadImg(@NotNull(message = MESSAGE) MultipartFile file) throws Exception {
+	public R<LayFileDTO> uploadImg(@NotNull(message = MESSAGE) MultipartFile file, HttpServletRequest request)
+			throws Exception {
 		String uploadImg = fileOperation.uploadImg(file.getInputStream(), file.getOriginalFilename());
-		return R.ok(LayFileDTO.builder().src(uploadImg).domain(ftpConfig.getDomain()).build());
+		// 获取域名
+		String domain = ServletUtil.getHeaderIgnoreCase(request, "Origin");
+		return R.ok(LayFileDTO.builder().src(domain + uploadImg).domain(ftpConfig.getDomain()).build());
 	}
 
 	/**
@@ -60,10 +65,13 @@ public class FileController {
 	 * @throws Exception
 	 */
 	@PostMapping(value = "upload")
-	public R<LayFileDTO> upload(@NotNull(message = MESSAGE) MultipartFile file) throws Exception {
+	public R<LayFileDTO> upload(@NotNull(message = MESSAGE) MultipartFile file, HttpServletRequest request)
+			throws Exception {
 		String name = file.getOriginalFilename();
 		String uploadImg = fileOperation.uploadInputStream(file.getInputStream(), name);
-		return R.ok(LayFileDTO.builder().src(uploadImg).domain(ftpConfig.getDomain()).name(name).build());
+		// 获取域名
+		String domain = ServletUtil.getHeaderIgnoreCase(request, "Origin");
+		return R.ok(LayFileDTO.builder().src(domain + uploadImg).domain(ftpConfig.getDomain()).name(name).build());
 	}
 
 	/**

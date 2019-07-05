@@ -22,6 +22,12 @@ public interface AiConstant {
 
 	int CHAO = 4;
 
+	int CONFIDENCE_LIMIT = 50;
+	/**
+	 * 问候编码
+	 */
+	String GREET_CODE = "65192";
+
 	/**
 	 * 腾讯响应成功返回码
 	 */
@@ -30,5 +36,20 @@ public interface AiConstant {
 	 * 错误返回值
 	 */
 	String ERROR_RESULT = "抱歉，无法听懂您的描述，请不要输入特殊字符，包括标点符号";
-
+	/**
+	 * 百度api路径
+	 */
+	String BAI_URL = "https://aip.baidubce.com/rpc/2.0/unit/service/chat";
+	/**
+	 * 百度请求路径
+	 */
+	String BAI_REQUEST_TEMPLATE = "static/json/bai_resquest.json";
+	/**
+	 * 错误的响应状态
+	 */
+	String BAI_ERROR_TYPE = "failure";
+	/**
+	 * 要解析的状态
+	 */
+	String BAI_OK_TYPE = "(clarify|satisfy|chat)";
 }

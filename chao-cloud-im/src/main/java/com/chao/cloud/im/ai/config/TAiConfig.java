@@ -5,7 +5,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 import com.chao.cloud.im.ai.service.TAiRobotService;
-import com.chao.cloud.im.ai.service.impl.TAiRobotServiceImpl;
+import com.chao.cloud.im.ai.service.TAipImageClassifyService;
 
 import lombok.Data;
 
@@ -20,9 +20,16 @@ public class TAiConfig {
 
 	@Bean
 	public TAiRobotService tAiRobotService(TAiConfig config) {
-		TAiRobotServiceImpl robotService = new TAiRobotServiceImpl();
+		TAiRobotService robotService = new TAiRobotService();
 		robotService.setConfig(config);
 		return robotService;
+	}
+
+	@Bean
+	public TAipImageClassifyService tAipImageClassifyService(TAiConfig config) {
+		TAipImageClassifyService aipImageClassifyService = new TAipImageClassifyService();
+		aipImageClassifyService.setConfig(config);
+		return aipImageClassifyService;
 	}
 
 }

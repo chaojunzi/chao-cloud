@@ -4,10 +4,65 @@
 <title>layim</title>
 <link type="text/css" rel="stylesheet" href="css/im.css" />
 <body>
-	<button id="off_line" class="layui-btn layui-btn-danger">下线</button>
-	<button id="on_line" class="layui-btn ">上线</button>
+	<button style="margin-left: 50%" id="off_line" class="layui-btn layui-btn-lg layui-btn-radius">下线</button>
 	<input id="userId" type="hidden" th:value="${session.user.id}">
+
+	<fieldset class="layui-elem-field layui-field-title">
+		<legend>(AI): im 智能聊天历史进程</legend>
+	</fieldset>
+	<ul class="layui-timeline">
+		<li class="layui-timeline-item">
+			<i class="layui-icon layui-timeline-axis"></i>
+			<div class="layui-timeline-content layui-text">
+				<div class="layui-timeline-title">2019-07-01，整合腾讯/百度AI，实现智能机器人对话......</div>
+			</div>
+		</li>
+		<li class="layui-timeline-item">
+			<i class="layui-icon layui-timeline-axis"></i>
+			<div class="layui-timeline-content layui-text">
+				<div class="layui-timeline-title">2019-06-20，历史消息，离线消息记录</div>
+			</div>
+		</li>
+		<li class="layui-timeline-item">
+			<i class="layui-icon layui-timeline-axis"></i>
+			<div class="layui-timeline-content layui-text">
+				<div class="layui-timeline-title">2019-06-01，图片，文件上传</div>
+			</div>
+		</li>
+		<li class="layui-timeline-item">
+			<i class="layui-icon layui-timeline-axis"></i>
+			<div class="layui-timeline-content layui-text">
+				<div class="layui-timeline-title">2019-05-20，集成websocket</div>
+			</div>
+		</li>
+		<li class="layui-timeline-item">
+			<i class="layui-icon layui-timeline-axis"></i>
+			<div class="layui-timeline-content layui-text">
+				<div class="layui-timeline-title">2019-05-10，集成layim 前端框架</div>
+			</div>
+		</li>
+		<li class="layui-timeline-item">
+			<i class="layui-icon layui-timeline-axis"></i>
+			<div class="layui-timeline-content layui-text">
+				<div class="layui-timeline-title">2019-04-20，im 首个版本发布</div>
+			</div>
+		</li>
+		<li class="layui-timeline-item">
+			<i class="layui-icon layui-timeline-axis"></i>
+			<div class="layui-timeline-content layui-text">
+				<div class="layui-timeline-title">2019-04-10，im 孵化</div>
+			</div>
+		</li>
+		<li class="layui-timeline-item">
+			<i class="layui-icon layui-anim layui-anim-rotate layui-anim-loop layui-timeline-axis"></i>
+			<div class="layui-timeline-content layui-text">
+				<div class="layui-timeline-title">2019-04-05，创立im项目</div>
+			</div>
+		</li>
+	</ul>
+
 	<div th:include="include::footer"></div>
+	<script src="/js/reconnecting-websocket.js"></script>
 	<script src="/js/ws-im-chat.js"></script>
 	<script>
 		layui.use([ 'upload', 'layim' ], function() {

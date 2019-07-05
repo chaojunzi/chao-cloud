@@ -46,8 +46,8 @@ public class LoginController extends BaseController {
 	}
 
 	@GetMapping("/login")
-	public String login() {
-		return "login";
+	public String login(HttpSession session) {
+		return isLogin(session) ? "redirect:/layim/index" : "login";
 	}
 
 	@PostMapping("/login")

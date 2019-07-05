@@ -46,6 +46,13 @@ layui.use([ 'form', 'layer', 'jquery' ], function() {
 		$(this).css("background-image", b.replace(/[\d]{9,}/g, new Date().getTime()));// 添加随机数
 	});
 
+	document.onkeydown = function(event) {
+		e = event ? event : (window.event ? window.event : null);
+		if (e.keyCode == 13) {
+			$("#submit").click();
+		}
+	}
+
 	// 登录按钮
 	form.on("submit(login)", function(data) {
 		// 遍历input 判断是否为空

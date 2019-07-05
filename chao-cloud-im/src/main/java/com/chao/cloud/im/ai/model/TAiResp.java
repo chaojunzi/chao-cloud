@@ -24,6 +24,7 @@ public class TAiResp {
 	public static class ResultData {
 		private String session;
 		private String answer;
+		private String text;
 
 	}
 }

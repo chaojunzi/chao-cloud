@@ -1,0 +1,26 @@
+{
+	"log_id": "UNITTEST_10000",
+	"version": "2.0",
+	"service_id": "S19840",
+	"session_id": "S19840",
+	"comment": "@65204-名词解释@65192-问候65191-闲聊",
+	"skill_ids": [
+		"65204",
+		"65192",
+		"65191"
+	],
+	"request": {
+		"comment": "query 为请求参数@ user_id 内部唯一id",
+		"query": "{}",
+		"user_id": "{}"
+	},
+	"dialog_state": {
+		"contexts": {
+			"SYS_REMEMBERED_SKILLS": [
+				"65204",
+				"65192",
+				"65191"
+			]
+		}
+	}
+}

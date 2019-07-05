@@ -1,6 +1,7 @@
 package com.chao.cloud.im.websocket;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
@@ -22,13 +23,15 @@ import com.chao.cloud.common.core.SpringContextUtil;
 import com.chao.cloud.common.exception.BusinessException;
 import com.chao.cloud.common.util.EntityUtil;
 import com.chao.cloud.im.ai.constant.AiConstant;
-import com.chao.cloud.im.ai.service.BAiUnitService;
+import com.chao.cloud.im.ai.service.AipUnitService;
 import com.chao.cloud.im.ai.service.TAiRobotService;
+import com.chao.cloud.im.ai.service.TAipImageClassifyService;
 import com.chao.cloud.im.dal.entity.ImGroupUser;
 import com.chao.cloud.im.dal.entity.ImMsg;
 import com.chao.cloud.im.service.ImGroupUserService;
 import com.chao.cloud.im.service.ImMsgService;
 import com.chao.cloud.im.websocket.constant.ImConstant;
+import com.chao.cloud.im.websocket.constant.MsgConstant;
 import com.chao.cloud.im.websocket.constant.MsgEnum;
 import com.chao.cloud.im.websocket.model.ImMsgDTO;
 import com.chao.cloud.im.websocket.model.WsMsgDTO;
@@ -36,6 +39,11 @@ import com.chao.cloud.im.websocket.model.WsMsgVO;
 
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.collection.CollUtil;
+import cn.hutool.core.io.FileUtil;
+import cn.hutool.core.io.IoUtil;
+import cn.hutool.core.util.ReUtil;
+import cn.hutool.core.util.StrUtil;
+import cn.hutool.core.util.URLUtil;
 import cn.hutool.json.JSONUtil;
 import cn.hutool.log.StaticLog;
 import lombok.extern.slf4j.Slf4j;
@@ -196,24 +204,60 @@ public class LayimChatWebSocket extends BaseWsSocket<Integer> {
 	private void rebotReply(WsMsgVO vo) {
 		// 设置对方正在输入
 		sendMessage(WsMsgDTO.buildMsg(MsgEnum.OTHER_INPUT, ImConstant.OTHER_INPUT));
-		List<String> results = CollUtil.newArrayList();
+		// 判断是否为图片并进行解析 img[/img/2019/07/05/1147064232379027456.png]
+		String content = vo.getContent();
+		String imgName = null;
+
+		if (ReUtil.isMatch(MsgConstant.LAYIM_FILE_REGEX, content)) {// 判断是否为文件
+			// 判断是否为图片
+			imgName = ReUtil.getGroup1(MsgConstant.LAYIM_FILE_REGEX, content);
+			String mimeType = FileUtil.getMimeType(imgName);
+			if (!mimeType.startsWith("image")) {
+				reply(vo, StrUtil.format("{}也不知道这是个啥", vo.getToname()));
+				return;
+			}
+		} else if (ReUtil.isMatch(MsgConstant.LAYIM_IMG_REGEX, content)) {
+			imgName = ReUtil.getGroup1(MsgConstant.LAYIM_IMG_REGEX, content);
+		}
+
+		if (StrUtil.isNotBlank(imgName)) {
+			// 解析图片
+			TAipImageClassifyService imgClassifyService = SpringContextUtil.getBean(TAipImageClassifyService.class);
+			try (InputStream in = URLUtil.getStream(URLUtil.toUrlForHttp(imgName))) {
+				byte[] image = IoUtil.readBytes(in);
+				String visionImg = imgClassifyService.visionImg(image);
+				reply(vo, visionImg);
+				log.info("[AI:图片解析结果={}]", visionImg);
+			} catch (Exception e) {
+				// 解析失败：返回
+				log.error("{}", e);
+				reply(vo, StrUtil.format("{}不知道这个图片是啥", vo.getToname()));
+			}
+			return;
+		}
+
+		// 获取解析结果
+		String result = AiConstant.ERROR_RESULT;
 		if (vo.getToid().equals(AiConstant.XUE)) {
 			// 查询
 			TAiRobotService robotService = SpringContextUtil.getBean(TAiRobotService.class);
-			String text = robotService.text(vo.getContent());
-			results.add(text);
+			result = robotService.text(vo.getContent());
 		} else if (vo.getToid().equals(AiConstant.CHAO)) {
-			BAiUnitService unitService = SpringContextUtil.getBean(BAiUnitService.class);
-			results.addAll(unitService.text(vo.getContent()));
+			AipUnitService unitService = SpringContextUtil.getBean(AipUnitService.class);
+			result = unitService.text(vo.getContent(), vo.getFromid());
 		}
-		// 循环
-		results.forEach(result -> {
-			vo.setId(vo.getToid());
-			vo.setFromid(vo.getToid());
-			vo.setUsername(vo.getToname());
-			vo.setAvatar(vo.getToavatar());
-			vo.setContent(result);
-			sendMessage(WsMsgDTO.buildMsg(MsgEnum.CHAT, vo));
-		});
+		reply(vo, result);
+
+	}
+
+	private void reply(WsMsgVO vo, String result) {
+		// 回复
+		vo.setId(vo.getToid());
+		vo.setFromid(vo.getToid());
+		vo.setUsername(vo.getToname());
+		vo.setAvatar(vo.getToavatar());
+		vo.setContent(result);
+		sendMessage(WsMsgDTO.buildMsg(MsgEnum.CHAT, vo));
+
 	}
 }

@@ -4,10 +4,16 @@ layui.use([ 'layer', 'jquery' ], function() {
 	$ = layui.$;
 	
 	$("#off_line").click(function(){
-		ws.close();
-	});
-	$("#on_line").click(function(){
-		connSingleChat();
+		// 退出
+		layer.msg('您确定要下线吗？', {
+			   time: 0 // 不自动关闭
+			  ,btn: ['确定', '取消']
+			  ,yes: function(index){
+			    layer.close(index);
+			    ws.close();
+			    window.top.location ="/logout";
+			  }
+			});
 	});
 	
 	// 连接websocket
@@ -17,7 +23,7 @@ layui.use([ 'layer', 'jquery' ], function() {
 		// 连接
 
 		// 连接服务器
-		ws = new WebSocket(url);
+		ws = new ReconnectingWebSocket(url);
 		// 刚刚打开连接
 		ws.onopen = function(evt) {
 			console.log("Connection open ...");
@@ -46,7 +52,7 @@ layui.use([ 'layer', 'jquery' ], function() {
 				layim.setFriendStatus(r.msg, 'offline');
 				break;
 			case 5:// 聊天->追加消息
-				layim.setChatStatus('');//清除对方正在输入
+				layim.setChatStatus('');// 清除对方正在输入
 				layim.getMessage(r.msg);
 				break;
 			case 6:// 离线消息
@@ -71,10 +77,5 @@ layui.use([ 'layer', 'jquery' ], function() {
 			console.log("连接失败");
 		};
 
-		/*
-		 * if (type === 'friend') { layim.setChatStatus('<span
-		 * style="color:#FF5722;">对方正在输入。。。</span>'); layim.setChatStatus('<span
-		 * style="color:#FF5722;">在线</span>'); }
-		 */
 	}
 });
