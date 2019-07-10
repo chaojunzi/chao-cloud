@@ -36,6 +36,7 @@ public class FtpConfig implements InitializingBean {
 	private String prefix;// 返回时去掉的路径
 	private String path;// path-根目录
 	private String logo;// logo-水印
+	private float alpha = 0.1F;// 透明度
 	private String domain = StrUtil.EMPTY;// 域名->默认为空
 	private Ftp ftp;
 
