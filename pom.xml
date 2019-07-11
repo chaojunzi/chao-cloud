@@ -4,73 +4,64 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.chao.cloud</groupId>
 	<artifactId>chao-cloud-parent</artifactId>
+	<version>1.0.1</version>
 	<packaging>pom</packaging>
-	<version>1.0.0</version>
-	<name>chao-cloud-parent</name>
-	<url>http://maven.apache.org</url>
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
-		<version>2.0.3.RELEASE</version>
+		<version>2.1.2.RELEASE</version>
 		<relativePath />
 	</parent>
 	<properties>
-		<chao.cloud.version>1.0.0</chao.cloud.version>
-		<spring.boot.configuration.version>2.0.3.RELEASE</spring.boot.configuration.version>
-		<spring.cloud.openfeign.version>2.0.0.RELEASE</spring.cloud.openfeign.version>
-		<spring-cloud.version>Finchley.RELEASE</spring-cloud.version>
-		<spring-cloud-web-socket.version>2.0.3.RELEASE</spring-cloud-web-socket.version>
-		<pagehelper.version>1.2.7</pagehelper.version>
+		<chao.cloud.version>1.0.1</chao.cloud.version>
+		<spring-cloud.version>Greenwich.RELEASE</spring-cloud.version>
+		<spring.boot.configuration.version>2.1.2.RELEASE</spring.boot.configuration.version>
+		<spring-cloud-web-socket.version>2.1.2.RELEASE</spring-cloud-web-socket.version>
+		<spring.cloud.openfeign.version>2.1.2.RELEASE</spring.cloud.openfeign.version>
+		<servlet-api.version>4.0.1</servlet-api.version>
+		<github.openfeign-version>10.2.3</github.openfeign-version>
+		<feign.form.version>3.8.0</feign.form.version>
+		<pagehelper.version>1.2.12</pagehelper.version>
 		<mysql-connector.version>5.1.28</mysql-connector.version>
 		<druid-spring.version>1.1.9</druid-spring.version>
-		<mybatis-plus.version>3.1.1</mybatis-plus.version>
+		<mybatis-plus.version>3.1.2</mybatis-plus.version>
 		<java.version>1.8</java.version>
 		<java.encoding>UTF-8</java.encoding>
-		<wxapp-version>3.0.0</wxapp-version>
-		<springext-plugin-version>1.2</springext-plugin-version>
-		<autoconfig-plugin-version>1.2</autoconfig-plugin-version>
 		<project.build.sourceEncoding>${java.encoding}</project.build.sourceEncoding>
 		<productionMode>false</productionMode>
 		<poi-version>3.17</poi-version>
 		<cglib-version>3.1</cglib-version>
 		<aspectjweaver.version>1.7.2</aspectjweaver.version>
 		<httpclient.version>4.4.1</httpclient.version>
-		<commons-lang.version>2.5</commons-lang.version>
-		<jedis.version>3.0.1</jedis.version>
-		<ueditor.version>1.1.2</ueditor.version>
-		<commons-codec.version>1.9</commons-codec.version>
-		<freemarker.version>2.3.28</freemarker.version>
-		<slf4j-api.version>1.7.5</slf4j-api.version>
-		<commons-pool.version>1.6</commons-pool.version>
-		<commons-io.version>2.5</commons-io.version>
-		<weixin-java-tools.version>3.3.0</weixin-java-tools.version>
-		<pinyin4j.version>2.5.0</pinyin4j.version>
-		<thoughtworks.version>1.4.10</thoughtworks.version>
+		<thoughtworks.version>1.4.11.1</thoughtworks.version>
 		<dom4j.version>1.6.1</dom4j.version>
 		<httpcomponents.version>4.5.2</httpcomponents.version>
 		<thumbnailator.version>0.4.8</thumbnailator.version>
-		<guava.version>22.0</guava.version>
-		<fastjson.version>1.2.47</fastjson.version>
+		<commons-lang.version>2.5</commons-lang.version>
+		<commons-codec.version>1.9</commons-codec.version>
+		<commons-pool.version>1.6</commons-pool.version>
+		<commons-io.version>2.5</commons-io.version>
 		<commons-lang3.version>3.5</commons-lang3.version>
 		<commons-pool2.version>2.5.0</commons-pool2.version>
 		<commons-net.version>3.3</commons-net.version>
-		<servlet-api.version>3.1.0</servlet-api.version>
-		<github.openfeign-version>9.5.1</github.openfeign-version>
-		<feign.form.version>3.2.2</feign.form.version>
 		<hibernate-validator.version>6.0.10.Final</hibernate-validator.version>
+		<guava.version>22.0</guava.version>
+		<weixin-java-tools.version>3.4.0</weixin-java-tools.version>
+		<fastjson.version>1.2.58</fastjson.version>
 		<javassist.version>3.12.1.GA</javassist.version>
-		<hutool-all.version>4.5.6</hutool-all.version>
+		<hutool-all.version>4.5.16</hutool-all.version>
 		<lombok.version>1.16.10</lombok.version>
 		<com.vdurmont.version>4.0.0</com.vdurmont.version>
 		<hanlp.version>portable-1.7.2</hanlp.version>
 		<google.zxing.version>3.3.3</google.zxing.version>
-		<baidu.version>4.10.0</baidu.version>
+		<baidu.aip.version>4.11.3</baidu.aip.version>
 		<mp3spi.version>1.9.5.4</mp3spi.version>
 		<ganymed-ssh2.version>262</ganymed-ssh2.version>
 		<apache.velocity.version>2.1</apache.velocity.version>
 		<jsoup.version>1.11.3</jsoup.version>
 		<shiro.version>1.4.0</shiro.version>
 		<shiro.thymeleaf.version>2.0.0</shiro.thymeleaf.version>
+		<freemarker.version>2.3.28</freemarker.version>
 	</properties>
 	<modules>
 		<module>chao-cloud-common/chao-cloud-common-core</module>
@@ -273,27 +264,6 @@
 				<artifactId>commons-pool</artifactId>
 				<version>${commons-pool.version}</version>
 			</dependency>
-			<dependency>
-				<groupId>com.baidu</groupId>
-				<artifactId>ueditor</artifactId>
-				<version>${ueditor.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>redis.clients</groupId>
-				<artifactId>jedis</artifactId>
-				<version>${jedis.version}</version>
-			</dependency>
-			<!-- log jar -->
-			<dependency>
-				<groupId>org.slf4j</groupId>
-				<artifactId>slf4j-api</artifactId>
-				<version>${slf4j-api.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>org.slf4j</groupId>
-				<artifactId>slf4j-log4j12</artifactId>
-				<version>${slf4j-api.version}</version>
-			</dependency>
 			<!-- jsp Template jar -->
 			<dependency>
 				<groupId>org.freemarker</groupId>
@@ -406,7 +376,7 @@
 			<dependency>
 				<groupId>com.baidu.aip</groupId>
 				<artifactId>java-sdk</artifactId>
-				<version>${baidu.version}</version>
+				<version>${baidu.aip.version}</version>
 			</dependency>
 		</dependencies>
 	</dependencyManagement>

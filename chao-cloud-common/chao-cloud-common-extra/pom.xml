@@ -1,9 +1,10 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<parent>
 		<groupId>com.chao.cloud</groupId>
 		<artifactId>chao-cloud-parent</artifactId>
-		<version>1.0.0</version>
+		<version>1.0.1</version>
 	</parent>
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.chao.cloud.common</groupId>
@@ -16,6 +17,11 @@
 			<artifactId>chao-cloud-common-core</artifactId>
 			<version>${chao.cloud.version}</version>
 		</dependency>
+		<!-- redis -->
+		<dependency>
+			<groupId>org.springframework.data</groupId>
+			<artifactId>spring-data-redis</artifactId>
+		</dependency>
 		<!--baidu 语音 -->
 		<dependency>
 			<groupId>com.googlecode.soundlibs</groupId>
@@ -24,8 +30,19 @@
 		<dependency>
 			<groupId>com.baidu.aip</groupId>
 			<artifactId>java-sdk</artifactId>
+			<exclusions>
+				<exclusion>
+					<groupId>org.slf4j</groupId>
+					<artifactId>slf4j-api</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>org.slf4j</groupId>
+					<artifactId>slf4j-simple</artifactId>
+				</exclusion>
+			</exclusions>
 		</dependency>
 		<!-- 工具jar=============================================================================== -->
+		<!-- 微信小程序处理 -->
 		<dependency>
 			<groupId>com.thoughtworks.xstream</groupId>
 			<artifactId>xstream</artifactId>
@@ -34,7 +51,6 @@
 			<groupId>dom4j</groupId>
 			<artifactId>dom4j</artifactId>
 		</dependency>
-		<!-- 微信小程序处理 -->
 		<dependency>
 			<groupId>com.github.binarywang</groupId>
 			<artifactId>weixin-java-miniapp</artifactId>
@@ -42,11 +58,6 @@
 		<dependency>
 			<groupId>com.github.binarywang</groupId>
 			<artifactId>weixin-java-pay</artifactId>
-		</dependency>
-		<!-- redis -->
-		<dependency>
-			<groupId>redis.clients</groupId>
-			<artifactId>jedis</artifactId>
 		</dependency>
 		<!-- mysql-connector-java jar -->
 		<dependency>
