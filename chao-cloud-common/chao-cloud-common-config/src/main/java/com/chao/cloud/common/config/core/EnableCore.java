@@ -1,4 +1,4 @@
-package com.chao.cloud.common.config.required;
+package com.chao.cloud.common.config.core;
 
 import java.lang.annotation.Documented;
 import java.lang.annotation.ElementType;
@@ -9,7 +9,7 @@ import java.lang.annotation.Target;
 import org.springframework.context.annotation.Import;
 
 /**
- * 全局的application配置和异步线程池-这是必须的
+ * 全局的application配置核心配置
  * @功能：
  * @author： 薛超
  * @时间：2019年3月19日
@@ -18,7 +18,7 @@ import org.springframework.context.annotation.Import;
 @Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
-@Import({ ApplicationBeanConfig.class, ThreadConfig.class })
-public @interface EnableRequired {
+@Import(ApplicationBeanConfig.class)
+public @interface EnableCore {
 
 }

@@ -1,4 +1,4 @@
-package com.chao.cloud.common.config.web;
+package com.chao.cloud.common.config.thread;
 
 import java.lang.annotation.Documented;
 import java.lang.annotation.ElementType;
@@ -8,11 +8,8 @@ import java.lang.annotation.Target;
 
 import org.springframework.context.annotation.Import;
 
-import com.chao.cloud.common.config.core.EnableCore;
-import com.chao.cloud.common.config.valid.EnableValidator;
-
 /**
- * web服务通用
+ * 线程池
  * @功能：
  * @author： 薛超
  * @时间：2019年3月19日
@@ -21,12 +18,7 @@ import com.chao.cloud.common.config.valid.EnableValidator;
 @Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
-@Import({ //
-		AopConfig.class, // controller 拦截和vo转换
-		WebParameterConfig.class,// web资源-参数处理
-})
-@EnableCore // 核心配置
-@EnableValidator // 参数校验
-public @interface EnableWeb {
+@Import(ThreadPoolConfig.class)
+public @interface EnableThreadPool {
 
 }
