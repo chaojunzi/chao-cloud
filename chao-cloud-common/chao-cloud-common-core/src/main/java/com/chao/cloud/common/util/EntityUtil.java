@@ -1,5 +1,6 @@
 package com.chao.cloud.common.util;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -18,21 +19,21 @@ import cn.hutool.core.util.ObjectUtil;
  */
 public class EntityUtil {
 
-    /**
-     * 转换list
-     * 
-     * @param source
-     *            要转换的list
-     * @param clazz
-     *            需要转换的 class
-     */
-    public static <T, S> List<T> listConver(List<S> source, Class<T> clazz) {
-        if (ObjectUtil.isNull(clazz)) {
-            throw new BusinessException("class is null");
-        }
-        if (!CollUtil.isEmpty(source)) {
-            return source.stream().map(s -> BeanUtil.toBean(s, clazz)).collect(Collectors.toList());
-        }
-        return null;
-    }
+	/**
+	 * 转换list
+	 * 
+	 * @param source
+	 *            要转换的list
+	 * @param clazz
+	 *            需要转换的 class
+	 */
+	public static <T, S> List<T> listConver(List<S> source, Class<T> clazz) {
+		if (ObjectUtil.isNull(clazz)) {
+			throw new BusinessException("class is null");
+		}
+		if (!CollUtil.isEmpty(source)) {
+			return source.stream().map(s -> BeanUtil.toBean(s, clazz)).collect(Collectors.toList());
+		}
+		return Collections.emptyList();
+	}
 }
