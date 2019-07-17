@@ -66,6 +66,7 @@ public class FtpConfig implements InitializingBean {
 			// 被动模式
 			ftp.setMode(FtpMode.Passive);
 			this.ftp = ftp;
+			this.ftp.close();
 		}
 	}
 }

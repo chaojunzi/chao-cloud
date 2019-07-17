@@ -6,6 +6,8 @@ import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
 
 import com.chao.cloud.common.exception.BusinessException;
 import com.chao.cloud.common.extra.ftp.IFileOperation;
@@ -15,10 +17,13 @@ import cn.hutool.core.img.ImgUtil;
 import cn.hutool.core.io.FileUtil;
 import cn.hutool.core.io.IoUtil;
 import cn.hutool.core.util.StrUtil;
+import cn.hutool.extra.ftp.Ftp;
 
 public class FileOperationImpl implements IFileOperation {
 
 	private FtpConfig ftpConfig;
+
+	private Lock lock = new ReentrantLock();
 
 	public FileOperationImpl(FtpConfig ftpConfig) {
 		this.ftpConfig = ftpConfig;
@@ -50,7 +55,9 @@ public class FileOperationImpl implements IFileOperation {
 
 	@Override
 	public String uploadInputStream(InputStream in, String fileName) throws Exception {
-		try (InputStream fileStream = in) {
+		// 只允许单个线程
+		lock.lock();
+		try (InputStream fileStream = in; Ftp ftp = ftpConfig.getFtp().init()) {
 			String name = IFileOperation.genFileName(fileName);
 			String path = IFileOperation.genFilePath(ftpConfig.getPath());
 			String fullPath = path + name;
@@ -62,11 +69,13 @@ public class FileOperationImpl implements IFileOperation {
 				FileUtil.writeFromStream(fileStream, path + name);
 				upload = true;
 			} else {// ftp 上传
-				upload = ftpConfig.getFtp().upload(path, name, fileStream);
+				upload = ftp.upload(path, name, fileStream);
 			}
 			if (upload) {
 				return this.delPathPrefix(fullPath);
 			}
+		} finally {
+			lock.unlock();
 		}
 		throw new BusinessException("文件上传失败:" + fileName);
 	}
