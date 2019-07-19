@@ -42,6 +42,7 @@ public class FtpConfig extends GenericObjectPoolConfig<Ftp> implements Initializ
 	private String logo;// logo-水印
 	private float alpha = 0.1F;// 透明度
 	private String domain = StrUtil.EMPTY;// 域名->默认为空
+	private String mode = "Passive";// 模式 Passive/Active
 	private Ftp ftp;
 
 	@Bean
@@ -84,9 +85,23 @@ public class FtpConfig extends GenericObjectPoolConfig<Ftp> implements Initializ
 		if (!this.local) {
 			Ftp ftp = new Ftp(host, port, user, password);
 			// 被动模式
-			ftp.setMode(FtpMode.Passive);
+			if (DEFAULT_BLOCK_WHEN_EXHAUSTED) {
+
+			}
+			ftp.setMode(this.getMode());
 			this.ftp = ftp;
 			this.ftp.close();
 		}
 	}
+
+	private FtpMode getMode() {
+		FtpMode[] modes = FtpMode.values();
+		for (FtpMode ftpMode : modes) {
+			if (ftpMode.name().equalsIgnoreCase(mode)) {
+				return ftpMode;
+			}
+		}
+		return null;
+	}
+
 }

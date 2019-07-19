@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;
@@ -24,6 +25,11 @@ import lombok.extern.slf4j.Slf4j;
 @Configuration
 @Slf4j
 public class WebParameterConfig extends WebMvcConfigurationSupport {
+
+	@Bean
+	public HealthController healthController() {
+		return new HealthController();
+	}
 
 	/**
 	 * ResourceProperties
