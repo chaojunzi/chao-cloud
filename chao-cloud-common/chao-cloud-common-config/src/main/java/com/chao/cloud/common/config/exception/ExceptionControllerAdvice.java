@@ -14,6 +14,7 @@ import com.chao.cloud.common.entity.Response;
 import com.chao.cloud.common.entity.ResponseResult;
 import com.chao.cloud.common.exception.BusinessException;
 
+import cn.hutool.core.util.StrUtil;
 import lombok.extern.slf4j.Slf4j;
 
 /**
@@ -25,6 +26,8 @@ import lombok.extern.slf4j.Slf4j;
 @RestControllerAdvice
 @Slf4j
 public class ExceptionControllerAdvice implements BaseHttpServlet {
+
+	private final String errorTemplate = "{}:[{}={}]";
 
 	/**
 	 * 全局异常捕捉处理
@@ -49,10 +52,9 @@ public class ExceptionControllerAdvice implements BaseHttpServlet {
 	@ExceptionHandler(value = { BindException.class })
 	public Response<String> errorHandler(BindException ex) {
 		FieldError fieldError = ex.getFieldError();
-		StringBuilder sb = new StringBuilder();
-		sb.append(fieldError.getField()).append("=[").append(fieldError.getRejectedValue()).append("]")
-				.append(fieldError.getDefaultMessage());
-		return ResponseResult.getResponseCodeAndMsg(ResultCodeEnum.CODE_500.code(), sb.toString());
+		String errorMessage = StrUtil.format(errorTemplate, fieldError.getDefaultMessage(), fieldError.getField(),
+				fieldError.getRejectedValue());
+		return ResponseResult.getResponseCodeAndMsg(ResultCodeEnum.CODE_500.code(), errorMessage);
 	}
 
 }

@@ -6,12 +6,11 @@ import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.util.concurrent.locks.Lock;
-import java.util.concurrent.locks.ReentrantLock;
 
 import com.chao.cloud.common.exception.BusinessException;
 import com.chao.cloud.common.extra.ftp.IFileOperation;
 import com.chao.cloud.common.extra.ftp.annotation.FtpConfig;
+import com.chao.cloud.common.extra.ftp.pool.FTPClientPool;
 
 import cn.hutool.core.img.ImgUtil;
 import cn.hutool.core.io.FileUtil;
@@ -19,14 +18,21 @@ import cn.hutool.core.io.IoUtil;
 import cn.hutool.core.util.StrUtil;
 import cn.hutool.extra.ftp.Ftp;
 
+/**
+ * 
+ * @功能：单线程访问
+ * @author： 薛超
+ * @时间： 2019年7月19日
+ * @version 1.0.0
+ */
 public class FileOperationImpl implements IFileOperation {
 
+	private FTPClientPool clientPool;
 	private FtpConfig ftpConfig;
 
-	private Lock lock = new ReentrantLock();
-
-	public FileOperationImpl(FtpConfig ftpConfig) {
-		this.ftpConfig = ftpConfig;
+	public FileOperationImpl(FTPClientPool clientPool) {
+		this.clientPool = clientPool;
+		this.ftpConfig = clientPool.getFtpConfig();
 	}
 
 	@Override
@@ -55,9 +61,8 @@ public class FileOperationImpl implements IFileOperation {
 
 	@Override
 	public String uploadInputStream(InputStream in, String fileName) throws Exception {
-		// 只允许单个线程
-		lock.lock();
-		try (InputStream fileStream = in; Ftp ftp = ftpConfig.getFtp().init()) {
+		Ftp ftp = clientPool.borrowObject();// 从线程池获取ftp
+		try (InputStream fileStream = in) {
 			String name = IFileOperation.genFileName(fileName);
 			String path = IFileOperation.genFilePath(ftpConfig.getPath());
 			String fullPath = path + name;
@@ -75,23 +80,36 @@ public class FileOperationImpl implements IFileOperation {
 				return this.delPathPrefix(fullPath);
 			}
 		} finally {
-			lock.unlock();
+			clientPool.returnObject(ftp);// 归还
 		}
 		throw new BusinessException("文件上传失败:" + fileName);
 	}
 
 	@Override
 	public void downLoad(String filePath, OutputStream out) throws Exception {
+		Ftp ftp = clientPool.borrowObject();// 从线程池获取ftp
 		try (OutputStream os = out) {
 			final String fileName = FileUtil.getName(filePath);
 			final String path = StrUtil.removeSuffix(filePath, fileName);
-			ftpConfig.getFtp().download(path, fileName, os);
+			ftp.download(path, fileName, os);
+		} finally {
+			clientPool.returnObject(ftp);// 归还
 		}
 	}
 
 	@Override
 	public boolean delete(String filePath) {
-		return ftpConfig.getFtp().delFile(filePath);
+		try {
+			Ftp ftp = clientPool.borrowObject();// 从线程池获取ftp
+			try {
+				return ftp.delFile(filePath);
+			} finally {
+				clientPool.returnObject(ftp);// 归还
+			}
+		} catch (Exception e) {
+			throw new BusinessException(e.getMessage());
+		}
+
 	}
 
 	/**

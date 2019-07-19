@@ -1,5 +1,6 @@
 package com.chao.cloud.common.extra.ftp.annotation;
 
+import org.apache.commons.pool2.impl.GenericObjectPoolConfig;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Bean;
@@ -8,13 +9,15 @@ import org.springframework.context.annotation.Configuration;
 import com.chao.cloud.common.exception.BusinessException;
 import com.chao.cloud.common.extra.ftp.IFileOperation;
 import com.chao.cloud.common.extra.ftp.impl.FileOperationImpl;
+import com.chao.cloud.common.extra.ftp.pool.FTPClientFactory;
+import com.chao.cloud.common.extra.ftp.pool.FTPClientPool;
 
-import cn.hutool.core.lang.Console;
 import cn.hutool.core.util.ClassUtil;
 import cn.hutool.core.util.StrUtil;
 import cn.hutool.extra.ftp.Ftp;
 import cn.hutool.extra.ftp.FtpMode;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 /**
  * 
@@ -24,9 +27,10 @@ import lombok.Data;
  * @version 2.0
  */
 @Data
+@EqualsAndHashCode(callSuper = false)
 @Configuration
 @ConfigurationProperties(prefix = "chao.cloud.ftp.config")
-public class FtpConfig implements InitializingBean {
+public class FtpConfig extends GenericObjectPoolConfig<Ftp> implements InitializingBean {
 
 	private boolean local = false;// 默认是ftp
 	private String host;
@@ -41,12 +45,28 @@ public class FtpConfig implements InitializingBean {
 	private Ftp ftp;
 
 	@Bean
-	public IFileOperation fileOperation(FtpConfig ftpConfig) {
-		return new FileOperationImpl(ftpConfig);
+	public IFileOperation fileOperation(FTPClientPool clientPool) {
+		return new FileOperationImpl(clientPool);
 	}
 
-	public static void main(String[] args) {
-		Console.log(ClassUtil.getClassPath());
+	/**
+	 * 连接池
+	 * @param ftpConfig
+	 * @return
+	 */
+	@Bean
+	public FTPClientPool fTPClientPool(FTPClientFactory clientFactory) {
+		return new FTPClientPool(clientFactory);
+	}
+
+	/**
+	 * 工厂
+	 * @param ftpConfig
+	 * @return
+	 */
+	@Bean
+	public FTPClientFactory fTPClientFactory(FtpConfig ftpConfig) {
+		return new FTPClientFactory(ftpConfig);
 	}
 
 	@Override
