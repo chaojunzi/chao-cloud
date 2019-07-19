@@ -4,7 +4,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.chao.cloud</groupId>
 	<artifactId>chao-cloud-parent</artifactId>
-	<version>1.0.1</version>
+	<version>1.0.2</version>
 	<packaging>pom</packaging>
 	<parent>
 		<groupId>org.springframework.boot</groupId>
@@ -12,55 +12,64 @@
 		<version>2.1.2.RELEASE</version>
 	</parent>
 	<properties>
-		<chao.cloud.version>1.0.1</chao.cloud.version>
-		<spring-cloud.version>Greenwich.RELEASE</spring-cloud.version>
-		<spring.boot.configuration.version>2.1.2.RELEASE</spring.boot.configuration.version>
-		<spring-cloud-web-socket.version>2.1.2.RELEASE</spring-cloud-web-socket.version>
-		<spring.cloud.openfeign.version>2.1.2.RELEASE</spring.cloud.openfeign.version>
-		<servlet-api.version>4.0.1</servlet-api.version>
-		<github.openfeign-version>10.2.3</github.openfeign-version>
-		<feign.form.version>3.8.0</feign.form.version>
-		<pagehelper.version>1.2.12</pagehelper.version>
-		<mysql-connector.version>5.1.28</mysql-connector.version>
-		<druid-spring.version>1.1.9</druid-spring.version>
-		<mybatis-plus.version>3.1.2</mybatis-plus.version>
+		<!-- 项目版本 -->
+		<chao.cloud.version>1.0.2</chao.cloud.version>
+		<!-- 环境配置 -->
 		<java.version>1.8</java.version>
 		<java.encoding>UTF-8</java.encoding>
 		<project.build.sourceEncoding>${java.encoding}</project.build.sourceEncoding>
 		<productionMode>false</productionMode>
-		<poi-version>3.17</poi-version>
-		<cglib-version>3.1</cglib-version>
-		<aspectjweaver.version>1.7.2</aspectjweaver.version>
-		<httpclient.version>4.4.1</httpclient.version>
-		<thoughtworks.version>1.4.11.1</thoughtworks.version>
-		<dom4j.version>1.6.1</dom4j.version>
-		<httpcomponents.version>4.5.2</httpcomponents.version>
-		<thumbnailator.version>0.4.8</thumbnailator.version>
-		<commons-lang.version>2.5</commons-lang.version>
-		<commons-codec.version>1.9</commons-codec.version>
-		<commons-pool.version>1.6</commons-pool.version>
-		<commons-io.version>2.5</commons-io.version>
-		<commons-lang3.version>3.5</commons-lang3.version>
-		<commons-pool2.version>2.5.0</commons-pool2.version>
-		<commons-net.version>3.3</commons-net.version>
-		<hibernate-validator.version>6.0.10.Final</hibernate-validator.version>
-		<guava.version>22.0</guava.version>
-		<weixin-java-tools.version>3.4.0</weixin-java-tools.version>
-		<fastjson.version>1.2.58</fastjson.version>
+		<!-- 字节码|代理 -->
 		<javassist.version>3.12.1.GA</javassist.version>
+		<lombok.version>1.18.8</lombok.version>
+		<cglib-version>3.1</cglib-version>
+		<aspectjweaver.version>1.9.4</aspectjweaver.version>
+		<!-- springcloud-boot -->
+		<spring-cloud.version>Greenwich.RELEASE</spring-cloud.version>
+		<spring.boot.configuration.version>2.1.2.RELEASE</spring.boot.configuration.version>
+		<spring-cloud-web-socket.version>2.1.2.RELEASE</spring-cloud-web-socket.version>
+		<spring.cloud.openfeign.version>2.1.2.RELEASE</spring.cloud.openfeign.version>
+		<github.openfeign-version>10.2.3</github.openfeign-version>
+		<feign.form.version>3.8.0</feign.form.version>
+		<!-- 字段校验 -->
+		<hibernate-validator.version>6.0.17.Final</hibernate-validator.version>
+		<!-- 超级工具类 -->
 		<hutool-all.version>4.5.16</hutool-all.version>
-		<lombok.version>1.16.10</lombok.version>
+		<commons-pool2.version>2.6.2</commons-pool2.version>
+		<commons-net.version>3.6</commons-net.version>
+		<poi-version>3.17</poi-version>
 		<com.vdurmont.version>4.0.0</com.vdurmont.version>
 		<hanlp.version>portable-1.7.2</hanlp.version>
 		<google.zxing.version>3.3.3</google.zxing.version>
 		<baidu.aip.version>4.11.3</baidu.aip.version>
 		<mp3spi.version>1.9.5.4</mp3spi.version>
+		<!-- mysql -->
+		<mysql-connector.version>8.0.16</mysql-connector.version>
+		<druid-spring.version>1.1.9</druid-spring.version>
+		<mybatis-plus.version>3.1.2</mybatis-plus.version>
+		<pagehelper.version>1.2.12</pagehelper.version>
+		<!-- servlet -->
+		<servlet-api.version>4.0.1</servlet-api.version>
+		<!-- json返回值 -->
+		<fastjson.version>1.2.58</fastjson.version>
+		<!-- 微信工具包 -->
+		<weixin-java-tools.version>3.4.0</weixin-java-tools.version>
+		<thoughtworks.version>1.4.11.1</thoughtworks.version>
+		<!-- ssh2 -->
 		<ganymed-ssh2.version>262</ganymed-ssh2.version>
-		<apache.velocity.version>2.1</apache.velocity.version>
+		<!-- xss过滤 -->
 		<jsoup.version>1.11.3</jsoup.version>
+		<!-- shiro -->
 		<shiro.version>1.4.0</shiro.version>
 		<shiro.thymeleaf.version>2.0.0</shiro.thymeleaf.version>
+		<!-- 模板 -->
+		<apache.velocity.version>2.1</apache.velocity.version>
 		<freemarker.version>2.3.28</freemarker.version>
+		<!-- github配置 -->
+		<github.repository.name>mvn-repo</github.repository.name>
+		<github.repository.owner>chaojunzi</github.repository.owner>
+		<github.repository.local.path>D:/Users/xuechao/work/repository/github</github.repository.local.path>
+		<github.site.version>0.12</github.site.version>
 	</properties>
 	<modules>
 		<module>chao-cloud-common/chao-cloud-common-core</module>
@@ -160,12 +169,6 @@
 				<artifactId>javax.servlet-api</artifactId>
 				<version>${servlet-api.version}</version>
 			</dependency>
-			<!-- https://mvnrepository.com/artifact/com.google.guava/guava -->
-			<dependency>
-				<groupId>com.google.guava</groupId>
-				<artifactId>guava</artifactId>
-				<version>${guava.version}</version>
-			</dependency>
 			<!-- apache ftp支持 -->
 			<dependency>
 				<groupId>commons-net</groupId>
@@ -178,33 +181,10 @@
 				<artifactId>commons-pool2</artifactId>
 				<version>${commons-pool2.version}</version>
 			</dependency>
-			<!-- https://mvnrepository.com/artifact/org.apache.commons/commons-lang3 -->
-			<dependency>
-				<groupId>org.apache.commons</groupId>
-				<artifactId>commons-lang3</artifactId>
-				<version>${commons-lang3.version}</version>
-			</dependency>
 			<dependency>
 				<groupId>com.alibaba</groupId>
 				<artifactId>fastjson</artifactId>
 				<version>${fastjson.version}</version>
-			</dependency>
-			<!-- -->
-			<dependency>
-				<groupId>net.coobird</groupId>
-				<artifactId>thumbnailator</artifactId>
-				<version>${thumbnailator.version}</version>
-			</dependency>
-			<!-- https://mvnrepository.com/artifact/org.apache.httpcomponents/httpmime -->
-			<dependency>
-				<groupId>org.apache.httpcomponents</groupId>
-				<artifactId>httpmime</artifactId>
-				<version>${httpcomponents.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>dom4j</groupId>
-				<artifactId>dom4j</artifactId>
-				<version>${dom4j.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>com.thoughtworks.xstream</groupId>
@@ -257,37 +237,6 @@
 				<groupId>org.apache.poi</groupId>
 				<artifactId>poi-ooxml</artifactId>
 				<version>${poi-version}</version>
-			</dependency>
-			<dependency>
-				<groupId>commons-pool</groupId>
-				<artifactId>commons-pool</artifactId>
-				<version>${commons-pool.version}</version>
-			</dependency>
-			<!-- jsp Template jar -->
-			<dependency>
-				<groupId>org.freemarker</groupId>
-				<artifactId>freemarker</artifactId>
-				<version>${freemarker.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>commons-codec</groupId>
-				<artifactId>commons-codec</artifactId>
-				<version>${commons-codec.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>commons-lang</groupId>
-				<artifactId>commons-lang</artifactId>
-				<version>${commons-lang.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>commons-io</groupId>
-				<artifactId>commons-io</artifactId>
-				<version>${commons-io.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>org.apache.httpcomponents</groupId>
-				<artifactId>httpclient</artifactId>
-				<version>${httpclient.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>org.aspectj</groupId>
@@ -352,6 +301,12 @@
 				<groupId>com.github.theborakompanioni</groupId>
 				<artifactId>thymeleaf-extras-shiro</artifactId>
 				<version>${shiro.thymeleaf.version}</version>
+			</dependency>
+			<!-- jsp Template jar -->
+			<dependency>
+				<groupId>org.freemarker</groupId>
+				<artifactId>freemarker</artifactId>
+				<version>${freemarker.version}</version>
 			</dependency>
 			<!--velocity代码生成使用模板 -->
 			<dependency>

@@ -9,8 +9,8 @@ package com.chao.cloud.common.constants;
  */
 public interface ExceptionConsts {
 
-    String ERROR = "ERROR";
+	String ERROR = "ERROR";
 
-    String SUCCESS = "SUCCESS";
+	String SUCCESS = "SUCCESS";
 
 }

@@ -11,7 +11,6 @@ import javax.servlet.http.HttpSession;
 
 import org.aopalliance.intercept.MethodInterceptor;
 import org.aopalliance.intercept.MethodInvocation;
-import org.apache.commons.lang3.StringUtils;
 
 import com.chao.cloud.common.base.BaseHttpServlet;
 import com.chao.cloud.common.constants.ExceptionConsts;
@@ -19,6 +18,7 @@ import com.chao.cloud.common.constants.ResultCodeEnum;
 import com.chao.cloud.common.entity.Response;
 import com.chao.cloud.common.entity.ResponseResult;
 
+import cn.hutool.core.util.StrUtil;
 import cn.hutool.json.JSONUtil;
 import lombok.extern.slf4j.Slf4j;
 
@@ -54,7 +54,7 @@ public class ConvertInterceptor implements MethodInterceptor, BaseHttpServlet {
 			log.error("[error]{}", e);
 			// 针对controller层抛出的异常做处理
 			String error = e.getMessage();
-			if (StringUtils.isBlank(error)) {
+			if (StrUtil.isBlank(error)) {
 				error = ExceptionConsts.ERROR;
 			}
 			// 判断返回值类型
