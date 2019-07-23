@@ -1,5 +1,6 @@
 package com.chao.cloud.common.extra.ftp.annotation;
 
+import org.apache.commons.pool2.impl.GenericObjectPool;
 import org.apache.commons.pool2.impl.GenericObjectPoolConfig;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.boot.context.properties.ConfigurationProperties;
@@ -9,65 +10,80 @@ import org.springframework.context.annotation.Configuration;
 import com.chao.cloud.common.exception.BusinessException;
 import com.chao.cloud.common.extra.ftp.IFileOperation;
 import com.chao.cloud.common.extra.ftp.impl.FileOperationImpl;
-import com.chao.cloud.common.extra.ftp.pool.FTPClientFactory;
-import com.chao.cloud.common.extra.ftp.pool.FTPClientPool;
+import com.chao.cloud.common.extra.ftp.pool.FtpClientFactory;
+import com.chao.cloud.common.extra.ftp.pool.FtpClientPool;
+import com.chao.cloud.common.extra.ftp.pool.FtpClientProxy;
 
+import cn.hutool.core.util.CharsetUtil;
 import cn.hutool.core.util.ClassUtil;
 import cn.hutool.core.util.StrUtil;
-import cn.hutool.extra.ftp.Ftp;
-import cn.hutool.extra.ftp.FtpMode;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
 
 /**
  * 
  * @功能：ftp 配置
- * @author： 薛超
+ * @author： 薛超 
  * @时间：2019年4月25日
  * @version 2.0
  */
 @Data
-@EqualsAndHashCode(callSuper = false)
 @Configuration
 @ConfigurationProperties(prefix = "chao.cloud.ftp.config")
-public class FtpConfig extends GenericObjectPoolConfig<Ftp> implements InitializingBean {
-
+public class FtpConfig implements InitializingBean {
+	// 扩展设置
 	private boolean local = false;// 默认是ftp
-	private String host;
-	private Integer port;
-	private String user;
-	private String password;
 	private String prefix;// 返回时去掉的路径
 	private String path;// path-根目录
 	private String logo;// logo-水印
 	private float alpha = 0.1F;// 透明度
 	private String domain = StrUtil.EMPTY;// 域名->默认为空
-	private String mode = "Passive";// 模式 Passive/Active
-	private Ftp ftp;
+	// 基础设置
+	private String host;
+	private int port;
+	private String username;
+	private String password;
+	private boolean passiveMode = true;// 被动模式
+	private String encoding = CharsetUtil.UTF_8; // 编码
+	private int clientTimeout = 6000;// 超时时间
+	private int threadNum = 3;// 线程数
+	private int transferFileType = 2;// 0=ASCII_FILE_TYPE（ASCII格式） 1=EBCDIC_FILE_TYPE 2=LOCAL_FILE_TYPE（二进制文件）
+	private boolean renameUploaded = true;// 是否重命名
+	private int retryTimes = 1200;// 重新连接时间（秒）
+	private int bufferSize = 1024;// 缓存大小
+	private String workingDirectory = StrUtil.EMPTY;// 默认路径
+	// 线程池
+	private boolean blockWhenExhausted = true;// 池对象耗尽之后是否阻塞,maxWait<0时一直等待
+	private long maxWaitMillis = 3000; // 最大等待时间(毫秒)
+	private int minIdle = 1; // 最小空闲
+	private int maxIdle = 3; // 最大空闲
+	private int maxTotal = 10; // 最大连接数
+	private boolean testOnBorrow = true; // 取对象时验证
+	private boolean testOnReturn = true; // 回收验证
+	private boolean testOnCreate = true; // 创建时验证
+	private boolean testWhileIdle = false; // 空闲验证
+	private boolean lifo = false; // 后进先出
 
 	@Bean
-	public IFileOperation fileOperation(FTPClientPool clientPool) {
-		return new FileOperationImpl(clientPool);
-	}
-
-	/**
-	 * 连接池
-	 * @param ftpConfig
-	 * @return
-	 */
-	@Bean
-	public FTPClientPool fTPClientPool(FTPClientFactory clientFactory) {
-		return new FTPClientPool(clientFactory);
-	}
-
-	/**
-	 * 工厂
-	 * @param ftpConfig
-	 * @return
-	 */
-	@Bean
-	public FTPClientFactory fTPClientFactory(FtpConfig ftpConfig) {
-		return new FTPClientFactory(ftpConfig);
+	public IFileOperation fileOperation(FtpConfig ftpConfig) {
+		GenericObjectPoolConfig poolConfig = new GenericObjectPoolConfig();
+		poolConfig.setBlockWhenExhausted(ftpConfig.blockWhenExhausted);
+		poolConfig.setMaxWaitMillis(ftpConfig.maxWaitMillis);
+		poolConfig.setMinIdle(ftpConfig.minIdle);
+		poolConfig.setMaxIdle(ftpConfig.maxIdle);
+		poolConfig.setMaxTotal(ftpConfig.maxTotal);
+		poolConfig.setTestOnBorrow(ftpConfig.testOnBorrow);
+		poolConfig.setTestOnReturn(ftpConfig.testOnReturn);
+		poolConfig.setTestOnCreate(ftpConfig.testOnCreate);
+		poolConfig.setTestWhileIdle(ftpConfig.testWhileIdle);
+		poolConfig.setLifo(ftpConfig.lifo);
+		// 注入对象
+		FtpClientFactory factory = new FtpClientFactory(ftpConfig);
+		FtpClientPool ftpClientPool = new FtpClientPool(new GenericObjectPool(factory, poolConfig));
+		FtpClientProxy ftpClientProxy = new FtpClientProxy(ftpClientPool);
+		FileOperationImpl operation = new FileOperationImpl();
+		operation.setFtpConfig(ftpConfig);
+		operation.setFtpClientProxy(ftpClientProxy);
+		return operation;
 	}
 
 	@Override
@@ -82,26 +98,5 @@ public class FtpConfig extends GenericObjectPoolConfig<Ftp> implements Initializ
 		if (StrUtil.isBlank(logo)) {
 			logo = "chao";
 		}
-		if (!this.local) {
-			Ftp ftp = new Ftp(host, port, user, password);
-			// 被动模式
-			if (DEFAULT_BLOCK_WHEN_EXHAUSTED) {
-
-			}
-			ftp.setMode(this.getMode());
-			this.ftp = ftp;
-			this.ftp.close();
-		}
 	}
-
-	private FtpMode getMode() {
-		FtpMode[] modes = FtpMode.values();
-		for (FtpMode ftpMode : modes) {
-			if (ftpMode.name().equalsIgnoreCase(mode)) {
-				return ftpMode;
-			}
-		}
-		return null;
-	}
-
 }

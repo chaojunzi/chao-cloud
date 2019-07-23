@@ -5,7 +5,6 @@ import java.io.OutputStream;
 
 import cn.hutool.core.date.DateUtil;
 import cn.hutool.core.io.FileUtil;
-import cn.hutool.core.lang.Console;
 import cn.hutool.core.lang.Snowflake;
 import cn.hutool.core.util.IdUtil;
 import cn.hutool.core.util.StrUtil;
@@ -48,6 +47,12 @@ public interface IFileOperation {
 	void downLoad(String filePath, OutputStream out) throws Exception;
 
 	/**
+	 * 下载字节
+	 * @param filePath
+	 */
+	byte[] downLoadBytes(String filePath) throws Exception;
+
+	/**
 	 * 删除文件
 	 */
 	boolean delete(String filePath);
@@ -69,15 +74,6 @@ public interface IFileOperation {
 	 */
 	public static String genRandomFullFileName(String rootPath, String fileName) {
 		return genFilePath(rootPath) + genFileName(fileName);
-	}
-
-	public static void main(String[] args) {
-		String filePath = "2/7/8/3.png";
-		final String fileName = FileUtil.getName(filePath);
-		final String path = StrUtil.removeSuffix(filePath, fileName);
-		Console.log(fileName);
-		Console.log(path);
-		Console.log(genRandomFullFileName("d:/rich/", ".html"));
 	}
 
 }
