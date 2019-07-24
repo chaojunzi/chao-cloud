@@ -2,9 +2,7 @@ package com.chao.cloud.common.extra.mybatis.generator.template;
 
 import com.baomidou.mybatisplus.generator.config.TemplateConfig;
 
-import lombok.AccessLevel;
 import lombok.Data;
-import lombok.Getter;
 import lombok.experimental.Accessors;
 
 /**
@@ -18,7 +16,6 @@ import lombok.experimental.Accessors;
 @Accessors(chain = true)
 public class RestTemplateConfig extends TemplateConfig {
 
-	@Getter(AccessLevel.NONE)
 	private String entity = "/templates/rest/entity.java";
 
 	private String entityKt = "/templates/rest/entity.kt";
@@ -32,5 +29,9 @@ public class RestTemplateConfig extends TemplateConfig {
 	private String xml = "/templates/rest/mapper.xml";
 
 	private String controller = "/templates/rest/controller.java";
+
+	public String getEntity(boolean kotlin) {
+		return kotlin ? entityKt : entity;
+	}
 
 }

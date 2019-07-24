@@ -71,25 +71,4 @@ public class TencentMapService implements MapService {
 		return dto;
 	}
 
-	/**
-	 * 测试
-	 * @param args 
-	 * @throws Exception
-	 */
-	public static void main(String[] args) throws Exception {
-		String key = "KRJBZ-3WTWP-ZMDDJ-LNSIO-NC4WT-LOBZN";// https://lbs.qq.com/console/myquota.html 查看
-
-		AddressVO avo = new AddressVO();
-		avo.setAddress("北京市海淀区彩和坊路海淀西大街74号");
-		TencentMapService service = new TencentMapService(key);
-		AddressResolveDTO dto = service.addressToCoordinate(avo);
-		System.out.println(dto);
-
-		DistanceVO vo = new DistanceVO();
-		vo.setFrom("39.983171,116.308479");
-		vo.setTo("39.996060,116.353455;39.949227,116.394310");
-		DistanceResolveDTO many = service.distanceOneToMany(vo);
-		System.out.println(many);
-	}
-
 }

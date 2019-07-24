@@ -17,7 +17,7 @@ public class BeforeConfig {
 	 * 获取模板
 	 * @return
 	 */
-	public TemplateConfig geTemplate() {
+	public TemplateConfig getTemplate() {
 		Class<? extends TemplateConfig> clazz = TemplateStyle.getByName(templateStyle);
 		return Singleton.get(clazz);
 	}

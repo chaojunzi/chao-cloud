@@ -20,7 +20,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 @Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
-@Import({ MybatisPlusConfig.class, MybatisGeneratorConfig.class })
+@Import({ MybatisPlusConfig.class })
 public @interface EnableMybatisPlus {
 
 }

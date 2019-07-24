@@ -4,6 +4,8 @@ import java.io.Serializable;
 
 import com.chao.cloud.common.constants.ResultCodeEnum;
 
+import lombok.Data;
+
 /**
  * 返回值
  * @功能：
@@ -11,54 +13,16 @@ import com.chao.cloud.common.constants.ResultCodeEnum;
  * @时间： 2019年5月27日
  * @version 1.0.0
  */
+@Data
 public class Response<T> implements Serializable {
-	/**
-	 * 
-	 */
+
 	private static final long serialVersionUID = 1L;
 
 	private String retCode = ResultCodeEnum.CODE_200.code();
 
 	private String retMsg = "操作成功";
-	private T t;
 
-	public Response() {
-	}
-
-	public Response(boolean code) {
-		if (!code) {
-			this.retCode = ResultCodeEnum.CODE_500.code();
-			this.retMsg = "操作失败";
-		}
-	}
-
-	public Response(T t) {
-		this.t = t;
-	}
-
-	public String getRetCode() {
-		return this.retCode;
-	}
-
-	public void setRetCode(String retCode) {
-		this.retCode = retCode;
-	}
-
-	public String getRetMsg() {
-		return this.retMsg;
-	}
-
-	public void setRetMsg(String retMsg) {
-		this.retMsg = retMsg;
-	}
-
-	public T getBody() {
-		return this.t;
-	}
-
-	public void setBody(T t) {
-		this.t = t;
-	}
+	private T body;
 
 	public void setRespFailed(String retMsg) {
 		this.retCode = ResultCodeEnum.CODE_500.code();
@@ -75,7 +39,4 @@ public class Response<T> implements Serializable {
 		this.retMsg = "操作失败";
 	}
 
-	public String toString() {
-		return "Response [retCode=" + this.retCode + ", retMsg=" + this.retMsg + ", t=" + this.t + "]";
-	}
 }

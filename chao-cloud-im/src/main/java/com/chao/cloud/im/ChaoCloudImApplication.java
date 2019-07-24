@@ -10,6 +10,7 @@ import org.springframework.web.socket.server.standard.ServerEndpointExporter;
 import com.chao.cloud.common.config.exception.EnableGlobalException;
 import com.chao.cloud.common.config.web.EnableWeb;
 import com.chao.cloud.common.extra.ftp.annotation.EnableFtp;
+import com.chao.cloud.common.extra.mybatis.annotation.EnableMybatisGenerator;
 import com.chao.cloud.common.extra.mybatis.annotation.EnableMybatisPlus;
 
 /**
@@ -24,6 +25,7 @@ import com.chao.cloud.common.extra.mybatis.annotation.EnableMybatisPlus;
 @EnableWeb // web
 @EnableGlobalException // 全局异常处理
 @EnableMybatisPlus // 数据库插件-乐观锁
+@EnableMybatisGenerator // 代码生成
 @EnableAsync // 异步调用
 @EnableFtp
 public class ChaoCloudImApplication {

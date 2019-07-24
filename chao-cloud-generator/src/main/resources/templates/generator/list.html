@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="zh_CN" xmlns:th="http://www.thymeleaf.org"
+	xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<head th:include="include :: header"></head>
+<body>
+	<div class="layui-fluid">
+		<hr class="layui-bg-gray">
+		<div class="layui-inline">
+			<form action="javascript:;">
+				<div class="layui-input-inline"
+					style="width: 150px; text-align: center; font-size: 20px; font-weight: bold;">
+					<span style="color: red;"> [强制配置]： </span>
+				</div>
+				<input name="id" type="hidden" th:value="${config.id}" />
+				<div class="layui-input-inline">
+					<span> 包名： </span>
+				</div>
+				<div class="layui-input-inline">
+					<input class="layui-input" id="packageName" name="packageName" th:value="${config.packageName}"
+						placeholder="请输入包名" autocomplete="off" />
+				</div>
+				<div class="layui-input-inline">
+					<span> 作者： </span>
+				</div>
+				<div class="layui-input-inline">
+					<input class="layui-input" id="author" name="author" th:value="${config.author}"
+						placeholder="请输入作者" autocomplete="off" />
+				</div>
+				<div class="layui-input-inline">
+					<span> 模板： </span>
+				</div>
+				<div class="layui-input-inline layui-form">
+					<select name="style" lay-filter="aihao">
+						<option value="rest">rest风格</option>
+						<option value="html">html风格</option>
+					</select>
+				</div>
+				<div class="layui-input-inline">
+					<input class="layui-input" id="tableName" placeholder="请输入表名称" autocomplete="off" />
+				</div>
+				<button class="layui-btn layui-btn-normal" id="search" data-type="reload">搜索</button>
+		</div>
+		</form>
+		<table id="generator-table" lay-filter="generator-table"></table>
+	</div>
+	<!-- 工具栏 -->
+	<script type="text/html" id="toolbarUser">
+        <div class="layui-btn-container">
+            <button class="layui-btn layui-btn-sm" lay-event="batchCode"><i class="layui-icon layui-icon-code-circle" ></i>批量生成</button>
+        </div>
+    </script>
+	<!-- 操作列 -->
+	<script type="text/html" id="generator-state">
+     <div class="layui-btn-group">
+        <button class="layui-btn layui-btn-sm" lay-event="code"><i class="layui-icon layui-icon-fonts-code"></i>生成</button>
+    </div>
+    </script>
+	<div th:include="include::footer"></div>
+	<script>
+		layui.use([ 'table' ], function() {
+			var $ = layui.jquery;
+			var table = layui.table;
+			// 渲染表格
+			var id = getQueryVariable("id");
+			var renderTable = function() {
+				layer.load(2);
+				table.render({
+					elem : '#generator-table',
+					url : '/generator/list?id=' + id,
+					toolbar : '#toolbarUser',
+					page : true,
+					id : 'generatorReload',
+					parseData : chaoLayuiTable.parseData,
+					request : chaoLayuiTable.request,
+					response : chaoLayuiTable.response,
+					//limit : 1,
+					cols : [ [ {
+						type : 'checkbox',
+						fixed : 'left'
+					}, {
+						align : 'center',
+						field : 'tableName', // 列字段名
+						title : '表名称' // 列标题
+					}, {
+						field : 'engine',
+						align : 'center',
+						title : 'engine'
+					}, {
+						align : 'center',
+						field : 'comment',
+						title : '表描述'
+					}, {
+						align : 'center',
+						field : 'createTime',
+						title : '创建时间'
+					}, {
+						title : '操作',
+						toolbar : '#generator-state',
+						align : 'center'
+					} ] ],
+					done : function() {
+						layer.closeAll('loading');
+					}
+				});
+
+			};
+			renderTable();
+			// 搜索 
+			var active = {
+				reload : function() {
+					//执行重载
+					table.reload('generatorReload', {
+						page : {
+							curr : 1
+						//重新从第 1 页开始
+						},
+						where : {
+							tableName : $('#tableName').val()
+						}
+					});
+				}
+			};
+
+			$('#search').on('click', function() {
+				var type = $(this).data('type');
+				active[type] ? active[type].call(this) : '';
+			});
+
+			//头工具栏事件
+			table.on('toolbar(generator-table)', function(obj) {
+				var checkStatus = table.checkStatus(obj.config.id);
+				switch (obj.event) {
+				case 'policy':// 打开配置
+					edit();
+					break;
+				case 'batchCode'://批量生成
+					var data = checkStatus.data;
+					if (data.length < 1) {
+						layer.msg('请至少选择一个');
+						break;
+					}
+					//批量生成
+					batchCode(data);
+				}
+			});
+
+			//监听工具条
+			table.on('tool(generator-table)', function(obj) {
+				var data = obj.data;
+				console.log(data)
+				var layEvent = obj.event;
+				if (layEvent === 'code') {//生成代码
+					code(data.tableName);
+				}
+			});
+
+			function code(tableName) {
+				//校验
+				var check = checkForm();
+				if (!check) {
+					return false;
+				}
+				location.href = "/generator/code/" + tableName + "?" + $("form").serialize();
+				parent.layer.load(0, {
+					shade : [ 0.5, '#000' ],//0.5透明度的白色背景
+					time : 2000
+				});
+			}
+
+			function batchCode(data) {
+				//校验
+				var check = checkForm();
+				if (!check) {
+					return false;
+				}
+				var tables = new Array();
+				// 遍历所有选择的行数据，取每条数据对应的tableName
+				$.each(data, function(i, row) {
+					tables[i] = row['tableName'];
+				});
+				location.href = "/generator/batchCode?tables=" + tables + "&" + $("form").serialize();
+				parent.layer.load(0, {
+					shade : [ 0.5, '#000' ],//0.5透明度的白色背景
+					time : 2000
+				});
+			}
+
+			function checkForm() {
+				if ($("[name=packageName]").val() == '') {
+					layer.tips('包名不能为空', '#packageName', {
+						tips : 3
+					});
+					return false;
+				}
+				if ($("[name=author]").val() == '') {
+					layer.tips('作者不能为空', '#author', {
+						tips : 3
+					});
+					return false;
+				}
+				return true;
+			}
+
+			function getQueryVariable(variable) {
+				var query = window.location.search.substring(1);
+				var vars = query.split("&");
+				for (var i = 0; i < vars.length; i++) {
+					var pair = vars[i].split("=");
+					if (pair[0] == variable) {
+						return pair[1];
+					}
+				}
+				return (false);
+			}
+
+		});
+	</script>
+</body>
+</html>

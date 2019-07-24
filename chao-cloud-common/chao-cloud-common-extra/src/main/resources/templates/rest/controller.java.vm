@@ -60,7 +60,7 @@ public class ${table.controllerName} {
 		}
 		#end	
 		#end
-		return ResponseResult.getResponseResult(${table.entityPath}Service.page(page, queryWrapper));
+		return ResponseResult.ok(${table.entityPath}Service.page(page, queryWrapper));
 	}
 
 	

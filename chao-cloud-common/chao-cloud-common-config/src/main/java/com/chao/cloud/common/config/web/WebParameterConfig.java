@@ -65,7 +65,8 @@ public class WebParameterConfig extends WebMvcConfigurationSupport {
 	 */
 	@Override
 	protected void addResourceHandlers(ResourceHandlerRegistry registry) {
-		String[] staticLocations = ArrayUtil.addAll(CLASSPATH_RESOURCE_LOCATIONS, staticLocation.split(","));
+		// 注意优先级
+		String[] staticLocations = ArrayUtil.addAll(staticLocation.split(","), CLASSPATH_RESOURCE_LOCATIONS);
 		// 去重
 		List<String> list = CollUtil.toList(staticLocations).stream().filter(s -> StrUtil.isNotBlank(s)).distinct()
 				.collect(Collectors.toList());

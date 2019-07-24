@@ -9,7 +9,6 @@ import javax.servlet.http.HttpServletResponse;
 import com.google.common.net.MediaType;
 
 import cn.hutool.core.collection.CollUtil;
-import cn.hutool.core.img.ImgUtil;
 import cn.hutool.core.io.IoUtil;
 import cn.hutool.core.io.resource.ResourceUtil;
 import lombok.extern.slf4j.Slf4j;
@@ -39,11 +38,6 @@ public final class ErrorUtil {
 		} catch (Exception e) {
 			log.error("{}", e);
 		}
-	}
-
-	public static void main(String[] args) {
-		String base64 = ImgUtil.toBase64(ImgUtil.read("D:/404.png"), "png");
-		System.out.println(base64);
 	}
 
 }

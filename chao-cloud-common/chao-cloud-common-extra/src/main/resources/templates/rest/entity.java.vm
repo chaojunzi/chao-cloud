@@ -17,7 +17,7 @@ import lombok.experimental.Accessors;
  * @功能：
  * @author： ${author}
  * @时间：${date}
- * @version 1.0.0
+ * @version 1.0.2
  */
 #if(${entityLombokModel})
 @Data
@@ -70,15 +70,12 @@ private static final long serialVersionUID=1L;
     @TableId("${field.name}")
 #end
 ## 普通字段
-#elseif(${field.fill})
 ## -----   存在字段填充设置   -----
-#if(${field.convert})
-    @TableField(value = "${field.name}", fill = FieldFill.${field.fill})
-#else
-    @TableField(fill = FieldFill.${field.fill})
-#end
-#elseif(${field.convert})
-    @TableField("${field.name}")
+#elseif(${field.fill})
+	@TableField(value = "$kws.get(${field.name})${field.name}$kws.get(${field.name})", fill = FieldFill.${field.fill})
+## 关键字注解
+#elseif($kws.get(${field.name}))
+    @TableField("$kws.get(${field.name})${field.name}$kws.get(${field.name})")
 #end
 ## 时间注解
 #if(${versionFieldName}!=${field.name} && ${field.propertyType} =='Date')

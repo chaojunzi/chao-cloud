@@ -20,7 +20,6 @@ import org.springframework.web.context.request.ServletWebRequest;
 import org.springframework.web.context.request.WebRequest;
 
 import com.chao.cloud.common.base.BaseHttpServlet;
-import com.chao.cloud.common.constants.ResultCodeEnum;
 import com.chao.cloud.common.entity.Response;
 import com.chao.cloud.common.entity.ResponseResult;
 
@@ -63,8 +62,7 @@ public class ExceptionControllerError implements ErrorController, BaseHttpServle
 		log.error("error={}", JSONUtil.toJsonPrettyStr(body));
 		HttpStatus status = getStatus(request);
 		if (requestIsAjax(request)) {
-			Response<Object> response = ResponseResult.getResponseCodeAndMsg(ResultCodeEnum.CODE_500.code(),
-					body.get("message").toString());
+			Response<Object> response = ResponseResult.error(body.get("message").toString());
 			response.setBody(status);
 			return response;
 		}

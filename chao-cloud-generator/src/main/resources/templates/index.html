@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="zh_CN" xmlns:th="http://www.thymeleaf.org">
+<head th:include="include :: header"></head>
+<title>代码生成插件</title>
+<body class="layui-layout-body">
+	<div class="layui-layout layui-layout-admin">
+		<div class="layui-header">
+			<div class="layui-logo">代码生成 @ Mybatis-Plus</div>
+			<!-- 头部区域（可配合layui已有的水平导航） -->
+			<ul class="layui-nav layui-layout-right">
+				<li class="layui-nav-item">
+					<table class="layui-table">
+						<thead>
+							<tr id="memory">
+							</tr>
+						</thead>
+					</table>
+				</li>
+			</ul>
+		</div>
+		<div class="layui-side layui-bg-black">
+			<div class="layui-side-scroll">
+				<!-- 左侧导航区域  -->
+				<ul class="layui-nav layui-nav-tree" lay-filter="menu">
+					<li class="layui-nav-item layui-nav-itemed" id="0">
+						<a class="" href="javascript:;">基本配置</a>
+						<dl class="layui-nav-child">
+							<dd>
+								<a link="/xc/group" href="javascript:;">分组管理</a>
+							</dd>
+							<dd>
+								<a link="/xc/config" href="javascript:;">mysql 连接管理</a>
+							</dd>
+						</dl>
+					</li>
+					<!-- 数据库连接 -->
+					<li th:each="menu:${menus}" class="layui-nav-item">
+						<a href="javascript:;" th:text="${menu.name}"></a>
+						<dl class="layui-nav-child" th:each="config:${menu.configs}">
+							<dd>
+								<a href="javascript:;" th:text="${config.title}" th:attr="link=|/generator?id=${config.id}|"></a>
+							</dd>
+						</dl>
+					</li>
+				</ul>
+			</div>
+		</div>
+
+		<div class="layui-body">
+			<!-- 内容主体区域 -->
+			<iframe height="98%" width="100%"></iframe>
+		</div>
+
+		<div class="layui-footer">
+			<!-- 底部固定区域 -->
+			© Chaojunzi
+		</div>
+	</div>
+	<div th:include="include::footer"></div>
+	<script>
+		// 刷新当前页面
+		function reloadCurrTab() {
+			$(".layui-body").find("iframe")[0].contentWindow.location.reload();
+		}
+		//JavaScript代码区域
+		layui.use([ 'element', 'layer', 'jquery' ], function() {
+			var element = layui.element;
+			var $ = layui.jquery;
+			var layer = layui.layer;
+			$(".layui-nav-child").find("a").click(function() {
+				var link = $(this).attr("link");
+				$("iframe").attr("src", link);
+			});
+			element.on('nav(menu)', function(elem) {
+				elem.parent().siblings().removeClass('layui-nav-itemed')
+			});
+			//进度条
+			$.ajax({
+				url : "/health/core",
+				success : function(data) {
+					if (data.retCode == '0000') {
+						var memory = data.body;
+						$("#memory").append("<th>IP：" + memory.ip + "</th>");
+						$("#memory").append("<th>mac：" + memory.macAddress + "</th>");
+						$("#memory").append("<th>线程数：" + memory.threadCount + "</th>");
+						$("#memory").append("<th>总内存：" + memory.totalMemory + "</th>");
+						$("#memory").append("<th>已使用内存：" + memory.useMemory + "</th>");
+						$("#memory").append("<th>剩余内存：" + memory.freeMemory + "</th>");
+						$("#memory").append("<th>内存使用率：" + memory.useRate + "</th>");
+					} else {
+						layer.alert(data.retMsg);
+					}
+				}
+			});
+		});
+	</script>
+</body>
+</html>

@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.io.StringWriter;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
@@ -26,6 +27,7 @@ import com.baomidou.mybatisplus.generator.config.rules.FileType;
 import com.baomidou.mybatisplus.generator.engine.AbstractTemplateEngine;
 import com.baomidou.mybatisplus.generator.engine.VelocityTemplateEngine;
 import com.chao.cloud.common.exception.BusinessException;
+import com.chao.cloud.common.extra.mybatis.constant.KeyWordConstant;
 import com.chao.cloud.common.extra.mybatis.generator.parse.TableCommentParse;
 import com.chao.cloud.common.extra.mybatis.generator.template.HtmlTemplateConfig;
 
@@ -187,7 +189,8 @@ public class ZipVelocityTemplateEngine extends VelocityTemplateEngine {
 		// 弹窗大小
 		long i = tableInfo.getFields().stream().filter(f -> !(f.isKeyFlag()
 				|| f.getName().equals(getConfigBuilder().getStrategyConfig().getVersionFieldName()))).count();
-		objectMap.put("openHeight", 30 + (i - 1) * 8);
+		long rate = 30 + (i - 1) * 8;// 比率
+		objectMap.put("openHeight", rate > 100 ? 100 : rate);
 		// 模糊查询 tableInfo
 		String comment = tableInfo.getComment();
 		Map<String, String> map = this.commentToMap(comment);
@@ -195,6 +198,13 @@ public class ZipVelocityTemplateEngine extends VelocityTemplateEngine {
 		objectMap.put("likeFields", parse.parseLike(tableInfo.getFields()));
 		// 标题
 		objectMap.put("menuTitle", parse.getTitle());
+		// 关键字-保留字处理
+		Map<String, String> kws = tableInfo.getFields().stream()
+				.collect(Collectors.toMap(TableField::getName, t -> KeyWordConstant.contains(t.getName()) ? "`" : ""));
+		objectMap.put("kws", kws);
+		if (kws.values().contains("`")) {
+			tableInfo.getImportPackages().add("com.baomidou.mybatisplus.annotation.TableField");
+		}
 	}
 
 	private Map<String, String> commentToMap(String comment) {

@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:include="include :: header"></head>
+<body>
+	<form class="layui-form" action="" lay-filter="xc_group-add-form" style="margin-top: 20px;">
+		<input th:value="${session.formToken}" name="formToken" type="hidden" />
+		<!--  -->
+ 		<!--  -->
+		<div class="layui-form-item">
+			<label class="layui-form-label">分组名称：</label>
+			<div class="layui-input-block">
+				<input id="name" name="name" placeholder="请输入分组名称"
+					class="layui-input" lay-verify="required" autocomplete="off">
+			</div>
+		</div>
+ 		<!--  -->
+ 		<div class="layui-form-item">
+			<div class="layui-input-block">
+				<button class="layui-btn" lay-submit="" lay-filter="xc_group-add">立即提交</button>
+			</div>
+		</div>
+	</form>
+	<div th:include="include::footer"></div>
+	<!-- 注意：如果你直接复制所有代码到本地，上述js路径需要改成你本地的 -->
+	<script>
+		layui.use([ 'layer', 'jquery', 'form' ], function() {
+			var $ = layui.jquery;
+			var layer = layui.layer;
+			var form = layui.form;
+			 
+ 			//监听提交
+			form.on('submit(xc_group-add)', function(data) {
+				//提交数据data.field
+				ajaxPostLoad("/xc/group/save", data.field);
+				return false;
+			});
+		});
+	</script>
+</body>
+</html>

@@ -59,7 +59,7 @@ public class ConvertInterceptor implements MethodInterceptor, BaseHttpServlet {
 			}
 			// 判断返回值类型
 			if (returnType == Response.class) {
-				obj = ResponseResult.getResponseCodeAndMsg(ResultCodeEnum.CODE_500.code(), error);
+				obj = ResponseResult.result(ResultCodeEnum.CODE_500.code(), error);
 			} else {
 				throw e;
 			}
