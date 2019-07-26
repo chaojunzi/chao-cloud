@@ -1,13 +1,12 @@
 var $, layer, wsHealthCore;
-layui.use([ 'layer', 'jquery' ], function() {
+layui.use([ 'layer', 'jquery', 'element' ], function() {
 	layer = layui.layer;
 	$ = layui.$;
+	var element = layui.element;
 	// 连接websocket
 	wsHealthCore = function() {
 		var url = document.location.protocol == "https:" ? "wss://" : "ws://" + window.location.host// 
 				+ "/health/core/" + $("#userId").val();
-		// 连接
-
 		// 连接服务器
 		ws = new ReconnectingWebSocket(url);
 		// 刚刚打开连接
@@ -22,6 +21,11 @@ layui.use([ 'layer', 'jquery' ], function() {
 			switch (r.type) {
 			case 0:// 关闭-已经登录
 				layer.msg(r.msg);
+				ws = null;
+				setTimeout(function() {
+					// 关闭当前页
+					window.location.href = "about:blank";
+				}, 1000);
 				break;
 			case 1:// 开始连接
 				break;
@@ -30,7 +34,7 @@ layui.use([ 'layer', 'jquery' ], function() {
 			case 3:// 健康检查
 				var health = r.msg;
 				// 赋值-折线图
-				if (lineOption.xAxis.data.length > 6) {
+				if (lineOption.xAxis.data.length > 10) {
 					lineOption.xAxis.data.shift();
 					lineOption.series[0].data.shift();
 				}
@@ -46,6 +50,8 @@ layui.use([ 'layer', 'jquery' ], function() {
 				$("#totalMemory").text(health.totalMemory);
 				$("#useMemory").text(health.useMemory);
 				$("#freeMemory").text(health.freeMemory);
+				// 进度条
+				element.progress('useRate', health.useRate)
 				break;
 			}
 		};

@@ -20,13 +20,13 @@
 								</tr>
 								<tr>
 									<td>内存使用详情</td>
-									<td id="memoryInfo" >
+									<td id="memoryInfo">
 										<span th:text="${core.useMemory}+' / '+${core.totalMemory}"></span>
 									</td>
 								</tr>
 								<tr>
 									<td colspan="2">
-										<div class="layui-progress layui-progress-big" lay-showPercent="yes">
+										<div class="layui-progress layui-progress-big" lay-showPercent="yes" lay-filter="useRate">
 											<div class="layui-progress-bar" th:attr="lay-percent=${core.useRate}"></div>
 										</div>
 									</td>
@@ -56,7 +56,7 @@
 								</tr>
 								<tr>
 									<td>Jvm 剩余内存</td>
-									<td  id="freeMemory" th:text="${core.freeMemory}"></td>
+									<td id="freeMemory" th:text="${core.freeMemory}"></td>
 								</tr>
 							</tbody>
 						</table>
@@ -123,11 +123,20 @@
 			var echarts = layui.echarts;
 			//记得这是dom对象不是JQ对象，需要转换
 			//折线图
-			//仪表盘
 			lineChart = layui.echarts.init($('#line')[0]);
 			lineOption = {
+				tooltip : {
+					trigger : 'axis',
+					formatter : function(params) {
+						return params[0].marker + params[0].value + "MB";
+					},
+					axisPointer : {
+						animation : true
+					}
+				},
 				xAxis : {
 					type : 'category',
+					boundaryGap : false,
 					data : [ now() ]
 				},
 				yAxis : {
@@ -137,17 +146,17 @@
 					data : [ "[[${core.useMemory}]]".replace(/[a-zA-Z]/g, "") ],
 					type : 'line',
 					symbol : 'triangle',
-					symbolSize : 20,
+					symbolSize : 10,
 					lineStyle : {
 						normal : {
 							color : 'green',
-							width : 4,
+							width : 2,
 							type : 'dashed'
 						}
 					},
 					itemStyle : {
 						normal : {
-							borderWidth : 3,
+							borderWidth : 1,
 							borderColor : 'yellow',
 							color : 'blue'
 						}

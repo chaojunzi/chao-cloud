@@ -19,10 +19,12 @@ import org.springframework.stereotype.Component;
 
 import com.chao.cloud.common.config.web.HealthController;
 import com.chao.cloud.common.config.web.HealthController.CoreParam;
+import com.chao.cloud.common.exception.BusinessException;
 import com.chao.cloud.generator.websocket.model.MsgEnum;
 import com.chao.cloud.generator.websocket.model.WsMsgDTO;
 
 import cn.hutool.core.collection.CollUtil;
+import cn.hutool.json.JSONUtil;
 import cn.hutool.log.StaticLog;
 import lombok.extern.slf4j.Slf4j;
 
@@ -54,6 +56,11 @@ public class HealthCoreWebSocket extends BaseWsSocket<Integer> {
 	 */
 	@OnOpen
 	public void onOpen(Session session, @PathParam("sid") Integer sid) {
+		boolean exist = super.exist(sid);
+		if (exist) {// 关闭连接
+			this.alreadyLogin(session);
+			return;
+		}
 		super.onOpen(session, sid);
 	}
 
@@ -70,6 +77,18 @@ public class HealthCoreWebSocket extends BaseWsSocket<Integer> {
 	@OnClose
 	public void onClose() {
 		super.onClose();
+	}
+
+	// 已经登录
+	private void alreadyLogin(Session session) {
+		try {
+			session.getBasicRemote().sendText(JSONUtil.toJsonStr(WsMsgDTO.buildMsg(MsgEnum.CLOSE, "您已经登录")));
+			if (session.isOpen()) {
+				session.close();
+			}
+		} catch (Exception e) {
+			throw new BusinessException(e.getMessage());
+		}
 	}
 
 	/**
