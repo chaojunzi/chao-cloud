@@ -17,7 +17,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.chao.cloud.common.entity.Response;
-import com.chao.cloud.common.entity.ResponseResult;
 import com.chao.cloud.common.exception.BusinessException;
 import com.chao.cloud.common.util.HyalineCaptchaUtil;
 import com.chao.cloud.common.util.HyalineCaptchaUtil.HyalineCircleCaptcha;
@@ -73,7 +72,7 @@ public class LoginController extends BaseController {
 		}
 		LoginDTO dto = BeanUtil.toBean(user, LoginDTO.class);
 		session.setAttribute(token_key, dto);
-		return ResponseResult.ok();
+		return Response.ok();
 
 	}
 

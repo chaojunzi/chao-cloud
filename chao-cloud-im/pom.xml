@@ -10,7 +10,7 @@
 	<parent>
 		<groupId>com.chao.cloud</groupId>
 		<artifactId>chao-cloud-parent</artifactId>
-		<version>1.0.2</version>
+		<version>1.0.3</version>
 	</parent>
 	<properties>
 		<taip.version>4.3.5</taip.version>
@@ -60,11 +60,6 @@
 		<dependency>
 			<groupId>com.alibaba</groupId>
 			<artifactId>druid-spring-boot-starter</artifactId>
-		</dependency>
-		<!-- rpc-openfeign -->
-		<dependency>
-			<groupId>org.springframework.cloud</groupId>
-			<artifactId>spring-cloud-starter-openfeign</artifactId>
 		</dependency>
 		<!-- h2 数据库 -->
 		<dependency>

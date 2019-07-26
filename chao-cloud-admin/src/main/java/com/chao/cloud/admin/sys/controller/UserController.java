@@ -31,7 +31,6 @@ import com.chao.cloud.admin.sys.log.AdminLog;
 import com.chao.cloud.admin.sys.service.SysRoleService;
 import com.chao.cloud.admin.sys.service.SysUserService;
 import com.chao.cloud.common.entity.Response;
-import com.chao.cloud.common.entity.ResponseResult;
 import com.chao.cloud.common.exception.BusinessException;
 import com.chao.cloud.common.extra.mybatis.generator.menu.MenuEnum;
 import com.chao.cloud.common.extra.mybatis.generator.menu.MenuMapping;
@@ -76,7 +75,7 @@ public class UserController extends BaseController {
 					.filter(u -> !AdminConstant.ADMIN_ID.equals(u.getUserId())).collect(Collectors.toList());
 			result.setRecords(records);
 		}
-		return ResponseResult.getResponseResult(result);
+		return Response.ok(result);
 	}
 
 	@AdminLog("添加用户")
@@ -116,7 +115,7 @@ public class UserController extends BaseController {
 		String password = DigestUtil.md5Hex(user.getUsername() + user.getPassword());
 		user.setPassword(password);
 		if (sysUserService.save(user) > 0) {
-			return ResponseResult.ok();
+			return Response.ok();
 		}
 		throw new BusinessException("保存失败");
 	}
@@ -128,7 +127,7 @@ public class UserController extends BaseController {
 	Response<String> update(UserDTO user) {
 		user.setRoleIds(super.removeEmpty(user.getRoleIds()));
 		if (sysUserService.update(user) > 0) {
-			return ResponseResult.ok();
+			return Response.ok();
 		}
 		throw new BusinessException("更新失败");
 	}
@@ -144,7 +143,7 @@ public class UserController extends BaseController {
 			throw new BusinessException("admin 不可删除");
 		}
 		if (sysUserService.remove(id) > 0) {
-			return ResponseResult.ok();
+			return Response.ok();
 		}
 		throw new BusinessException("删除失败");
 	}
@@ -161,7 +160,7 @@ public class UserController extends BaseController {
 		}
 		int r = sysUserService.removeBatch(userIds);
 		if (r > 0) {
-			return ResponseResult.ok();
+			return Response.ok();
 		}
 		throw new BusinessException("删除失败");
 	}
@@ -178,7 +177,7 @@ public class UserController extends BaseController {
 	@ResponseBody
 	Response<String> resetPwd(UserVO userVO) {
 		sysUserService.resetPwd(userVO, getUser());
-		return ResponseResult.ok();
+		return Response.ok();
 
 	}
 

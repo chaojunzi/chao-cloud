@@ -23,7 +23,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.chao.cloud.admin.sys.log.AdminLog;
 import com.chao.cloud.admin.sys.shiro.ShiroUtils;
 import com.chao.cloud.common.entity.Response;
-import com.chao.cloud.common.entity.ResponseResult;
 import com.chao.cloud.common.exception.BusinessException;
 import com.chao.cloud.common.util.HyalineCaptchaUtil;
 import com.chao.cloud.common.util.HyalineCaptchaUtil.HyalineCircleCaptcha;
@@ -79,7 +78,7 @@ public class LoginController extends BaseController {
 		Subject subject = SecurityUtils.getSubject();
 		try {
 			subject.login(token);
-			return ResponseResult.ok();
+			return Response.ok();
 		} catch (AuthenticationException e) {
 			throw new BusinessException(e.getMessage());
 		}

@@ -17,7 +17,6 @@ import com.chao.cloud.admin.sys.log.AdminLog;
 import com.chao.cloud.admin.sys.service.SessionService;
 import com.chao.cloud.admin.sys.shiro.ShiroUserOnline;
 import com.chao.cloud.common.entity.Response;
-import com.chao.cloud.common.entity.ResponseResult;
 import com.chao.cloud.common.extra.mybatis.generator.menu.MenuEnum;
 import com.chao.cloud.common.extra.mybatis.generator.menu.MenuMapping;
 
@@ -53,7 +52,7 @@ public class SessionController extends BaseController {
 					.collect(Collectors.toList());
 		}
 		result.setRecords(list);
-		return ResponseResult.getResponseResult(result);
+		return Response.ok(result);
 	}
 
 	@MenuMapping("强制下线")
@@ -62,7 +61,7 @@ public class SessionController extends BaseController {
 	@ResponseBody
 	public Response<String> forceLogout(@PathVariable("sessionId") String sessionId) {
 		sessionService.forceLogout(sessionId);
-		return ResponseResult.ok();
+		return Response.ok();
 
 	}
 

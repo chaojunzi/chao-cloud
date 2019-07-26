@@ -8,7 +8,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.chao.cloud.common.entity.Response;
-import com.chao.cloud.common.entity.ResponseResult;
 import com.chao.cloud.im.ai.service.TAiRobotService;
 
 /**
@@ -28,7 +27,7 @@ public class RobotController {
 	@RequestMapping("/text")
 	public Response<String> text(@NotBlank(message = "请输入 text") String text) {
 		String result = robotService.text(text);
-		return ResponseResult.getResponseResult(result);
+		return Response.ok(result);
 	}
 
 }

@@ -21,7 +21,6 @@ import com.chao.cloud.admin.core.dal.entity.ChaoRichtext;
 import com.chao.cloud.admin.core.service.ChaoRichtextService;
 import com.chao.cloud.admin.sys.config.GlobleConfig;
 import com.chao.cloud.common.entity.Response;
-import com.chao.cloud.common.entity.ResponseResult;
 import com.chao.cloud.common.extra.ftp.IFileOperation;
 import com.chao.cloud.common.extra.ftp.annotation.FtpConfig;
 import com.chao.cloud.common.extra.mybatis.generator.menu.MenuEnum;
@@ -69,7 +68,7 @@ public class ChaoRichtextController {
 		if (StrUtil.isNotBlank(title)) {
 			queryWrapper.like(ChaoRichtext::getTitle, title);
 		}
-		return ResponseResult.getResponseResult(chaoRichtextService.page(page, queryWrapper));
+		return Response.ok(chaoRichtextService.page(page, queryWrapper));
 	}
 
 	/**
@@ -131,7 +130,7 @@ public class ChaoRichtextController {
 			chaoRichtext.setContent(fileName);
 		}
 		boolean result = chaoRichtextService.save(chaoRichtext);
-		return result ? ResponseResult.ok() : ResponseResult.error();
+		return result ? Response.ok() : Response.error();
 	}
 
 	/**
@@ -150,7 +149,7 @@ public class ChaoRichtextController {
 			chaoRichtext.setContent(fileName);
 		}
 		boolean result = chaoRichtextService.updateById(chaoRichtext);
-		return result ? ResponseResult.ok() : ResponseResult.error();
+		return result ? Response.ok() : Response.error();
 	}
 
 	/**
@@ -162,7 +161,7 @@ public class ChaoRichtextController {
 	@ResponseBody
 	public Response<String> remove(@NotNull(message = "id 不能为空") Integer id) {
 		boolean result = chaoRichtextService.removeById(id);
-		return result ? ResponseResult.ok() : ResponseResult.error();
+		return result ? Response.ok() : Response.error();
 	}
 
 	/**
@@ -175,7 +174,7 @@ public class ChaoRichtextController {
 	public Response<String> batchRemove(
 			@NotNull(message = "不能为空") @Size(min = 1, message = "请至少选择一个") @RequestParam("ids[]") Integer[] ids) {
 		boolean result = chaoRichtextService.removeByIds(CollUtil.toList(ids));
-		return result ? ResponseResult.ok() : ResponseResult.error();
+		return result ? Response.ok() : Response.error();
 	}
 
 	private String getHtmlFileName() {

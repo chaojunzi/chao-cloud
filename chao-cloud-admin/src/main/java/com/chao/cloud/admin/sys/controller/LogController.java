@@ -20,7 +20,6 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.chao.cloud.admin.sys.dal.entity.SysLog;
 import com.chao.cloud.admin.sys.service.SysLogService;
 import com.chao.cloud.common.entity.Response;
-import com.chao.cloud.common.entity.ResponseResult;
 import com.chao.cloud.common.extra.mybatis.generator.menu.MenuEnum;
 import com.chao.cloud.common.extra.mybatis.generator.menu.MenuMapping;
 
@@ -59,7 +58,7 @@ public class LogController {
 		}
 		// 根据id降序
 		queryWrapper.orderByDesc(SysLog::getId);
-		return ResponseResult.getResponseResult(sysLogService.page(page, queryWrapper));
+		return Response.ok(sysLogService.page(page, queryWrapper));
 	}
 
 	@MenuMapping("删除")
@@ -68,9 +67,9 @@ public class LogController {
 	@ResponseBody
 	Response<String> remove(@NotNull Long id) {
 		if (sysLogService.removeById(id)) {
-			return ResponseResult.ok();
+			return Response.ok();
 		}
-		return ResponseResult.error();
+		return Response.error();
 	}
 
 	@MenuMapping("批量删除")
@@ -80,8 +79,8 @@ public class LogController {
 	Response<String> batchRemove(@Size(min = 1) @RequestParam("ids[]") Long[] ids) {
 		ArrayList<Long> idList = CollUtil.toList(ids);
 		if (sysLogService.removeByIds(idList)) {
-			return ResponseResult.ok();
+			return Response.ok();
 		}
-		return ResponseResult.error();
+		return Response.error();
 	}
 }

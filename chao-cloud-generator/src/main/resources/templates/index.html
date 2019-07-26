@@ -9,12 +9,18 @@
 			<!-- 头部区域（可配合layui已有的水平导航） -->
 			<ul class="layui-nav layui-layout-right">
 				<li class="layui-nav-item">
-					<table class="layui-table">
-						<thead>
-							<tr id="memory">
-							</tr>
-						</thead>
-					</table>
+					<a href="javascript:;">
+						<img th:src="${session.user.headImg}" class="layui-nav-img">
+						<span th:text="${session.user.nickName}"></span>
+					</a>
+					<dl class="layui-nav-child">
+						<dd>
+							<a id="info" href="javascript:;">基本资料</a>
+						</dd>
+					</dl>
+				</li>
+				<li class="layui-nav-item">
+					<a href="/logout">退了</a>
 				</li>
 			</ul>
 		</div>
@@ -25,6 +31,10 @@
 					<li class="layui-nav-item layui-nav-itemed" id="0">
 						<a class="" href="javascript:;">基本配置</a>
 						<dl class="layui-nav-child">
+							<dd th:utext="${admin_menu}"></dd>
+							<dd class="layui-this">
+								<a link="/main" href="javascript:;" id="main">首页</a>
+							</dd>
 							<dd>
 								<a link="/xc/group" href="javascript:;">分组管理</a>
 							</dd>
@@ -48,7 +58,7 @@
 
 		<div class="layui-body">
 			<!-- 内容主体区域 -->
-			<iframe height="98%" width="100%"></iframe>
+			<iframe height="98%" width="100%" src="/main"></iframe>
 		</div>
 
 		<div class="layui-footer">
@@ -67,30 +77,25 @@
 			var element = layui.element;
 			var $ = layui.jquery;
 			var layer = layui.layer;
+			//主页访问
 			$(".layui-nav-child").find("a").click(function() {
 				var link = $(this).attr("link");
 				$("iframe").attr("src", link);
 			});
+
 			element.on('nav(menu)', function(elem) {
 				elem.parent().siblings().removeClass('layui-nav-itemed')
 			});
-			//进度条
-			$.ajax({
-				url : "/health/core",
-				success : function(data) {
-					if (data.retCode == '0000') {
-						var memory = data.body;
-						$("#memory").append("<th>IP：" + memory.ip + "</th>");
-						$("#memory").append("<th>mac：" + memory.macAddress + "</th>");
-						$("#memory").append("<th>线程数：" + memory.threadCount + "</th>");
-						$("#memory").append("<th>总内存：" + memory.totalMemory + "</th>");
-						$("#memory").append("<th>已使用内存：" + memory.useMemory + "</th>");
-						$("#memory").append("<th>剩余内存：" + memory.freeMemory + "</th>");
-						$("#memory").append("<th>内存使用率：" + memory.useRate + "</th>");
-					} else {
-						layer.alert(data.retMsg);
-					}
-				}
+			//用户信息
+			$("#info").click(function() {
+				parent.layer.open({
+					type : 2,
+					title : '基本信息',
+					maxmin : false,
+					shadeClose : true, // 点击遮罩关闭层
+					area : [ '20%', '38%' ],
+					content : '/xc/user/info/' // iframe的url
+				});
 			});
 		});
 	</script>

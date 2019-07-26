@@ -14,7 +14,6 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.chao.cloud.common.entity.Response;
-import com.chao.cloud.common.entity.ResponseResult;
 import com.chao.cloud.im.dal.entity.ImMsg;
 import com.chao.cloud.im.service.ImMsgService;
 
@@ -38,7 +37,7 @@ public class MsgController {
 	public Response<IPage<ImMsg>> list(Page<ImMsg> page //
 	) { // 分页
 		LambdaQueryWrapper<ImMsg> queryWrapper = Wrappers.lambdaQuery();
-		return ResponseResult.getResponseResult(imMsgService.page(page, queryWrapper));
+		return Response.ok(imMsgService.page(page, queryWrapper));
 	}
 
 	/**
@@ -47,7 +46,7 @@ public class MsgController {
 	@RequestMapping("/save")
 	public Response<String> save(ImMsg imMsg) {
 		boolean result = imMsgService.save(imMsg);
-		return result ? ResponseResult.ok() : ResponseResult.error();
+		return result ? Response.ok() : Response.error();
 	}
 
 	/**
@@ -56,7 +55,7 @@ public class MsgController {
 	@RequestMapping("/update")
 	public Response<String> update(ImMsg imMsg) {
 		boolean result = imMsgService.updateById(imMsg);
-		return result ? ResponseResult.ok() : ResponseResult.error();
+		return result ? Response.ok() : Response.error();
 	}
 
 	/**
@@ -65,7 +64,7 @@ public class MsgController {
 	@RequestMapping("/remove")
 	public Response<String> remove(@NotNull(message = "id 不能为空") Integer id) {
 		boolean result = imMsgService.removeById(id);
-		return result ? ResponseResult.ok() : ResponseResult.error();
+		return result ? Response.ok() : Response.error();
 	}
 
 	/**
@@ -75,7 +74,7 @@ public class MsgController {
 	public Response<String> batchRemove(
 			@NotNull(message = "不能为空") @Size(min = 1, message = "请至少选择一个") @RequestParam("ids[]") Integer[] ids) {
 		boolean result = imMsgService.removeByIds(CollUtil.toList(ids));
-		return result ? ResponseResult.ok() : ResponseResult.error();
+		return result ? Response.ok() : Response.error();
 	}
 
 }

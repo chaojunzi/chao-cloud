@@ -4,7 +4,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.chao.cloud</groupId>
 	<artifactId>chao-cloud-parent</artifactId>
-	<version>1.0.2</version>
+	<version>1.0.3</version>
 	<packaging>pom</packaging>
 	<parent>
 		<groupId>org.springframework.boot</groupId>
@@ -13,7 +13,7 @@
 	</parent>
 	<properties>
 		<!-- 项目版本 -->
-		<chao.cloud.version>1.0.2</chao.cloud.version>
+		<chao.cloud.version>1.0.3</chao.cloud.version>
 		<!-- 环境配置 -->
 		<java.version>1.8</java.version>
 		<java.encoding>UTF-8</java.encoding>

@@ -21,7 +21,6 @@ import com.chao.cloud.admin.sys.dal.entity.SysTask;
 import com.chao.cloud.admin.sys.log.AdminLog;
 import com.chao.cloud.admin.sys.service.SysTaskService;
 import com.chao.cloud.common.entity.Response;
-import com.chao.cloud.common.entity.ResponseResult;
 import com.chao.cloud.common.extra.mybatis.generator.menu.MenuEnum;
 import com.chao.cloud.common.extra.mybatis.generator.menu.MenuMapping;
 
@@ -63,7 +62,7 @@ public class TaskController extends BaseController {
 		if (StrUtil.isNotBlank(jobName)) {
 			queryWrapper.like(SysTask::getJobName, jobName);
 		}
-		return ResponseResult.getResponseResult(sysTaskService.page(page, queryWrapper));
+		return Response.ok(sysTaskService.page(page, queryWrapper));
 	}
 
 	@MenuMapping("增加")
@@ -90,9 +89,9 @@ public class TaskController extends BaseController {
 	@ResponseBody
 	public Response<String> save(SysTask task) {
 		if (sysTaskService.save(task)) {
-			return ResponseResult.ok();
+			return Response.ok();
 		}
-		return ResponseResult.error();
+		return Response.error();
 	}
 
 	/**
@@ -103,7 +102,7 @@ public class TaskController extends BaseController {
 	@ResponseBody
 	public Response<String> update(SysTask task) {
 		sysTaskService.updateById(task);
-		return ResponseResult.ok();
+		return Response.ok();
 	}
 
 	/**
@@ -115,9 +114,9 @@ public class TaskController extends BaseController {
 	@ResponseBody
 	public Response<String> remove(@NotNull Integer id) {
 		if (sysTaskService.remove(id) > 0) {
-			return ResponseResult.ok();
+			return Response.ok();
 		}
-		return ResponseResult.error();
+		return Response.error();
 	}
 
 	/**
@@ -129,7 +128,7 @@ public class TaskController extends BaseController {
 	@ResponseBody
 	public Response<String> remove(@Size(min = 1) @RequestParam("ids[]") Integer[] ids) {
 		sysTaskService.batchRemove(ids);
-		return ResponseResult.ok();
+		return Response.ok();
 	}
 
 	@MenuMapping("改变任务状态")
@@ -138,7 +137,7 @@ public class TaskController extends BaseController {
 	@ResponseBody
 	public Response<String> changeJobStatus(@NotNull Integer id, String cmd) {
 		sysTaskService.changeStatus(id, cmd);
-		return ResponseResult.getResponseResult(StrUtil.format("任务{}成功", cmd));
+		return Response.ok(StrUtil.format("任务{}成功", cmd));
 	}
 
 }

@@ -15,7 +15,6 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.chao.cloud.common.entity.Response;
-import com.chao.cloud.common.entity.ResponseResult;
 import com.chao.cloud.im.dal.entity.ImMsgHis;
 import com.chao.cloud.im.domain.dto.LoginDTO;
 import com.chao.cloud.im.domain.vo.MsgHisVO;
@@ -49,7 +48,7 @@ public class MsgHisController extends BaseController {
 		LambdaQueryWrapper<ImMsgHis> queryWrapper = Wrappers.lambdaQuery();
 		queryWrapper.in(ImMsgHis::getFromTo, fromTo);
 		queryWrapper.eq(ImMsgHis::getType, vo.getType());
-		return ResponseResult.getResponseResult(imMsgHisService.page(page, queryWrapper));
+		return Response.ok(imMsgHisService.page(page, queryWrapper));
 	}
 
 }

@@ -14,7 +14,6 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.chao.cloud.common.entity.Response;
-import com.chao.cloud.common.entity.ResponseResult;
 import com.chao.cloud.im.dal.entity.ImGroup;
 import com.chao.cloud.im.service.ImGroupService;
 
@@ -38,7 +37,7 @@ public class GroupController {
 	public Response<IPage<ImGroup>> list(Page<ImGroup> page //
 	) { // 分页
 		LambdaQueryWrapper<ImGroup> queryWrapper = Wrappers.lambdaQuery();
-		return ResponseResult.getResponseResult(imGroupService.page(page, queryWrapper));
+		return Response.ok(imGroupService.page(page, queryWrapper));
 	}
 
 	/**
@@ -47,7 +46,7 @@ public class GroupController {
 	@RequestMapping("/save")
 	public Response<String> save(ImGroup imGroup) {
 		boolean result = imGroupService.save(imGroup);
-		return result ? ResponseResult.ok() : ResponseResult.error();
+		return result ? Response.ok() : Response.error();
 	}
 
 	/**
@@ -56,7 +55,7 @@ public class GroupController {
 	@RequestMapping("/update")
 	public Response<String> update(ImGroup imGroup) {
 		boolean result = imGroupService.updateById(imGroup);
-		return result ? ResponseResult.ok() : ResponseResult.error();
+		return result ? Response.ok() : Response.error();
 	}
 
 	/**
@@ -65,7 +64,7 @@ public class GroupController {
 	@RequestMapping("/remove")
 	public Response<String> remove(@NotNull(message = "id 不能为空") Integer id) {
 		boolean result = imGroupService.removeById(id);
-		return result ? ResponseResult.ok() : ResponseResult.error();
+		return result ? Response.ok() : Response.error();
 	}
 
 	/**
@@ -75,7 +74,7 @@ public class GroupController {
 	public Response<String> batchRemove(
 			@NotNull(message = "不能为空") @Size(min = 1, message = "请至少选择一个") @RequestParam("ids[]") Integer[] ids) {
 		boolean result = imGroupService.removeByIds(CollUtil.toList(ids));
-		return result ? ResponseResult.ok() : ResponseResult.error();
+		return result ? Response.ok() : Response.error();
 	}
 
 }

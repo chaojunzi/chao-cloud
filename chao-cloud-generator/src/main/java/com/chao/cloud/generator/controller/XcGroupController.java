@@ -17,7 +17,6 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.chao.cloud.common.entity.Response;
-import com.chao.cloud.common.entity.ResponseResult;
 import com.chao.cloud.common.extra.mybatis.generator.menu.MenuMapping;
 import com.chao.cloud.common.extra.token.annotation.FormToken;
 import com.chao.cloud.generator.dal.entity.XcGroup;
@@ -48,7 +47,7 @@ public class XcGroupController {
 	@ResponseBody
 	public Response<IPage<XcGroup>> list(Page<XcGroup> page) { // 分页
 		LambdaQueryWrapper<XcGroup> queryWrapper = Wrappers.lambdaQuery();
-		return ResponseResult.ok(xcGroupService.page(page, queryWrapper));
+		return Response.ok(xcGroupService.page(page, queryWrapper));
 	}
 
 	@MenuMapping("增加")
@@ -74,7 +73,7 @@ public class XcGroupController {
 	@FormToken(remove = true)
 	public Response<String> save(XcGroup xcGroup) {
 		boolean result = xcGroupService.save(xcGroup);
-		return result ? ResponseResult.ok() : ResponseResult.error();
+		return result ? Response.ok() : Response.error();
 	}
 
 	/**
@@ -85,7 +84,7 @@ public class XcGroupController {
 	@FormToken(remove = true)
 	public Response<String> update(XcGroup xcGroup) {
 		boolean result = xcGroupService.updateById(xcGroup);
-		return result ? ResponseResult.ok() : ResponseResult.error();
+		return result ? Response.ok() : Response.error();
 	}
 
 	/**
@@ -95,7 +94,7 @@ public class XcGroupController {
 	@ResponseBody
 	public Response<String> remove(@NotNull(message = "id 不能为空") Integer id) {
 		boolean result = xcGroupService.removeById(id);
-		return result ? ResponseResult.ok() : ResponseResult.error();
+		return result ? Response.ok() : Response.error();
 	}
 
 	/**
@@ -106,7 +105,7 @@ public class XcGroupController {
 	public Response<String> batchRemove(
 			@NotNull(message = "不能为空") @Size(min = 1, message = "请至少选择一个") @RequestParam("ids[]") Integer[] ids) {
 		boolean result = xcGroupService.removeByIds(CollUtil.toList(ids));
-		return result ? ResponseResult.ok() : ResponseResult.error();
+		return result ? Response.ok() : Response.error();
 	}
 
 }

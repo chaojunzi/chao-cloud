@@ -18,8 +18,8 @@
 		<div class="layui-form-item">
 			<label class="layui-form-label">作者：</label>
 			<div class="layui-input-block">
-				<input id="author" name="author" placeholder="请输入作者" class="layui-input" lay-verify="required"
-					autocomplete="off">
+				<input id="author" name="author" th:value="${session.user.nickName}" placeholder="请输入作者"
+					class="layui-input" lay-verify="required" autocomplete="off">
 			</div>
 		</div>
 		<!--  -->

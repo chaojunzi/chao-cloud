@@ -16,7 +16,6 @@ import com.chao.cloud.common.base.BaseHttpServlet;
 import com.chao.cloud.common.constants.ExceptionConsts;
 import com.chao.cloud.common.constants.ResultCodeEnum;
 import com.chao.cloud.common.entity.Response;
-import com.chao.cloud.common.entity.ResponseResult;
 
 import cn.hutool.core.util.StrUtil;
 import cn.hutool.json.JSONUtil;
@@ -59,7 +58,7 @@ public class ConvertInterceptor implements MethodInterceptor, BaseHttpServlet {
 			}
 			// 判断返回值类型
 			if (returnType == Response.class) {
-				obj = ResponseResult.result(ResultCodeEnum.CODE_500.code(), error);
+				obj = Response.result(ResultCodeEnum.CODE_500.code(), error);
 			} else {
 				throw e;
 			}

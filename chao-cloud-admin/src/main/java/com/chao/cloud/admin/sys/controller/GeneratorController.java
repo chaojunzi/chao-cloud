@@ -26,7 +26,6 @@ import com.chao.cloud.admin.sys.domain.vo.GenCodeVO;
 import com.chao.cloud.admin.sys.log.AdminLog;
 import com.chao.cloud.admin.sys.service.GeneratorService;
 import com.chao.cloud.common.entity.Response;
-import com.chao.cloud.common.entity.ResponseResult;
 import com.chao.cloud.common.extra.mybatis.generator.ZipAutoGenerator;
 import com.chao.cloud.common.extra.mybatis.generator.menu.MenuEnum;
 import com.chao.cloud.common.extra.mybatis.generator.menu.MenuMapping;
@@ -72,7 +71,7 @@ public class GeneratorController {
 				page.setRecords(list);
 			}
 		}
-		return ResponseResult.getResponseResult(page);
+		return Response.ok(page);
 	}
 
 	@MenuMapping("生成策略")
@@ -121,7 +120,7 @@ public class GeneratorController {
 		BeanUtil.copyProperties(vo, config);
 		autoGenerator.getPackageInfo().setParent(vo.getParent());
 		autoGenerator.getGlobalConfig().setAuthor(vo.getAuthor());
-		return ResponseResult.ok();
+		return Response.ok();
 	}
 
 	private void genCode(String tableName, HttpServletResponse response) throws Exception {

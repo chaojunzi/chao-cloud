@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:include="include :: header"></head>
+<body>
+	<form class="layui-form" action="" lay-filter="xc_user-add-form" style="margin-top: 20px;">
+		<input th:value="${session.formToken}" name="formToken" type="hidden" />
+		<!--  -->
+		<!--  -->
+		<div class="layui-form-item">
+			<label class="layui-form-label">用户名：</label>
+			<div class="layui-input-block">
+				<input id="userName" name="userName" placeholder="请输入用户名" class="layui-input"
+					lay-verify="required" autocomplete="off">
+			</div>
+		</div>
+		<!--  -->
+		<div class="layui-form-item">
+			<label class="layui-form-label">密码：</label>
+			<div class="layui-input-block">
+				<input id="password" name="password" placeholder="请输入密码" class="layui-input"
+					lay-verify="required" autocomplete="off">
+			</div>
+		</div>
+		<!--  -->
+		<div class="layui-form-item">
+			<label class="layui-form-label">昵称：</label>
+			<div class="layui-input-block">
+				<input id="nickName" name="nickName" placeholder="请输入昵称" class="layui-input"
+					lay-verify="required" autocomplete="off">
+			</div>
+		</div>
+		<!--  -->
+		<div class="layui-form-item">
+			<label class="layui-form-label">头像：</label>
+			<div class="layui-input-block">
+				<input id="headImg" name="headImg" placeholder="请输入头像" class="layui-input" lay-verify="required"
+					autocomplete="off">
+			</div>
+		</div>
+		<div class="layui-form-item">
+			<div class="layui-inline">
+				<label class="layui-form-label">展示图：</label>
+				<div class="layui-input-block">
+					<img class="layui-upload-img" id="showImg" style="width: 135px; height: 135px;">
+				</div>
+			</div>
+			<div class="layui-inline">
+				<button type="button" class="layui-btn layui-btn-xs layui-btn-normal" id="preview">预览</button>
+			</div>
+		</div>
+		<div class="layui-form-item">
+			<div class="layui-input-block">
+				<button class="layui-btn" lay-submit="" lay-filter="xc_user-add">立即提交</button>
+			</div>
+		</div>
+	</form>
+	<div th:include="include::footer"></div>
+	<!-- 注意：如果你直接复制所有代码到本地，上述js路径需要改成你本地的 -->
+	<script>
+		layui.use([ 'layer', 'jquery', 'form' ], function() {
+			var $ = layui.jquery;
+			var layer = layui.layer;
+			var form = layui.form;
+
+			$("#preview").click(function() {
+				var url = $("#headImg").val();
+				$.ajax({
+					url : url,
+					complete : function(response) {
+						if (response.status == 200) {
+							$("#showImg").attr("src", url);
+						} else {
+							layer.tips('无效的图片链接', '#headImg', {
+								tips : 3
+							});
+						}
+					}
+				});
+			});
+
+			//监听提交
+			form.on('submit(xc_user-add)', function(data) {
+				//提交数据data.field
+				ajaxPostLoad("/xc/user/save", data.field);
+				return false;
+			});
+		});
+	</script>
+</body>
+</html>

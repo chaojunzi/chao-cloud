@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:include="include :: header"></head>
+<body>
+	<table class="layui-table" lay-skin="nob">
+		<colgroup>
+			<col width="50">
+			<col width="100">
+			<col>
+		</colgroup>
+		<tbody>
+			<tr>
+				<td>用户：</td>
+				<td th:text="${session.user.userName}"></td>
+			</tr>
+			<tr>
+				<td>昵称：</td>
+				<td th:text="${session.user.nickName}"></td>
+			</tr>
+			<tr>
+				<td>头像：</td>
+				<td>
+					<img class="layui-nav-img" th:src="${session.user.headImg}" style="width: 100px;height: 100px">
+				</td>
+			</tr>
+		</tbody>
+	</table>
+	<div th:include="include::footer"></div>
+</body>
+</html>

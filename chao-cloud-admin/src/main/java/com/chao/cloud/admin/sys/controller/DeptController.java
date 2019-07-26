@@ -26,7 +26,6 @@ import com.chao.cloud.admin.sys.log.AdminLog;
 import com.chao.cloud.admin.sys.service.SysDeptService;
 import com.chao.cloud.admin.sys.service.SysUserService;
 import com.chao.cloud.common.entity.Response;
-import com.chao.cloud.common.entity.ResponseResult;
 import com.chao.cloud.common.exception.BusinessException;
 import com.chao.cloud.common.extra.mybatis.generator.menu.MenuEnum;
 import com.chao.cloud.common.extra.mybatis.generator.menu.MenuMapping;
@@ -103,9 +102,9 @@ public class DeptController extends BaseController {
 	@ResponseBody
 	public Response<String> save(SysDept sysDept) {
 		if (sysDeptService.save(sysDept)) {
-			return ResponseResult.ok();
+			return Response.ok();
 		}
-		return ResponseResult.error();
+		return Response.error();
 	}
 
 	/**
@@ -116,9 +115,9 @@ public class DeptController extends BaseController {
 	@ResponseBody
 	public Response<String> update(SysDept sysDept) {
 		if (sysDeptService.updateById(sysDept)) {
-			return ResponseResult.ok();
+			return Response.ok();
 		}
-		return ResponseResult.error();
+		return Response.error();
 	}
 
 	/**
@@ -140,9 +139,9 @@ public class DeptController extends BaseController {
 		}
 
 		if (sysDeptService.removeById(deptId)) {
-			return ResponseResult.ok();
+			return Response.ok();
 		}
-		return ResponseResult.error();
+		return Response.error();
 	}
 
 	/**
@@ -154,7 +153,7 @@ public class DeptController extends BaseController {
 	@ResponseBody
 	public Response<String> remove(@Size(min = 1) @RequestParam("ids[]") Integer[] deptIds) {
 		sysDeptService.removeByIds(CollUtil.toList(deptIds));
-		return ResponseResult.ok();
+		return Response.ok();
 	}
 
 	@RequiresUser

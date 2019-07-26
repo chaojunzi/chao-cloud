@@ -4,7 +4,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.chao.cloud.common.entity.Response;
-import com.chao.cloud.common.entity.ResponseResult;
 
 import cn.hutool.core.io.FileUtil;
 import cn.hutool.core.net.NetUtil;
@@ -24,10 +23,14 @@ import lombok.Data;
 @RequestMapping("health")
 public class HealthController {
 
-	private int scale = 2;// 保留2位小数
+	private static int scale = 2;// 保留2位小数
 
 	@RequestMapping("/core")
 	public Response<CoreParam> core() {
+		return Response.ok(coreParam());
+	}
+
+	public static CoreParam coreParam() {
 		RuntimeInfo runtime = SystemUtil.getRuntimeInfo();
 		// 分配内存百分比
 		long useMemory = runtime.getTotalMemory() - runtime.getFreeMemory();
@@ -41,10 +44,10 @@ public class HealthController {
 		coreParam.setThreadCount(SystemUtil.getTotalThreadCount());
 		coreParam.setIp(NetUtil.getLocalhostStr());
 		coreParam.setMacAddress(NetUtil.getLocalMacAddress());
-		return ResponseResult.getResponseResult(coreParam);
+		return coreParam;
 	}
 
-	private String decimalFormat(double value) {
+	private static String decimalFormat(double value) {
 		return NumberUtil.decimalFormat("#.##%", value);
 	}
 

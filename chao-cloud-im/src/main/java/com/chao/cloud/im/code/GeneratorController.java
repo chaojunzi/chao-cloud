@@ -21,7 +21,6 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.generator.config.DataSourceConfig;
 import com.chao.cloud.common.entity.Response;
-import com.chao.cloud.common.entity.ResponseResult;
 import com.chao.cloud.common.extra.mybatis.generator.ZipAutoGenerator;
 import com.chao.cloud.im.code.core.GeneratorService;
 import com.chao.cloud.im.code.core.IDatabaseInfo;
@@ -69,7 +68,7 @@ public class GeneratorController {
 				page.setRecords(list);
 			}
 		}
-		return ResponseResult.getResponseResult(page);
+		return Response.ok(page);
 	}
 
 	@RequestMapping("/edit")
@@ -111,7 +110,7 @@ public class GeneratorController {
 		BeanUtil.copyProperties(vo, config);
 		autoGenerator.getPackageInfo().setParent(vo.getParent());
 		autoGenerator.getGlobalConfig().setAuthor(vo.getAuthor());
-		return ResponseResult.ok();
+		return Response.ok();
 	}
 
 	private void genCode(String tableName, HttpServletResponse response) throws Exception {

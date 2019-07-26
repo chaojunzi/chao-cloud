@@ -47,7 +47,7 @@ function ajaxPostLoad(url, data, reload) {
 			}
 		},
 		error : function(request) {
-			layer.alert("请检查参数");
+			layer.msg("请检查参数");
 		}
 	});
 }

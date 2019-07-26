@@ -21,7 +21,6 @@ import org.springframework.web.context.request.WebRequest;
 
 import com.chao.cloud.common.base.BaseHttpServlet;
 import com.chao.cloud.common.entity.Response;
-import com.chao.cloud.common.entity.ResponseResult;
 
 import cn.hutool.json.JSONUtil;
 import lombok.extern.slf4j.Slf4j;
@@ -62,7 +61,7 @@ public class ExceptionControllerError implements ErrorController, BaseHttpServle
 		log.error("error={}", JSONUtil.toJsonPrettyStr(body));
 		HttpStatus status = getStatus(request);
 		if (requestIsAjax(request)) {
-			Response<Object> response = ResponseResult.error(body.get("message").toString());
+			Response<Object> response = Response.error(body.get("message").toString());
 			response.setBody(status);
 			return response;
 		}

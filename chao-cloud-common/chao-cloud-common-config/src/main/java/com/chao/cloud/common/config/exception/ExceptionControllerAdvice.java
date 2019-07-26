@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 import com.chao.cloud.common.base.BaseHttpServlet;
 import com.chao.cloud.common.constants.ResultCodeEnum;
 import com.chao.cloud.common.entity.Response;
-import com.chao.cloud.common.entity.ResponseResult;
 import com.chao.cloud.common.exception.BusinessException;
 
 import cn.hutool.core.util.StrUtil;
@@ -41,7 +40,7 @@ public class ExceptionControllerAdvice implements BaseHttpServlet {
 		// 判断是否为 ajax 请求
 		HttpServletRequest request = getRequest();
 		if (requestIsAjax(request)) {
-			return ResponseResult.getResponseCodeAndMsg(ResultCodeEnum.CODE_500.code(), ex.getMessage());
+			return Response.result(ResultCodeEnum.CODE_500.code(), ex.getMessage());
 		}
 		// 返回错误页面
 		HttpServletResponse response = getResponse();
@@ -54,7 +53,7 @@ public class ExceptionControllerAdvice implements BaseHttpServlet {
 		FieldError fieldError = ex.getFieldError();
 		String errorMessage = StrUtil.format(errorTemplate, fieldError.getDefaultMessage(), fieldError.getField(),
 				fieldError.getRejectedValue());
-		return ResponseResult.getResponseCodeAndMsg(ResultCodeEnum.CODE_500.code(), errorMessage);
+		return Response.result(ResultCodeEnum.CODE_500.code(), errorMessage);
 	}
 
 }

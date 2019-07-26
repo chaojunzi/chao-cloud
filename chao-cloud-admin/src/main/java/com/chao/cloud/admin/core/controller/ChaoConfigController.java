@@ -20,7 +20,6 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.chao.cloud.admin.core.dal.entity.ChaoConfig;
 import com.chao.cloud.admin.core.service.ChaoConfigService;
 import com.chao.cloud.common.entity.Response;
-import com.chao.cloud.common.entity.ResponseResult;
 import com.chao.cloud.common.extra.mybatis.generator.menu.MenuEnum;
 import com.chao.cloud.common.extra.mybatis.generator.menu.MenuMapping;
 import com.chao.cloud.common.extra.token.annotation.FormToken;
@@ -65,7 +64,7 @@ public class ChaoConfigController {
 		if (StrUtil.isNotBlank(val)) {
 			queryWrapper.like(ChaoConfig::getVal, val);
 		}
-		return ResponseResult.getResponseResult(chaoConfigService.page(page, queryWrapper));
+		return Response.ok(chaoConfigService.page(page, queryWrapper));
 	}
 
 	@MenuMapping("增加")
@@ -95,7 +94,7 @@ public class ChaoConfigController {
 	@FormToken(remove = true)
 	public Response<String> save(ChaoConfig chaoConfig) {
 		boolean result = chaoConfigService.save(chaoConfig);
-		return result ? ResponseResult.ok() : ResponseResult.error();
+		return result ? Response.ok() : Response.error();
 	}
 
 	/**
@@ -107,7 +106,7 @@ public class ChaoConfigController {
 	@FormToken(remove = true)
 	public Response<String> update(ChaoConfig chaoConfig) {
 		boolean result = chaoConfigService.updateById(chaoConfig);
-		return result ? ResponseResult.ok() : ResponseResult.error();
+		return result ? Response.ok() : Response.error();
 	}
 
 	/**
@@ -119,7 +118,7 @@ public class ChaoConfigController {
 	@ResponseBody
 	public Response<String> remove(@NotNull(message = "id 不能为空") Integer id) {
 		boolean result = chaoConfigService.removeById(id);
-		return result ? ResponseResult.ok() : ResponseResult.error();
+		return result ? Response.ok() : Response.error();
 	}
 
 	/**
@@ -132,7 +131,7 @@ public class ChaoConfigController {
 	public Response<String> batchRemove(
 			@NotNull(message = "不能为空") @Size(min = 1, message = "请至少选择一个") @RequestParam("ids[]") Integer[] ids) {
 		boolean result = chaoConfigService.removeByIds(CollUtil.toList(ids));
-		return result ? ResponseResult.ok() : ResponseResult.error();
+		return result ? Response.ok() : Response.error();
 	}
 
 }

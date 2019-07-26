@@ -20,7 +20,6 @@ import com.chao.cloud.admin.sys.domain.dto.RoleDTO;
 import com.chao.cloud.admin.sys.log.AdminLog;
 import com.chao.cloud.admin.sys.service.SysRoleService;
 import com.chao.cloud.common.entity.Response;
-import com.chao.cloud.common.entity.ResponseResult;
 import com.chao.cloud.common.exception.BusinessException;
 import com.chao.cloud.common.extra.mybatis.generator.menu.MenuEnum;
 import com.chao.cloud.common.extra.mybatis.generator.menu.MenuMapping;
@@ -47,7 +46,7 @@ public class RoleController extends BaseController {
 	@RequestMapping("/list")
 	@ResponseBody
 	Response<IPage<SysRole>> list(Page<SysRole> page) {
-		return ResponseResult.getResponseResult(sysRoleService.page(page));
+		return Response.ok(sysRoleService.page(page));
 	}
 
 	@MenuMapping("增加")
@@ -73,7 +72,7 @@ public class RoleController extends BaseController {
 	Response<String> save(RoleDTO role) {
 		role.setMenuIds(super.removeEmpty(role.getMenuIds()));
 		if (sysRoleService.save(role)) {
-			return ResponseResult.ok();
+			return Response.ok();
 		}
 		throw new BusinessException("保存失败 ");
 	}
@@ -86,7 +85,7 @@ public class RoleController extends BaseController {
 		// 去重//去空
 		role.setMenuIds(super.removeEmpty(role.getMenuIds()));
 		if (sysRoleService.update(role)) {
-			return ResponseResult.ok();
+			return Response.ok();
 		}
 		throw new BusinessException("更新失败 ");
 	}
@@ -98,7 +97,7 @@ public class RoleController extends BaseController {
 	@ResponseBody
 	Response<String> save(@NotNull Integer id) {
 		if (sysRoleService.remove(id)) {
-			return ResponseResult.ok();
+			return Response.ok();
 		}
 		throw new BusinessException("删除失败");
 
@@ -111,7 +110,7 @@ public class RoleController extends BaseController {
 	@ResponseBody
 	Response<String> batchRemove(@Size(min = 1) @RequestParam("ids[]") Integer[] ids) {
 		if (sysRoleService.batchRemove(ids)) {
-			return ResponseResult.ok();
+			return Response.ok();
 		}
 		throw new BusinessException("删除失败");
 	}

@@ -26,7 +26,6 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.generator.config.DataSourceConfig;
 import com.chao.cloud.common.entity.Response;
-import com.chao.cloud.common.entity.ResponseResult;
 import com.chao.cloud.common.extra.mybatis.generator.ZipAutoGenerator;
 import com.chao.cloud.common.extra.mybatis.generator.template.BeforeConfig;
 import com.chao.cloud.generator.dal.entity.XcConfig;
@@ -87,7 +86,7 @@ public class GeneratorController {
 				page.setRecords(list);
 			}
 		}
-		return ResponseResult.ok(page);
+		return Response.ok(page);
 	}
 
 	@RequestMapping("/code/{tableName}")
@@ -110,10 +109,10 @@ public class GeneratorController {
 		try (Connection conn = GeneratorService.getConn(url, vo.getUsername(), vo.getPassword());) {
 		} catch (Exception e) {
 			StaticLog.error(e.getMessage());
-			return ResponseResult.error(StrUtil.format("<br/>连接失败:[{}:{}?{}->{}:{}]", vo.getHost(), vo.getPort(),
+			return Response.error(StrUtil.format("<br/>连接失败:[{}:{}?{}->{}:{}]", vo.getHost(), vo.getPort(),
 					vo.getDatabase(), vo.getUsername(), vo.getPassword()));
 		}
-		return ResponseResult.ok("连接成功");
+		return Response.ok("连接成功");
 	}
 
 	private void genCode(HttpServletResponse response, GenCodeVO.Extra vo, String... tableName) throws Exception {

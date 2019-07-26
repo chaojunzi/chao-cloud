@@ -17,7 +17,6 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.chao.cloud.common.entity.Response;
-import com.chao.cloud.common.entity.ResponseResult;
 import ${package.Entity}.${entity};
 import ${package.Service}.${table.serviceName};
 
@@ -60,7 +59,7 @@ public class ${table.controllerName} {
 		}
 		#end	
 		#end
-		return ResponseResult.ok(${table.entityPath}Service.page(page, queryWrapper));
+		return Response.ok(${table.entityPath}Service.page(page, queryWrapper));
 	}
 
 	
@@ -70,7 +69,7 @@ public class ${table.controllerName} {
 	@RequestMapping("/save")
 	public Response<String> save(${table.entityName} ${table.entityPath}) {
 		boolean result = ${table.entityPath}Service.save(${table.entityPath});
-		return result ? ResponseResult.ok() : ResponseResult.error();
+		return result ? Response.ok() : Response.error();
 	}
 
 	/**
@@ -79,7 +78,7 @@ public class ${table.controllerName} {
 	@RequestMapping("/update")
 	public Response<String> update(${table.entityName} ${table.entityPath}) {
 		boolean result = ${table.entityPath}Service.updateById(${table.entityPath});
-		return result ? ResponseResult.ok() : ResponseResult.error();
+		return result ? Response.ok() : Response.error();
 	}
 
 	/**
@@ -88,7 +87,7 @@ public class ${table.controllerName} {
 	@RequestMapping("/remove")
 	public Response<String> remove(@NotNull(message = "${pk.propertyName} 不能为空") ${pk.propertyType} ${pk.propertyName}) {
 		boolean result = ${table.entityPath}Service.removeById(${pk.propertyName});
-		return result ? ResponseResult.ok() : ResponseResult.error();
+		return result ? Response.ok() : Response.error();
 	}
 
 	/**
@@ -98,7 +97,7 @@ public class ${table.controllerName} {
 	public Response<String> batchRemove(
 			@NotNull(message = "不能为空") @Size(min = 1, message = "请至少选择一个") @RequestParam("${pk.propertyName}s[]") ${pk.propertyType}[] ${pk.propertyName}s) {
 		boolean result = ${table.entityPath}Service.removeByIds(CollUtil.toList(${pk.propertyName}s));
-		return result ? ResponseResult.ok() : ResponseResult.error();
+		return result ? Response.ok() : Response.error();
 	}
 
 }

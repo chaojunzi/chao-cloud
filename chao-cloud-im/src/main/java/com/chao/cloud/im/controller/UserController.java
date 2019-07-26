@@ -14,7 +14,6 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.chao.cloud.common.entity.Response;
-import com.chao.cloud.common.entity.ResponseResult;
 import com.chao.cloud.im.dal.entity.ImUser;
 import com.chao.cloud.im.service.ImUserService;
 
@@ -37,7 +36,7 @@ public class UserController {
 	@RequestMapping("/list")
 	public Response<IPage<ImUser>> list(Page<ImUser> page) { // 分页
 		LambdaQueryWrapper<ImUser> queryWrapper = Wrappers.lambdaQuery();
-		return ResponseResult.getResponseResult(imUserService.page(page, queryWrapper));
+		return Response.ok(imUserService.page(page, queryWrapper));
 	}
 
 	/**
@@ -46,7 +45,7 @@ public class UserController {
 	@RequestMapping("/save")
 	public Response<String> save(ImUser imUser) {
 		boolean result = imUserService.save(imUser);
-		return result ? ResponseResult.ok() : ResponseResult.error();
+		return result ? Response.ok() : Response.error();
 	}
 
 	/**
@@ -55,7 +54,7 @@ public class UserController {
 	@RequestMapping("/update")
 	public Response<String> update(ImUser imUser) {
 		boolean result = imUserService.updateById(imUser);
-		return result ? ResponseResult.ok() : ResponseResult.error();
+		return result ? Response.ok() : Response.error();
 	}
 
 	/**
@@ -64,7 +63,7 @@ public class UserController {
 	@RequestMapping("/remove")
 	public Response<String> remove(@NotNull(message = "id 不能为空") Integer id) {
 		boolean result = imUserService.removeById(id);
-		return result ? ResponseResult.ok() : ResponseResult.error();
+		return result ? Response.ok() : Response.error();
 	}
 
 	/**
@@ -74,7 +73,7 @@ public class UserController {
 	public Response<String> batchRemove(
 			@NotNull(message = "不能为空") @Size(min = 1, message = "请至少选择一个") @RequestParam("ids[]") Integer[] ids) {
 		boolean result = imUserService.removeByIds(CollUtil.toList(ids));
-		return result ? ResponseResult.ok() : ResponseResult.error();
+		return result ? Response.ok() : Response.error();
 	}
 
 }

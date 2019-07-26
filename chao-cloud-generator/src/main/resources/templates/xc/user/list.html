@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:include="include :: header"></head>
+<body>
+	<div class="layui-fluid">
+		<table id="xc_user-table" lay-filter="xc_user-table"></table>
+	</div>
+	<!-- 工具栏 -->
+	<script type="text/html" id="toolbarXcUser">
+        <div class="layui-btn-container">
+			<button  class="layui-btn layui-btn-sm" lay-event="add"><i class="layui-icon layui-icon-add-circle" ></i>添加</button>
+        </div>
+    </script>
+	<!-- 操作列 -->
+	<script type="text/html" id="xc_user-state">
+     <div class="layui-btn-group">
+        <button  class="layui-btn layui-btn-sm" lay-event="edit"><i class="layui-icon layui-icon-edit"></i></button>
+        <button  class="layui-btn layui-btn-sm" lay-event="del"><i class="layui-icon layui-icon-delete"></i></button>
+    </div>
+    </script>
+	<div th:include="include::footer"></div>
+	<script>
+		layui.use([ 'table' ], function() {
+			var $ = layui.jquery;
+			var table = layui.table;
+			// 渲染表格
+			var renderTable = function() {
+				layer.load(2);
+				table.render({
+					elem : '#xc_user-table',
+					url : '/xc/user/list',
+					toolbar : '#toolbarXcUser',
+					page : true,
+					id : 'xcUserReload',
+					parseData : chaoLayuiTable.parseData,
+					request : chaoLayuiTable.request,
+					response : chaoLayuiTable.response,
+					//limit : 1,
+					cols : [ [ {
+						type : 'checkbox',
+						fixed : 'left'
+					}, {
+						fixed : 'left',
+						unresize : true,
+						sort : true,
+						width : 80,
+						align : 'center',
+						field : 'id',
+						title : '',
+
+					}, {
+						align : 'center',
+						field : 'userName',
+						title : '用户名',
+
+					}, {
+						align : 'center',
+						field : 'password',
+						title : '密码',
+
+					}, {
+						align : 'center',
+						field : 'nickName',
+						title : '昵称',
+
+					}, {
+						align : 'center',
+						field : 'headImg',
+						title : '头像',
+						templet : function(d) {
+							return '<img src="'+d.headImg+'"/>';
+						},
+
+					}, {
+						align : 'center',
+						field : 'status',
+						title : '状态',
+						templet : function(d) {
+							if (d.status == 1) {
+								return '<span class="layui-badge layui-bg-green">正常</span>';
+							} else {
+								return '<span class="layui-badge layui-bg-red">禁用</span>';
+							}
+						},
+
+					}, {
+						align : 'center',
+						field : 'createTime',
+						title : '创建日期',
+
+					}, {
+						title : '操作',
+						toolbar : '#xc_user-state',
+						align : 'center'
+					} ] ],
+					done : function() {
+						layer.closeAll('loading');
+					}
+				});
+
+			};
+			renderTable();
+			// 搜索 
+			var active = {
+				reload : function() {
+					//执行重载
+					table.reload('xcUserReload', {
+						page : {
+							curr : 1
+						//重新从第 1 页开始
+						},
+						where : {
+
+						}
+					});
+				}
+			};
+
+			$('#search').on('click', function() {
+				var type = $(this).data('type');
+				active[type] ? active[type].call(this) : '';
+			});
+
+			//头工具栏事件
+			table.on('toolbar(xc_user-table)', function(obj) {
+				var checkStatus = table.checkStatus(obj.config.id);
+				switch (obj.event) {
+				case 'add'://增加
+					openAdd();
+					break;
+				}
+			});
+
+			//监听工具条
+			table.on('tool(xc_user-table)', function(obj) {
+				var data = obj.data;
+				var layEvent = obj.event;
+				if (layEvent === 'del') {//删除
+					remove(data.id);
+				} else if (layEvent === 'edit') {//修改
+					edit(data.id);
+				}
+			});
+
+			function remove(id) {
+				parent.layer.confirm('确定要删除选中的记录？', {
+					btn : [ '确定', '取消' ]
+				}, function() {
+					//删除
+					ajaxPostLoad('/xc/user/remove', {
+						id : id
+					});
+				})
+			}
+
+			function edit(id) {
+				parent.layer.open({
+					type : 2,
+					title : '修改',
+					maxmin : true,
+					shadeClose : false, // 点击遮罩关闭层
+					area : [ '40%', '75%' ],
+					content : '/xc/user/edit/' + id // iframe的url
+				});
+			}
+
+			function openAdd() {
+				parent.layer.open({
+					type : 2,
+					title : '增加',
+					maxmin : true,
+					shadeClose : false, // 点击遮罩关闭层
+					area : [ '40%', '65%' ],
+					content : '/xc/user/add' // iframe的url
+				});
+			}
+		});
+	</script>
+</body>
+</html>

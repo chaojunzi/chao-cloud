@@ -18,25 +18,59 @@ public class Response<T> implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
-	private String retCode = ResultCodeEnum.CODE_200.code();
+	private String retCode;
 
-	private String retMsg = "操作成功";
+	private String retMsg;
 
 	private T body;
 
-	public void setRespFailed(String retMsg) {
-		this.retCode = ResultCodeEnum.CODE_500.code();
-		this.retMsg = retMsg;
+	/**
+	 * ***************静态方法*******************
+	 */
+	/**
+	 * 成功
+	 * @return
+	 */
+	public static Response<String> ok() {
+		return ok(null);
 	}
 
-	public void setRespFailed(String retCode, String retMsg) {
-		this.retCode = retCode;
-		this.retMsg = retMsg;
+	public static <T> Response<T> ok(T body) {
+		return ok(body, "ok");
 	}
 
-	public void setSystemError() {
-		this.retCode = ResultCodeEnum.CODE_500.code();
-		this.retMsg = "操作失败";
+	public static <T> Response<T> ok(T body, String msg) {
+		return result(body, ResultCodeEnum.CODE_200.code(), msg);
 	}
 
+	/**
+	 * 失败
+	 * @return
+	 */
+	public static Response<String> error() {
+		return error("error");
+	}
+
+	public static <T> Response<T> error(String msg) {
+		return result(ResultCodeEnum.CODE_500.code(), msg);
+	}
+
+	public static <T> Response<T> error(Class<T> clazz, String msg) {
+		return result(ResultCodeEnum.CODE_500.code(), msg);
+	}
+
+	/**
+	 * 返回
+	 */
+	public static <T> Response<T> result(T body, String retCode, String retMsg) {
+		Response<T> apiResult = new Response<>();
+		apiResult.setBody(body);
+		apiResult.setRetCode(retCode);
+		apiResult.setRetMsg(retMsg);
+		return apiResult;
+	}
+
+	public static <T> Response<T> result(String code, String msg) {
+		return result(null, code, msg);
+	}
 }

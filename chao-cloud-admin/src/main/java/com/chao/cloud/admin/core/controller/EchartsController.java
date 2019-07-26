@@ -10,7 +10,6 @@ import com.chao.cloud.admin.core.domain.dto.StatRequestTimeDTO;
 import com.chao.cloud.admin.core.service.EchartsService;
 import com.chao.cloud.admin.sys.log.AdminLog;
 import com.chao.cloud.common.entity.Response;
-import com.chao.cloud.common.entity.ResponseResult;
 import com.chao.cloud.common.extra.mybatis.generator.menu.MenuMapping;
 
 /**
@@ -38,7 +37,7 @@ public class EchartsController {
 	@ResponseBody
 	public Response<StatRequestTimeDTO> statRequestTime() {
 		StatRequestTimeDTO dto = echartsService.statRequestTime(AdminLog.STAT_PREFIX);
-		return ResponseResult.getResponseResult(dto);
+		return Response.ok(dto);
 	}
 
 }

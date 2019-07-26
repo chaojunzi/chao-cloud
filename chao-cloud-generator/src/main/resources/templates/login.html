@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en" class="no-js">
+<title>Login</title>
+<head th:include="include::header"></head>
+<link rel="stylesheet" href="/login/css/login.css">
+<link rel="stylesheet" href="/login/css/supersized.css">
+<body oncontextmenu="return false">
+	<div class="page-container">
+		<h1>Login</h1>
+		<form class="layui-form" action="javascript:;">
+			<div>
+				<input name="userName" class="userName" value="xuechao" placeholder="用户名" autocomplete="off" />
+			</div>
+			<div>
+				<input name="password" type="password" class="password" placeholder="密码" value="1"
+					oncontextmenu="return false" onpaste="return false" />
+			</div>
+			<div style="position: relative">
+				<input name="verify" class="verify" placeholder="验证码" autocomplete="off"
+					oncontextmenu="return false" onpaste="return false" style="ime-mode: disabled" />
+				<div id="verify-icon"></div>
+			</div>
+			<button id="submit" type="button" lay-filter="login" lay-submit>Sign in</button>
+		</form>
+		<div class="connect" style="color: black;">
+			<p>The wood of embracing is born at the end of the millimeter; the platform of nine layers
+				starts from the earth; the journey of a thousand miles starts from the foot.</p>
+			<p style="margin-top: 20px;">合抱之木，生于毫末；九层之台，起于累土；千里之行，始于足下。</p>
+		</div>
+	</div>
+	<div th:include="include::footer"></div>
+	<script src="/login/js/login.js"></script>
+</body>
+</html>

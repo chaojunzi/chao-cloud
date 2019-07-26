@@ -4,7 +4,7 @@ log.path: /logs/chao/${spring.application.name}
 log.maxHistory: 30
 
 server:
-  port: 80 
+  port: 9002
 #spring
 spring:
   application:

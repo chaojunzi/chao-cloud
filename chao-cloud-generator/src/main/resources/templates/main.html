@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:include="include::header"></head>
+<body>
+	<div class="layui-fluid layui-padding10 layui-bg-gray">
+		<div class="layui-row layui-col-space15">
+			<div class="layui-col-xs4">
+				<div class="layui-card">
+					<div class="layui-card-header">实时监控</div>
+					<div class="layui-card-body">
+						<table class="layui-table">
+							<tbody>
+								<tr>
+									<td>ip</td>
+									<td th:text="${core.ip}"></td>
+								</tr>
+								<tr>
+									<td>mac地址</td>
+									<td th:text="${core.macAddress}"></td>
+								</tr>
+								<tr>
+									<td>内存使用详情</td>
+									<td id="memoryInfo" >
+										<span th:text="${core.useMemory}+' / '+${core.totalMemory}"></span>
+									</td>
+								</tr>
+								<tr>
+									<td colspan="2">
+										<div class="layui-progress layui-progress-big" lay-showPercent="yes">
+											<div class="layui-progress-bar" th:attr="lay-percent=${core.useRate}"></div>
+										</div>
+									</td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+				</div>
+			</div>
+			<div class="layui-col-xs4">
+				<div class="layui-card">
+					<div class="layui-card-header">内存详情</div>
+					<div class="layui-card-body">
+						<table class="layui-table">
+							<tbody>
+								<tr>
+									<td>线程数</td>
+									<td id="threadCount" th:text="${core.threadCount}"></td>
+								</tr>
+								<tr>
+									<td>Jvm 总内存</td>
+									<td id="totalMemory" th:text="${core.totalMemory}"></td>
+								</tr>
+								<tr>
+									<td>Jvm 使用内存</td>
+									<td id="useMemory" th:text="${core.useMemory}"></td>
+								</tr>
+								<tr>
+									<td>Jvm 剩余内存</td>
+									<td  id="freeMemory" th:text="${core.freeMemory}"></td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+				</div>
+			</div>
+			<div class="layui-col-xs4">
+				<div class="layui-card">
+					<div class="layui-card-header">项目地址</div>
+					<div class="layui-card-body">
+						<table class="layui-table">
+							<tbody>
+								<tr>
+									<td>头像</td>
+									<td>
+										<img height="58.5" src="/favicon.ico">
+									</td>
+								</tr>
+								<tr>
+									<td>作者</td>
+									<td>超君子</td>
+								</tr>
+								<tr>
+									<td>github</td>
+									<td>
+										<a style="color: #1E9FFF;" href="https://github.com/chaojunzi/chao-cloud" target="_blank">https://github.com/chaojunzi/chao-cloud</a>
+										1.0.3
+									</td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+				</div>
+			</div>
+			<div class="layui-col-xs8">
+				<div class="layui-card">
+					<div class="layui-card-header">内存统计实时监控</div>
+					<div class="layui-card-body">
+						<div id="line" class="layui-main-height318"></div>
+					</div>
+				</div>
+			</div>
+			<div class="layui-col-xs4">
+				<div class="layui-card">
+					<div class="layui-card-header">内存概览</div>
+					<div class="layui-card-body">
+						<div id="panel" class="layui-main-height318"></div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<input type="hidden" th:value="${session.user.id}" id="userId">
+	<div th:include="include::footer"></div>
+	<!-- 为ECharts准备一个具备大小（宽高）的Dom -->
+	<script src="/js/date.js"></script>
+	<script src="/js/reconnecting-websocket.js"></script>
+	<script src="/js/ws-health-core.js"></script>
+	<script type="text/javascript">
+		layui.config({
+			base : '/echarts/'
+		}).use([ 'layer', 'jquery', 'echarts', 'element' ], function() {
+			var $ = layui.$, layer = layui.layer, element = layui.element;
+			var echarts = layui.echarts;
+			//记得这是dom对象不是JQ对象，需要转换
+			//折线图
+			//仪表盘
+			lineChart = layui.echarts.init($('#line')[0]);
+			lineOption = {
+				xAxis : {
+					type : 'category',
+					data : [ now() ]
+				},
+				yAxis : {
+					type : 'value'
+				},
+				series : [ {
+					data : [ "[[${core.useMemory}]]".replace(/[a-zA-Z]/g, "") ],
+					type : 'line',
+					symbol : 'triangle',
+					symbolSize : 20,
+					lineStyle : {
+						normal : {
+							color : 'green',
+							width : 4,
+							type : 'dashed'
+						}
+					},
+					itemStyle : {
+						normal : {
+							borderWidth : 3,
+							borderColor : 'yellow',
+							color : 'blue'
+						}
+					}
+				} ]
+			};
+			lineChart.setOption(lineOption, true);
+			//仪表盘
+			panelChart = layui.echarts.init($('#panel')[0]);
+			panelOption = {
+				tooltip : {
+					formatter : "{a} <br/>{b} : {c}%"
+				},
+				toolbox : {
+					feature : {
+						restore : {},
+						saveAsImage : {}
+					}
+				},
+				series : [ {
+					name : '内存指标',
+					type : 'gauge',
+					detail : {
+						formatter : '{value}%'
+					},
+					data : [ {
+						value : 0,
+						name : '使用率'
+					} ]
+				} ]
+			};
+			var rate = "[[${core.useRate}]]".replace("%", "");
+			panelOption.series[0].data[0].value = rate;
+			panelChart.setOption(panelOption, true);
+			//连接websocket-健康检查
+			wsHealthCore();
+		});
+	</script>
+</body>
+</html>

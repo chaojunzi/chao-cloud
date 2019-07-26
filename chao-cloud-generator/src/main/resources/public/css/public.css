@@ -12,9 +12,14 @@
 	height: 380px;
 }
 
+.layui-main-height318 {
+	height: 318px;
+}
+
 .layui-height20 {
 	height: 20px;
 }
+
 .layui-height80 {
 	height: 80px;
 }
@@ -22,12 +27,15 @@
 .layui-padding5 {
 	padding: 5px;
 }
+
 .layui-margin5 {
 	margin: 5px;
 }
+
 .layui-padding10 {
 	padding: 10px;
 }
+
 .layui-margin10 {
 	margin: 10px;
 }

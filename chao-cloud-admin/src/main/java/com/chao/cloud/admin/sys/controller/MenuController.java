@@ -31,7 +31,6 @@ import com.chao.cloud.admin.sys.log.AdminLog;
 import com.chao.cloud.admin.sys.service.SysMenuService;
 import com.chao.cloud.common.core.SpringContextUtil;
 import com.chao.cloud.common.entity.Response;
-import com.chao.cloud.common.entity.ResponseResult;
 import com.chao.cloud.common.exception.BusinessException;
 import com.chao.cloud.common.extra.mybatis.generator.menu.MenuAdmin;
 import com.chao.cloud.common.extra.mybatis.generator.menu.MenuEnum;
@@ -140,7 +139,7 @@ public class MenuController extends BaseController {
 		menu.setGmtCreate(date);
 		menu.setGmtModified(date);
 		if (sysMenuService.save(menu)) {
-			return ResponseResult.ok();
+			return Response.ok();
 		}
 		throw new BusinessException("保存失败");
 
@@ -153,7 +152,7 @@ public class MenuController extends BaseController {
 	Response<String> update(SysMenu menu) {
 		menu.setGmtModified(DateUtil.date());
 		if (sysMenuService.updateById(menu)) {
-			return ResponseResult.ok();
+			return Response.ok();
 		}
 		throw new BusinessException("更新失败");
 	}
@@ -166,7 +165,7 @@ public class MenuController extends BaseController {
 	Response<String> remove(@NotNull Integer id) {
 		// 递归删除
 		if (sysMenuService.recursionRemove(id)) {
-			return ResponseResult.ok();
+			return Response.ok();
 		}
 		throw new BusinessException("删除失败");
 	}
@@ -255,7 +254,7 @@ public class MenuController extends BaseController {
 		if (!result) {
 			throw new BusinessException("生成菜单失败:" + root.getName());
 		}
-		return ResponseResult.ok();
+		return Response.ok();
 	}
 
 	public void initMenuAdmin() {
