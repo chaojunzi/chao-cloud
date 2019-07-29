@@ -9,7 +9,6 @@
 	</parent>
 	<groupId>com.chao.cloud.common</groupId>
 	<artifactId>chao-cloud-common-config</artifactId>
-	<name>chao-cloud-common-config</name>
 	<packaging>jar</packaging>
 	<dependencies>
 		<dependency>

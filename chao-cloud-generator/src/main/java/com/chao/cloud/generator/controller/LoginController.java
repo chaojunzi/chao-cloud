@@ -19,13 +19,13 @@ import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.chao.cloud.common.entity.Response;
 import com.chao.cloud.common.exception.BusinessException;
 import com.chao.cloud.common.util.HyalineCaptchaUtil;
-import com.chao.cloud.common.util.HyalineCaptchaUtil.HyalineCircleCaptcha;
 import com.chao.cloud.generator.constant.XcConstant;
 import com.chao.cloud.generator.dal.entity.XcUser;
 import com.chao.cloud.generator.domain.dto.LoginDTO;
 import com.chao.cloud.generator.domain.vo.LoginVO;
 import com.chao.cloud.generator.service.XcUserService;
 
+import cn.hutool.captcha.CircleCaptcha;
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.util.StrUtil;
 import lombok.extern.slf4j.Slf4j;
@@ -88,7 +88,7 @@ public class LoginController extends BaseController {
 			response.setHeader("Cache-Control", "no-cache");
 			response.setDateHeader("Expire", 0);
 			// 制作验证码
-			HyalineCircleCaptcha captcha = HyalineCaptchaUtil.createCircleCaptcha(100, 42, 4, 3);
+			CircleCaptcha captcha = HyalineCaptchaUtil.createCircleCaptcha(100, 42, 4, 3);
 			String code = captcha.getCode();
 			log.info("[验证码: {}]", code);
 			// 存入session

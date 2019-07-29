@@ -1,23 +1,19 @@
 package com.chao.cloud.common.util;
 
-import java.awt.AlphaComposite;
 import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.Transparency;
 import java.awt.image.BufferedImage;
-import java.util.concurrent.ThreadLocalRandom;
 
-import cn.hutool.captcha.AbstractCaptcha;
-import cn.hutool.core.img.GraphicsUtil;
-import cn.hutool.core.img.ImgUtil;
-import cn.hutool.core.util.RandomUtil;
+import cn.hutool.captcha.CircleCaptcha;
+import cn.hutool.core.util.ReflectUtil;
 
 /**
  * 透明验证码 
  * @功能：
  * @author： 薛超
- * @时间： 2019年6月13日
- * @version 1.0.0
+ * @时间： 2019年7月29日
+ * @version 1.0.3
  */
 public class HyalineCaptchaUtil {
 	/**
@@ -32,9 +28,8 @@ public class HyalineCaptchaUtil {
 		return new HyalineCircleCaptcha(width, height, codeCount, circleCount);
 	}
 
-	public static class HyalineCircleCaptcha extends AbstractCaptcha {
-
-		private static final long serialVersionUID = -1635193165789675706L;
+	public static class HyalineCircleCaptcha extends CircleCaptcha {
+		private static final long serialVersionUID = 1L;
 
 		public HyalineCircleCaptcha(int width, int height, int codeCount, int interfereCount) {
 			super(width, height, codeCount, interfereCount);
@@ -49,40 +44,9 @@ public class HyalineCaptchaUtil {
 					Transparency.TRANSLUCENT);
 			g = image.createGraphics();
 			// 随机画干扰圈圈
-			drawInterfere(g);
-			// 画字符串
-			drawString(g, code);
+			ReflectUtil.invoke(this, "drawInterfere", g);
+			ReflectUtil.invoke(this, "drawString", g, code);
 			return image;
 		}
-
-		// -----------------------------------------------------------------------------------------------------
-		// Private method start
-		/**
-		 * 绘制字符串
-		 * 
-		 * @param g {@link Graphics2D}画笔
-		 * @param code 验证码
-		 */
-		private void drawString(Graphics2D g, String code) {
-			// 指定透明度
-			g.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.9f));
-			GraphicsUtil.drawStringColourful(g, code, this.font, this.width, this.height);
-		}
-
-		/**
-		 * 画随机干扰
-		 * 
-		 * @param g {@link Graphics2D}
-		 */
-		private void drawInterfere(Graphics2D g) {
-			final ThreadLocalRandom random = RandomUtil.getRandom();
-
-			for (int i = 0; i < this.interfereCount; i++) {
-				g.setColor(ImgUtil.randomColor(random));
-				g.drawOval(random.nextInt(width), random.nextInt(height), random.nextInt(height >> 1),
-						random.nextInt(height >> 1));
-			}
-		}
 	}
-
 }

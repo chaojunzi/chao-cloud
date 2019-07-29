@@ -9,7 +9,6 @@
 	</parent>
 	<groupId>com.chao.cloud.common</groupId>
 	<artifactId>chao-cloud-common-extra</artifactId>
-	<name>chao-cloud-common-extra</name>
 	<packaging>jar</packaging>
 	<dependencies>
 		<dependency>
