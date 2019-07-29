@@ -112,7 +112,7 @@ public class GeneratorController {
 			return Response.error(StrUtil.format("<br/>连接失败:[{}:{}?{}->{}:{}]", vo.getHost(), vo.getPort(),
 					vo.getDatabase(), vo.getUsername(), vo.getPassword()));
 		}
-		return Response.ok("连接成功");
+		return Response.ok();
 	}
 
 	private void genCode(HttpServletResponse response, GenCodeVO.Extra vo, String... tableName) throws Exception {
