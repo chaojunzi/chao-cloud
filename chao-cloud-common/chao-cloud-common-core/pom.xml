@@ -4,11 +4,10 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
-		<groupId>com.chao.cloud</groupId>
+		<groupId>com.github.chaojunzi</groupId>
 		<artifactId>chao-cloud-parent</artifactId>
 		<version>1.0.4</version>
 	</parent>
-	<groupId>com.chao.cloud.common</groupId>
 	<artifactId>chao-cloud-common-core</artifactId>
 	<packaging>jar</packaging>
 	<dependencies>

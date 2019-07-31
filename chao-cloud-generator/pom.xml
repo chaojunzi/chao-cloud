@@ -5,14 +5,14 @@
 	<modelVersion>4.0.0</modelVersion>
 	<packaging>jar</packaging>
 	<parent>
-		<groupId>com.chao.cloud</groupId>
+		<groupId>com.github.chaojunzi</groupId>
 		<artifactId>chao-cloud-parent</artifactId>
-		<version>1.0.3</version>
+		<version>1.0.4</version>
 	</parent>
 	<artifactId>chao-cloud-generator</artifactId>
 	<dependencies>
 		<dependency>
-			<groupId>com.chao.cloud.common</groupId>
+			<groupId>com.github.chaojunzi</groupId>
 			<artifactId>chao-cloud-common-config</artifactId>
 			<version>${chao.cloud.version}</version>
 		</dependency>
@@ -42,18 +42,6 @@
 			<artifactId>druid-spring-boot-starter</artifactId>
 		</dependency>
 	</dependencies>
-	<!-- maven 仓库 -->
-	<repositories>
-		<repository>
-			<id>mvn-repo</id>
-			<url>https://raw.github.com/chaojunzi/mvn-repo/master</url>
-			<snapshots>
-				<enabled>true</enabled>
-				<updatePolicy>always</updatePolicy>
-			</snapshots>
-		</repository>
-	</repositories>
-	<!-- maven 仓库 -->
 	<build>
 		<finalName>chao-generator</finalName>
 		<plugins>

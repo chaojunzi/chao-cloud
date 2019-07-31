@@ -3,19 +3,16 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>com.github.chaojunzi</groupId>
+		<artifactId>chao-cloud-parent</artifactId>
+		<version>1.0.4</version>
+	</parent>
 	<artifactId>chao-cloud-admin</artifactId>
 	<packaging>jar</packaging>
-	<name>chao-cloud-admin</name>
-	<description>admin-后台管理系统</description>
-	<parent>
-		<groupId>com.chao.cloud</groupId>
-		<artifactId>chao-cloud-parent</artifactId>
-		<version>1.0.3</version>
-	</parent>
-
 	<dependencies>
 		<dependency>
-			<groupId>com.chao.cloud.common</groupId>
+			<groupId>com.github.chaojunzi</groupId>
 			<artifactId>chao-cloud-common-config</artifactId>
 			<version>${chao.cloud.version}</version>
 		</dependency>
@@ -86,18 +83,6 @@
 		</dependency>
 	</dependencies>
 
-	<!-- maven 仓库 -->
-	<repositories>
-		<repository>
-			<id>mvn-repo</id>
-			<url>https://raw.github.com/chaojunzi/mvn-repo/master</url>
-			<snapshots>
-				<enabled>true</enabled>
-				<updatePolicy>always</updatePolicy>
-			</snapshots>
-		</repository>
-	</repositories>
-	<!-- maven 仓库 -->
 	<build>
 		<finalName>chao-admin</finalName>
 		<plugins>

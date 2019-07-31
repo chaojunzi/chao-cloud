@@ -1,16 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>com.github.chaojunzi</groupId>
+		<artifactId>chao-cloud-parent</artifactId>
+		<version>1.0.4</version>
+	</parent>
 	<artifactId>chao-cloud-ssh</artifactId>
 	<packaging>jar</packaging>
-	<name>chao-cloud-ssh</name>
-	<description>web-ssh-连接</description>
-	<parent>
-		<groupId>com.chao.cloud</groupId>
-		<artifactId>chao-cloud-parent</artifactId>
-		<version>1.0.3</version>
-	</parent>
 	<dependencies>
 		<!-- web-socket -->
 		<!-- 远程 shell 脚本测试版 -->
@@ -19,7 +18,7 @@
 			<artifactId>ganymed-ssh2</artifactId>
 		</dependency>
 		<dependency>
-			<groupId>com.chao.cloud.common</groupId>
+			<groupId>com.github.chaojunzi</groupId>
 			<artifactId>chao-cloud-common-config</artifactId>
 			<version>${chao.cloud.version}</version>
 		</dependency>
