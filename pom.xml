@@ -4,7 +4,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.github.chaojunzi</groupId>
 	<artifactId>chao-cloud-parent</artifactId>
-	<version>1.0.6</version>
+	<version>${chao.cloud.version}</version>
 	<packaging>pom</packaging>
 	<parent>
 		<groupId>org.springframework.boot</groupId>
@@ -12,19 +12,13 @@
 		<version>2.1.2.RELEASE</version>
 	</parent>
 
-	<name>chao-cloud</name>
+	<name>${project.artifactId}</name>
 	<url>https://github.com/chaojunzi/chao-cloud</url>
-	<description>springboot底层封装及相关工具包</description>
-
-	<modules>
-		<module>chao-cloud-common/chao-cloud-common-core</module>
-		<module>chao-cloud-common/chao-cloud-common-extra</module>
-		<module>chao-cloud-common/chao-cloud-common-config</module>
-	</modules>
+	<description>springboot-底层封装及相关工具包</description>
 
 	<properties>
 		<!-- 项目版本 -->
-		<chao.cloud.version>${project.version}</chao.cloud.version>
+		<chao.cloud.version>1.0.6</chao.cloud.version>
 		<!-- 环境配置 -->
 		<java.version>1.8</java.version>
 		<java.encoding>UTF-8</java.encoding>
@@ -81,6 +75,13 @@
 		<apache.velocity.version>2.1</apache.velocity.version>
 		<freemarker.version>2.3.28</freemarker.version>
 	</properties>
+
+	<modules>
+		<module>chao-cloud-common/chao-cloud-common-core</module>
+		<module>chao-cloud-common/chao-cloud-common-extra</module>
+		<module>chao-cloud-common/chao-cloud-common-config</module>
+	</modules>
+
 	<dependencyManagement>
 		<dependencies>
 			<!-- spring-cloud -->

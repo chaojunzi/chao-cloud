@@ -11,6 +11,11 @@
 	</parent>
 	<artifactId>chao-cloud-common-core</artifactId>
 	<packaging>jar</packaging>
+
+	<name>${project.artifactId}</name>
+	<url>https://github.com/chaojunzi/chao-cloud/tree/master/chao-cloud-common/${project.artifactId}</url>
+	<description>springboot-自定义核心工具包</description>
+
 	<dependencies>
 		<!-- Hutool超级工具类 http://hutool.mydoc.io/ -->
 		<dependency>

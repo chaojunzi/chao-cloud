@@ -10,6 +10,11 @@
 	</parent>
 	<artifactId>chao-cloud-common-extra</artifactId>
 	<packaging>jar</packaging>
+
+	<name>${project.artifactId}</name>
+	<url>https://github.com/chaojunzi/chao-cloud/tree/master/chao-cloud-common/${project.artifactId}</url>
+	<description>springboot-自定义拓展工具包</description>
+
 	<dependencies>
 		<dependency>
 			<groupId>com.github.chaojunzi</groupId>
