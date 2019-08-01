@@ -22,10 +22,9 @@ import com.chao.cloud.common.extra.mybatis.generator.template.BeforeConfig;
 
 /**
  * 代码生成器
- * @功能：
- * @author： 薛超
- * @时间：2019年5月20日
- * @version 2.0
+ * @author 薛超
+ * @since 2019年8月1日
+ * @version 1.0.5
  */
 @Configuration
 public class MybatisGeneratorConfig {
@@ -39,10 +38,6 @@ public class MybatisGeneratorConfig {
 	private final static String TEMPLATE_CONFIG_PREFIX = "chao.cloud.codegen.template";
 	private final static String STRATEGY_CONFIG_PREFIX = "chao.cloud.codegen.strategy";
 
-	/**
-	 * 全局代码生成器
-	 * @return
-	 */
 	@Bean
 	public ZipAutoGenerator autoGenerator(//
 			GlobalConfig gc, DataSourceConfig dsc, //

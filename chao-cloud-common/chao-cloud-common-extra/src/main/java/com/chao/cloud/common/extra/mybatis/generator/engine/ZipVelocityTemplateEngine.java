@@ -39,10 +39,9 @@ import cn.hutool.core.util.StrUtil;
 
 /**
  * 将模板输出至浏览器
- * @功能：
- * @author： 薛超
- * @时间：2019年5月20日
- * @version 2.0
+ * @author 薛超
+ * @since 2019年8月1日
+ * @version 1.0.5
  */
 public class ZipVelocityTemplateEngine extends VelocityTemplateEngine {
 
@@ -74,9 +73,9 @@ public class ZipVelocityTemplateEngine extends VelocityTemplateEngine {
 
 	/**
 	 * 输出到文件流
-	 * @param out
-	 * @return
-	 * @throws Exception 
+	 * @param zip zip输出流
+	 * @return {@link AbstractTemplateEngine}
+	 * @throws Exception 生成文件模板时抛出的异常
 	 */
 	public AbstractTemplateEngine batchOutput(ZipOutputStream zip) throws Exception {
 		try {

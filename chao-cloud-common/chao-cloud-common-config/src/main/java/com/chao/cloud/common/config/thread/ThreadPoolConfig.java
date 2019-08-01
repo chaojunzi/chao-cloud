@@ -12,7 +12,7 @@ public class ThreadPoolConfig {
 
 	/**
 	 * 自定义异步线程池
-	 * @return
+	 * @return  {@link ThreadPoolTaskExecutor}
 	 */
 	@Bean
 	@ConfigurationProperties(prefix = THREAD_POOL_ASYNC)

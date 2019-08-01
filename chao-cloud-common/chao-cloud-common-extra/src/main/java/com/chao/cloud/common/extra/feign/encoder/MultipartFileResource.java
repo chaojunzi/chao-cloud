@@ -6,11 +6,10 @@ import java.io.InputStream;
 import org.springframework.core.io.InputStreamResource;
 
 /**
- * The type Http output message.
- * @功能：
- * @author： 薛超
- * @时间： 2019年5月27日
- * @version 1.0.0
+ * MultipartFileResource
+ * @author 薛超
+ * @since 2019年8月1日
+ * @version 1.0.5
  */
 public class MultipartFileResource extends InputStreamResource {
 

@@ -5,16 +5,15 @@ import org.springframework.context.ConfigurableApplicationContext;
 
 /**
  * 容器起源
- * @功能：
- * @author： 薛超
- * @时间：2019年2月27日
- * @version 2.0
+ * @author 薛超
+ * @since 2019年8月1日
+ * @version 1.0.5
  */
 public class ApplicationOrigin implements ApplicationContextInitializer<ConfigurableApplicationContext> {
 
-    @Override
-    public void initialize(ConfigurableApplicationContext applicationContext) {
+	@Override
+	public void initialize(ConfigurableApplicationContext applicationContext) {
 
-    }
+	}
 
 }

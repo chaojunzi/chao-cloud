@@ -12,11 +12,10 @@ import com.chao.cloud.common.config.core.EnableCore;
 import com.chao.cloud.common.config.valid.EnableValidator;
 
 /**
- * web服务通用
- * @功能：
- * @author： 薛超
- * @时间：2019年3月19日
- * @version 1.0.0
+ * web服务通用配置
+ * @author 薛超
+ * @since 2019年8月1日
+ * @version 1.0.5
  */
 @Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)

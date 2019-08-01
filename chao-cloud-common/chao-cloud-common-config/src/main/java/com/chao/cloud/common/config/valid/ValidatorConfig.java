@@ -13,11 +13,10 @@ import org.springframework.validation.beanvalidation.MethodValidationPostProcess
 import org.springframework.web.servlet.i18n.SessionLocaleResolver;
 
 /**
- * 
- * @功能：
- * @author： 薛超
- * @时间： 2019年5月27日
- * @version 1.0.0
+ * 全局参数校验配置
+ * @author 薛超
+ * @since 2019年8月1日
+ * @version 1.0.5
  */
 @Configuration
 public class ValidatorConfig {
@@ -43,7 +42,7 @@ public class ValidatorConfig {
 
 	/**
 	 * 国际化
-	 * @return
+	 * @return {@link SessionLocaleResolver}
 	 */
 	@Bean
 	public SessionLocaleResolver sessionLocaleResolver() {

@@ -17,10 +17,9 @@ import lombok.extern.slf4j.Slf4j;
 
 /**
  * 腾讯地图
- * @功能：
- * @author： 薛超
- * @时间：2019年3月5日
- * @version 1.0.0
+ * @author 薛超
+ * @since 2019年8月1日
+ * @version 1.0.5
  */
 @Slf4j
 public class TencentMapService implements MapService {

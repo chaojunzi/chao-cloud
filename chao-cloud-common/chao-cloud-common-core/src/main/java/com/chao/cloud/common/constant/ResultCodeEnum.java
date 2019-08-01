@@ -1,4 +1,4 @@
-package com.chao.cloud.common.constants;
+package com.chao.cloud.common.constant;
 
 /**
  * 返回值类型

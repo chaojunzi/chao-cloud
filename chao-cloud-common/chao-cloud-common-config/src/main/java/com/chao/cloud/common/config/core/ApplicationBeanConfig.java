@@ -10,19 +10,18 @@ import com.chao.cloud.common.core.ApplicationRefreshed;
 import com.chao.cloud.common.core.SpringContextUtil;
 
 /**
- * 
- * @功能：核心配置
- * @author： 薛超
- * @时间： 2019年7月15日
- * @version 1.0.0
+ * spring 核心配置
+ * @author 薛超
+ * @since 2019年8月1日
+ * @version 1.0.5
  */
 @Configuration
 public class ApplicationBeanConfig {
 
 	/**
 	 * 全局spring容器
-	 * 
-	 * @return
+	 * @param applicationContext {@link ApplicationContext}
+	 * @return {@link SpringContextUtil}
 	 */
 	@Bean
 	public SpringContextUtil springContextUtil(ApplicationContext applicationContext) {
@@ -36,9 +35,6 @@ public class ApplicationBeanConfig {
 		return new ApplicationRefreshed();
 	}
 
-	/**
-	 * 类型转换器
-	 */
 	@Bean
 	public ConversionService conversionService() {
 		FormattingConversionServiceFactoryBean factoryBean = new FormattingConversionServiceFactoryBean();

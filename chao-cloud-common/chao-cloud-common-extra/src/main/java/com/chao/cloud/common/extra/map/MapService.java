@@ -7,23 +7,26 @@ import com.chao.cloud.common.extra.map.tencent.distance.DistanceVO;
 
 /**
  * 地图服务
- * @功能：
- * @author： 薛超
- * @时间：2019年3月5日
- * @version 1.0.0
+ * @author 薛超
+ * @since 2019年8月1日
+ * @version 1.0.5
  */
-public interface MapService {  
+public interface MapService {
 
-    /**
-     * 地址转坐标
-     * @return
-     */
-    AddressResolveDTO addressToCoordinate(AddressVO vo) throws Exception;
+	/**
+	 * 地址转坐标
+	 * @param vo {@link AddressVO}
+	 * @return {@link AddressResolveDTO}
+	 * @throws Exception 解析距离抛出的异常
+	 */
+	AddressResolveDTO addressToCoordinate(AddressVO vo) throws Exception;
 
-    /**
-     * 距离计算一对多
-     * @return
-     */
-    DistanceResolveDTO distanceOneToMany(DistanceVO vo) throws Exception;
+	/**
+	 * 距离计算一对多
+	 * @param vo {@link DistanceVO}
+	 * @return {@link DistanceResolveDTO}
+	 * @throws Exception 计算距离抛出的异常
+	 */
+	DistanceResolveDTO distanceOneToMany(DistanceVO vo) throws Exception;
 
 }

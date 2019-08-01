@@ -10,19 +10,18 @@ import cn.hutool.core.util.ReflectUtil;
 
 /**
  * 透明验证码 
- * @功能：
- * @author： 薛超
- * @时间： 2019年7月29日
- * @version 1.0.3
+ * @author 薛超
+ * @since 2019年8月1日
+ * @version 1.0.5
  */
 public class HyalineCaptchaUtil {
 	/**
 	 * 透明圆形验证码
-	 * @param width
-	 * @param height
-	 * @param codeCount
-	 * @param circleCount
-	 * @return
+	 * @param width 宽
+	 * @param height 高
+	 * @param codeCount 验证码数量
+	 * @param circleCount 干扰码数量
+	 * @return {@link HyalineCircleCaptcha}
 	 */
 	public static HyalineCircleCaptcha createCircleCaptcha(int width, int height, int codeCount, int circleCount) {
 		return new HyalineCircleCaptcha(width, height, codeCount, circleCount);

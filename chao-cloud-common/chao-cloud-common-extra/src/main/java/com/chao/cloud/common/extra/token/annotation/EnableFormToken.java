@@ -10,10 +10,9 @@ import org.springframework.context.annotation.Import;
 
 /**
  * 防止表单重复提交
- * @功能：
- * @author： 薛超
- * @时间：2019年3月18日
- * @version 1.0.0
+ * @author 薛超
+ * @since 2019年8月1日
+ * @version 1.0.5
  */
 @Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)

@@ -21,9 +21,9 @@ import lombok.extern.slf4j.Slf4j;
 
 /**
  * 权限拦截
- * 
- * @author xuecaho
- *
+ * @author 薛超
+ * @since 2019年8月1日
+ * @version 1.0.5
  */
 @Aspect
 @Slf4j
@@ -34,9 +34,9 @@ public class AuthUserProxy implements BaseProxy {
 
 	/**
 	 * 操作拦截
-	 * @param pdj
-	 * @return
-	 * @throws Throwable 
+	 * @param pdj {@link ProceedingJoinPoint}
+	 * @return Object 
+	 * @throws Throwable aop代理所抛出的异常
 	 */
 	@Around("@annotation(com.chao.cloud.common.config.auth.annotation.Permission)")
 	public Object around(ProceedingJoinPoint pdj) throws Throwable {
@@ -49,12 +49,6 @@ public class AuthUserProxy implements BaseProxy {
 		return obj;
 	}
 
-	/**
-	 * 权限校验
-	 * 
-	 * @param pdj
-	 * @return
-	 */
 	private boolean checkPerm(ProceedingJoinPoint pdj) {
 		Method method = getMethod(pdj);
 		// 获取注解

@@ -8,11 +8,11 @@ import com.chao.cloud.common.extra.redis.IRedisService;
 import com.chao.cloud.common.extra.redis.impl.RedisServiceImpl;
 
 /**
- * redis缓存配置
- * @功能：https://github.com/whvcse/RedisUtil
- * @author： 薛超
- * @时间：2019年7月11日
- * @version 1.0.1
+ * redis缓存配置 
+ * @author 薛超
+ * @see <a href="https://github.com/whvcse/RedisUtil">whvcse</a>
+ * @since 2019年8月1日
+ * @version 1.0.5
  */
 @Configuration
 public class RedisConfig {

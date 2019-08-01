@@ -17,11 +17,10 @@ import cn.hutool.core.util.StrUtil;
 import lombok.Data;
 
 /**
- * 
- * @功能：权限配置
- * @author： 薛超
- * @时间： 2019年7月30日
- * @version 1.0.3
+ * 权限配置
+ * @author 薛超
+ * @since 2019年8月1日
+ * @version 1.0.5
  */
 @Data
 public class AuthUserPerm implements InitializingBean {

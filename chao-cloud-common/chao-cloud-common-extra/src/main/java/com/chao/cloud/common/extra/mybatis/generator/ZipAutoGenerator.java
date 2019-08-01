@@ -11,19 +11,18 @@ import com.chao.cloud.common.extra.mybatis.generator.engine.ZipVelocityTemplateE
 import lombok.extern.slf4j.Slf4j;
 
 /**
- * zip  
- * @功能：生成代码直接传至浏览器
- * @author： 薛超
- * @时间：2019年5月22日
- * @version 2.0
+ * 生成代码直接传至浏览器(zip压缩包)
+ * @author 薛超
+ * @since 2019年8月1日
+ * @version 1.0.5
  */
 @Slf4j
 public class ZipAutoGenerator extends AutoGenerator {
 
 	/**
 	 * 输出到流-zip
-	 * @param out
-	 * @throws IOException 
+	 * @param out 输出流
+	 * @throws IOException  生成模板文件抛出的异常
 	 */
 	public void execute(OutputStream out) throws Exception {
 		// 初始化配置

@@ -19,11 +19,10 @@ import cn.hutool.core.util.StrUtil;
 import lombok.Setter;
 
 /**
- * 
- * @功能：单线程访问
- * @author： 薛超
- * @时间： 2019年7月19日
- * @version 1.0.0
+ * 文件操作实现（本地操作和ftp）
+ * @author 薛超
+ * @since 2019年8月1日
+ * @version 1.0.5
  */
 @Setter
 public class FileOperationImpl implements IFileOperation {
@@ -32,15 +31,15 @@ public class FileOperationImpl implements IFileOperation {
 	private FtpConfig ftpConfig;
 
 	@Override
-	public String uploadImg(InputStream is, String fileName) throws Exception {
+	public String uploadImg(InputStream in, String fileName) throws Exception {
 		// 操作流
-		try (InputStream fileStream = is; ByteArrayOutputStream out = new ByteArrayOutputStream();) {
+		try (InputStream fileStream = in; ByteArrayOutputStream out = new ByteArrayOutputStream();) {
 			String mimeType = FileUtil.getMimeType(fileName);
 			if (!mimeType.startsWith("image")) {
 				throw new BusinessException("无效的图片类型:" + mimeType);
 			}
 			// 加水印
-			ImgUtil.pressText(is, out, //
+			ImgUtil.pressText(fileStream, out, //
 					ftpConfig.getLogo(), Color.WHITE, // 文字
 					new Font(Font.SERIF, Font.BOLD, 20), // 字体
 					0, // x坐标修正值。 默认在中间，偏移量相对于中间偏移

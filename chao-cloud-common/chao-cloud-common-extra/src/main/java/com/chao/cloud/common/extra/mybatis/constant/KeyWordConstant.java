@@ -5,18 +5,17 @@ import java.util.Set;
 import cn.hutool.core.collection.CollUtil;
 
 /**
- * 
- * @功能：关键字枚举
- * @author： 薛超
- * @时间： 2019年7月23日
- * @version 1.0.0
+ * 关键字枚举
+ * @author 薛超
+ * @since 2019年8月1日
+ * @version 1.0.5
  */
 public interface KeyWordConstant {
 
 	/**
 	 * 是否包含关键字
-	 * @param keyWord
-	 * @return
+	 * @param keyWord 目前只有mysql关键字
+	 * @return boolean 是否包含
 	 */
 	static boolean contains(String keyWord) {
 		return MYSQL_KEY_WORD_5_7.contains(keyWord.toLowerCase());

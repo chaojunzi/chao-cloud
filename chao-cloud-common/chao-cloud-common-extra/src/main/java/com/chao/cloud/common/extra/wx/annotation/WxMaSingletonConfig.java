@@ -13,10 +13,9 @@ import cn.binarywang.wx.miniapp.config.WxMaInMemoryConfig;
 
 /**
  * 微信配置
- * @功能：
- * @author： 薛超
- * @时间： 2019年5月27日
- * @version 1.0.0
+ * @author 薛超
+ * @since 2019年8月1日
+ * @version 1.0.5
  */
 @Configuration
 public class WxMaSingletonConfig {
@@ -30,12 +29,6 @@ public class WxMaSingletonConfig {
 		return serviceImpl;
 	}
 
-	/**
-	 * 微信用户bean
-	 * 
-	 * @param config
-	 * @return
-	 */
 	@Bean
 	public WxAppUserInfoApi wxAppUserInfoApi(WxMaService wxMaService) {
 		WxAppUserInfoServiceImpl impl = new WxAppUserInfoServiceImpl(wxMaService);

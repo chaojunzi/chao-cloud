@@ -7,9 +7,9 @@ import com.chao.cloud.common.base.BaseLogger;
 
 /**
  * 打印sql语句
- * 
- * @author 薛超 功能： 时间：2018年9月17日
- * @version 1.0
+ * @author 薛超
+ * @since 2019年8月1日
+ * @version 1.0.5
  */
 public class Slf4jLogImpl implements Log, BaseLogger {
 
@@ -43,8 +43,7 @@ public class Slf4jLogImpl implements Log, BaseLogger {
 
 	@Override
 	public void error(String s, Throwable e) {
-		logger.error(s);
-		e.printStackTrace(System.err);
+		logger.error(s, e);
 	}
 
 	@Override

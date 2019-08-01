@@ -10,10 +10,9 @@ import org.springframework.context.annotation.Import;
 
 /**
  * 用户接口权限校验 
- * @功能：
- * @author： 薛超
- * @时间：2019年7月30日
- * @version 1.0.3
+ * @author 薛超
+ * @since 2019年8月1日
+ * @version 1.0.5
  */
 @Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)

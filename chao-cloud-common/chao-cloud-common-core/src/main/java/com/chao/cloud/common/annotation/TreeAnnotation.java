@@ -7,13 +7,12 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
-import com.chao.cloud.common.constants.TreeEnum;
+import com.chao.cloud.common.constant.TreeEnum;
 
 /**
- * 
- * @功能：树形数据解析
- * @author： 薛超
- * @时间： 2019年7月26日
+ * 树形数据解析
+ * @author 薛超
+ * @since 2019年8月1日
  * @version 1.0.0
  */
 @Target(ElementType.FIELD)
@@ -23,7 +22,7 @@ import com.chao.cloud.common.constants.TreeEnum;
 public @interface TreeAnnotation {
 	/**
 	 * 类型
-	 * @return
+	 * @return {@link TreeEnum}
 	 */
 	TreeEnum value();
 

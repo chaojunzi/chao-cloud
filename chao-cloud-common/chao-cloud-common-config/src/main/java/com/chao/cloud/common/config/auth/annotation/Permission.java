@@ -6,14 +6,13 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
-import com.chao.cloud.common.constants.ResultCodeEnum;
+import com.chao.cloud.common.constant.ResultCodeEnum;
 
 /**
- * 
- * @功能： 权限注解
- * @author： 薛超
- * @时间： 2019年7月30日
- * @version 1.0.0
+ * 权限注解
+ * @author 薛超
+ * @since 2019年8月1日
+ * @version 1.0.5
  */
 @Target(ElementType.METHOD)
 @Inherited
@@ -21,18 +20,19 @@ import com.chao.cloud.common.constants.ResultCodeEnum;
 public @interface Permission {
 	/**
 	 * 权限列表
-	 * 
-	 * @return
+	 * @return int[]
 	 */
 	int[] hasPerm();
 
 	/**
 	 * 无权限码
+	 * @return {@link ResultCodeEnum}
 	 */
 	ResultCodeEnum retCode() default ResultCodeEnum.CODE_403;
 
 	/**
-	 * 返回值注释
+	 * 返回值信息
+	 * @return String
 	 */
 	String retMsg() default "权限不足";
 

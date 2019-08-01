@@ -9,9 +9,8 @@ import java.lang.annotation.Target;
 
 /**
  * 参数转换的标志
- * @功能：
- * @author： 薛超
- * @时间： 2019年5月27日
+ * @author 薛超
+ * @since 2019年8月1日
  * @version 1.0.0
  */
 @Target(ElementType.TYPE)

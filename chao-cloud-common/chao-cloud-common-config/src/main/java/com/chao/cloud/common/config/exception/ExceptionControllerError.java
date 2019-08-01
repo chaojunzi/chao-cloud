@@ -27,10 +27,9 @@ import lombok.extern.slf4j.Slf4j;
 
 /**
  * Springboot全局异常统一处理
- * @功能：
- * @author： 薛超
- * @时间：2019年3月19日
- * @version 1.0.0
+ * @author 薛超
+ * @since 2019年8月1日
+ * @version 1.0.5
  */
 @RestController
 @EnableConfigurationProperties({ ServerProperties.class })
@@ -46,8 +45,7 @@ public class ExceptionControllerError implements ErrorController, BaseHttpServle
 
 	/**
 	 * 初始化ExceptionController
-	 * 
-	 * @param errorAttributes
+	 * @param errorAttributes  {@link ErrorAttributes}
 	 */
 	@Autowired
 	public ExceptionControllerError(ErrorAttributes errorAttributes) {
@@ -135,11 +133,6 @@ public class ExceptionControllerError implements ErrorController, BaseHttpServle
 		}
 	}
 
-	/**
-	 * 实现错误路径,暂时无用
-	 * 
-	 * @return
-	 */
 	@Override
 	public String getErrorPath() {
 		return ERROR_PATH;

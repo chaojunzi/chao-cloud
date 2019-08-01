@@ -7,7 +7,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-import com.chao.cloud.common.constants.TreeEnum;
+import com.chao.cloud.common.annotation.TreeAnnotation;
+import com.chao.cloud.common.constant.TreeEnum;
 import com.chao.cloud.common.entity.TreeEntity;
 import com.chao.cloud.common.exception.BusinessException;
 
@@ -19,18 +20,37 @@ import cn.hutool.core.util.ReflectUtil;
 
 /**
  * 实体转换
- * @功能：
- * @author： 薛超
- * @时间：2019年7月26日
- * @version 1.0.3
+ * @author 薛超
+ * @since 2019年8月1日
+ * @version 1.0.5
  */
 public class EntityUtil {
 
 	/**
+	 * 移除左对象中和右边相同的属性值（用于判断对象是否发生改变）
+	 * @param left 操作的对象
+	 * @param right 对比的对象
+	 */
+	public static void leftDuplicateRemoval(Object left, Object right) {
+		// 取差集
+		Field[] fields = ReflectUtil.getFields(left.getClass());
+		for (Field field : fields) {
+			Object leftVal = BeanUtil.getFieldValue(left, field.getName());
+			Object rightVal = BeanUtil.getFieldValue(right, field.getName());
+			if (!"serialVersionUID".equals(field.getName()) && ObjectUtil.isNotNull(leftVal)
+					&& leftVal.equals(rightVal)) {
+				BeanUtil.setFieldValue(left, field.getName(), null);
+			}
+		}
+	}
+
+	/**
 	 * 转换list
-	 * @param source 要转换的list
+	 * @param <S> 源参数泛型
+	 * @param <T> 目标参数泛型
+	 * @param source  要转换的list
 	 * @param clazz 需要转换的 class
-	 *            
+	 * @return {@link List}
 	 */
 	public static <T, S> List<T> listConver(List<S> source, Class<T> clazz) {
 		if (ObjectUtil.isNull(clazz)) {
@@ -46,9 +66,10 @@ public class EntityUtil {
 	 * 1.解析树形数据-实现接口型
 	 * 递归算法
 	 * 实体类需要实现 {@link TreeEntity}
+	 * @param <E> entity泛型
 	 * @param entityList（数据源）
 	 * @param topId 顶级id（八大基本类型或String）
-	 * @return
+	 * @return {@link TreeEntity}
 	 */
 	public static <E extends TreeEntity<E>> List<E> toTreeList(List<E> entityList, Serializable topId) {
 		if (CollUtil.isEmpty(entityList)) {
@@ -65,10 +86,11 @@ public class EntityUtil {
 	/**
 	 * 1.解析树形数据-注解型
 	 * 递归算法
-	 * 实体类需要增加3个注解 {@link @TreeAnnotation(TreeEnum.ID)}
+	 * 实体类需要增加注解  {@link TreeAnnotation}
+	 * @param <T> 目标参数泛型
 	 * @param entityList（数据源）
 	 * @param topId 顶级id（八大基本类型或String）
-	 * @return
+	 * @return {@link List}
 	 */
 	public static <T> List<T> toTreeAnnoList(List<T> entityList, Serializable topId) {
 		if (CollUtil.isEmpty(entityList)) {
@@ -89,8 +111,10 @@ public class EntityUtil {
 
 	/**
 	 * 递归填充子集
-	 * @param entityList（数据源）
+	 * @param <E> 目标参数泛型
+	 * @param entityList 数据源
 	 * @param root 根对象
+	 * @return  {@link TreeEntity}
 	 */
 	public static <E extends TreeEntity<E>> E recursiveFill(List<E> entityList, E root) {
 		Object parentId = root.getId();

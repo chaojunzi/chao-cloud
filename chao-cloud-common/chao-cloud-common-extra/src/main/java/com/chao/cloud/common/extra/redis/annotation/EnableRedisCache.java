@@ -9,11 +9,10 @@ import java.lang.annotation.Target;
 import org.springframework.context.annotation.Import;
 
 /**
- * redis
- * @功能：
- * @author： 薛超
- * @时间：2019年3月18日
- * @version 1.0.0
+ * redis-spring
+ * @author 薛超
+ * @since 2019年8月1日
+ * @version 1.0.5
  */
 @Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)

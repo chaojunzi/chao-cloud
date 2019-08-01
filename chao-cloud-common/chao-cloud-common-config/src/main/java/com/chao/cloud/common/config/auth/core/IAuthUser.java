@@ -6,11 +6,10 @@ import cn.hutool.json.JSONObject;
 import cn.hutool.json.JSONUtil;
 
 /**
- * 
- * @功能：用户接口
- * @author： 薛超
- * @时间： 2019年7月30日
- * @version 1.0.0
+ * 用户接口
+ * @author 薛超
+ * @since 2019年8月1日
+ * @version 1.0.5
  */
 public interface IAuthUser {
 
@@ -19,26 +18,31 @@ public interface IAuthUser {
 
 	/**
 	 * id
+	 * @return Integer
 	 */
 	Integer getId();
 
 	/**
 	 * 用户状态
+	 * @return Integer
 	 */
 	Integer getStatus();
 
 	/**
 	 * 用户类型
+	 * @return Integer
 	 */
 	Integer getUserType();
 
 	/**
 	 * 登录凭证
+	 * @return String
 	 */
 	String getToken();
 
 	/**
 	 * className
+	 * @return String
 	 */
 	String getClassName();
 

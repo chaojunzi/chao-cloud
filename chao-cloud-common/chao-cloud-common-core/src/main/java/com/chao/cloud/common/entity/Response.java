@@ -2,16 +2,15 @@ package com.chao.cloud.common.entity;
 
 import java.io.Serializable;
 
-import com.chao.cloud.common.constants.ResultCodeEnum;
+import com.chao.cloud.common.constant.ResultCodeEnum;
 
 import lombok.Data;
 
 /**
  * 返回值
- * @功能：
- * @author： 薛超
- * @时间： 2019年5月27日
- * @version 1.0.0
+ * @author 薛超
+ * @since 2019年8月1日
+ * @version 1.0.5
  */
 @Data
 public class Response<T> implements Serializable {
@@ -29,7 +28,7 @@ public class Response<T> implements Serializable {
 	 */
 	/**
 	 * 成功
-	 * @return
+	 * @return {@link Response}
 	 */
 	public static Response<String> ok() {
 		return ok(null);
@@ -45,7 +44,7 @@ public class Response<T> implements Serializable {
 
 	/**
 	 * 失败
-	 * @return
+	 * @return {@link Response}
 	 */
 	public static Response<String> error() {
 		return error("error");
@@ -60,7 +59,12 @@ public class Response<T> implements Serializable {
 	}
 
 	/**
-	 * 返回
+	 * 
+	 * @param <T> 返回泛型
+	 * @param body 主体
+	 * @param retCode 返回码
+	 * @param retMsg 返回信息
+	 * @return {@link Response}
 	 */
 	public static <T> Response<T> result(T body, String retCode, String retMsg) {
 		Response<T> apiResult = new Response<>();

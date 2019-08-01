@@ -11,18 +11,18 @@ import org.apache.commons.io.IOUtils;
 import javazoom.spi.mpeg.sampled.file.MpegAudioFileReader;
 
 /**
- * MP3转PCM Java方式实现
- * @功能：
- * @author： 薛超
- * @时间： 2019年5月27日
- * @version 1.0.0
+ * MP3转PCM 
+ * @author 薛超
+ * @since 2019年8月1日
+ * @version 1.0.5
  */
 public class MP3ConvertPCM {
 
 	/**
 	 * MP3转换PCM
 	 * @param inputStream MP3输入流
-	 * @throws Exception
+	 * @return byte[]
+	 * @throws Exception 语音流转换抛出的异常
 	 */
 	public static byte[] mp3Convert2pcm(InputStream inputStream) throws Exception {
 		// 转换PCM audioInputStream 数据

@@ -7,23 +7,22 @@ import java.lang.annotation.Target;
 
 /**
  * 菜单映射
- * @功能：
- * @author： 薛超
- * @时间： 2019年5月29日
- * @version 1.0.0
+ * @author 薛超
+ * @since 2019年8月1日
+ * @version 1.0.5
  */
 @Target({ ElementType.TYPE, ElementType.METHOD })
 @Retention(RetentionPolicy.RUNTIME)
 public @interface MenuMapping {
 	/**
-	 * 描述
-	 * @return
+	 * 标题
+	 * @return 菜单标题
 	 */
 	String value() default "";
 
 	/**
 	 * 类型
-	 * @return
+	 * @return 菜单类型枚举 {@link MenuEnum}
 	 */
 	MenuEnum type() default MenuEnum.BUTTON;
 

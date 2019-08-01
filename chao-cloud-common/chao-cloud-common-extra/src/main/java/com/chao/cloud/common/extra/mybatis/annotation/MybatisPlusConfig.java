@@ -8,22 +8,23 @@ import com.baomidou.mybatisplus.extension.plugins.PaginationInterceptor;
 
 @Configuration
 public class MybatisPlusConfig {
-    /**
-     * 乐观锁 插件
-     * 
-     * @return
-     */
-    @Bean
-    public OptimisticLockerInterceptor optimisticLoker() {
-        return new OptimisticLockerInterceptor();
-    }
 
-    /**
-     * 分页插件
-     */
-    @Bean
-    public PaginationInterceptor paginationInterceptor() {
-        return new PaginationInterceptor();
-    }
+	/**
+	 * 乐观锁 插件
+	 * @return {@link OptimisticLockerInterceptor}
+	 */
+	@Bean
+	public OptimisticLockerInterceptor optimisticLoker() {
+		return new OptimisticLockerInterceptor();
+	}
+
+	/**
+	 * 分页插件
+	 * @return {@link PaginationInterceptor}
+	 */
+	@Bean
+	public PaginationInterceptor paginationInterceptor() {
+		return new PaginationInterceptor();
+	}
 
 }

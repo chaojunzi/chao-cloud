@@ -6,7 +6,7 @@ import java.io.OutputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.chao.cloud.common.constants.ResultCodeEnum;
+import com.chao.cloud.common.constant.ResultCodeEnum;
 import com.chao.cloud.common.entity.Response;
 
 import cn.hutool.core.util.StrUtil;

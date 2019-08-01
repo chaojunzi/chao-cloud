@@ -27,12 +27,6 @@ public class AuthUserConfig {
 		return new RedisServiceImpl(redisTemplate);
 	}
 
-	/**
-	 * 用户权限管理
-	 * 
-	 * @param redisService
-	 * @return
-	 */
 	@Bean
 	public AuthUserResolver authUserResolver(IRedisService redisService, AuthUserPerm authUserPerm) {
 		AuthUserResolver resolver = new AuthUserResolver();
@@ -41,9 +35,6 @@ public class AuthUserConfig {
 		return resolver;
 	}
 
-	/**
-	 * 权限
-	 */
 	@Bean
 	public AuthUserProxy userPermProxy(AuthUserPerm authUserPerm) {
 		AuthUserProxy proxy = new AuthUserProxy();

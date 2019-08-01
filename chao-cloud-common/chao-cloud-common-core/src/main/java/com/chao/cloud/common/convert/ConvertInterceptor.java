@@ -13,8 +13,8 @@ import org.aopalliance.intercept.MethodInterceptor;
 import org.aopalliance.intercept.MethodInvocation;
 
 import com.chao.cloud.common.base.BaseHttpServlet;
-import com.chao.cloud.common.constants.ExceptionConsts;
-import com.chao.cloud.common.constants.ResultCodeEnum;
+import com.chao.cloud.common.constant.ExceptionConstant;
+import com.chao.cloud.common.constant.ResultCodeEnum;
 import com.chao.cloud.common.entity.Response;
 
 import cn.hutool.core.util.StrUtil;
@@ -54,7 +54,7 @@ public class ConvertInterceptor implements MethodInterceptor, BaseHttpServlet {
 			// 针对controller层抛出的异常做处理
 			String error = e.getMessage();
 			if (StrUtil.isBlank(error)) {
-				error = ExceptionConsts.ERROR;
+				error = ExceptionConstant.ERROR;
 			}
 			// 判断返回值类型
 			if (returnType == Response.class) {

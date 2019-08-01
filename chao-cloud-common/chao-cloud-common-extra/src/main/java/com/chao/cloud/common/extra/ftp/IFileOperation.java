@@ -11,10 +11,9 @@ import cn.hutool.core.util.StrUtil;
 
 /**
  * 文件操作接口
- * @功能：
- * @author： 薛超
- * @时间： 2019年5月27日
- * @version 1.0.0
+ * @author 薛超
+ * @since 2019年8月1日
+ * @version 1.0.5
  */
 public interface IFileOperation {
 
@@ -24,36 +23,42 @@ public interface IFileOperation {
 
 	/**
 	 * 上传图片
-	 * 
-	 * @param t
-	 * @return 文件名字
+	 * @param in 图片流
+	 * @param fileName 文件路径
+	 * @return String 路径
+	 * @throws Exception 载时抛出的异常
 	 */
-	String uploadImg(InputStream is, String fileName) throws Exception;
+	String uploadImg(InputStream in, String fileName) throws Exception;
 
 	/**
-	 * 
-	 * @param is
-	 *            文件流
-	 * @param fileName
-	 *            文件名称
-	 * @return
-	 * @throws Exception
+	 * 上传文件
+	 * @param in 文件流
+	 * @param fileName 文件路径
+	 * @return String 路径
+	 * @throws Exception 载时抛出的异常
 	 */
-	String uploadInputStream(InputStream is, String fileName) throws Exception;
+	String uploadInputStream(InputStream in, String fileName) throws Exception;
 
 	/**
 	 * 下载
+	 * @param filePath 文件路径
+	 * @param out 输出流
+	 * @throws Exception 载时抛出的异常
 	 */
 	void downLoad(String filePath, OutputStream out) throws Exception;
 
 	/**
 	 * 下载字节
-	 * @param filePath
+	 * @param filePath 文件路径
+	 * @return byte[]
+	 * @throws Exception 下载时抛出的异常
 	 */
 	byte[] downLoadBytes(String filePath) throws Exception;
 
 	/**
 	 * 删除文件
+	 * @param filePath 文件路径
+	 * @return boolean
 	 */
 	boolean delete(String filePath);
 
@@ -69,8 +74,9 @@ public interface IFileOperation {
 
 	/**
 	 * 生成随机文件全路径
-	 * @param fileName
-	 * @return
+	 * @param rootPath 根目录
+	 * @param fileName 文件名（包含路径）
+	 * @return String
 	 */
 	public static String genRandomFullFileName(String rootPath, String fileName) {
 		return genFilePath(rootPath) + genFileName(fileName);

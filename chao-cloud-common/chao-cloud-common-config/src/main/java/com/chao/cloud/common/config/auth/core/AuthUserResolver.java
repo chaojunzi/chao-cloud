@@ -14,11 +14,10 @@ import cn.hutool.core.lang.Assert;
 import lombok.Setter;
 
 /**
- * 
- * @功能：解析数据
- * @author： 薛超
- * @时间： 2019年7月30日
- * @version 1.0.0
+ * 解析数据
+ * @author 薛超
+ * @since 2019年8月1日
+ * @version 1.0.5
  */
 @ArgumentAnnotation
 @Setter
@@ -51,9 +50,9 @@ public class AuthUserResolver implements HandlerMethodArgumentResolver {
 	}
 
 	/**
-	 * 登录凭证
-	 * 
-	 * @return
+	 *  登录凭证
+	 * @param webRequest  {@link NativeWebRequest}
+	 * @return token
 	 */
 	private String getToken(NativeWebRequest webRequest) {
 		ResolverEnum byType = ResolverEnum.getByType(type);

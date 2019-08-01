@@ -20,11 +20,10 @@ import cn.hutool.core.util.StrUtil;
 import lombok.Data;
 
 /**
- * 
- * @功能：ftp 配置
- * @author： 薛超 
- * @时间：2019年4月25日
- * @version 2.0
+ * ftp 配置
+ * @author 薛超
+ * @since 2019年8月1日
+ * @version 1.0.5
  */
 @Data
 @Configuration
@@ -36,7 +35,7 @@ public class FtpConfig implements InitializingBean {
 	private String path;// path-根目录
 	private String logo;// logo-水印
 	private float alpha = 0.1F;// 透明度
-	private String domain = StrUtil.EMPTY;// 域名->默认为空
+	private String realm = StrUtil.EMPTY;// 域名->默认为空
 	// 基础设置
 	private String host;
 	private int port;

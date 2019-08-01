@@ -1,11 +1,10 @@
 package com.chao.cloud.common.config.auth.annotation;
 
 /**
+ * 解析类型
  * @author 薛超
- * 转换类型
- * 功能：
- * 时间：2018年7月26日
- * @version 3.0
+ * @since 2019年8月1日
+ * @version 1.0.5
  */
 public enum ResolverEnum {
 	HEADER(1), PARAM(2);

@@ -29,16 +29,12 @@ public class FtpClientProxy {
 	}
 
 	/**
-	 * Description: 向FTP服务器上传文件
-	 * 
-	 * @param filePath
-	 *            FTP服务器文件存放路径。例如分日期存放：/2015/01/01。文件的路径为basePath+filePath
-	 * @param filename
-	 *            上传到FTP服务器上的文件名
-	 * @param input
-	 *            输入流
+	 * 向FTP服务器上传文件
+	 * @param filePath  FTP服务器文件存放路径。例如分日期存放：/2015/01/01。文件的路径为basePath+filePath
+	 * @param filename  上传到FTP服务器上的文件名
+	 * @param in  输入流
 	 * @return 成功返回true，否则返回false isClose 是否关闭流 （慎用）
-	 * @throws IOException
+	 * @throws IOException 上传时抛出的异常
 	 */
 	public boolean uploadFile(String filePath, String filename, InputStream in) throws IOException {
 		boolean result = false;
@@ -86,11 +82,9 @@ public class FtpClientProxy {
 
 	/**
 	 * 下载 remote文件流
-	 * 
-	 * @param remote
-	 *            远程文件
+	 * @param remote  远程文件
 	 * @return 字节数据
-	 * @throws Exception
+	 * @throws Exception 下载时抛出的异常
 	 */
 	public byte[] retrieveFileStream(String remote) throws Exception {
 		FTPClient client = null;
@@ -120,10 +114,9 @@ public class FtpClientProxy {
 
 	/**
 	 * 删除目录，单个不可递归
-	 * 
-	 * @param pathname
-	 * @return
-	 * @throws IOException
+	 * @param pathname 文件路径
+	 * @return boolean 
+	 * @throws IOException 删除时抛出的异常
 	 */
 	public boolean removeDirectory(String pathname) throws Exception {
 		FTPClient client = null;
@@ -138,8 +131,8 @@ public class FtpClientProxy {
 	/**
 	 * 删除文件 ，不可递归
 	 * 
-	 * @param pathname
-	 * @return
+	 * @param pathname 文件路径
+	 * @return boolean
 	 */
 	public boolean deleteFile(String pathname) {
 		FTPClient client = null;

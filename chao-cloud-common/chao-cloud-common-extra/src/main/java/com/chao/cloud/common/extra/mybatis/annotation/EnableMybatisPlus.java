@@ -11,10 +11,9 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 /**
  * 数据库插件
- * @功能：
- * @author： 薛超
- * @时间：2019年3月19日
- * @version 1.0.0
+ * @author 薛超
+ * @since 2019年8月1日
+ * @version 1.0.5
  */
 @EnableTransactionManagement // 事务
 @Target(ElementType.TYPE)

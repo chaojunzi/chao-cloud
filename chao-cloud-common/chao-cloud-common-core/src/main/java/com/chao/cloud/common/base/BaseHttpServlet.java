@@ -14,7 +14,7 @@ public interface BaseHttpServlet extends BaseLogger {
 	/**
 	 * 获取request
 	 * 
-	 * @return
+	 * @return {@link HttpServletRequest}
 	 */
 	default HttpServletRequest getRequest() {
 		HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes())
@@ -25,7 +25,7 @@ public interface BaseHttpServlet extends BaseLogger {
 	/**
 	 * 获取response
 	 * 
-	 * @return
+	 * @return {@link HttpServletResponse}
 	 */
 	default HttpServletResponse getResponse() {
 		HttpServletResponse response = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes())
@@ -36,10 +36,9 @@ public interface BaseHttpServlet extends BaseLogger {
 	/**
 	 * 获取请求地址
 	 * 
-	 * @param request
-	 * @param realm_current
-	 *            例如：http://www.dcdyxxx.com 不要+/ 当前域名
-	 * @return
+	 * @param request httpRequest
+	 * @param realm_current 例如：http://www.dcdyxxx.com 不要+/ 当前域名
+	 * @return String
 	 */
 	default String getRequestEncodeUrl(HttpServletRequest request, String realm_current) {
 		try {
@@ -56,6 +55,8 @@ public interface BaseHttpServlet extends BaseLogger {
 
 	/**
 	 * 判断方法是不是ajax
+	 * @param request httpRequest
+	 * @return boolean
 	 */
 	default boolean requestIsAjax(HttpServletRequest request) {
 		boolean isAjax = false;
@@ -66,6 +67,11 @@ public interface BaseHttpServlet extends BaseLogger {
 		return isAjax;
 	}
 
+	/**
+	 * 是否包含
+	 * @param object 对象
+	 * @return boolean
+	 */
 	default boolean isInclude(Object object) {
 		return (object instanceof HttpServletRequest//
 				|| object instanceof HttpServletResponse//

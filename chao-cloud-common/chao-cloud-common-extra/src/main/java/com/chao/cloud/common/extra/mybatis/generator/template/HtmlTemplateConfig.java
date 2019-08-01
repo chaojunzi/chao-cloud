@@ -7,10 +7,9 @@ import lombok.experimental.Accessors;
 
 /**
  * 生成html 
- * @功能：
- * @author： 薛超
- * @时间：2019年5月21日
- * @version 2.0
+ * @author 薛超
+ * @since 2019年8月1日
+ * @version 1.0.5
  */
 @Data
 @Accessors(chain = true)

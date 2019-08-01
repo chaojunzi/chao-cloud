@@ -2,10 +2,9 @@ package com.chao.cloud.common.core;
 
 /**
  * 校验bean
- * @功能：
- * @author： 薛超
- * @时间： 2019年5月27日
- * @version 1.0.0
+ * @author 薛超
+ * @since 2019年8月1日
+ * @version 1.0.5
  */
 public interface SpringBeanValidation {
 

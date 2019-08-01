@@ -15,7 +15,7 @@ public class BeforeConfig {
 
 	/**
 	 * 获取模板
-	 * @return
+	 * @return {@link TemplateConfig}
 	 */
 	public TemplateConfig getTemplate() {
 		Class<? extends TemplateConfig> clazz = TemplateStyle.getByName(templateStyle);

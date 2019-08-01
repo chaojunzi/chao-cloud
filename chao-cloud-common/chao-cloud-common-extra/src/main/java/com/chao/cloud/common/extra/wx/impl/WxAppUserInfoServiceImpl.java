@@ -14,9 +14,10 @@ import me.chanjar.weixin.common.error.WxError;
 import me.chanjar.weixin.common.error.WxErrorException;
 
 /**
- * 微信小程序信息获取
- * 
- * @author xuecaho
+ * 微信小程序用户信息获取
+ * @author 薛超
+ * @since 2019年8月1日
+ * @version 1.0.5
  */
 @Slf4j
 public class WxAppUserInfoServiceImpl implements WxAppUserInfoApi, BaseLogger {

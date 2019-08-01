@@ -1,32 +1,35 @@
 package com.chao.cloud.common.extra.map.annotation;
 
-import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 import com.chao.cloud.common.extra.map.MapService;
 import com.chao.cloud.common.extra.map.tencent.TencentMapService;
 
+import lombok.Setter;
+
 /**
  * 地图功能
- * @功能：
- * @author： 薛超
- * @时间：2019年3月6日
- * @version 1.0.0
+ * @author 薛超
+ * @since 2019年8月1日
+ * @version 1.0.5
  */
+@Setter
 @Configuration
-public class MapConfig { 
+@ConfigurationProperties(prefix = "chao.cloud.map")
+public class MapConfig {
 
-    @Value("${chao.cloud.map.tencent.key}")
-    private String key;
+	private String key;
 
-    /**
-     * 腾讯地图服务
-     * @return
-     */
-    @Bean
-    public MapService mapService() {
-        return new TencentMapService(key);
-    }
+	/**
+	 * 腾讯地图服务
+	 * @param mapConfig map 配置
+	 * @return {@link MapService}
+	 */
+	@Bean
+	public MapService mapService(MapConfig mapConfig) {
+		return new TencentMapService(mapConfig.key);
+	}
 
 }

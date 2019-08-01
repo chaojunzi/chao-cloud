@@ -10,10 +10,9 @@ import org.springframework.context.annotation.Import;
 
 /**
  * 接口访问限制-ip+port-controller层拦截
- * @功能：
- * @author： 薛超
- * @时间：2019年4月24日
- * @version 1.0.0
+ * @author 薛超
+ * @since 2019年8月1日
+ * @version 1.0.5
  */
 @Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)

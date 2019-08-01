@@ -1,4 +1,4 @@
-package com.chao.cloud.common.constants;
+package com.chao.cloud.common.constant;
 
 import java.lang.reflect.Field;
 import java.util.List;
@@ -12,15 +12,14 @@ import cn.hutool.core.lang.Assert;
 import cn.hutool.core.util.ReflectUtil;
 
 /**
- * 
- * @功能：树形结构
- * @author： 薛超
- * @时间： 2019年7月26日
+ * 树形结构
+ * @author 薛超
+ * @since 2019年8月1日
  * @version 1.0.0
  */
 public enum TreeEnum {
 	/**
-	 * ID-> 唯一标识
+	 *  唯一标识
 	 */
 	ID,
 	/**
@@ -33,8 +32,8 @@ public enum TreeEnum {
 	SUB_LIST;
 	/**
 	 * 转换map
-	 * @param beanType
-	 * @return
+	 * @param beanType bean类型
+	 * @return Map
 	 */
 	public static Map<TreeEnum, Field> convertTreeMap(Class<?> beanType) {
 		// 获取属性

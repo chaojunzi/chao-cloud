@@ -1,10 +1,10 @@
-package com.chao.cloud.common.constants;
+package com.chao.cloud.common.constant;
 
 /**
  * 启动顺序
  * @author 薛超
- * 功能：
- * 时间：2018年7月23日
+ * @since 2019年8月1日
+ * @version 1.0.0
  */
 public enum StartOrderEnum {
 

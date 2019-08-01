@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import com.chao.cloud.common.base.BaseHttpServlet;
-import com.chao.cloud.common.constants.ResultCodeEnum;
+import com.chao.cloud.common.constant.ResultCodeEnum;
 import com.chao.cloud.common.entity.Response;
 import com.chao.cloud.common.exception.BusinessException;
 
@@ -18,9 +18,9 @@ import lombok.extern.slf4j.Slf4j;
 
 /**
  * controller 增强器
- * 
- * @author 薛超 功能： 时间：2018年10月15日
- * @version 1.0
+ * @author 薛超
+ * @since 2019年8月1日
+ * @version 1.0.5
  */
 @RestControllerAdvice
 @Slf4j
@@ -30,9 +30,8 @@ public class ExceptionControllerAdvice implements BaseHttpServlet {
 
 	/**
 	 * 全局异常捕捉处理
-	 * 
-	 * @param ex
-	 * @return
+	 * @param ex {@link Exception}
+	 * @return {@link Response}
 	 */
 	@ExceptionHandler(value = { Throwable.class, Exception.class, BusinessException.class })
 	public Response<String> errorHandler(Exception ex) {

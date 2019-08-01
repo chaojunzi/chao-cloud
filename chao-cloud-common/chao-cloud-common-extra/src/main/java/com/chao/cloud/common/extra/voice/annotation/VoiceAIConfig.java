@@ -10,29 +10,24 @@ import com.chao.cloud.common.extra.voice.baidu.BaiDuSpeechRecognitionService;
 
 /**
  * 语音ai
- * @功能：
- * @author： 薛超
- * @时间：2019年3月6日
- * @version 1.0.0
+ * @author 薛超
+ * @since 2019年8月1日
+ * @version 1.0.5
  */
 @Configuration
 public class VoiceAIConfig {
 
-    private final static String VOICE_CLIENT_PREFIX = "chao.cloud.ai.voice.client";
+	private final static String VOICE_CLIENT_PREFIX = "chao.cloud.ai.voice.client";
 
-    /**
-     * 语音转换文字
-     * @return 
-     */
-    @Bean
-    public SpeechRecognitionService baiDuSpeechRecognitionService(AipSpeechClient client) {
-        return new BaiDuSpeechRecognitionService(client.getAipSpeech());
-    }
+	@Bean
+	public SpeechRecognitionService baiDuSpeechRecognitionService(AipSpeechClient client) {
+		return new BaiDuSpeechRecognitionService(client.getAipSpeech());
+	}
 
-    @Bean
-    @ConfigurationProperties(prefix = VOICE_CLIENT_PREFIX)
-    public AipSpeechClient aipSpeechClient() {
-        return new AipSpeechClient();
-    }
+	@Bean
+	@ConfigurationProperties(prefix = VOICE_CLIENT_PREFIX)
+	public AipSpeechClient aipSpeechClient() {
+		return new AipSpeechClient();
+	}
 
 }

@@ -10,10 +10,9 @@ import com.github.binarywang.wxpay.service.impl.WxPayServiceImpl;
 
 /**
  * 微信配置支付
- * @功能：
- * @author： 薛超
- * @时间： 2019年5月27日
- * @version 1.0.0
+ * @author 薛超
+ * @since 2019年8月1日
+ * @version 1.0.5
  */
 @Configuration
 public class WxPaySingletonConfig {
