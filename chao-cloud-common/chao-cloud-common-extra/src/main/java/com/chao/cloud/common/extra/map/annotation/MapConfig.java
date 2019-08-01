@@ -7,15 +7,15 @@ import org.springframework.context.annotation.Configuration;
 import com.chao.cloud.common.extra.map.MapService;
 import com.chao.cloud.common.extra.map.tencent.TencentMapService;
 
-import lombok.Setter;
+import lombok.Data;
 
 /**
  * 地图功能
  * @author 薛超
  * @since 2019年8月1日
- * @version 1.0.5
+ * @version 1.0.6
  */
-@Setter
+@Data
 @Configuration
 @ConfigurationProperties(prefix = "chao.cloud.map")
 public class MapConfig {

@@ -50,7 +50,7 @@ public class FileController {
 	@PostMapping(value = "uploadImg")
 	public R<LayImgDTO> uploadImg(@NotNull(message = MESSAGE) MultipartFile file) throws Exception {
 		String uploadImg = fileOperation.uploadImg(file.getInputStream(), file.getOriginalFilename());
-		return R.ok(LayImgDTO.builder().src(uploadImg).domain(ftpConfig.getDomain()).title("").build());
+		return R.ok(LayImgDTO.builder().src(uploadImg).domain(ftpConfig.getRealm()).title("").build());
 	}
 
 	/**

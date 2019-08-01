@@ -6,7 +6,7 @@
 	<parent>
 		<groupId>com.github.chaojunzi</groupId>
 		<artifactId>chao-cloud-parent</artifactId>
-		<version>1.0.5</version>
+		<version>1.0.6</version>
 	</parent>
 	<artifactId>chao-cloud-common-core</artifactId>
 	<packaging>jar</packaging>

@@ -54,8 +54,8 @@ public class FileController {
 			throws Exception {
 		String uploadImg = fileOperation.uploadImg(file.getInputStream(), file.getOriginalFilename());
 		// 获取域名
-		String domain = ServletUtil.getHeaderIgnoreCase(request, "Origin");
-		return R.ok(LayFileDTO.builder().src(domain + uploadImg).domain(ftpConfig.getDomain()).build());
+		String realm = ServletUtil.getHeaderIgnoreCase(request, "Origin");
+		return R.ok(LayFileDTO.builder().src(realm + uploadImg).domain(ftpConfig.getRealm()).build());
 	}
 
 	/**
@@ -70,8 +70,8 @@ public class FileController {
 		String name = file.getOriginalFilename();
 		String uploadImg = fileOperation.uploadInputStream(file.getInputStream(), name);
 		// 获取域名
-		String domain = ServletUtil.getHeaderIgnoreCase(request, "Origin");
-		return R.ok(LayFileDTO.builder().src(domain + uploadImg).domain(ftpConfig.getDomain()).name(name).build());
+		String realm = ServletUtil.getHeaderIgnoreCase(request, "Origin");
+		return R.ok(LayFileDTO.builder().src(realm + uploadImg).domain(ftpConfig.getRealm()).name(name).build());
 	}
 
 	/**
