@@ -6,6 +6,7 @@
 		<groupId>com.github.chaojunzi</groupId>
 		<artifactId>chao-cloud-parent</artifactId>
 		<version>1.0.6</version>
+		<relativePath>../../pom.xml</relativePath>
 	</parent>
 	<artifactId>chao-cloud-common-config</artifactId>
 	<packaging>jar</packaging>

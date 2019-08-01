@@ -16,25 +16,11 @@
 	<url>https://github.com/chaojunzi/chao-cloud</url>
 	<description>springboot底层封装及相关工具包</description>
 
-	<licenses>
-		<license>
-			<name>The Apache Software License, Version 2.0</name>
-			<url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
-			<distribution>repo</distribution>
-		</license>
-	</licenses>
-	<scm>
-		<tag>master</tag>
-		<url>git@github.com:chaojunzi/chao-cloud.git</url>
-		<connection>scm:git:git@github.com:chaojunzi/chao-cloud.git</connection>
-		<developerConnection>scm:git:git@github.com:chaojunzi/chao-cloud.git</developerConnection>
-	</scm>
-	<developers>
-		<developer>
-			<name>chaojunzi</name>
-			<email>1521515935@qq.com</email>
-		</developer>
-	</developers>
+	<modules>
+		<module>chao-cloud-common/chao-cloud-common-core</module>
+		<module>chao-cloud-common/chao-cloud-common-extra</module>
+		<module>chao-cloud-common/chao-cloud-common-config</module>
+	</modules>
 
 	<properties>
 		<!-- 项目版本 -->
@@ -95,11 +81,6 @@
 		<apache.velocity.version>2.1</apache.velocity.version>
 		<freemarker.version>2.3.28</freemarker.version>
 	</properties>
-	<modules>
-		<module>chao-cloud-common/chao-cloud-common-core</module>
-		<module>chao-cloud-common/chao-cloud-common-extra</module>
-		<module>chao-cloud-common/chao-cloud-common-config</module>
-	</modules>
 	<dependencyManagement>
 		<dependencies>
 			<!-- spring-cloud -->
@@ -446,6 +427,29 @@
 			</build>
 		</profile>
 	</profiles>
+
+	<licenses>
+		<license>
+			<name>The Apache Software License, Version 2.0</name>
+			<url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+			<distribution>repo</distribution>
+		</license>
+	</licenses>
+
+	<scm>
+		<tag>master</tag>
+		<url>git@github.com:chaojunzi/chao-cloud.git</url>
+		<connection>scm:git:git@github.com:chaojunzi/chao-cloud.git</connection>
+		<developerConnection>scm:git:git@github.com:chaojunzi/chao-cloud.git</developerConnection>
+	</scm>
+
+	<developers>
+		<developer>
+			<name>chaojunzi</name>
+			<email>1521515935@qq.com</email>
+		</developer>
+	</developers>
+
 	<distributionManagement>
 		<snapshotRepository>
 			<id>oss</id>
