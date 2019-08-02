@@ -1,6 +1,6 @@
 <p align="center">
   <a href="https://search.maven.org/search?q=chaojunzi">
-    <img alt="maven" src="https://img.shields.io/maven-central/v/com.baomidou/mybatis-plus.svg?style=flat-square">
+    <img alt="maven" src="https://img.shields.io/maven-central/v/com.github.chaojunzi/chao-cloud-parent.svg?style=flat-square">
   </a>
 
   <a href="https://github.com/996icu/996.ICU/blob/master/LICENSE">
