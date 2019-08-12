@@ -25,3 +25,26 @@
 #### Eclipse 4.7（Oxygen[氧气]）+↑
 #### maven阿里云仓库   
 #### springboot+mybatis+mysql+shiro+layui+echarts
+
+### 引用配置
+	<dependency>
+			<groupId>com.github.chaojunzi</groupId>
+			<artifactId>chao-cloud-parent</artifactId>
+			<version>1.0.6</version>
+	</dependency>
+  <dependency>
+			<groupId>com.github.chaojunzi</groupId>
+			<artifactId>chao-cloud-common-core</artifactId>
+			<version>1.0.6</version>
+	</dependency>
+  	<dependency>
+			<groupId>com.github.chaojunzi</groupId>
+			<artifactId>chao-cloud-common-extra</artifactId>
+			<version>1.0.6</version>
+	</dependency>
+  	<dependency>
+			<groupId>com.github.chaojunzi</groupId>
+			<artifactId>chao-cloud-common-config</artifactId>
+			<version>1.0.6</version>
+	</dependency>
+	
