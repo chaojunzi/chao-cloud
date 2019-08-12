@@ -20,7 +20,6 @@
 [layui](https://github.com/sentsin/layui/)  
 [echarts](https://github.com/apache/incubator-echarts)  
 
-# chao-cloud-admin  ---> 效果图展示
 ### 环境依赖
 #### jdk1.8+↑ 
 #### Eclipse 4.7（Oxygen[氧气]）+↑
