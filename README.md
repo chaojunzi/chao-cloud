@@ -13,7 +13,7 @@
 </p>
 
 # chao-cloud
-以 spring-boot 为基础，开源的  后台管理系统 ，网页版xshell 等
+以 spring-boot 为基础，集成feign，微信sdk，百度ai等
 ### 开源项目依赖：  
 [hutool-超级工具类](https://github.com/looly/hutool)  
 [mybatis-plus](https://github.com/baomidou/mybatis-plus)  
