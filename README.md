@@ -32,7 +32,7 @@
 			<artifactId>chao-cloud-parent</artifactId>
 			<version>1.0.6</version>
 	</dependency>
-  <dependency>
+  	<dependency>
 			<groupId>com.github.chaojunzi</groupId>
 			<artifactId>chao-cloud-common-core</artifactId>
 			<version>1.0.6</version>
