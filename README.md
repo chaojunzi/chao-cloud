@@ -28,23 +28,23 @@
 
 ### 引用配置
 	<dependency>
-			<groupId>com.github.chaojunzi</groupId>
-			<artifactId>chao-cloud-parent</artifactId>
-			<version>1.0.6</version>
+		<groupId>com.github.chaojunzi</groupId>
+		<artifactId>chao-cloud-parent</artifactId>
+		<version>1.0.6</version>
 	</dependency>
   	<dependency>
-			<groupId>com.github.chaojunzi</groupId>
-			<artifactId>chao-cloud-common-core</artifactId>
-			<version>1.0.6</version>
+		<groupId>com.github.chaojunzi</groupId>
+		<artifactId>chao-cloud-common-core</artifactId>
+		<version>1.0.6</version>
 	</dependency>
   	<dependency>
-			<groupId>com.github.chaojunzi</groupId>
-			<artifactId>chao-cloud-common-extra</artifactId>
-			<version>1.0.6</version>
+		<groupId>com.github.chaojunzi</groupId>
+		<artifactId>chao-cloud-common-extra</artifactId>
+		<version>1.0.6</version>
 	</dependency>
   	<dependency>
-			<groupId>com.github.chaojunzi</groupId>
-			<artifactId>chao-cloud-common-config</artifactId>
-			<version>1.0.6</version>
+		<groupId>com.github.chaojunzi</groupId>
+		<artifactId>chao-cloud-common-config</artifactId>
+		<version>1.0.6</version>
 	</dependency>
 	
