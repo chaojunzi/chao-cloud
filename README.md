@@ -34,7 +34,7 @@ Chao-cloud: springboot 拓展工具包
 #### chao-cloud 提供以下功能
 
    * chao-cloud-common-core  
-         *  [package-包结构](https://github.com/chaojunzi/chao-cloud#1. package-包结构（core）)
+         *  [package-包结构](https://github.com/chaojunzi/chao-cloud#1-package-%E5%8C%85%E7%BB%93%E6%9E%84)
    * chao-cloud-common-extra  
          *  access 接口限流
        	  
@@ -84,19 +84,46 @@ Chao-cloud: springboot 拓展工具包
 
 chao-cloud 几乎所有功能都采取插件化处理，以注解和配置文件（yaml语法），在启动类配置即可
 
-### 1. package-包结构（core）
+### 1. package-包结构
 
-	chao-cloud-common-core
-			│
-			└─com.chao.cloud.common   		 
-				 	├─annotation 		//注解，递归树，参数解析
-				 	├─base 	 		//接口工具，一些默认的公共方法
-				 	├─constant 		//常量和枚举，返回码，错误信息
-				 	├─convert 		//参数转换，拦截器，返回值处理
-				 	├─core 			//核心包，Application，SpringUtil
-				 	├─entity 		//公共实体类，Response，Tree
-				 	├─exception 		//异常类，BusinessException
-				 	└─util			//工具类，透明背景验证码，权限（2的权的和）校验，EntityUtil递归树，list转换
+	1.chao-cloud-common-core
+		│
+		└─com.chao.cloud.common   		 
+		 	├─annotation 		//注解，递归树，参数解析
+		 	├─base 	 		//接口工具，一些默认的公共方法
+		 	├─constant 		//常量和枚举，返回码，错误信息
+		 	├─convert 		//参数转换，拦截器，返回值处理
+		 	├─core 			//核心包，Application，SpringUtil
+		 	├─entity 		//公共实体类，Response，Tree
+		 	├─exception 		//异常类，BusinessException
+		 	└─util			//工具类，透明背景验证码，权限（2的权的和）校验，EntityUtil递归树，list转换
+		 
+	2.chao-cloud-common-extra 
+		│
+		└─com.chao.cloud.common.extra    		 
+		 	├─access 		//接口访问控制（错误次数和超时时间）
+		 	├─emoji 	 	//表情过滤（接口层）
+		 	├─feign 		//spring-cloud 微服务间接口调用（可传递文件）
+		 	├─ftp 			//ftp连接池
+		 	├─map 			//地图解析（地址转坐标，距离计算一对多）
+		 	├─mybatis 		//mybatis 日志，代码自动生成，乐观锁，分页
+		 	├─redis 		//redis 缓存
+		 	├─token 		//拦截表单重复提交
+		 	├─voice 		//百度AI-语音转文字
+		 	└─wx			//微信支付，微信小程序（单例）
+		 	
+	3.chao-cloud-common-config 
+		│
+		└─com.chao.cloud.common.config    		 
+		 	├─auth 			//接口权限校验
+		 	├─core 	 		//spring核心配置（包含容器启动后的自定义处理）
+		 	├─cors 			//跨域访问
+		 	├─exception 		//全局异常处理
+		 	├─sensitive 		//敏感词过滤
+		 	├─thread 		//线程池-ThreadPoolTaskExecutor
+		 	├─tokenizer 		//分词器（可自定义词库）
+		 	├─valid 		//全局参数校验
+		 	└─web			//web（全局参数校验，controller拦截，异常，核心，健康检查，资源访问，参数解析等）
 		 
 		
 ### 环境依赖
