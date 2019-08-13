@@ -749,8 +749,6 @@ server:
 spring:
   application:
     name: ApplicationName
-  aop:  
-    auto: true 
   output:
     ansi: #彩色日志
       enabled: always 
@@ -770,10 +768,6 @@ spring:
 	<dependency>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-web</artifactId>
-	</dependency>
-	<dependency>
-		<groupId>org.springframework.boot</groupId>
-		<artifactId>spring-boot-starter-aop</artifactId>
 	</dependency>
 </dependencies>
 ```
