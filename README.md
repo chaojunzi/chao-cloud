@@ -712,19 +712,19 @@ Hibernate Validator 附加的 constraint
       - 默认集成@EnableCore
       - 默认集成AOP->参数拦截器->ConvertInterceptor
       - 默认集成健康检查：HealthController [/health/core]
-      - ip: 主机地址
-      - macAddress:  物理地址
-      - threadCount: 线程数
-      - freeMemory: 剩余可用内存
-      - totalMemory: 总内存
-      - useMemory: 已经使用内存
-      - useRate: 使用比率
+          - ip: 主机地址
+          - macAddress:  物理地址
+      	  - threadCount: 线程数
+          - freeMemory: 剩余可用内存
+          - totalMemory: 总内存
+          - useMemory: 已经使用内存
+          - useRate: 使用比率
       - 默认集成静态资源访问：spring.resources.static-locations 
-      - classpath:/META-INF/resources/
-      - classpath:/resources/
-      - classpath:/static/
-      - classpath:/public/
-
+          - classpath:/META-INF/resources/
+          - classpath:/resources/
+          - classpath:/static/
+          - classpath:/public/
+ 
 ### 25. 新建一个web项目
 
 ```java
