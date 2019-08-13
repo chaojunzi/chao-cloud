@@ -34,9 +34,9 @@ Chao-cloud: springboot 拓展工具包
 #### chao-cloud 提供以下功能
 
    * chao-cloud-common-core  
-         *  [package-包结构](https://github.com/chaojunzi/chao-cloud#1-package-%E5%8C%85%E7%BB%93%E6%9E%84)
+         * [package-包结构](https://github.com/chaojunzi/chao-cloud#1-package-%E5%8C%85%E7%BB%93%E6%9E%84)
    * chao-cloud-common-extra  
-         *  access 接口限流
+         * access 接口限流
        	  
 
    	 
