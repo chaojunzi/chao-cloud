@@ -783,6 +783,9 @@ spring:
 ##### jdk1.8+↑   
 ##### Eclipse 4.7（Oxygen[氧气]）+↑  
 ##### maven阿里云仓库   			
+##### 开发工具请安装lombok
+* [eclipse@lombok](https://www.jianshu.com/p/6825d8116006)   			
+* [idea@lombok](https://www.jianshu.com/p/3ce2f0a39df4)  			
 
 ------
 
