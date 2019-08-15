@@ -1,4 +1,4 @@
-Chao-cloud: springboot 拓展工具包
+chao-cloud: springboot 拓展工具包
 =====
 
 <p>
@@ -22,9 +22,9 @@ Chao-cloud: springboot 拓展工具包
 	chao-cloud
 		│
 		├─common   		//工具包
-		│	├─core 		//核心
-		│	├─extra 	//拓展
-		│	└─config	//配置
+		│  ├─core 		//核心
+		│  ├─extra 		//拓展
+		│  └─config		//配置
 		│
 		└─......
 		
@@ -32,35 +32,35 @@ Chao-cloud: springboot 拓展工具包
 
 #### chao-cloud 提供以下功能
 
-   * [package-包结构](./#1-package-%E5%8C%85%E7%BB%93%E6%9E%84)
+   * [package-包结构](#1-package-%E5%8C%85%E7%BB%93%E6%9E%84)
    * chao-cloud-common-core  
-       * [递归树](./#2-%E9%80%92%E5%BD%92%E6%A0%91)
-       * [透明背景验证码](./#3-%E9%80%8F%E6%98%8E%E8%83%8C%E6%99%AF%E9%AA%8C%E8%AF%81%E7%A0%81)
+       * [递归树](#2-%E9%80%92%E5%BD%92%E6%A0%91)
+       * [透明背景验证码](#3-%E9%80%8F%E6%98%8E%E8%83%8C%E6%99%AF%E9%AA%8C%E8%AF%81%E7%A0%81)
    * chao-cloud-common-extra  
-       * [接口访问控制](./#4-%E6%8E%A5%E5%8F%A3%E8%AE%BF%E9%97%AE%E6%8E%A7%E5%88%B6)
-       * [表情过滤](./#5-%E8%A1%A8%E6%83%85%E8%BF%87%E6%BB%A4)
-       * [feign微服务接口调用](./#6-feign%E5%BE%AE%E6%9C%8D%E5%8A%A1%E6%8E%A5%E5%8F%A3%E8%B0%83%E7%94%A8)
-       * [ftp连接池](./#7-ftp%E8%BF%9E%E6%8E%A5%E6%B1%A0)
-       * [地图解析](./#8-%E5%9C%B0%E5%9B%BE%E8%A7%A3%E6%9E%90)
+       * [接口访问控制](#4-%E6%8E%A5%E5%8F%A3%E8%AE%BF%E9%97%AE%E6%8E%A7%E5%88%B6)
+       * [表情过滤](#5-%E8%A1%A8%E6%83%85%E8%BF%87%E6%BB%A4)
+       * [feign微服务接口调用](#6-feign%E5%BE%AE%E6%9C%8D%E5%8A%A1%E6%8E%A5%E5%8F%A3%E8%B0%83%E7%94%A8)
+       * [ftp连接池](#7-ftp%E8%BF%9E%E6%8E%A5%E6%B1%A0)
+       * [地图解析](#8-%E5%9C%B0%E5%9B%BE%E8%A7%A3%E6%9E%90)
        * [mybatis-plus](#9-mybatis-plus)
        * [mybatis-plus-generator](#10-mybatis-plus-generator)
        * [redis](#11-redis)
-       * [防止表单重复提交](./#12-%E9%98%B2%E6%AD%A2%E8%A1%A8%E5%8D%95%E9%87%8D%E5%A4%8D%E6%8F%90%E4%BA%A4)
-       * [语音识别-百度AI](./#13-%E8%AF%AD%E9%9F%B3%E8%AF%86%E5%88%AB-%E7%99%BE%E5%BA%A6AI)
-       * [微信小程序](./#14-%E5%BE%AE%E4%BF%A1%E5%B0%8F%E7%A8%8B%E5%BA%8F)
-       * [微信支付](./#15-%E5%BE%AE%E4%BF%A1%E6%94%AF%E4%BB%98)
+       * [防止表单重复提交](#12-%E9%98%B2%E6%AD%A2%E8%A1%A8%E5%8D%95%E9%87%8D%E5%A4%8D%E6%8F%90%E4%BA%A4)
+       * [语音识别-百度AI](#13-%E8%AF%AD%E9%9F%B3%E8%AF%86%E5%88%AB-%E7%99%BE%E5%BA%A6AI)
+       * [微信小程序](#14-%E5%BE%AE%E4%BF%A1%E5%B0%8F%E7%A8%8B%E5%BA%8F)
+       * [微信支付](#15-%E5%BE%AE%E4%BF%A1%E6%94%AF%E4%BB%98)
    * chao-cloud-common-config  
-       * [接口权限校验](./#16-%E6%8E%A5%E5%8F%A3%E6%9D%83%E9%99%90%E6%A0%A1%E9%AA%8C)
-       * [Spring-核心配置](./#17-Spring-%E6%A0%B8%E5%BF%83%E9%85%8D%E7%BD%AE)
-       * [跨域访问](./#18-%E8%B7%A8%E5%9F%9F%E8%AE%BF%E9%97%AE)
-       * [全局异常处理](./#19-%E5%85%A8%E5%B1%80%E5%BC%82%E5%B8%B8%E5%A4%84%E7%90%86)
-       * [敏感词过滤](./#20-%E6%95%8F%E6%84%9F%E8%AF%8D%E8%BF%87%E6%BB%A4)
-       * [线程池](./#21-%E7%BA%BF%E7%A8%8B%E6%B1%A0)
-       * [分词器](./#22-%E5%88%86%E8%AF%8D%E5%99%A8)
-       * [全局参数校验](./#23-%E5%85%A8%E5%B1%80%E5%8F%82%E6%95%B0%E6%A0%A1%E9%AA%8C)
+       * [接口权限校验](#16-%E6%8E%A5%E5%8F%A3%E6%9D%83%E9%99%90%E6%A0%A1%E9%AA%8C)
+       * [Spring-核心配置](#17-Spring-%E6%A0%B8%E5%BF%83%E9%85%8D%E7%BD%AE)
+       * [跨域访问](#18-%E8%B7%A8%E5%9F%9F%E8%AE%BF%E9%97%AE)
+       * [全局异常处理](#19-%E5%85%A8%E5%B1%80%E5%BC%82%E5%B8%B8%E5%A4%84%E7%90%86)
+       * [敏感词过滤](#20-%E6%95%8F%E6%84%9F%E8%AF%8D%E8%BF%87%E6%BB%A4)
+       * [线程池](#21-%E7%BA%BF%E7%A8%8B%E6%B1%A0)
+       * [分词器](#22-%E5%88%86%E8%AF%8D%E5%99%A8)
+       * [全局参数校验](#23-%E5%85%A8%E5%B1%80%E5%8F%82%E6%95%B0%E6%A0%A1%E9%AA%8C)
        * [web](#24-web)
-       * [新建一个web项目](./#25-%E6%96%B0%E5%BB%BA%E4%B8%80%E4%B8%AAweb%E9%A1%B9%E7%9B%AE)
-       	  
+       * [新建一个web项目](#25-%E6%96%B0%E5%BB%BA%E4%B8%80%E4%B8%AAweb%E9%A1%B9%E7%9B%AE)
+   	 
 #### maven 安装（以下为逐级依赖） 一般直接依赖 [config] 即可
 **parent（pom）**  
 
