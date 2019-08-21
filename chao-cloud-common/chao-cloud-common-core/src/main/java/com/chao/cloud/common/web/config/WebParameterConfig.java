@@ -41,7 +41,7 @@ public class WebParameterConfig extends WebMvcConfigurationSupport {
 	 * 资源文件路径
 	 */
 	@Value("${spring.resources.static-locations:}")
-	private String staticLocation;
+	private String[] staticLocation;
 
 	@Override
 	protected void addArgumentResolvers(List<HandlerMethodArgumentResolver> argumentResolvers) {
@@ -67,7 +67,7 @@ public class WebParameterConfig extends WebMvcConfigurationSupport {
 	@Override
 	protected void addResourceHandlers(ResourceHandlerRegistry registry) {
 		// 注意优先级
-		String[] staticLocations = ArrayUtil.addAll(staticLocation.split(","), CLASSPATH_RESOURCE_LOCATIONS);
+		String[] staticLocations = ArrayUtil.addAll(staticLocation, CLASSPATH_RESOURCE_LOCATIONS);
 		// 去重
 		List<String> list = CollUtil.toList(staticLocations).stream().filter(s -> StrUtil.isNotBlank(s)).distinct()
 				.collect(Collectors.toList());

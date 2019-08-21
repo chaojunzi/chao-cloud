@@ -35,7 +35,7 @@
 		<aspectjweaver.version>1.9.4</aspectjweaver.version>
 		<!-- springcloud-boot -->
 		<spring-cloud.version>Greenwich.RELEASE</spring-cloud.version>
-		<spring-boot.version>2.1.2.RELEASE</spring-boot.version>
+		<spring-cloud-openfeign-core.version>2.1.2.RELEASE</spring-cloud-openfeign-core.version>
 		<github.openfeign-version>10.2.3</github.openfeign-version>
 		<feign.form.version>3.8.0</feign.form.version>
 		<!-- 字段校验 -->
@@ -83,16 +83,6 @@
 				<version>${spring-cloud.version}</version>
 				<type>pom</type>
 				<scope>import</scope>
-			</dependency>
-			<dependency>
-				<groupId>org.springframework.boot</groupId>
-				<artifactId>spring-boot-configuration-processor</artifactId>
-				<version>${spring-boot.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>org.springframework.boot</groupId>
-				<artifactId>spring-boot-autoconfigure</artifactId>
-				<version>${spring-boot.version}</version>
 			</dependency>
 			<!-- 字节码处理 -->
 			<dependency>
@@ -161,7 +151,7 @@
 			<dependency>
 				<groupId>org.springframework.cloud</groupId>
 				<artifactId>spring-cloud-openfeign-core</artifactId>
-				<version>${spring-boot.version}</version>
+				<version>${spring-cloud-openfeign-core.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>io.github.openfeign.form</groupId>

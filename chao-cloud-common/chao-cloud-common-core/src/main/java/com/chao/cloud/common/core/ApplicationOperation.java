@@ -2,14 +2,24 @@ package com.chao.cloud.common.core;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
+import java.util.Set;
 
 import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.beans.factory.support.BeanDefinitionBuilder;
 import org.springframework.beans.factory.support.BeanDefinitionRegistry;
 import org.springframework.beans.factory.support.DefaultListableBeanFactory;
 import org.springframework.context.ConfigurableApplicationContext;
+import org.springframework.web.method.HandlerMethod;
+import org.springframework.web.servlet.mvc.condition.PatternsRequestCondition;
+import org.springframework.web.servlet.mvc.method.RequestMappingInfo;
+import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping;
+
+import cn.hutool.core.util.StrUtil;
 
 /**
  * 获取容器中的资源
@@ -57,6 +67,15 @@ public class ApplicationOperation {
 		getBeanDefinitionRegistry().registerBeanDefinition(beanId, beanDefinition);
 	}
 
+	public static void registerBean(Class<?> clazz) {
+		// 获取classname
+		String className = clazz.getName();
+		// classid
+		String simpleName = clazz.getSimpleName();
+		String beanId = StrUtil.lowerFirst(simpleName);
+		registerBean(beanId, className);
+	}
+
 	public static BeanDefinitionRegistry getBeanDefinitionRegistry() {
 		return (DefaultListableBeanFactory) ((ConfigurableApplicationContext) SpringContextUtil.getApplicationContext())
 				.getBeanFactory();
@@ -79,5 +98,44 @@ public class ApplicationOperation {
 			return false;
 		}
 		return true;
+	}
+
+	/**
+	 * 获取所有controller路径
+	 * @return Map
+	 */
+	public static Map<String, Set<String>> mappingHandlerUrl() {
+		Map<String, Set<String>> resp = new HashMap<>();
+		Map<String, RequestMappingHandlerMapping> beansOfType = SpringContextUtil.getApplicationContext()
+				.getBeansOfType(RequestMappingHandlerMapping.class);
+		Set<Entry<String, RequestMappingHandlerMapping>> entrySet = beansOfType.entrySet();
+		RequestMappingHandlerMapping mapping = null;
+		for (Entry<String, RequestMappingHandlerMapping> entry : entrySet) {
+			String key = entry.getKey();
+			mapping = entry.getValue();
+			Map<RequestMappingInfo, HandlerMethod> handlerMethods = mapping.getHandlerMethods();
+			Set<String> value = new HashSet<String>();
+			for (RequestMappingInfo rmi : handlerMethods.keySet()) {
+				PatternsRequestCondition pc = rmi.getPatternsCondition();
+				Set<String> pSet = pc.getPatterns();
+				value.addAll(pSet);
+			}
+			resp.put(key, value);
+		}
+		return resp;
+	}
+
+	public static Set<String> allMappingHandlerUrl() {
+		Set<String> value = new HashSet<String>();
+		List<RequestMappingHandlerMapping> list = getInterfaceImplClass(RequestMappingHandlerMapping.class);
+		for (RequestMappingHandlerMapping mapping : list) {
+			Map<RequestMappingInfo, HandlerMethod> handlerMethods = mapping.getHandlerMethods();
+			for (RequestMappingInfo rmi : handlerMethods.keySet()) {
+				PatternsRequestCondition pc = rmi.getPatternsCondition();
+				Set<String> pSet = pc.getPatterns();
+				value.addAll(pSet);
+			}
+		}
+		return value;
 	}
 }
