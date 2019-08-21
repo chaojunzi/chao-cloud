@@ -1,4 +1,4 @@
-package com.chao.cloud.common.config.exception;
+package com.chao.cloud.common.exception;
 
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -6,7 +6,7 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletResponse;
 
-import com.google.common.net.MediaType;
+import org.springframework.http.MediaType;
 
 import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.io.IoUtil;
@@ -32,7 +32,7 @@ public final class ErrorUtil {
 	}
 
 	public static void writeErrorHtml(HttpServletResponse response, String errorFile) {
-		response.setContentType(MediaType.HTML_UTF_8.toString());
+		response.setContentType(MediaType.TEXT_HTML_VALUE);
 		try (OutputStream out = response.getOutputStream(); InputStream in = ResourceUtil.getStream(errorFile)) {
 			IoUtil.copy(in, out);
 		} catch (Exception e) {

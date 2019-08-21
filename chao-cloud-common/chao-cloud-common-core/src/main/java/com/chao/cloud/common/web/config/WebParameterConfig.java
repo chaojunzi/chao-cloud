@@ -1,4 +1,4 @@
-package com.chao.cloud.common.config.web;
+package com.chao.cloud.common.web.config;
 
 import java.util.Arrays;
 import java.util.List;
@@ -14,8 +14,9 @@ import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurationSupport;
 
 import com.chao.cloud.common.annotation.ArgumentAnnotation;
-import com.chao.cloud.common.convert.JsonHttpMessageConverter;
 import com.chao.cloud.common.core.ApplicationOperation;
+import com.chao.cloud.common.web.HealthController;
+import com.chao.cloud.common.web.convert.JsonHttpMessageConverter;
 
 import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.util.ArrayUtil;

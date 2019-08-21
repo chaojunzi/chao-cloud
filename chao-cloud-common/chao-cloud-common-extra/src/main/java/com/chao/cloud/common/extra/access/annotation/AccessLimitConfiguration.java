@@ -8,9 +8,9 @@ import com.chao.cloud.common.extra.access.proxy.AccessLimitProxy;
 @Configuration
 public class AccessLimitConfiguration {
 
-    @Bean
-    public AccessLimitProxy AccessLimitProxy() {
-        return new AccessLimitProxy();
-    }
+	@Bean
+	public AccessLimitProxy AccessLimitProxy() {
+		return new AccessLimitProxy();
+	}
 
 }

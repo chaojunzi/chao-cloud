@@ -1,4 +1,4 @@
-package com.chao.cloud.common.config.exception;
+package com.chao.cloud.common.exception;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 import com.chao.cloud.common.base.BaseHttpServlet;
 import com.chao.cloud.common.constant.ResultCodeEnum;
 import com.chao.cloud.common.entity.Response;
-import com.chao.cloud.common.exception.BusinessException;
 
 import cn.hutool.core.util.StrUtil;
 import lombok.extern.slf4j.Slf4j;

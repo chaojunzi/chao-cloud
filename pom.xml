@@ -18,7 +18,7 @@
 
 	<properties>
 		<!-- 项目版本 -->
-		<chao.cloud.version>1.0.6</chao.cloud.version>
+		<chao.cloud.version>1.0.7</chao.cloud.version>
 		<!-- 环境配置 -->
 		<java.version>1.8</java.version>
 		<java.encoding>UTF-8</java.encoding>
@@ -35,9 +35,7 @@
 		<aspectjweaver.version>1.9.4</aspectjweaver.version>
 		<!-- springcloud-boot -->
 		<spring-cloud.version>Greenwich.RELEASE</spring-cloud.version>
-		<spring.boot.configuration.version>2.1.2.RELEASE</spring.boot.configuration.version>
-		<spring-cloud-web-socket.version>2.1.2.RELEASE</spring-cloud-web-socket.version>
-		<spring.cloud.openfeign.version>2.1.2.RELEASE</spring.cloud.openfeign.version>
+		<spring-boot.version>2.1.2.RELEASE</spring-boot.version>
 		<github.openfeign-version>10.2.3</github.openfeign-version>
 		<feign.form.version>3.8.0</feign.form.version>
 		<!-- 字段校验 -->
@@ -56,7 +54,6 @@
 		<mysql-connector.version>8.0.16</mysql-connector.version>
 		<druid-spring.version>1.1.9</druid-spring.version>
 		<mybatis-plus.version>3.1.2</mybatis-plus.version>
-		<pagehelper.version>1.2.12</pagehelper.version>
 		<!-- servlet -->
 		<servlet-api.version>4.0.1</servlet-api.version>
 		<!-- json返回值 -->
@@ -64,16 +61,11 @@
 		<!-- 微信工具包 -->
 		<weixin-java-tools.version>3.4.0</weixin-java-tools.version>
 		<thoughtworks.version>1.4.11.1</thoughtworks.version>
-		<!-- ssh2 -->
-		<ganymed-ssh2.version>262</ganymed-ssh2.version>
-		<!-- xss过滤 -->
-		<jsoup.version>1.11.3</jsoup.version>
 		<!-- shiro -->
 		<shiro.version>1.4.0</shiro.version>
 		<shiro.thymeleaf.version>2.0.0</shiro.thymeleaf.version>
 		<!-- 模板 -->
 		<apache.velocity.version>2.1</apache.velocity.version>
-		<freemarker.version>2.3.28</freemarker.version>
 	</properties>
 
 	<modules>
@@ -92,16 +84,66 @@
 				<type>pom</type>
 				<scope>import</scope>
 			</dependency>
+			<dependency>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-configuration-processor</artifactId>
+				<version>${spring-boot.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-autoconfigure</artifactId>
+				<version>${spring-boot.version}</version>
+			</dependency>
+			<!-- 字节码处理 -->
+			<dependency>
+				<groupId>javassist</groupId>
+				<artifactId>javassist</artifactId>
+				<version>${javassist.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>cglib</groupId>
+				<artifactId>cglib</artifactId>
+				<version>${cglib-version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.aspectj</groupId>
+				<artifactId>aspectjweaver</artifactId>
+				<version>${aspectjweaver.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.projectlombok</groupId>
+				<artifactId>lombok</artifactId>
+				<version>${lombok.version}</version>
+			</dependency>
+			<!-- 校验 -->
+			<dependency>
+				<groupId>org.hibernate</groupId>
+				<artifactId>hibernate-validator</artifactId>
+				<version>${hibernate-validator.version}</version>
+			</dependency>
+			<!-- json处理 -->
+			<dependency>
+				<groupId>com.alibaba</groupId>
+				<artifactId>fastjson</artifactId>
+				<version>${fastjson.version}</version>
+			</dependency>
+			<!-- https://mvnrepository.com/artifact/javax.servlet/servlet-api -->
+			<dependency>
+				<groupId>javax.servlet</groupId>
+				<artifactId>javax.servlet-api</artifactId>
+				<version>${servlet-api.version}</version>
+			</dependency>
 			<!-- Hutool超级工具类 http://hutool.mydoc.io/ -->
 			<dependency>
 				<groupId>cn.hutool</groupId>
 				<artifactId>hutool-all</artifactId>
 				<version>${hutool-all.version}</version>
 			</dependency>
+			<!-- 基于Hutool-二维码生成和处理 -->
 			<dependency>
-				<groupId>cglib</groupId>
-				<artifactId>cglib</artifactId>
-				<version>${cglib-version}</version>
+				<groupId>com.google.zxing</groupId>
+				<artifactId>core</artifactId>
+				<version>${google.zxing.version}</version>
 			</dependency>
 			<!--基于Hutool-表情过滤 -->
 			<dependency>
@@ -115,40 +157,12 @@
 				<artifactId>hanlp</artifactId>
 				<version>${hanlp.version}</version>
 			</dependency>
-			<!-- 基于Hutool-二维码生成和处理 -->
-			<dependency>
-				<groupId>com.google.zxing</groupId>
-				<artifactId>core</artifactId>
-				<version>${google.zxing.version}</version>
-			</dependency>
-			<!-- 字节码处理 -->
-			<dependency>
-				<groupId>javassist</groupId>
-				<artifactId>javassist</artifactId>
-				<version>${javassist.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>ch.ethz.ganymed</groupId>
-				<artifactId>ganymed-ssh2</artifactId>
-				<version>${ganymed-ssh2.version}</version>
-			</dependency>
+			<!-- feign 多文件上传处理-和spring-boot版本保持一致 -->
 			<dependency>
 				<groupId>org.springframework.cloud</groupId>
 				<artifactId>spring-cloud-openfeign-core</artifactId>
-				<version>${spring.cloud.openfeign.version}</version>
+				<version>${spring-boot.version}</version>
 			</dependency>
-			<dependency>
-				<groupId>org.springframework.boot</groupId>
-				<artifactId>spring-boot-configuration-processor</artifactId>
-				<version>${spring.boot.configuration.version}</version>
-			</dependency>
-			<!-- https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-autoconfigure -->
-			<dependency>
-				<groupId>org.springframework.boot</groupId>
-				<artifactId>spring-boot-autoconfigure</artifactId>
-				<version>${spring.boot.configuration.version}</version>
-			</dependency>
-			<!-- feign 多文件上传处理 -->
 			<dependency>
 				<groupId>io.github.openfeign.form</groupId>
 				<artifactId>feign-form</artifactId>
@@ -168,39 +182,6 @@
 				<groupId>io.github.openfeign</groupId>
 				<artifactId>feign-core</artifactId>
 				<version>${github.openfeign-version}</version>
-			</dependency>
-			<!-- https://mvnrepository.com/artifact/javax.servlet/servlet-api -->
-			<dependency>
-				<groupId>javax.servlet</groupId>
-				<artifactId>javax.servlet-api</artifactId>
-				<version>${servlet-api.version}</version>
-			</dependency>
-			<!-- apache ftp支持 -->
-			<dependency>
-				<groupId>commons-net</groupId>
-				<artifactId>commons-net</artifactId>
-				<version>${commons-net.version}</version>
-			</dependency>
-			<!-- apache 连接池支持 -->
-			<dependency>
-				<groupId>org.apache.commons</groupId>
-				<artifactId>commons-pool2</artifactId>
-				<version>${commons-pool2.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>com.alibaba</groupId>
-				<artifactId>fastjson</artifactId>
-				<version>${fastjson.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>com.thoughtworks.xstream</groupId>
-				<artifactId>xstream</artifactId>
-				<version>${thoughtworks.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>org.projectlombok</groupId>
-				<artifactId>lombok</artifactId>
-				<version>${lombok.version}</version>
 			</dependency>
 			<!-- 微信工具类 -->
 			<dependency>
@@ -238,21 +219,29 @@
 				<artifactId>weixin-java-open</artifactId>
 				<version>${weixin-java-tools.version}</version>
 			</dependency>
+			<!-- 微信处理-xstream -->
+			<dependency>
+				<groupId>com.thoughtworks.xstream</groupId>
+				<artifactId>xstream</artifactId>
+				<version>${thoughtworks.version}</version>
+			</dependency>
+			<!-- apache ftp支持 -->
+			<dependency>
+				<groupId>commons-net</groupId>
+				<artifactId>commons-net</artifactId>
+				<version>${commons-net.version}</version>
+			</dependency>
+			<!-- apache 连接池支持 -->
+			<dependency>
+				<groupId>org.apache.commons</groupId>
+				<artifactId>commons-pool2</artifactId>
+				<version>${commons-pool2.version}</version>
+			</dependency>
 			<!-- https://mvnrepository.com/artifact/org.apache.poi/poi-ooxml -->
 			<dependency>
 				<groupId>org.apache.poi</groupId>
 				<artifactId>poi-ooxml</artifactId>
 				<version>${poi-version}</version>
-			</dependency>
-			<dependency>
-				<groupId>org.aspectj</groupId>
-				<artifactId>aspectjweaver</artifactId>
-				<version>${aspectjweaver.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>org.hibernate</groupId>
-				<artifactId>hibernate-validator</artifactId>
-				<version>${hibernate-validator.version}</version>
 			</dependency>
 			<!-- mysql-connector-java jar -->
 			<dependency>
@@ -260,17 +249,13 @@
 				<artifactId>mysql-connector-java</artifactId>
 				<version>${mysql-connector.version}</version>
 			</dependency>
-			<!-- druid-mybatis-pagehelper -->
+			<!-- druid -->
 			<dependency>
 				<groupId>com.alibaba</groupId>
 				<artifactId>druid-spring-boot-starter</artifactId>
 				<version>${druid-spring.version}</version>
 			</dependency>
-			<dependency>
-				<groupId>com.github.pagehelper</groupId>
-				<artifactId>pagehelper-spring-boot-starter</artifactId>
-				<version>${pagehelper.version}</version>
-			</dependency>
+			<!-- mybatis-plus -->
 			<dependency>
 				<groupId>com.baomidou</groupId>
 				<artifactId>mybatis-plus-boot-starter</artifactId>
@@ -280,11 +265,6 @@
 				<groupId>com.baomidou</groupId>
 				<artifactId>mybatis-plus-generator</artifactId>
 				<version>${mybatis-plus.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>org.springframework.boot</groupId>
-				<artifactId>spring-boot-starter-websocket</artifactId>
-				<version>${spring-cloud-web-socket.version}</version>
 			</dependency>
 			<!--shiro -->
 			<dependency>
@@ -302,30 +282,16 @@
 				<artifactId>shiro-ehcache</artifactId>
 				<version>${shiro.version}</version>
 			</dependency>
-
 			<dependency>
 				<groupId>com.github.theborakompanioni</groupId>
 				<artifactId>thymeleaf-extras-shiro</artifactId>
 				<version>${shiro.thymeleaf.version}</version>
-			</dependency>
-			<!-- jsp Template jar -->
-			<dependency>
-				<groupId>org.freemarker</groupId>
-				<artifactId>freemarker</artifactId>
-				<version>${freemarker.version}</version>
 			</dependency>
 			<!--velocity代码生成使用模板 -->
 			<dependency>
 				<groupId>org.apache.velocity</groupId>
 				<artifactId>velocity-engine-core</artifactId>
 				<version>${apache.velocity.version}</version>
-			</dependency>
-			<!-- xss过滤组件 -->
-			<!-- https://mvnrepository.com/artifact/org.jsoup/jsoup -->
-			<dependency>
-				<groupId>org.jsoup</groupId>
-				<artifactId>jsoup</artifactId>
-				<version>${jsoup.version}</version>
 			</dependency>
 			<!-- ai -->
 			<dependency>

@@ -1,4 +1,4 @@
-package com.chao.cloud.common.config.web;
+package com.chao.cloud.common.web;
 
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;

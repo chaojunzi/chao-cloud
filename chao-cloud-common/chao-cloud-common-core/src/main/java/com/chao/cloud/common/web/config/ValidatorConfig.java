@@ -1,4 +1,4 @@
-package com.chao.cloud.common.config.valid;
+package com.chao.cloud.common.web.config;
 
 import java.util.Locale;
 

@@ -1,4 +1,4 @@
-package com.chao.cloud.common.config.core;
+package com.chao.cloud.common.web.annotation;
 
 import java.lang.annotation.Documented;
 import java.lang.annotation.ElementType;
@@ -8,8 +8,11 @@ import java.lang.annotation.Target;
 
 import org.springframework.context.annotation.Import;
 
+import com.chao.cloud.common.web.config.AopConfig;
+import com.chao.cloud.common.web.config.WebParameterConfig;
+
 /**
- * 全局的application配置核心配置
+ * web服务通用配置
  * @author 薛超
  * @since 2019年8月1日
  * @version 1.0.5
@@ -17,7 +20,12 @@ import org.springframework.context.annotation.Import;
 @Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
-@Import(ApplicationBeanConfig.class)
-public @interface EnableCore {
+@Import({ //
+		AopConfig.class, // controller 拦截和vo转换
+		WebParameterConfig.class,// web资源-参数处理
+})
+@EnableCore // 核心配置
+@EnableValidator // 参数校验
+public @interface EnableWeb {
 
 }

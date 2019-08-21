@@ -5,7 +5,7 @@
 	<parent>
 		<groupId>com.github.chaojunzi</groupId>
 		<artifactId>chao-cloud-parent</artifactId>
-		<version>1.0.6</version>
+		<version>1.0.7</version>
 		<relativePath>../../pom.xml</relativePath>
 	</parent>
 	<artifactId>chao-cloud-common-extra</artifactId>
@@ -20,6 +20,11 @@
 			<groupId>com.github.chaojunzi</groupId>
 			<artifactId>chao-cloud-common-core</artifactId>
 			<version>${chao.cloud.version}</version>
+		</dependency>
+		<!-- 表情过滤 -->
+		<dependency>
+			<groupId>com.vdurmont</groupId>
+			<artifactId>emoji-java</artifactId>
 		</dependency>
 		<!-- redis -->
 		<dependency>
@@ -84,10 +89,6 @@
 			<groupId>org.apache.velocity</groupId>
 			<artifactId>velocity-engine-core</artifactId>
 		</dependency>
-		<dependency>
-			<groupId>org.freemarker</groupId>
-			<artifactId>freemarker</artifactId>
-		</dependency>
 		<!-- feign -->
 		<!-- https://mvnrepository.com/artifact/io.github.openfeign/feign-core -->
 		<dependency>
@@ -119,14 +120,15 @@
 			<groupId>org.springframework.cloud</groupId>
 			<artifactId>spring-cloud-starter-openfeign</artifactId>
 		</dependency>
-		<!-- config -->
+		<!-- apache ftp支持 -->
 		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-autoconfigure</artifactId>
+			<groupId>commons-net</groupId>
+			<artifactId>commons-net</artifactId>
 		</dependency>
+		<!-- apache 连接池支持 -->
 		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-configuration-processor</artifactId>
+			<groupId>org.apache.commons</groupId>
+			<artifactId>commons-pool2</artifactId>
 		</dependency>
 	</dependencies>
 </project>

@@ -1,10 +1,10 @@
-package com.chao.cloud.common.config.web;
+package com.chao.cloud.common.web.config;
 
 import org.springframework.aop.framework.autoproxy.BeanNameAutoProxyCreator;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-import com.chao.cloud.common.convert.ConvertInterceptor;
+import com.chao.cloud.common.web.convert.ConvertInterceptor;
 
 /**
  * aop 配置

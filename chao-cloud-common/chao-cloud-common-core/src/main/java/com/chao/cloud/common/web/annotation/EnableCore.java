@@ -1,4 +1,4 @@
-package com.chao.cloud.common.config.valid;
+package com.chao.cloud.common.web.annotation;
 
 import java.lang.annotation.Documented;
 import java.lang.annotation.ElementType;
@@ -8,8 +8,10 @@ import java.lang.annotation.Target;
 
 import org.springframework.context.annotation.Import;
 
+import com.chao.cloud.common.web.config.ApplicationCoreConfig;
+
 /**
- * 参数校验
+ * 全局的application配置核心配置
  * @author 薛超
  * @since 2019年8月1日
  * @version 1.0.5
@@ -17,7 +19,7 @@ import org.springframework.context.annotation.Import;
 @Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
-@Import(ValidatorConfig.class)
-public @interface EnableValidator {
+@Import(ApplicationCoreConfig.class)
+public @interface EnableCore {
 
 }

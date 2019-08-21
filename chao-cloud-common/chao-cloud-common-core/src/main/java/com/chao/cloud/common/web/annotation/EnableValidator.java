@@ -1,4 +1,4 @@
-package com.chao.cloud.common.config.exception;
+package com.chao.cloud.common.web.annotation;
 
 import java.lang.annotation.Documented;
 import java.lang.annotation.ElementType;
@@ -8,13 +8,18 @@ import java.lang.annotation.Target;
 
 import org.springframework.context.annotation.Import;
 
+import com.chao.cloud.common.web.config.ValidatorConfig;
+
+/**
+ * 参数校验
+ * @author 薛超
+ * @since 2019年8月1日
+ * @version 1.0.5
+ */
 @Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
-@Import({ //
-		ExceptionControllerError.class, // 全局异常处理
-		ExceptionControllerAdvice.class, // 全局控制层异常处理
-})
-public @interface EnableGlobalException {
+@Import(ValidatorConfig.class)
+public @interface EnableValidator {
 
 }

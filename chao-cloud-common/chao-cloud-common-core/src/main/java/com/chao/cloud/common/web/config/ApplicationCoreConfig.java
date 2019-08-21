@@ -1,4 +1,4 @@
-package com.chao.cloud.common.config.core;
+package com.chao.cloud.common.web.config;
 
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
@@ -16,7 +16,7 @@ import com.chao.cloud.common.core.SpringContextUtil;
  * @version 1.0.5
  */
 @Configuration
-public class ApplicationBeanConfig {
+public class ApplicationCoreConfig {
 
 	/**
 	 * 全局spring容器

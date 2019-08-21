@@ -1,4 +1,4 @@
-package com.chao.cloud.common.config.exception;
+package com.chao.cloud.common.exception;
 
 import java.util.Map;
 

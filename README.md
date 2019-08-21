@@ -36,30 +36,30 @@ chao-cloud: springboot 拓展工具包
    * chao-cloud-common-core  
        * [递归树](#2-%E9%80%92%E5%BD%92%E6%A0%91)
        * [透明背景验证码](#3-%E9%80%8F%E6%98%8E%E8%83%8C%E6%99%AF%E9%AA%8C%E8%AF%81%E7%A0%81)
+       * [Spring-核心配置](#4-Spring-%E6%A0%B8%E5%BF%83%E9%85%8D%E7%BD%AE)
+       * [全局异常处理](#5-%E5%85%A8%E5%B1%80%E5%BC%82%E5%B8%B8%E5%A4%84%E7%90%86)
+       * [全局参数校验](#6-%E5%85%A8%E5%B1%80%E5%8F%82%E6%95%B0%E6%A0%A1%E9%AA%8C)
+       * [web](#7-web)
+       * [新建一个web项目](#8-%E6%96%B0%E5%BB%BA%E4%B8%80%E4%B8%AAweb%E9%A1%B9%E7%9B%AE)
    * chao-cloud-common-extra  
-       * [接口访问控制](#4-%E6%8E%A5%E5%8F%A3%E8%AE%BF%E9%97%AE%E6%8E%A7%E5%88%B6)
-       * [表情过滤](#5-%E8%A1%A8%E6%83%85%E8%BF%87%E6%BB%A4)
-       * [feign微服务接口调用](#6-feign%E5%BE%AE%E6%9C%8D%E5%8A%A1%E6%8E%A5%E5%8F%A3%E8%B0%83%E7%94%A8)
-       * [ftp连接池](#7-ftp%E8%BF%9E%E6%8E%A5%E6%B1%A0)
-       * [地图解析](#8-%E5%9C%B0%E5%9B%BE%E8%A7%A3%E6%9E%90)
-       * [mybatis-plus](#9-mybatis-plus)
-       * [mybatis-plus-generator](#10-mybatis-plus-generator)
-       * [redis](#11-redis)
-       * [防止表单重复提交](#12-%E9%98%B2%E6%AD%A2%E8%A1%A8%E5%8D%95%E9%87%8D%E5%A4%8D%E6%8F%90%E4%BA%A4)
-       * [语音识别-百度AI](#13-%E8%AF%AD%E9%9F%B3%E8%AF%86%E5%88%AB-%E7%99%BE%E5%BA%A6AI)
-       * [微信小程序](#14-%E5%BE%AE%E4%BF%A1%E5%B0%8F%E7%A8%8B%E5%BA%8F)
-       * [微信支付](#15-%E5%BE%AE%E4%BF%A1%E6%94%AF%E4%BB%98)
+       * [接口访问控制](#9-%E6%8E%A5%E5%8F%A3%E8%AE%BF%E9%97%AE%E6%8E%A7%E5%88%B6)
+       * [表情过滤](#10-%E8%A1%A8%E6%83%85%E8%BF%87%E6%BB%A4)
+       * [feign微服务接口调用](#11-feign%E5%BE%AE%E6%9C%8D%E5%8A%A1%E6%8E%A5%E5%8F%A3%E8%B0%83%E7%94%A8)
+       * [ftp连接池](#12-ftp%E8%BF%9E%E6%8E%A5%E6%B1%A0)
+       * [地图解析](#13-%E5%9C%B0%E5%9B%BE%E8%A7%A3%E6%9E%90)
+       * [mybatis-plus](#14-mybatis-plus)
+       * [mybatis-plus-generator](#15-mybatis-plus-generator)
+       * [redis](#16-redis)
+       * [防止表单重复提交](#17-%E9%98%B2%E6%AD%A2%E8%A1%A8%E5%8D%95%E9%87%8D%E5%A4%8D%E6%8F%90%E4%BA%A4)
+       * [语音识别-百度AI](#18-%E8%AF%AD%E9%9F%B3%E8%AF%86%E5%88%AB-%E7%99%BE%E5%BA%A6AI)
+       * [微信小程序](#19-%E5%BE%AE%E4%BF%A1%E5%B0%8F%E7%A8%8B%E5%BA%8F)
+       * [微信支付](#20-%E5%BE%AE%E4%BF%A1%E6%94%AF%E4%BB%98)
    * chao-cloud-common-config  
-       * [接口权限校验](#16-%E6%8E%A5%E5%8F%A3%E6%9D%83%E9%99%90%E6%A0%A1%E9%AA%8C)
-       * [Spring-核心配置](#17-Spring-%E6%A0%B8%E5%BF%83%E9%85%8D%E7%BD%AE)
-       * [跨域访问](#18-%E8%B7%A8%E5%9F%9F%E8%AE%BF%E9%97%AE)
-       * [全局异常处理](#19-%E5%85%A8%E5%B1%80%E5%BC%82%E5%B8%B8%E5%A4%84%E7%90%86)
-       * [敏感词过滤](#20-%E6%95%8F%E6%84%9F%E8%AF%8D%E8%BF%87%E6%BB%A4)
-       * [线程池](#21-%E7%BA%BF%E7%A8%8B%E6%B1%A0)
-       * [分词器](#22-%E5%88%86%E8%AF%8D%E5%99%A8)
-       * [全局参数校验](#23-%E5%85%A8%E5%B1%80%E5%8F%82%E6%95%B0%E6%A0%A1%E9%AA%8C)
-       * [web](#24-web)
-       * [新建一个web项目](#25-%E6%96%B0%E5%BB%BA%E4%B8%80%E4%B8%AAweb%E9%A1%B9%E7%9B%AE)
+       * [接口权限校验](#21-%E6%8E%A5%E5%8F%A3%E6%9D%83%E9%99%90%E6%A0%A1%E9%AA%8C)
+       * [跨域访问](#22-%E8%B7%A8%E5%9F%9F%E8%AE%BF%E9%97%AE)
+       * [敏感词过滤](#23-%E6%95%8F%E6%84%9F%E8%AF%8D%E8%BF%87%E6%BB%A4)
+       * [线程池](#24-%E7%BA%BF%E7%A8%8B%E6%B1%A0)
+       * [分词器](#25-%E5%88%86%E8%AF%8D%E5%99%A8)
    	 
 #### maven 安装（以下为逐级依赖） 一般直接依赖 [config] 即可
 **parent（pom）**  
@@ -68,7 +68,7 @@ chao-cloud: springboot 拓展工具包
 <dependency>
 	<groupId>com.github.chaojunzi</groupId>
 	<artifactId>chao-cloud-parent</artifactId>
-	<version>1.0.6</version>
+	<version>1.0.7</version>
 </dependency>
 ```
 
@@ -78,7 +78,7 @@ chao-cloud: springboot 拓展工具包
 <dependency>
 	<groupId>com.github.chaojunzi</groupId>
 	<artifactId>chao-cloud-common-core</artifactId>
-	<version>1.0.6</version>
+	<version>1.0.7</version>
 </dependency>
 ```
 
@@ -88,7 +88,7 @@ chao-cloud: springboot 拓展工具包
 <dependency>
 	<groupId>com.github.chaojunzi</groupId>
 	<artifactId>chao-cloud-common-extra</artifactId>
-	<version>1.0.6</version>
+	<version>1.0.7</version>
 </dependency>
 ```
 **config 注解和配置↑** 
@@ -97,7 +97,7 @@ chao-cloud: springboot 拓展工具包
 <dependency>
 	<groupId>com.github.chaojunzi</groupId>
 	<artifactId>chao-cloud-common-config</artifactId>
-	<version>1.0.6</version>
+	<version>1.0.7</version>
 </dependency>
 ```
 	
@@ -113,11 +113,15 @@ chao-cloud 几乎所有功能都采取插件化处理，以注解和配置文件
 		 	├─annotation 		//注解，递归树，参数解析
 		 	├─base 	 		//接口工具，一些默认的公共方法
 		 	├─constant 		//常量和枚举，返回码，错误信息
-		 	├─convert 		//参数转换，拦截器，返回值处理
 		 	├─core 			//核心包，Application，SpringUtil
 		 	├─entity 		//公共实体类，Response，Tree
 		 	├─exception 		//异常类，BusinessException
-		 	└─util			//工具类，透明背景验证码，权限（2的权的和）校验，EntityUtil递归树，list转换
+		 	├─util			//工具类，透明背景验证码，权限（2的权的和）校验，EntityUtil递归树，list转换
+		 	└─web			//web（全局参数校验，controller拦截，全局异常，核心，健康检查，资源访问，参数解析等）
+		 	  ├─annotation		//注解 application exception valid web
+		 	  ├─config 		//配置aop application valid web
+		 	  ├─convert 		//rest 参数拦截返回值转换
+		 	  └─HealthController	//健康监测API
 		 
 	2.chao-cloud-common-extra 
 		│
@@ -137,14 +141,10 @@ chao-cloud 几乎所有功能都采取插件化处理，以注解和配置文件
 		│
 		└─com.chao.cloud.common.config    		 
 		 	├─auth 			//接口权限校验
-		 	├─core 	 		//spring核心配置（包含容器启动后的自定义处理）
 		 	├─cors 			//跨域访问
-		 	├─exception 		//全局异常处理
 		 	├─sensitive 		//敏感词过滤
 		 	├─thread 		//线程池-ThreadPoolTaskExecutor
-		 	├─tokenizer 		//分词器（可自定义词库）
-		 	├─valid 		//全局参数校验
-		 	└─web			//web（全局参数校验，controller拦截，异常，核心，健康检查，资源访问，参数解析等）
+		 	└─tokenizer 		//分词器（可自定义词库）
 		 
 ### 2. 递归树
 
@@ -254,8 +254,146 @@ HyalineCircleCaptcha captcha = HyalineCaptchaUtil.createCircleCaptcha(100, 42, 4
 String code = captcha.getCode();
 log.info("[验证码: {}]", code);
 ```
-	
-### 4. 接口访问控制
+### 4. Spring-核心配置
+
+```java
+@EnableCore
+```
+- 说明
+  * 在启动类增加@EnableCore  
+  * 可使用全局 SpringContextUtil 处理相关bean 
+  * 可实现接口 [IApplicationRestart] 做一些容器启动后的相关操作 
+      
+### 5. 全局异常处理
+
+```java
+@EnableGlobalException
+```
+- 说明
+  * 在启动类增加@EnableGlobalException  
+
+### 6. 全局参数校验
+
+```java
+@EnableValidator
+
+//简单用法
+@Null   被注释的元素必须为 null    
+@NotNull    被注释的元素必须不为 null    
+@AssertTrue     被注释的元素必须为 true    
+@AssertFalse    被注释的元素必须为 false    
+@Min(value)     被注释的元素必须是一个数字，其值必须大于等于指定的最小值    
+@Max(value)     被注释的元素必须是一个数字，其值必须小于等于指定的最大值    
+@DecimalMin(value)  被注释的元素必须是一个数字，其值必须大于等于指定的最小值    
+@DecimalMax(value)  被注释的元素必须是一个数字，其值必须小于等于指定的最大值    
+@Size(max=, min=)   被注释的元素的大小必须在指定的范围内    
+@Digits (integer, fraction)     被注释的元素必须是一个数字，其值必须在可接受的范围内    
+@Past   被注释的元素必须是一个过去的日期    
+@Future     被注释的元素必须是一个将来的日期    
+@Pattern(regex=,flag=)  被注释的元素必须符合指定的正则表达式    
+    
+Hibernate Validator 附加的 constraint    
+@NotBlank(message =)   验证字符串非null，且长度必须大于0    
+@Email  被注释的元素必须是电子邮箱地址    
+@Length(min=,max=)  被注释的字符串的大小必须在指定的范围内    
+@NotEmpty   被注释的字符串的必须非空    
+@Range(min=,max=,message=)  被注释的元素必须在合适的范围内 
+```
+- 说明
+  * 在启动类增加@EnableValidator  
+      - 国际化
+  * 使用方式：  
+      - 在Controller 添加注解 @Validated
+      - 在method-> 基本类型  前添加注解 @NotNull
+      - 在method-> String 前添加注解 @NotBlank
+      - 在method-> 对象  前添加注解 @Valid
+  * 详情请点击[@参考1-普通版](https://www.jianshu.com/p/0bfe2318814f)      
+  * 详情请点击[@参考2-springboot版](https://cloud.tencent.com/developer/article/1054194)      
+  * 详情请点击[github@hibernate-validator](https://github.com/hibernate/hibernate-validator)      
+      
+### 7. web
+
+```java
+@EnableWeb
+
+//yaml 配置
+ spring:
+  resources:  #这里必须使用字符串 后面的 / 必须有，多个路径逗号分割(越靠前，优先级越高；默认包含下面4个路径，且高于下面的优先级)
+    static-locations: file:/path/static/
+
+```
+- 说明
+  * 在启动类增加@EnableWeb  
+      - 默认集成@EnableValidator
+      - 默认集成@EnableCore
+      - 默认集成AOP->参数拦截器->ConvertInterceptor
+      - 默认集成健康检查：HealthController [/health/core]
+          - ip: 主机地址
+          - macAddress:  物理地址
+      	  - threadCount: 线程数
+          - freeMemory: 剩余可用内存
+          - totalMemory: 总内存
+          - useMemory: 已经使用内存
+          - useRate: 使用比率
+      - 默认集成静态资源访问：spring.resources.static-locations 
+          - classpath:/META-INF/resources/
+          - classpath:/resources/
+          - classpath:/static/
+          - classpath:/public/
+ 
+### 8. 新建一个web项目
+
+```java
+//1.创建启动类
+@SpringBootApplication(exclude = { DataSourceAutoConfiguration.class })//排除数据库-否则会报错
+@EnableWeb // web
+@EnableGlobalException // 全局异常处理
+public class Application {
+
+	public static void main(String[] args) {
+		SpringApplication.run(Application.class, args);
+	}
+
+}
+
+//2.yaml 配置
+logging.config: classpath:chao-logback.xml
+log.path: /logs/${spring.application.name}
+log.maxHistory: 30
+server:
+  port: 8080 #端口
+spring:
+  application:
+    name: ApplicationName
+  output:
+    ansi: #彩色日志
+      enabled: always 
+
+//3.maven-pom
+<parent>
+	<groupId>com.github.chaojunzi</groupId>
+	<artifactId>chao-cloud-parent</artifactId>
+	<version>1.0.7</version>
+</parent>
+<dependencies>
+	<dependency>
+		<groupId>com.github.chaojunzi</groupId>
+		<artifactId>chao-cloud-common-config</artifactId>
+		<version>${chao.cloud.version}</version>
+	</dependency>
+	<dependency>
+		<groupId>org.springframework.boot</groupId>
+		<artifactId>spring-boot-starter-web</artifactId>
+	</dependency>
+</dependencies>
+```
+- 说明
+  * 在启动类增加@SpringBootApplication  
+  * 在启动类增加@EnableWeb  
+  * 在启动类增加@EnableGlobalException  
+  * 自定义接口->end  
+
+### 9. 接口访问控制
 
 ```java
 @EnableAccessLimit
@@ -267,7 +405,7 @@ log.info("[验证码: {}]", code);
       - count： 最大出错次数
       - enable： 是否可用，false，此注解将无效。
   	
-### 5. 表情过滤
+### 10. 表情过滤
 
 ```java
 @EnableEmojiFilter
@@ -277,7 +415,7 @@ log.info("[验证码: {}]", code);
   * 方法method增加@EmojiFilter（Controller）  
       - value： 是否可用，false，将不参与拦截。
 
-### 6. feign微服务接口调用
+### 11. feign微服务接口调用
 
 ```java
 @EnableFeign
@@ -301,7 +439,7 @@ chao:
   * 方法method增加@FeignFallback（Controller 接口格式请自行查阅官方文档）  
   * 文件传输MultipartFile::name 数组必须为files  
       
-### 7. ftp连接池
+### 12. ftp连接池
 
 ```java
 @EnableFtp
@@ -326,7 +464,7 @@ chao:
   * 在启动类增加@EnableFtp  
   * 在调用类注入 IFileOperation
       
-### 8. 地图解析
+### 13. 地图解析
 
 ```java
 @EnableMapAnalysis
@@ -345,7 +483,7 @@ chao:
   * 在启动类增加@EnableMapAnalysis  
   * 在调用类注入 MapService
       
-### 9. mybatis-plus
+### 14. mybatis-plus
 
 ```java
 @MybatisPlusConfig
@@ -361,7 +499,7 @@ mybatis-plus:
   * 默认集成乐观锁和分页插件
   * 详情请点击[原创@mybatis-plus](https://mybatis.plus/guide/)
   
-### 10. mybatis-plus-generator
+### 15. mybatis-plus-generator
 
 ```java
 @EnableMybatisGenerator
@@ -396,7 +534,7 @@ chao:
   * 案例[@chao-cloud-generator](https://github.com/chaojunzi/chao-cloud-generator)
   * 详情请点击[原创@mybatis-plus-generator](https://mybatis.plus/guide/generator.html)
   
-### 11. redis
+### 16. redis
 
 ```java
 @EnableRedisCache
@@ -418,7 +556,7 @@ spring:
   * 在调用类注入 IRedisService
   * 详情请点击[原创@whvcse/RedisUtil](https://github.com/whvcse/RedisUtil)
   
-### 12. 防止表单重复提交
+### 17. 防止表单重复提交
 
 ```java
 @EnableFormToken
@@ -431,7 +569,7 @@ spring:
   * 表单  input name="formToken"
   * 目前只支持session，后续将支持redis等
   
-### 13. 语音识别-百度AI
+### 18. 语音识别-百度AI
 ```java
 @EnableVoiceAI
 
@@ -456,7 +594,7 @@ chao:
   * 在调用类注入 SpeechRecognitionService
   * 详情请点击[@百度ai-语音识别](https://ai.baidu.com/docs#/ASR-API/top)
   
-### 14. 微信小程序
+### 19. 微信小程序
 ```java
 @EnableWxMaSingleton
 
@@ -479,7 +617,7 @@ chao:
   * 详情请点击[@WxJava-sdk](https://github.com/Wechat-Group/WxJava)
   * 详情请点击[@小程序开发文档](https://github.com/Wechat-Group/WxJava/wiki/%E5%B0%8F%E7%A8%8B%E5%BA%8F%E5%BC%80%E5%8F%91%E6%96%87%E6%A1%A3)
   
-### 15. 微信支付
+### 20. 微信支付
 ```java
 @EnableWxPaySingleton
 
@@ -504,7 +642,7 @@ chao:
   * 详情请点击[@WxJava-sdk](https://github.com/Wechat-Group/WxJava)
   * 详情请点击[@微信支付开发文档](https://github.com/Wechat-Group/WxJava/wiki/%E5%BE%AE%E4%BF%A1%E6%94%AF%E4%BB%98%E5%BC%80%E5%8F%91%E6%96%87%E6%A1%A3)
   
-### 16. 接口权限校验
+### 21. 接口权限校验
 ```java
 @EnableAuthUser
 //格式（自定义）
@@ -585,17 +723,7 @@ chao:
   *  注：PermConstant  
       - 必须存在 [Set<Integer> ERROR_PERM]，且有初始化赋值
 
-### 17. Spring-核心配置
-
-```java
-@EnableCore
-```
-- 说明
-  * 在启动类增加@EnableCore  
-  * 可使用全局 SpringContextUtil 处理相关bean 
-  * 可实现接口 [IApplicationRestart] 做一些容器启动后的相关操作 
-
-### 18. 跨域访问
+### 22. 跨域访问
 
 ```java
 @EnableCors
@@ -606,15 +734,7 @@ chao:
       - 允许任何头
       - 允许任何方法
       
-### 19. 全局异常处理
-
-```java
-@EnableGlobalException
-```
-- 说明
-  * 在启动类增加@EnableGlobalException  
-      
-### 20. 敏感词过滤
+### 23. 敏感词过滤
 
 ```java
 @EnableSensitiveWord
@@ -624,7 +744,7 @@ chao:
       - 增加资源文件 config/SensitiveWord.txt
       - 每一行为一个词  
       
-### 21. 线程池
+### 24. 线程池
 
 ```java
 @EnableThreadPool
@@ -641,7 +761,7 @@ thread:
 - 说明
   * 在启动类增加@EnableThreadPool  
       
-### 22. 分词器
+### 25. 分词器
 
 ```java
 @EnableTokenizer
@@ -653,127 +773,6 @@ chao.cloud.tokenizer.word: #词库以逗号分割 [,]
   * 在启动类增加@EnableTokenizer  
       - 词库以逗号分割 [,]
       
-### 23. 全局参数校验
-
-```java
-@EnableValidator
-
-//简单用法
-@Null   被注释的元素必须为 null    
-@NotNull    被注释的元素必须不为 null    
-@AssertTrue     被注释的元素必须为 true    
-@AssertFalse    被注释的元素必须为 false    
-@Min(value)     被注释的元素必须是一个数字，其值必须大于等于指定的最小值    
-@Max(value)     被注释的元素必须是一个数字，其值必须小于等于指定的最大值    
-@DecimalMin(value)  被注释的元素必须是一个数字，其值必须大于等于指定的最小值    
-@DecimalMax(value)  被注释的元素必须是一个数字，其值必须小于等于指定的最大值    
-@Size(max=, min=)   被注释的元素的大小必须在指定的范围内    
-@Digits (integer, fraction)     被注释的元素必须是一个数字，其值必须在可接受的范围内    
-@Past   被注释的元素必须是一个过去的日期    
-@Future     被注释的元素必须是一个将来的日期    
-@Pattern(regex=,flag=)  被注释的元素必须符合指定的正则表达式    
-    
-Hibernate Validator 附加的 constraint    
-@NotBlank(message =)   验证字符串非null，且长度必须大于0    
-@Email  被注释的元素必须是电子邮箱地址    
-@Length(min=,max=)  被注释的字符串的大小必须在指定的范围内    
-@NotEmpty   被注释的字符串的必须非空    
-@Range(min=,max=,message=)  被注释的元素必须在合适的范围内 
-```
-- 说明
-  * 在启动类增加@EnableValidator  
-      - 国际化
-  * 使用方式：  
-      - 在Controller 添加注解 @Validated
-      - 在method-> 基本类型  前添加注解 @NotNull
-      - 在method-> String 前添加注解 @NotBlank
-      - 在method-> 对象  前添加注解 @Valid
-  * 详情请点击[@参考1-普通版](https://www.jianshu.com/p/0bfe2318814f)      
-  * 详情请点击[@参考2-springboot版](https://cloud.tencent.com/developer/article/1054194)      
-  * 详情请点击[github@hibernate-validator](https://github.com/hibernate/hibernate-validator)      
-      
-### 24. web
-
-```java
-@EnableWeb
-
-//yaml 配置
- spring:
-  resources:  #这里必须使用字符串 后面的 / 必须有，多个路径逗号分割(越靠前，优先级越高；默认包含下面4个路径，且高于下面的优先级)
-    static-locations: file:/path/static/
-
-```
-- 说明
-  * 在启动类增加@EnableWeb  
-      - 默认集成@EnableValidator
-      - 默认集成@EnableCore
-      - 默认集成AOP->参数拦截器->ConvertInterceptor
-      - 默认集成健康检查：HealthController [/health/core]
-          - ip: 主机地址
-          - macAddress:  物理地址
-      	  - threadCount: 线程数
-          - freeMemory: 剩余可用内存
-          - totalMemory: 总内存
-          - useMemory: 已经使用内存
-          - useRate: 使用比率
-      - 默认集成静态资源访问：spring.resources.static-locations 
-          - classpath:/META-INF/resources/
-          - classpath:/resources/
-          - classpath:/static/
-          - classpath:/public/
- 
-### 25. 新建一个web项目
-
-```java
-//1.创建启动类
-@SpringBootApplication(exclude = { DataSourceAutoConfiguration.class })//排除数据库-否则会报错
-@EnableWeb // web
-@EnableGlobalException // 全局异常处理
-public class Application {
-
-	public static void main(String[] args) {
-		SpringApplication.run(Application.class, args);
-	}
-
-}
-
-//2.yaml 配置
-logging.config: classpath:chao-logback.xml
-log.path: /logs/${spring.application.name}
-log.maxHistory: 30
-server:
-  port: 8080 #端口
-spring:
-  application:
-    name: ApplicationName
-  output:
-    ansi: #彩色日志
-      enabled: always 
-
-//3.maven-pom
-<parent>
-	<groupId>com.github.chaojunzi</groupId>
-	<artifactId>chao-cloud-parent</artifactId>
-	<version>1.0.6</version>
-</parent>
-<dependencies>
-	<dependency>
-		<groupId>com.github.chaojunzi</groupId>
-		<artifactId>chao-cloud-common-config</artifactId>
-		<version>${chao.cloud.version}</version>
-	</dependency>
-	<dependency>
-		<groupId>org.springframework.boot</groupId>
-		<artifactId>spring-boot-starter-web</artifactId>
-	</dependency>
-</dependencies>
-```
-- 说明
-  * 在启动类增加@SpringBootApplication  
-  * 在启动类增加@EnableWeb  
-  * 在启动类增加@EnableGlobalException  
-  * 自定义接口->end  
-
 ------  	
 ## 环境依赖
 
