@@ -56,7 +56,7 @@ chao-cloud: springboot 拓展工具包
    * chao-cloud-common-config  
        * [接口权限校验](#20-%E6%8E%A5%E5%8F%A3%E6%9D%83%E9%99%90%E6%A0%A1%E9%AA%8C)
        * [跨域访问](#21-%E8%B7%A8%E5%9F%9F%E8%AE%BF%E9%97%AE)
-       * [cron](#22-cron-%E5%AE%9A%E6%97%B6%E5%99%A8)
+       * [cron-定时器](#22-cron-%E5%AE%9A%E6%97%B6%E5%99%A8)
        * [redis](#23-redis)
        * [敏感词过滤](#24-%E6%95%8F%E6%84%9F%E8%AF%8D%E8%BF%87%E6%BB%A4)
        * [线程池](#25-%E7%BA%BF%E7%A8%8B%E6%B1%A0)
