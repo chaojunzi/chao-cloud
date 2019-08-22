@@ -8,7 +8,7 @@ import org.springframework.web.method.support.ModelAndViewContainer;
 
 import com.chao.cloud.common.annotation.ArgumentAnnotation;
 import com.chao.cloud.common.config.auth.annotation.ResolverEnum;
-import com.chao.cloud.common.extra.redis.IRedisService;
+import com.chao.cloud.common.config.redis.IRedisService;
 
 import cn.hutool.core.lang.Assert;
 import lombok.Setter;

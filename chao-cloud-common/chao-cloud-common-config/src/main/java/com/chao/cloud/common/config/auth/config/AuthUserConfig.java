@@ -9,8 +9,8 @@ import org.springframework.data.redis.core.StringRedisTemplate;
 import com.chao.cloud.common.config.auth.core.AuthUserPerm;
 import com.chao.cloud.common.config.auth.core.AuthUserProxy;
 import com.chao.cloud.common.config.auth.core.AuthUserResolver;
-import com.chao.cloud.common.extra.redis.IRedisService;
-import com.chao.cloud.common.extra.redis.impl.RedisServiceImpl;
+import com.chao.cloud.common.config.redis.IRedisService;
+import com.chao.cloud.common.config.redis.impl.RedisServiceImpl;
 
 @Configuration
 public class AuthUserConfig {

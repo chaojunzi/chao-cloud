@@ -1,10 +1,12 @@
 package com.chao.cloud.common.web.config;
 
+import java.lang.reflect.Field;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import org.springframework.beans.factory.annotation.Value;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.web.ResourceProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.converter.HttpMessageConverter;
@@ -20,28 +22,21 @@ import com.chao.cloud.common.web.convert.JsonHttpMessageConverter;
 
 import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.util.ArrayUtil;
+import cn.hutool.core.util.ReflectUtil;
 import cn.hutool.core.util.StrUtil;
 import lombok.extern.slf4j.Slf4j;
 
-@Configuration
 @Slf4j
+@Configuration
 public class WebParameterConfig extends WebMvcConfigurationSupport {
+
+	@Autowired
+	private ResourceProperties resourceProperties;
 
 	@Bean
 	public HealthController healthController() {
 		return new HealthController();
 	}
-
-	/**
-	 * ResourceProperties
-	 */
-	private static final String[] CLASSPATH_RESOURCE_LOCATIONS = { "classpath:/META-INF/resources/",
-			"classpath:/resources/", "classpath:/static/", "classpath:/public/" };
-	/**
-	 * 资源文件路径
-	 */
-	@Value("${spring.resources.static-locations:}")
-	private String[] staticLocation;
 
 	@Override
 	protected void addArgumentResolvers(List<HandlerMethodArgumentResolver> argumentResolvers) {
@@ -67,7 +62,8 @@ public class WebParameterConfig extends WebMvcConfigurationSupport {
 	@Override
 	protected void addResourceHandlers(ResourceHandlerRegistry registry) {
 		// 注意优先级
-		String[] staticLocations = ArrayUtil.addAll(staticLocation, CLASSPATH_RESOURCE_LOCATIONS);
+		String[] staticLocations = ArrayUtil.addAll(resourceProperties.getStaticLocations(),
+				this.getDefaultClasspathResourceLocations());
 		// 去重
 		List<String> list = CollUtil.toList(staticLocations).stream().filter(s -> StrUtil.isNotBlank(s)).distinct()
 				.collect(Collectors.toList());
@@ -84,6 +80,20 @@ public class WebParameterConfig extends WebMvcConfigurationSupport {
 	@Override
 	public void addCorsMappings(CorsRegistry registry) {
 		registry.addMapping("/**").allowCredentials(true).allowedMethods("GET", "POST");
+	}
+
+	/**
+	 * @return {@link ResourceProperties.CLASSPATH_RESOURCE_LOCATIONS}
+	 */
+	private String[] getDefaultClasspathResourceLocations() {
+		Field field = ReflectUtil.getField(ResourceProperties.class, "CLASSPATH_RESOURCE_LOCATIONS");
+		field.setAccessible(true);
+		try {
+			return (String[]) field.get(ResourceProperties.class);
+		} catch (Exception e) {
+			log.warn("[获取默认资源路径失败:{}]", e.getMessage());
+		}
+		return ArrayUtil.newArray(String.class, 0);
 	}
 
 }

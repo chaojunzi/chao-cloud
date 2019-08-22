@@ -49,17 +49,18 @@ chao-cloud: springboot 拓展工具包
        * [地图解析](#13-%E5%9C%B0%E5%9B%BE%E8%A7%A3%E6%9E%90)
        * [mybatis-plus](#14-mybatis-plus)
        * [mybatis-plus-generator](#15-mybatis-plus-generator)
-       * [redis](#16-redis)
-       * [防止表单重复提交](#17-%E9%98%B2%E6%AD%A2%E8%A1%A8%E5%8D%95%E9%87%8D%E5%A4%8D%E6%8F%90%E4%BA%A4)
-       * [语音识别-百度AI](#18-%E8%AF%AD%E9%9F%B3%E8%AF%86%E5%88%AB-%E7%99%BE%E5%BA%A6AI)
-       * [微信小程序](#19-%E5%BE%AE%E4%BF%A1%E5%B0%8F%E7%A8%8B%E5%BA%8F)
-       * [微信支付](#20-%E5%BE%AE%E4%BF%A1%E6%94%AF%E4%BB%98)
+       * [防止表单重复提交](#16-%E9%98%B2%E6%AD%A2%E8%A1%A8%E5%8D%95%E9%87%8D%E5%A4%8D%E6%8F%90%E4%BA%A4)
+       * [语音识别-百度AI](#17-%E8%AF%AD%E9%9F%B3%E8%AF%86%E5%88%AB-%E7%99%BE%E5%BA%A6AI)
+       * [微信小程序](#18-%E5%BE%AE%E4%BF%A1%E5%B0%8F%E7%A8%8B%E5%BA%8F)
+       * [微信支付](#19-%E5%BE%AE%E4%BF%A1%E6%94%AF%E4%BB%98)
    * chao-cloud-common-config  
-       * [接口权限校验](#21-%E6%8E%A5%E5%8F%A3%E6%9D%83%E9%99%90%E6%A0%A1%E9%AA%8C)
-       * [跨域访问](#22-%E8%B7%A8%E5%9F%9F%E8%AE%BF%E9%97%AE)
-       * [敏感词过滤](#23-%E6%95%8F%E6%84%9F%E8%AF%8D%E8%BF%87%E6%BB%A4)
-       * [线程池](#24-%E7%BA%BF%E7%A8%8B%E6%B1%A0)
-       * [分词器](#25-%E5%88%86%E8%AF%8D%E5%99%A8)
+       * [接口权限校验](#20-%E6%8E%A5%E5%8F%A3%E6%9D%83%E9%99%90%E6%A0%A1%E9%AA%8C)
+       * [跨域访问](#21-%E8%B7%A8%E5%9F%9F%E8%AE%BF%E9%97%AE)
+       * [cron](#22-cron-%E5%AE%9A%E6%97%B6%E5%99%A8)
+       * [redis](#23-redis)
+       * [敏感词过滤](#24-%E6%95%8F%E6%84%9F%E8%AF%8D%E8%BF%87%E6%BB%A4)
+       * [线程池](#25-%E7%BA%BF%E7%A8%8B%E6%B1%A0)
+       * [分词器](#26-%E5%88%86%E8%AF%8D%E5%99%A8)
    	 
 #### maven 安装（以下为逐级依赖） 一般直接依赖 [config] 即可
 **parent（pom）**  
@@ -132,7 +133,6 @@ chao-cloud 几乎所有功能都采取插件化处理，以注解和配置文件
 		 	├─ftp 			//ftp连接池
 		 	├─map 			//地图解析（地址转坐标，距离计算一对多）
 		 	├─mybatis 		//mybatis 日志，代码自动生成，乐观锁，分页
-		 	├─redis 		//redis 缓存
 		 	├─token 		//拦截表单重复提交
 		 	├─voice 		//百度AI-语音转文字
 		 	└─wx			//微信支付，微信小程序（单例）
@@ -142,6 +142,8 @@ chao-cloud 几乎所有功能都采取插件化处理，以注解和配置文件
 		└─com.chao.cloud.common.config    		 
 		 	├─auth 			//接口权限校验
 		 	├─cors 			//跨域访问
+		 	├─cron 			//cron 定时器
+		 	├─redis 		//redis 缓存
 		 	├─sensitive 		//敏感词过滤
 		 	├─thread 		//线程池-ThreadPoolTaskExecutor
 		 	└─tokenizer 		//分词器（可自定义词库）
@@ -345,7 +347,7 @@ Hibernate Validator 附加的 constraint
 
 ```java
 //1.创建启动类
-@SpringBootApplication(exclude = { DataSourceAutoConfiguration.class })//排除数据库-否则会报错
+@SpringBootApplication
 @EnableWeb // web
 @EnableGlobalException // 全局异常处理
 public class Application {
@@ -486,6 +488,16 @@ chao:
 ### 14. mybatis-plus
 
 ```java
+//maven
+<dependency>
+	<groupId>com.alibaba</groupId>
+	<artifactId>druid-spring-boot-starter</artifactId>
+</dependency>
+<dependency>
+	<groupId>com.baomidou</groupId>
+	<artifactId>mybatis-plus-boot-starter</artifactId>
+</dependency>
+
 @MybatisPlusConfig
 
 //yaml 配置文件
@@ -502,6 +514,12 @@ mybatis-plus:
 ### 15. mybatis-plus-generator
 
 ```java
+//maven
+<dependency>
+	<groupId>com.baomidou</groupId>
+	<artifactId>mybatis-plus-generator</artifactId>
+</dependency>
+
 @EnableMybatisGenerator
 
 //业务类注入
@@ -534,29 +552,7 @@ chao:
   * 案例[@chao-cloud-generator](https://github.com/chaojunzi/chao-cloud-generator)
   * 详情请点击[原创@mybatis-plus-generator](https://mybatis.plus/guide/generator.html)
   
-### 16. redis
-
-```java
-@EnableRedisCache
-
-//业务类注入
-@Autowired
-private IRedisService redisService;
-
-//yaml 配置文件
-spring:
-  redis:
-    host: 127.0.0.1
-    port: 6379
-    password:   #密码
-         
-```
-- 说明
-  * 在启动类增加@EnableRedisCache  
-  * 在调用类注入 IRedisService
-  * 详情请点击[原创@whvcse/RedisUtil](https://github.com/whvcse/RedisUtil)
-  
-### 17. 防止表单重复提交
+### 16. 防止表单重复提交
 
 ```java
 @EnableFormToken
@@ -569,7 +565,7 @@ spring:
   * 表单  input name="formToken"
   * 目前只支持session，后续将支持redis等
   
-### 18. 语音识别-百度AI
+### 17. 语音识别-百度AI
 ```java
 @EnableVoiceAI
 
@@ -594,7 +590,7 @@ chao:
   * 在调用类注入 SpeechRecognitionService
   * 详情请点击[@百度ai-语音识别](https://ai.baidu.com/docs#/ASR-API/top)
   
-### 19. 微信小程序
+### 18. 微信小程序
 ```java
 @EnableWxMaSingleton
 
@@ -617,7 +613,7 @@ chao:
   * 详情请点击[@WxJava-sdk](https://github.com/Wechat-Group/WxJava)
   * 详情请点击[@小程序开发文档](https://github.com/Wechat-Group/WxJava/wiki/%E5%B0%8F%E7%A8%8B%E5%BA%8F%E5%BC%80%E5%8F%91%E6%96%87%E6%A1%A3)
   
-### 20. 微信支付
+### 19. 微信支付
 ```java
 @EnableWxPaySingleton
 
@@ -642,7 +638,7 @@ chao:
   * 详情请点击[@WxJava-sdk](https://github.com/Wechat-Group/WxJava)
   * 详情请点击[@微信支付开发文档](https://github.com/Wechat-Group/WxJava/wiki/%E5%BE%AE%E4%BF%A1%E6%94%AF%E4%BB%98%E5%BC%80%E5%8F%91%E6%96%87%E6%A1%A3)
   
-### 21. 接口权限校验
+### 20. 接口权限校验
 ```java
 @EnableAuthUser
 //格式（自定义）
@@ -723,18 +719,62 @@ chao:
   *  注：PermConstant  
       - 必须存在 [Set<Integer> ERROR_PERM]，且有初始化赋值
 
-### 22. 跨域访问
+### 21. 跨域访问
 
 ```java
 @EnableCors
 ```
+
 - 说明
   * 在启动类增加@EnableCors  
       - 允许任何域名
       - 允许任何头
       - 允许任何方法
       
-### 23. 敏感词过滤
+### 22. cron-定时器
+
+```java
+@EnableCron
+```
+
+- 说明
+  * 在启动类增加@EnableCron  
+      - 实现接口  com.chao.cloud.common.config.cron.task.CronTask
+      - 方法一：注入Spring 容器即可. 如 @Component
+      - 方法二：CronService.schedule(CronTask task);
+      - 删除：CronService.remove(String id);
+      - 列表：CronService.list();
+     
+### 23. redis
+
+```java
+//maven
+<dependency>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-data-redis</artifactId>
+</dependency>
+
+@EnableRedisCache
+
+//业务类注入
+@Autowired
+private IRedisService redisService;
+
+//yaml 配置文件
+spring:
+  redis:
+    host: 127.0.0.1
+    port: 6379
+    password:   #密码
+         
+```
+
+- 说明
+  * 在启动类增加@EnableRedisCache  
+  * 在调用类注入 IRedisService
+  * 详情请点击[原创@whvcse/RedisUtil](https://github.com/whvcse/RedisUtil)
+        
+### 24. 敏感词过滤
 
 ```java
 @EnableSensitiveWord
@@ -744,7 +784,7 @@ chao:
       - 增加资源文件 config/SensitiveWord.txt
       - 每一行为一个词  
       
-### 24. 线程池
+### 25. 线程池
 
 ```java
 @EnableThreadPool
@@ -761,7 +801,7 @@ thread:
 - 说明
   * 在启动类增加@EnableThreadPool  
       
-### 25. 分词器
+### 26. 分词器
 
 ```java
 @EnableTokenizer

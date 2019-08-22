@@ -1,4 +1,4 @@
-package com.chao.cloud.common.extra.redis.annotation;
+package com.chao.cloud.common.config.redis.annotation;
 
 import java.lang.annotation.Documented;
 import java.lang.annotation.ElementType;

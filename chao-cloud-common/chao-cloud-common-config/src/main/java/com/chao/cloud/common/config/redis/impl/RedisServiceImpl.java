@@ -1,4 +1,4 @@
-package com.chao.cloud.common.extra.redis.impl;
+package com.chao.cloud.common.config.redis.impl;
 
 import java.util.Collection;
 import java.util.Date;
@@ -13,7 +13,7 @@ import org.springframework.data.redis.core.ScanOptions;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.data.redis.core.ZSetOperations.TypedTuple;
 
-import com.chao.cloud.common.extra.redis.IRedisService;
+import com.chao.cloud.common.config.redis.IRedisService;
 
 public class RedisServiceImpl implements IRedisService {
 

@@ -1,11 +1,11 @@
-package com.chao.cloud.common.extra.redis.annotation;
+package com.chao.cloud.common.config.redis.annotation;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.redis.core.StringRedisTemplate;
 
-import com.chao.cloud.common.extra.redis.IRedisService;
-import com.chao.cloud.common.extra.redis.impl.RedisServiceImpl;
+import com.chao.cloud.common.config.redis.IRedisService;
+import com.chao.cloud.common.config.redis.impl.RedisServiceImpl;
 
 /**
  * redis缓存配置 

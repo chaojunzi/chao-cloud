@@ -21,6 +21,12 @@
 			<artifactId>chao-cloud-common-extra</artifactId>
 			<version>${chao.cloud.version}</version>
 		</dependency>
+		<!-- redis -->
+		<dependency>
+			<groupId>org.springframework.data</groupId>
+			<artifactId>spring-data-redis</artifactId>
+			<optional>true</optional>
+		</dependency>
 		<!-- 分词 -->
 		<dependency>
 			<groupId>com.hankcs</groupId>

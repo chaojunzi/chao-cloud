@@ -1,4 +1,4 @@
-package com.chao.cloud.common.extra.redis;
+package com.chao.cloud.common.config.redis;
 
 import java.util.Collection;
 import java.util.Date;
