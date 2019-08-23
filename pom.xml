@@ -84,6 +84,22 @@
 				<type>pom</type>
 				<scope>import</scope>
 			</dependency>
+			<!-- local -->
+			<dependency>
+				<groupId>com.github.chaojunzi</groupId>
+				<artifactId>chao-cloud-common-core</artifactId>
+				<version>${chao.cloud.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.github.chaojunzi</groupId>
+				<artifactId>chao-cloud-common-extra</artifactId>
+				<version>${chao.cloud.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.github.chaojunzi</groupId>
+				<artifactId>chao-cloud-common-config</artifactId>
+				<version>${chao.cloud.version}</version>
+			</dependency>
 			<!-- 字节码处理 -->
 			<dependency>
 				<groupId>javassist</groupId>

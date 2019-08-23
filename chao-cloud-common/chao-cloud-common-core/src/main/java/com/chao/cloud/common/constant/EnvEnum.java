@@ -8,7 +8,7 @@ import com.chao.cloud.common.exception.BusinessException;
  * @since：2018年12月13日
  * @version 2.0
  */
-public enum EnvironmentProfileEnum {
+public enum EnvEnum {
 	/**
 	 * 生产环境
 	 */
@@ -24,12 +24,12 @@ public enum EnvironmentProfileEnum {
 
 	private Boolean status;
 
-	EnvironmentProfileEnum(Boolean status) {
+	EnvEnum(Boolean status) {
 		this.status = status;
 	}
 
 	public static boolean statusByEnv(String env) {
-		for (EnvironmentProfileEnum profile : EnvironmentProfileEnum.values()) {
+		for (EnvEnum profile : EnvEnum.values()) {
 			if (profile.name().toLowerCase().equals(env.toLowerCase())) {
 				return profile.status;
 			}

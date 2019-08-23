@@ -30,7 +30,7 @@ public class Response<T> implements Serializable {
 	 * 成功
 	 * @return {@link Response}
 	 */
-	public static Response<String> ok() {
+	public static <T> Response<T> ok() {
 		return ok(null);
 	}
 
@@ -46,7 +46,7 @@ public class Response<T> implements Serializable {
 	 * 失败
 	 * @return {@link Response}
 	 */
-	public static Response<String> error() {
+	public static <T> Response<T> error() {
 		return error("error");
 	}
 

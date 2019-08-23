@@ -1,5 +1,7 @@
 package com.chao.cloud.common.extra.ftp.annotation;
 
+import java.awt.Font;
+
 import org.apache.commons.pool2.impl.GenericObjectPool;
 import org.apache.commons.pool2.impl.GenericObjectPoolConfig;
 import org.springframework.beans.factory.InitializingBean;
@@ -34,6 +36,12 @@ public class FtpConfig implements InitializingBean {
 	private String prefix;// 返回时去掉的路径
 	private String path;// path-根目录
 	private String logo;// logo-水印
+	private String color = "#FFFFFF";// 颜色-白色
+	private Integer fontSize = 20;// 字体大小
+	private String fontName = Font.SERIF;// 字体名称
+	private Integer fontStyle = Font.BOLD;// 字体样式
+	private Integer x = 0;// x坐标修正值。 默认在中间，偏移量相对于中间偏移
+	private Integer y = 0;// y坐标修正值。 默认在中间，偏移量相对于中间偏移
 	private float alpha = 0.1F;// 透明度
 	private String realm = StrUtil.EMPTY;// 域名->默认为空
 	// 基础设置

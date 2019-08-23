@@ -1,4 +1,4 @@
-package com.chao.cloud.common.config;
+package com.chao.cloud.common.constant;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
