@@ -19,7 +19,6 @@
 		<dependency>
 			<groupId>com.github.chaojunzi</groupId>
 			<artifactId>chao-cloud-common-extra</artifactId>
-			<version>${chao.cloud.version}</version>
 		</dependency>
 		<!-- redis -->
 		<dependency>

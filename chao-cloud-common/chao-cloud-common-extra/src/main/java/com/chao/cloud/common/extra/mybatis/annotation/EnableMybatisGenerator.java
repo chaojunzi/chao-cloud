@@ -20,4 +20,6 @@ import org.springframework.context.annotation.Import;
 @Import({ MybatisGeneratorConfig.class })
 public @interface EnableMybatisGenerator {
 
+	String VERSION = "1.0.7";
+
 }

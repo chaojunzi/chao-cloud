@@ -6,10 +6,9 @@ import ${superMapperClassPackage};
 import org.apache.ibatis.annotations.Mapper;
 
 /**
- * @功能：
- * @author： ${author}
- * @时间：${date}
- * @version 1.0.0
+ * @author ${author}
+ * @since ${date}
+ * @version ${version}
  */
 @Mapper
 #if(${kotlin})

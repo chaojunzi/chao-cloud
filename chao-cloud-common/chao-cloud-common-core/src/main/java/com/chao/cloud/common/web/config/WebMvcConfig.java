@@ -28,7 +28,7 @@ import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @Configuration
-public class WebParameterConfig extends WebMvcConfigurationSupport {
+public class WebMvcConfig extends WebMvcConfigurationSupport {
 
 	@Autowired
 	private ResourceProperties resourceProperties;

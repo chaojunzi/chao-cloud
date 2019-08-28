@@ -52,10 +52,7 @@ public class FtpConfig implements InitializingBean {
 	private boolean passiveMode = true;// 被动模式
 	private String encoding = CharsetUtil.UTF_8; // 编码
 	private int clientTimeout = 6000;// 超时时间
-	private int threadNum = 3;// 线程数
 	private int transferFileType = 2;// 0=ASCII_FILE_TYPE（ASCII格式） 1=EBCDIC_FILE_TYPE 2=LOCAL_FILE_TYPE（二进制文件）
-	private boolean renameUploaded = true;// 是否重命名
-	private int retryTimes = 1200;// 重新连接时间（秒）
 	private int bufferSize = 1024;// 缓存大小
 	private String workingDirectory = StrUtil.EMPTY;// 默认路径
 	// 线程池

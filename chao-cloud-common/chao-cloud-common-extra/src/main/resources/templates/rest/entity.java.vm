@@ -14,10 +14,9 @@ import lombok.experimental.Accessors;
 #end
 
 /**
- * @功能：
- * @author： ${author}
- * @时间：${date}
- * @version 1.0.2
+ * @author ${author}
+ * @since ${date}
+ * @version ${version}
  */
 #if(${entityLombokModel})
 @Data

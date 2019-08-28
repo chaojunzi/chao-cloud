@@ -27,6 +27,7 @@ import com.baomidou.mybatisplus.generator.config.rules.FileType;
 import com.baomidou.mybatisplus.generator.engine.AbstractTemplateEngine;
 import com.baomidou.mybatisplus.generator.engine.VelocityTemplateEngine;
 import com.chao.cloud.common.exception.BusinessException;
+import com.chao.cloud.common.extra.mybatis.annotation.EnableMybatisGenerator;
 import com.chao.cloud.common.extra.mybatis.constant.KeyWordConstant;
 import com.chao.cloud.common.extra.mybatis.generator.parse.TableCommentParse;
 import com.chao.cloud.common.extra.mybatis.generator.template.HtmlTemplateConfig;
@@ -101,7 +102,7 @@ public class ZipVelocityTemplateEngine extends VelocityTemplateEngine {
 				// appendTableInfo
 				this.appendTableInfo(tableInfo, objectMap);
 				VelocityContext context = new VelocityContext(objectMap);
-				// Mp.java
+				// MpEntity.java
 				String entityName = tableInfo.getEntityName();
 				if (null != entityName && null != pathInfo.get(ConstVal.ENTITY_PATH)) {
 					String entityFile = String.format(
@@ -182,6 +183,8 @@ public class ZipVelocityTemplateEngine extends VelocityTemplateEngine {
 			tableInfo.getImportPackages().add("org.springframework.format.annotation.DateTimeFormat");
 			tableInfo.getImportPackages().add("cn.hutool.core.date.DatePattern");
 		}
+		// 版本
+		objectMap.put("version", EnableMybatisGenerator.VERSION);
 		// 主键名称类型
 		TableField pk = tableInfo.getFields().stream().filter(f -> f.isKeyFlag()).findFirst().orElse(null);
 		objectMap.put("pk", pk);

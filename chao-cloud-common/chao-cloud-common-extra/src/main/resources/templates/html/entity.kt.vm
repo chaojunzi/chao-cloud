@@ -8,10 +8,9 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 #end
 /**
- * @功能：
- * @author： ${author}
- * @时间：${date}
- * @version 1.0.0
+ * @author ${author}
+ * @since ${date}
+ * @version ${version}
  */
 #if(${table.convert})
 @TableName("${table.name}")

@@ -1,7 +1,11 @@
 package com.chao.cloud.common.util;
 
 import java.io.Serializable;
+import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
+import java.lang.reflect.InvocationHandler;
+import java.lang.reflect.Modifier;
+import java.lang.reflect.Proxy;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
@@ -14,6 +18,7 @@ import com.chao.cloud.common.exception.BusinessException;
 
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.collection.CollUtil;
+import cn.hutool.core.exceptions.ExceptionUtil;
 import cn.hutool.core.lang.Assert;
 import cn.hutool.core.util.ObjectUtil;
 import cn.hutool.core.util.ReflectUtil;
@@ -21,10 +26,45 @@ import cn.hutool.core.util.ReflectUtil;
 /**
  * 实体转换
  * @author 薛超
- * @since 2019年8月1日
- * @version 1.0.5
+ * @since 2019年8月28日
+ * @version 1.0.7
  */
-public class EntityUtil {
+public final class EntityUtil {
+	/**
+	 * 修改注解中的值
+	 * @param annotation 注解
+	 * @param k 方法名
+	 * @param v 值
+	 */
+	public static void putAnnotationValue(Annotation annotation, String k, Object v) {
+		try {
+			InvocationHandler invocationHandler = Proxy.getInvocationHandler(annotation);
+			Field value = invocationHandler.getClass().getDeclaredField("memberValues");
+			value.setAccessible(true);
+			@SuppressWarnings("unchecked")
+			Map<String, Object> memberValues = (Map<String, Object>) value.get(invocationHandler);
+			memberValues.put(k, v);
+		} catch (Exception e) {
+			throw new BusinessException(ExceptionUtil.getMessage(e));
+		}
+	}
+
+	/**
+	 * 重新赋值 private  final 修饰的属性
+	 * @param obj 原始对象
+	 * @param fieldName 属性名字
+	 * @param value 值
+	 * @throws Exception 反射中的异常 
+	 */
+	public static void setPrivateFinalField(Object obj, String fieldName, Object value) throws Exception {
+		Field field = ReflectUtil.getField(obj instanceof Class ? (Class<?>) obj : obj.getClass(), fieldName);
+		field.setAccessible(true);
+		Field modifersField = Field.class.getDeclaredField("modifiers");
+		modifersField.setAccessible(true);
+		// 把指定的field中的final修饰符去掉
+		modifersField.setInt(field, field.getModifiers() & ~Modifier.FINAL);
+		field.set(obj, value);
+	}
 
 	/**
 	 * 移除左对象中和右边相同的属性值（用于判断对象是否发生改变）

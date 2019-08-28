@@ -4,10 +4,9 @@ import ${package.Entity}.${entity};
 import ${superServiceClassPackage};
 
 /**
- * @功能：
- * @author： ${author}
- * @时间：${date}
- * @version 1.0.0
+ * @author ${author}
+ * @since ${date}
+ * @version ${version}
  */
 #if(${kotlin})
 interface ${table.serviceName} : ${superServiceClass}<${entity}>

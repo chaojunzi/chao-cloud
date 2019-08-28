@@ -16,6 +16,7 @@ import lombok.extern.slf4j.Slf4j;
 @Aspect
 @Slf4j
 public class FeignFallbackProxy implements BaseProxy {
+
 	/**
 	 * feign异步调用拦截
 	 */

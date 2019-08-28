@@ -17,7 +17,42 @@ import org.springframework.context.annotation.Import;
 @Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
-@Import({ FeignBeanSupportConfig.class, FeignFallbackConfig.class, FeignMultipartSupportConfig.class, HttpPoolConfig.class })
+@Import(FeignConfig.class)
 public @interface EnableFeign {
-
+	/**
+	yaml
+	hystrix.command.default.execution.timeout.enabled: true
+	hystrix.command.default.execution.isolation.thread.timeoutInMilliseconds: ${ribbon.ReadTimeout}
+	
+	ribbon.ReadTimeout: 120000
+	ribbon.ConnectTimeout: ${ribbon.ReadTimeout}
+	
+	chao:
+	  cloud:
+		feign:
+		  request:
+		    read-timeout: 120
+		    connect-timeout: 120
+		    write-timeout: 120
+		    keep-alive-duration: 5 #分钟
+		    max-idle-connections: 10
+		
+		feign:
+		  httpclient:
+		enabled: false
+		  hystrix:
+		enabled: true
+		  okhttp:
+		enabled: true
+		  compression:
+		request:
+		  enabled: true
+		  mime-types:
+		  - text/xml 
+		  - application/xml 
+		  - application/json
+		  min-request-size: 2048
+		response:
+		  enabled: true
+	 */
 }

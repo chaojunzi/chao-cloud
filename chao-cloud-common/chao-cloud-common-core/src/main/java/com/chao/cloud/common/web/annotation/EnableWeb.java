@@ -9,7 +9,7 @@ import java.lang.annotation.Target;
 import org.springframework.context.annotation.Import;
 
 import com.chao.cloud.common.web.config.AopConfig;
-import com.chao.cloud.common.web.config.WebParameterConfig;
+import com.chao.cloud.common.web.config.WebMvcConfig;
 
 /**
  * web服务通用配置
@@ -22,7 +22,7 @@ import com.chao.cloud.common.web.config.WebParameterConfig;
 @Documented
 @Import({ //
 		AopConfig.class, // controller 拦截和vo转换
-		WebParameterConfig.class,// web资源-参数处理
+		WebMvcConfig.class,// web资源-参数处理
 })
 @EnableCore // 核心配置
 @EnableValidator // 参数校验

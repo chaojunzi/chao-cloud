@@ -19,7 +19,6 @@
 		<dependency>
 			<groupId>com.github.chaojunzi</groupId>
 			<artifactId>chao-cloud-common-core</artifactId>
-			<version>${chao.cloud.version}</version>
 		</dependency>
 		<!-- 表情过滤 -->
 		<dependency>
@@ -36,44 +35,41 @@
 			<artifactId>mybatis-plus-generator</artifactId>
 			<optional>true</optional>
 		</dependency>
+		<dependency>
+			<groupId>org.apache.velocity</groupId>
+			<artifactId>velocity-engine-core</artifactId>
+		</dependency>
 		<!-- spring-事务 -->
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-tx</artifactId>
 			<optional>true</optional>
 		</dependency>
+		<!-- seata-分布式事务 -->
 		<dependency>
-			<groupId>org.apache.velocity</groupId>
-			<artifactId>velocity-engine-core</artifactId>
+			<groupId>io.seata</groupId>
+			<artifactId>seata-all</artifactId>
+			<optional>true</optional>
+		</dependency>
+		<!--Nacos -->
+		<dependency>
+			<groupId>com.alibaba.nacos</groupId>
+			<artifactId>nacos-client</artifactId>
+			<optional>true</optional>
 		</dependency>
 		<!-- feign 多文件上传处理 -->
 		<dependency>
 			<groupId>org.springframework.cloud</groupId>
-			<artifactId>spring-cloud-starter-openfeign</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.springframework.cloud</groupId>
 			<artifactId>spring-cloud-openfeign-core</artifactId>
+			<optional>true</optional>
 		</dependency>
 		<dependency>
 			<groupId>io.github.openfeign</groupId>
-			<artifactId>feign-core</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>io.github.openfeign</groupId>
-			<artifactId>feign-httpclient</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>io.github.openfeign.form</groupId>
-			<artifactId>feign-form</artifactId>
+			<artifactId>feign-okhttp</artifactId>
 		</dependency>
 		<dependency>
 			<groupId>io.github.openfeign.form</groupId>
 			<artifactId>feign-form-spring</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>com.squareup.okhttp3</groupId>
-			<artifactId>okhttp</artifactId>
 		</dependency>
 		<!-- feign -->
 		<!-- 微信小程序处理 -->
