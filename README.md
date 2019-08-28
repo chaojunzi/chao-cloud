@@ -32,36 +32,36 @@ chao-cloud: springboot 拓展工具包
 
 #### chao-cloud 提供以下功能
 
-   * [package-包结构](#>-package-%E5%8C%85%E7%BB%93%E6%9E%84)
+   * [package-包结构](#-package-%E5%8C%85%E7%BB%93%E6%9E%84)
    * chao-cloud-common-core  
-       * [递归树](#>-%E9%80%92%E5%BD%92%E6%A0%91)
-       * [透明背景验证码](#>-%E9%80%8F%E6%98%8E%E8%83%8C%E6%99%AF%E9%AA%8C%E8%AF%81%E7%A0%81)
-       * [Spring-核心配置](#>-Spring-%E6%A0%B8%E5%BF%83%E9%85%8D%E7%BD%AE)
-       * [全局异常处理](#>-%E5%85%A8%E5%B1%80%E5%BC%82%E5%B8%B8%E5%A4%84%E7%90%86)
-       * [全局参数校验](#>-%E5%85%A8%E5%B1%80%E5%8F%82%E6%95%B0%E6%A0%A1%E9%AA%8C)
-       * [web](#>-web)
-       * [新建一个web项目](#>-%E6%96%B0%E5%BB%BA%E4%B8%80%E4%B8%AAweb%E9%A1%B9%E7%9B%AE)
+       * [递归树](#-%E9%80%92%E5%BD%92%E6%A0%91)
+       * [透明背景验证码](#-%E9%80%8F%E6%98%8E%E8%83%8C%E6%99%AF%E9%AA%8C%E8%AF%81%E7%A0%81)
+       * [Spring-核心配置](#-Spring-%E6%A0%B8%E5%BF%83%E9%85%8D%E7%BD%AE)
+       * [全局异常处理](#-%E5%85%A8%E5%B1%80%E5%BC%82%E5%B8%B8%E5%A4%84%E7%90%86)
+       * [全局参数校验](#-%E5%85%A8%E5%B1%80%E5%8F%82%E6%95%B0%E6%A0%A1%E9%AA%8C)
+       * [web](#-web)
+       * [新建一个web项目](#-%E6%96%B0%E5%BB%BA%E4%B8%80%E4%B8%AAweb%E9%A1%B9%E7%9B%AE)
    * chao-cloud-common-extra  
-       * [接口访问控制](#>-%E6%8E%A5%E5%8F%A3%E8%AE%BF%E9%97%AE%E6%8E%A7%E5%88%B6)
-       * [表情过滤](#>-%E8%A1%A8%E6%83%85%E8%BF%87%E6%BB%A4)
-       * [feign微服务接口调用](#>-feign%E5%BE%AE%E6%9C%8D%E5%8A%A1%E6%8E%A5%E5%8F%A3%E8%B0%83%E7%94%A8)
-       * [ftp连接池](#>-ftp%E8%BF%9E%E6%8E%A5%E6%B1%A0)
-       * [地图解析](#>-%E5%9C%B0%E5%9B%BE%E8%A7%A3%E6%9E%90)
-       * [mybatis-plus](#>-mybatis-plus)
-       * [mybatis-plus-generator](#>-mybatis-plus-generator)
-       * [防止表单重复提交](#>-%E9%98%B2%E6%AD%A2%E8%A1%A8%E5%8D%95%E9%87%8D%E5%A4%8D%E6%8F%90%E4%BA%A4)
-       * [seata-分布式事务](#>-seata-%E5%88%86%E5%B8%83%E5%BC%8F%E4%BA%8B%E5%8A%A1)
-       * [语音识别-百度AI](#>-%E8%AF%AD%E9%9F%B3%E8%AF%86%E5%88%AB-%E7%99%BE%E5%BA%A6AI)
-       * [微信小程序](#>-%E5%BE%AE%E4%BF%A1%E5%B0%8F%E7%A8%8B%E5%BA%8F)
-       * [微信支付](#>-%E5%BE%AE%E4%BF%A1%E6%94%AF%E4%BB%98)
+       * [接口访问控制](#-%E6%8E%A5%E5%8F%A3%E8%AE%BF%E9%97%AE%E6%8E%A7%E5%88%B6)
+       * [表情过滤](#-%E8%A1%A8%E6%83%85%E8%BF%87%E6%BB%A4)
+       * [feign微服务接口调用](#-feign%E5%BE%AE%E6%9C%8D%E5%8A%A1%E6%8E%A5%E5%8F%A3%E8%B0%83%E7%94%A8)
+       * [ftp连接池](#-ftp%E8%BF%9E%E6%8E%A5%E6%B1%A0)
+       * [地图解析](#-%E5%9C%B0%E5%9B%BE%E8%A7%A3%E6%9E%90)
+       * [mybatis-plus](#-mybatis-plus)
+       * [mybatis-plus-generator](#-mybatis-plus-generator)
+       * [防止表单重复提交](#-%E9%98%B2%E6%AD%A2%E8%A1%A8%E5%8D%95%E9%87%8D%E5%A4%8D%E6%8F%90%E4%BA%A4)
+       * [seata-分布式事务](#-seata-%E5%88%86%E5%B8%83%E5%BC%8F%E4%BA%8B%E5%8A%A1)
+       * [语音识别-百度AI](#-%E8%AF%AD%E9%9F%B3%E8%AF%86%E5%88%AB-%E7%99%BE%E5%BA%A6AI)
+       * [微信小程序](#-%E5%BE%AE%E4%BF%A1%E5%B0%8F%E7%A8%8B%E5%BA%8F)
+       * [微信支付](#-%E5%BE%AE%E4%BF%A1%E6%94%AF%E4%BB%98)
    * chao-cloud-common-config  
-       * [接口权限校验](#>-%E6%8E%A5%E5%8F%A3%E6%9D%83%E9%99%90%E6%A0%A1%E9%AA%8C)
-       * [跨域访问](#>-%E8%B7%A8%E5%9F%9F%E8%AE%BF%E9%97%AE)
-       * [cron-定时器](#>-cron-%E5%AE%9A%E6%97%B6%E5%99%A8)
-       * [redis](#>-redis)
-       * [敏感词过滤](#>-%E6%95%8F%E6%84%9F%E8%AF%8D%E8%BF%87%E6%BB%A4)
-       * [线程池](#>-%E7%BA%BF%E7%A8%8B%E6%B1%A0)
-       * [分词器](#>-%E5%88%86%E8%AF%8D%E5%99%A8)
+       * [接口权限校验](#-%E6%8E%A5%E5%8F%A3%E6%9D%83%E9%99%90%E6%A0%A1%E9%AA%8C)
+       * [跨域访问](#-%E8%B7%A8%E5%9F%9F%E8%AE%BF%E9%97%AE)
+       * [cron-定时器](#-cron-%E5%AE%9A%E6%97%B6%E5%99%A8)
+       * [redis](#-redis)
+       * [敏感词过滤](#-%E6%95%8F%E6%84%9F%E8%AF%8D%E8%BF%87%E6%BB%A4)
+       * [线程池](#-%E7%BA%BF%E7%A8%8B%E6%B1%A0)
+       * [分词器](#-%E5%88%86%E8%AF%8D%E5%99%A8)
    	 
 #### maven 安装（以下为逐级依赖） 一般直接依赖 [config] 即可
 **parent（pom）**  
@@ -107,7 +107,7 @@ chao-cloud: springboot 拓展工具包
 
 chao-cloud 几乎所有功能都采取插件化处理，以注解和配置文件（yaml语法），在启动类配置即可
 
-### >. package-包结构
+### > package-包结构
 
 	1.chao-cloud-common-core
 		│
@@ -251,14 +251,14 @@ public class TreeDTO {
 ]
 ```
 	
-### >. 透明背景验证码
+### > 透明背景验证码
 
 ```java
 HyalineCircleCaptcha captcha = HyalineCaptchaUtil.createCircleCaptcha(100, 42, 4, 3);
 String code = captcha.getCode();
 log.info("[验证码: {}]", code);
 ```
-### >. Spring-核心配置
+### > Spring-核心配置
 
 ```java
 @EnableCore
@@ -268,7 +268,7 @@ log.info("[验证码: {}]", code);
   * 可使用全局 SpringContextUtil 处理相关bean 
   * 可实现接口 [IApplicationRestart] 做一些容器启动后的相关操作 
       
-### >. 全局异常处理
+### > 全局异常处理
 
 ```java
 @EnableGlobalException
@@ -276,7 +276,7 @@ log.info("[验证码: {}]", code);
 - 说明
   * 在启动类增加@EnableGlobalException  
 
-### >. 全局参数校验
+### > 全局参数校验
 
 ```java
 @EnableValidator
@@ -315,7 +315,7 @@ Hibernate Validator 附加的 constraint
   * 详情请点击[@参考2-springboot版](https://cloud.tencent.com/developer/article/1054194)      
   * 详情请点击[github@hibernate-validator](https://github.com/hibernate/hibernate-validator)      
       
-### >. web
+### > web
 
 ```java
 @EnableWeb
@@ -345,7 +345,7 @@ Hibernate Validator 附加的 constraint
           - classpath:/static/
           - classpath:/public/
  
-### >. 新建一个web项目
+### > 新建一个web项目
 
 ```java
 //1.创建启动类
@@ -397,7 +397,7 @@ spring:
   * 在启动类增加@EnableGlobalException  
   * 自定义接口->end  
 
-### >. 接口访问控制
+### > 接口访问控制
 
 ```java
 @EnableAccessLimit
@@ -409,7 +409,7 @@ spring:
       - count： 最大出错次数
       - enable： 是否可用，false，此注解将无效。
   	
-### >. 表情过滤
+### > 表情过滤
 
 ```java
 @EnableEmojiFilter
@@ -419,7 +419,7 @@ spring:
   * 方法method增加@EmojiFilter（Controller）  
       - value： 是否可用，false，将不参与拦截。
 
-### >. feign微服务接口调用
+### > feign微服务接口调用
 
 ```java
 @EnableFeign
@@ -443,7 +443,7 @@ chao:
   * 方法method增加@FeignFallback（Controller 接口格式请自行查阅官方文档）  
   * 文件传输MultipartFile::name 数组必须为files  
       
-### >. ftp连接池
+### > ftp连接池
 
 ```java
 @EnableFtp
@@ -468,7 +468,7 @@ chao:
   * 在启动类增加@EnableFtp  
   * 在调用类注入 IFileOperation
       
-### >. 地图解析
+### > 地图解析
 
 ```java
 @EnableMapAnalysis
@@ -487,7 +487,7 @@ chao:
   * 在启动类增加@EnableMapAnalysis  
   * 在调用类注入 MapService
       
-### >. mybatis-plus
+### > mybatis-plus
 
 ```java
 //maven
@@ -513,7 +513,7 @@ mybatis-plus:
   * 默认集成乐观锁和分页插件
   * 详情请点击[原创@mybatis-plus](https://mybatis.plus/guide/)
   
-### >. mybatis-plus-generator
+### > mybatis-plus-generator
 
 ```java
 //maven
@@ -554,7 +554,7 @@ chao:
   * 案例[@chao-cloud-generator](https://github.com/chaojunzi/chao-cloud-generator)
   * 详情请点击[原创@mybatis-plus-generator](https://mybatis.plus/guide/generator.html)
   
-### >. 防止表单重复提交
+### > 防止表单重复提交
 
 ```java
 @EnableFormToken
@@ -567,17 +567,27 @@ chao:
   * 表单  input name="formToken"
   * 目前只支持session，后续将支持redis等
 
-### >. seata-分布式事务
+### > seata-分布式事务
 
 ```java
 @EnableTxSeata
+
+//yaml 配置
+chao:
+  cloud:
+    tx:
+      seata:
+        server-addr:  # seata->nacos地址
+        namespace: # seata->nacos命名空间  默认 空 
+        cluster:   # seata->集群标识  默认 default
 ```
+
 - 说明
   * 在启动类增加@EnableTxSeata  
   * 目前只支持 nacos+feign+seata
   * demo->[chaojunzi@分布式事务微服务](https://github.com/chaojunzi/chao-cloud-micro)
   
-### >. 语音识别-百度AI
+### > 语音识别-百度AI
 ```java
 @EnableVoiceAI
 
@@ -602,7 +612,7 @@ chao:
   * 在调用类注入 SpeechRecognitionService
   * 详情请点击[@百度ai-语音识别](https://ai.baidu.com/docs#/ASR-API/top)
   
-### >. 微信小程序
+### > 微信小程序
 ```java
 @EnableWxMaSingleton
 
@@ -625,7 +635,7 @@ chao:
   * 详情请点击[@WxJava-sdk](https://github.com/Wechat-Group/WxJava)
   * 详情请点击[@小程序开发文档](https://github.com/Wechat-Group/WxJava/wiki/%E5%B0%8F%E7%A8%8B%E5%BA%8F%E5%BC%80%E5%8F%91%E6%96%87%E6%A1%A3)
   
-### >. 微信支付
+### > 微信支付
 ```java
 @EnableWxPaySingleton
 
@@ -650,7 +660,7 @@ chao:
   * 详情请点击[@WxJava-sdk](https://github.com/Wechat-Group/WxJava)
   * 详情请点击[@微信支付开发文档](https://github.com/Wechat-Group/WxJava/wiki/%E5%BE%AE%E4%BF%A1%E6%94%AF%E4%BB%98%E5%BC%80%E5%8F%91%E6%96%87%E6%A1%A3)
   
-### >. 接口权限校验
+### > 接口权限校验
 ```java
 @EnableAuthUser
 //格式（自定义）
@@ -731,7 +741,7 @@ chao:
   *  注：PermConstant  
       - 必须存在 [Set<Integer> ERROR_PERM]，且有初始化赋值
 
-### >. 跨域访问
+### > 跨域访问
 
 ```java
 @EnableCors
@@ -743,7 +753,7 @@ chao:
       - 允许任何头
       - 允许任何方法
       
-### >. cron-定时器
+### > cron-定时器
 
 ```java
 @EnableCron
@@ -757,7 +767,7 @@ chao:
       - 删除：CronService.remove(String id);
       - 列表：CronService.list();
      
-### >. redis
+### > redis
 
 ```java
 //maven
@@ -786,7 +796,7 @@ spring:
   * 在调用类注入 IRedisService
   * 详情请点击[原创@whvcse/RedisUtil](https://github.com/whvcse/RedisUtil)
         
-### >. 敏感词过滤
+### > 敏感词过滤
 
 ```java
 @EnableSensitiveWord
@@ -796,7 +806,7 @@ spring:
       - 增加资源文件 config/SensitiveWord.txt
       - 每一行为一个词  
       
-### >. 线程池
+### > 线程池
 
 ```java
 @EnableThreadPool
@@ -813,7 +823,7 @@ thread:
 - 说明
   * 在启动类增加@EnableThreadPool  
       
-### >. 分词器
+### > 分词器
 
 ```java
 @EnableTokenizer
@@ -821,6 +831,7 @@ thread:
 //yaml 配置
 chao.cloud.tokenizer.word: #词库以逗号分割 [,]
 ```
+
 - 说明
   * 在启动类增加@EnableTokenizer  
       - 词库以逗号分割 [,]
