@@ -27,7 +27,9 @@ public class Response<T> implements Serializable {
 	 * ***************静态方法*******************
 	 */
 	/**
+	 * 
 	 * 成功
+	 * @param <T> 返回值类型
 	 * @return {@link Response}
 	 */
 	public static <T> Response<T> ok() {
@@ -44,6 +46,7 @@ public class Response<T> implements Serializable {
 
 	/**
 	 * 失败
+	 * @param <T> 返回值类型
 	 * @return {@link Response}
 	 */
 	public static <T> Response<T> error() {

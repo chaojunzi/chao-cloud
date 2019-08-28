@@ -428,15 +428,12 @@ spring:
 chao:
   cloud: 
     feign:
-      http:
-        connect-timeout:  #连接时间
-        socket-timeout: #超时时间
-        idle-timeout:  #超时时间
-        max-per-route: #同路由的并发数
-        max-total: #总连接数
-        time-to-live: #持续时间 
-        delay:  #定时器延迟时间
-        period: #周期
+      request:
+        connect-timeout:  #连接超时
+        read-timeout: #读超时
+        write-timeout:  #写超时
+        maxIdleConnections: #最大连接数
+        keepAliveDuration: #保持连接时间（分钟）
 ```
 - 说明
   * 在启动类增加@EnableFeign  

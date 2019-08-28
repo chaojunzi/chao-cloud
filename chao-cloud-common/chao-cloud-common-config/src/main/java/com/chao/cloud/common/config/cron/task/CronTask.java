@@ -37,7 +37,7 @@ public interface CronTask extends Task {
 
 	/**
 	 * 定时器类型
-	 * @return
+	 * @return 定时器类型 0.任何cron表达式   1.时刻表达式（瞬时时间）
 	 */
 	default Integer getCronType() {
 		return DEFAULT_CRON_TYPE;

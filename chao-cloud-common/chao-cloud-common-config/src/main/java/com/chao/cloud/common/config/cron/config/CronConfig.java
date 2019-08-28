@@ -19,9 +19,8 @@ import lombok.extern.slf4j.Slf4j;
 
 /**
  * 定时器管理
- * @功能：
- * @author： 薛超
- * @时间：2019年8月21日
+ * @author 薛超
+ * @since 2019年8月28日
  * @version 1.0.7
  */
 @Slf4j

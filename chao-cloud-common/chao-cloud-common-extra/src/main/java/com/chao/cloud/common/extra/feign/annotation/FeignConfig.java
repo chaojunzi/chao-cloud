@@ -76,7 +76,7 @@ public class FeignConfig {
 
 	/**
 	 * aop处理
-	 * @return
+	 * @return {@link FeignFallbackProxy}
 	 */
 	@Bean
 	public FeignFallbackProxy FeignFallbackProxy() {
