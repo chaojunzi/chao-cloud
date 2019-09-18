@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.autoconfigure.web.ResourceProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -17,6 +18,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurationSupp
 
 import com.chao.cloud.common.annotation.ArgumentAnnotation;
 import com.chao.cloud.common.core.ApplicationOperation;
+import com.chao.cloud.common.core.WebMvcConfiguration;
 import com.chao.cloud.common.web.HealthController;
 import com.chao.cloud.common.web.convert.JsonHttpMessageConverter;
 
@@ -28,6 +30,7 @@ import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @Configuration
+@ConditionalOnMissingBean(WebMvcConfiguration.class)
 public class WebMvcConfig extends WebMvcConfigurationSupport {
 
 	@Autowired
@@ -79,7 +82,7 @@ public class WebMvcConfig extends WebMvcConfigurationSupport {
 	 */
 	@Override
 	public void addCorsMappings(CorsRegistry registry) {
-		registry.addMapping("/**").allowCredentials(true).allowedMethods("GET", "POST");
+		registry.addMapping("/**").allowCredentials(true).allowedOrigins("*").allowedMethods("GET", "POST");
 	}
 
 	/**

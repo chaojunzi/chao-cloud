@@ -1,9 +1,11 @@
 package com.chao.cloud.common.web.config;
 
 import org.springframework.aop.framework.autoproxy.BeanNameAutoProxyCreator;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+import com.chao.cloud.common.core.ControllerInterceptor;
 import com.chao.cloud.common.web.convert.ConvertInterceptor;
 
 /**
@@ -13,14 +15,15 @@ import com.chao.cloud.common.web.convert.ConvertInterceptor;
  * @version 1.0.5
  */
 @Configuration
-public class AopConfig {
+public class ControllerConfig {
 
 	/**
 	 * bean -拦截器
 	 * @return {@link ConvertInterceptor}
 	 */
 	@Bean(name = "convert")
-	public ConvertInterceptor convertInterceptor() {
+	@ConditionalOnMissingBean(ControllerInterceptor.class)
+	public ControllerInterceptor convertInterceptor() {
 		return new ConvertInterceptor();
 	}
 

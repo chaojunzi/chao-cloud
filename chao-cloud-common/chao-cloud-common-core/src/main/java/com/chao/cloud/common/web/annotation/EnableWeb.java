@@ -8,7 +8,7 @@ import java.lang.annotation.Target;
 
 import org.springframework.context.annotation.Import;
 
-import com.chao.cloud.common.web.config.AopConfig;
+import com.chao.cloud.common.web.config.ControllerConfig;
 import com.chao.cloud.common.web.config.WebMvcConfig;
 
 /**
@@ -21,7 +21,7 @@ import com.chao.cloud.common.web.config.WebMvcConfig;
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
 @Import({ //
-		AopConfig.class, // controller 拦截和vo转换
+		ControllerConfig.class, // controller 拦截和vo转换
 		WebMvcConfig.class,// web资源-参数处理
 })
 @EnableCore // 核心配置

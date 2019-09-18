@@ -9,12 +9,12 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import org.aopalliance.intercept.MethodInterceptor;
 import org.aopalliance.intercept.MethodInvocation;
 
 import com.chao.cloud.common.base.BaseHttpServlet;
 import com.chao.cloud.common.constant.ExceptionConstant;
 import com.chao.cloud.common.constant.ResultCodeEnum;
+import com.chao.cloud.common.core.ControllerInterceptor;
 import com.chao.cloud.common.entity.Response;
 
 import cn.hutool.core.util.StrUtil;
@@ -22,7 +22,7 @@ import cn.hutool.json.JSONUtil;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
-public class ConvertInterceptor implements MethodInterceptor, BaseHttpServlet {
+public class ConvertInterceptor implements ControllerInterceptor, BaseHttpServlet {
 
 	@Override
 	public Object invoke(MethodInvocation invocation) throws Throwable {
@@ -43,9 +43,9 @@ public class ConvertInterceptor implements MethodInterceptor, BaseHttpServlet {
 			log.info("【请求路径】[{}]:[{}]】", request.getMethod(), request.getRequestURI());// 请求路径
 			log.info("【请求参数】{}", params);
 			// 判断是否执行失误
-			String exit = (String) request.getAttribute("exit");
-			log.info("quit" + exit);
-			if (!"!".equals(exit)) {
+			boolean exit = "!".equals(request.getAttribute("exit"));
+			log.info(exit ? "exit!" : "go on...");
+			if (!exit) {
 				// 执行方法
 				obj = invocation.proceed();
 			}
