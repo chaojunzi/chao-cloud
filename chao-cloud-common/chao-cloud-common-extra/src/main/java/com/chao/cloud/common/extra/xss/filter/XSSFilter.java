@@ -8,7 +8,6 @@ import javax.servlet.FilterConfig;
 import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
-import javax.servlet.annotation.WebFilter;
 import javax.servlet.http.HttpServletRequest;
 
 /**
@@ -18,7 +17,6 @@ import javax.servlet.http.HttpServletRequest;
  * @since 2019年11月7日
  * @version 1.0.8
  */
-@WebFilter(urlPatterns = "/*")
 public class XSSFilter implements Filter {
 
 	public void init(FilterConfig filterConfig) throws ServletException {
