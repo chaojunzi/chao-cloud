@@ -9,10 +9,12 @@ import com.chao.cloud.common.extra.wx.impl.WxAppUserInfoServiceImpl;
 
 import cn.binarywang.wx.miniapp.api.WxMaService;
 import cn.binarywang.wx.miniapp.api.impl.WxMaServiceImpl;
-import cn.binarywang.wx.miniapp.config.WxMaInMemoryConfig;
+import cn.binarywang.wx.miniapp.config.WxMaConfig;
+import cn.binarywang.wx.miniapp.config.impl.WxMaDefaultConfigImpl;
 
 /**
  * 微信配置
+ * 
  * @author 薛超
  * @since 2019年8月1日
  * @version 1.0.5
@@ -23,7 +25,7 @@ public class WxMaSingletonConfig {
 	private static final String WX_MA_PREFIX = "chao.cloud.wx.ma.config";
 
 	@Bean
-	public WxMaService wxMaService(WxMaInMemoryConfig config) {
+	public WxMaService wxMaService(WxMaConfig config) {
 		WxMaServiceImpl serviceImpl = new WxMaServiceImpl();
 		serviceImpl.setWxMaConfig(config);
 		return serviceImpl;
@@ -39,8 +41,8 @@ public class WxMaSingletonConfig {
 
 	@Bean
 	@ConfigurationProperties(prefix = WX_MA_PREFIX)
-	public WxMaInMemoryConfig wxMaInMemoryConfig() {
-		return new WxMaInMemoryConfig();
+	public WxMaConfig wxMaInMemoryConfig() {
+		return new WxMaDefaultConfigImpl();
 	}
 
 }
