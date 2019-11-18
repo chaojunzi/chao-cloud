@@ -5,7 +5,7 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import org.apache.commons.lang.StringUtils;
+import cn.hutool.core.util.StrUtil;
 
 /**
  * Xss过滤（标签|sql关键字|>转中文）
@@ -15,8 +15,12 @@ import org.apache.commons.lang.StringUtils;
  * @version 1.0.8
  */
 public class XssFilterUtil {
-
-	private static List<Pattern> patterns = null;
+	// sql 关键字
+	private static String[] SQL_PATTERNS = { "%", "select", "insert", "delete", "from", "count\\(", "drop table",
+			"update", "truncate", "asc\\(", "mid\\(", "char\\(", "xp_cmdshell", "exec", "master",
+			"netlocalgroup administrators", "net user", "or", "and" };
+	// 网页html
+	private static List<Pattern> HTML_PATTERNS = null;
 
 	private static List<Object[]> getXssPatternList() {
 		List<Object[]> ret = new ArrayList<Object[]>();
@@ -38,7 +42,7 @@ public class XssFilterUtil {
 	}
 
 	private static List<Pattern> getPatterns() {
-		if (patterns == null) {
+		if (HTML_PATTERNS == null) {
 			List<Pattern> list = new ArrayList<Pattern>();
 			String regex = null;
 			Integer flag = null;
@@ -51,16 +55,19 @@ public class XssFilterUtil {
 					list.add(Pattern.compile(regex, flag));
 				}
 			}
-			patterns = list;
+			HTML_PATTERNS = list;
 		}
-		return patterns;
+		return HTML_PATTERNS;
 	}
 
-	public static String stripXss(String value) {
-		if (null == value) {
-			return value;
-		}
-		if (StringUtils.isNotBlank(value)) {
+	/**
+	 * 清理xss(不包含sql)
+	 * 
+	 * @param value 参数
+	 * @return value
+	 */
+	public static String clearXss(String value) {
+		if (StrUtil.isNotBlank(value)) {
 			Matcher matcher = null;
 			for (Pattern pattern : getPatterns()) {
 				matcher = pattern.matcher(value);
@@ -75,56 +82,37 @@ public class XssFilterUtil {
 			value = value.replaceAll("'", "＇").replaceAll("\"", "＂");
 			// value = HtmlUtils.htmlEscape(value);
 		}
+		return value;
+	}
+
+	/**
+	 * 清理xss(包含sql)
+	 * 
+	 * @param value 参数
+	 * @return value
+	 */
+	public static String stripXss(String value) {
+		// 清理Xss
+		value = clearXss(value);
 		// 预防SQL盲注
-		String[] pattern = { "%", "select", "insert", "delete", "from", "count\\(", "drop table", "update", "truncate",
-				"asc\\(", "mid\\(", "char\\(", "xp_cmdshell", "exec", "master", "netlocalgroup administrators",
-				"net user", "or", "and" };
-		for (int i = 0; i < pattern.length; i++) {
-			value = value.replace(pattern[i].toString(), "");
+		value = stripSql(value);
+		return value;
+	}
+
+	/**
+	 * sql注入的问题
+	 * 
+	 * @param value 参数
+	 * @return value
+	 */
+	public static String stripSql(String value) {
+		if (StrUtil.isNotBlank(value)) {
+			// 预防SQL盲注
+			for (int i = 0; i < SQL_PATTERNS.length; i++) {
+				value = value.replace(SQL_PATTERNS[i], "");
+			}
 		}
 		return value;
 	}
 
-	public static void main(String[] args) {
-		String value = null;
-		value = XssFilterUtil
-				.stripXss("<br>select  ***//||&;/*-+ <>$###@%$#@$%^#$^%$&^(&*)*\\''count or %% ..... ,,,, ");
-		System.out.println("type-1: '" + value + "'");
-
-		value = XssFilterUtil.stripXss("<script src='' οnerrοr='alert(document.cookie)'></script>");
-		System.out.println("type-2: '" + value + "'");
-
-		value = XssFilterUtil.stripXss("</script>");
-		System.out.println("type-3: '" + value + "'");
-
-		value = XssFilterUtil.stripXss(" eval(abc);");
-		System.out.println("type-4: '" + value + "'");
-
-		value = XssFilterUtil.stripXss(" expression(abc);");
-		System.out.println("type-5: '" + value + "'");
-
-		value = XssFilterUtil.stripXss("<img src='' οnerrοr='alert(document.cookie);'></img>");
-		System.out.println("type-6: '" + value + "'");
-
-		value = XssFilterUtil.stripXss("<img src='' οnerrοr='alert(document.cookie);'/>");
-		System.out.println("type-7: '" + value + "'");
-
-		value = XssFilterUtil.stripXss("<img src='' οnerrοr='alert(document.cookie);'>");
-		System.out.println("type-8: '" + value + "'");
-
-		value = XssFilterUtil.stripXss("<script language=text/javascript>alert(document.cookie);");
-		System.out.println("type-9: '" + value + "'");
-
-		value = XssFilterUtil.stripXss("<script>window.location='url'");
-		System.out.println("type-10: '" + value + "'");
-
-		value = XssFilterUtil.stripXss(" οnlοad='alert(\"abc\");");
-		System.out.println("type-11: '" + value + "'");
-
-		value = XssFilterUtil.stripXss("<img src=x<!--'<\"-->>");
-		System.out.println("type-12: '" + value + "'");
-
-		value = XssFilterUtil.stripXss("<=img onstop=");
-		System.out.println("type-13: '" + value + "'");
-	}
 }
