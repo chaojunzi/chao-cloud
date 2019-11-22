@@ -21,7 +21,7 @@
 		<chao.cloud.version>1.0.8</chao.cloud.version>
 		<!-- springcloud-cloud -->
 		<spring-cloud.version>Greenwich.RELEASE</spring-cloud.version>
-		<spring-cloud-alibaba.version>2.1.0.RELEASE</spring-cloud-alibaba.version>
+		<spring-cloud-alibaba.version>2.1.1.RELEASE</spring-cloud-alibaba.version>
 		<!-- 环境配置 -->
 		<java.version>1.8</java.version>
 		<java.encoding>UTF-8</java.encoding>
@@ -39,7 +39,7 @@
 		<!-- 字段校验 -->
 		<hibernate-validator.version>6.0.17.Final</hibernate-validator.version>
 		<!-- 超级工具类 -->
-		<hutool-all.version>5.0.5</hutool-all.version>
+		<hutool-all.version>5.0.6</hutool-all.version>
 		<commons-pool2.version>2.6.2</commons-pool2.version>
 		<commons-net.version>3.6</commons-net.version>
 		<poi-version>3.17</poi-version>
