@@ -1,4 +1,5 @@
-﻿<project xmlns="http://maven.apache.org/POM/4.0.0"
+﻿<project
+	xmlns="http://maven.apache.org/POM/4.0.0"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
@@ -22,6 +23,7 @@
 		<!-- springcloud-cloud -->
 		<spring-cloud.version>Greenwich.RELEASE</spring-cloud.version>
 		<spring-cloud-alibaba.version>2.1.1.RELEASE</spring-cloud-alibaba.version>
+		<bboss-elasticsearch.version>5.9.5</bboss-elasticsearch.version>
 		<!-- 环境配置 -->
 		<java.version>1.8</java.version>
 		<java.encoding>UTF-8</java.encoding>
@@ -86,6 +88,12 @@
 				<version>${spring-cloud-alibaba.version}</version>
 				<type>pom</type>
 				<scope>import</scope>
+			</dependency>
+			<!-- bboss-elasticsearch: https://esdoc.bbossgroups.com -->
+			<dependency>
+				<groupId>com.bbossgroups.plugins</groupId>
+				<artifactId>bboss-elasticsearch-spring-boot-starter</artifactId>
+				<version>${bboss-elasticsearch.version}</version>
 			</dependency>
 			<!-- local -->
 			<dependency>
