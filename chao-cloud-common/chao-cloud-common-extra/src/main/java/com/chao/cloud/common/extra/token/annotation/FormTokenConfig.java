@@ -9,7 +9,7 @@ import com.chao.cloud.common.extra.token.proxy.SessionFormTokenProxy;
 
 @Configuration
 @Role(BeanDefinition.ROLE_INFRASTRUCTURE)
-public class FormTokenConfiguration {
+public class FormTokenConfig {
 
     @Bean
     @Role(BeanDefinition.ROLE_INFRASTRUCTURE)

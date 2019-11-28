@@ -1,4 +1,4 @@
-package com.chao.cloud.common.extra.access.annotation;
+package com.chao.cloud.common.extra.crypto.annotation;
 
 import java.lang.annotation.Documented;
 import java.lang.annotation.ElementType;
@@ -9,15 +9,16 @@ import java.lang.annotation.Target;
 import org.springframework.context.annotation.Import;
 
 /**
- * 接口访问限制-ip+port-controller层拦截
+ * 接口参数解密
+ * 
  * @author 薛超
- * @since 2019年8月1日
- * @version 1.0.5
+ * @since 2019年11月28日
+ * @version 1.0.8
  */
 @Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)
-@Import(AccessLimitConfig.class)
+@Import(CryptoConfig.class)
 @Documented
-public @interface EnableAccessLimit {
+public @interface EnableCrypto {
 
 }

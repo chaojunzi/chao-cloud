@@ -6,7 +6,7 @@ import org.springframework.context.annotation.Configuration;
 import com.chao.cloud.common.extra.emoji.proxy.EmojiFilterProxy;
 
 @Configuration
-public class EmojiFilterConfiguration {
+public class EmojiFilterConfig {
 
     @Bean
     public EmojiFilterProxy emojiFilterProxy() {

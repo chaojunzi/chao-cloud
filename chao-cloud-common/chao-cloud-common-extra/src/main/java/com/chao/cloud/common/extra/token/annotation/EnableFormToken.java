@@ -16,7 +16,7 @@ import org.springframework.context.annotation.Import;
  */
 @Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)
-@Import(FormTokenConfiguration.class)
+@Import(FormTokenConfig.class)
 @Documented
 public @interface EnableFormToken {
 

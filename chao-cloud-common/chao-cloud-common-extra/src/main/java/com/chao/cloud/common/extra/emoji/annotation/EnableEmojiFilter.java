@@ -16,7 +16,7 @@ import org.springframework.context.annotation.Import;
  */
 @Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)
-@Import(EmojiFilterConfiguration.class)
+@Import(EmojiFilterConfig.class)
 @Documented
 public @interface EnableEmojiFilter {
 

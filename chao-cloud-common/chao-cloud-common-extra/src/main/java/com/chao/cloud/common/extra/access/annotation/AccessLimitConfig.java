@@ -6,7 +6,7 @@ import org.springframework.context.annotation.Configuration;
 import com.chao.cloud.common.extra.access.proxy.AccessLimitProxy;
 
 @Configuration
-public class AccessLimitConfiguration {
+public class AccessLimitConfig {
 
 	@Bean
 	public AccessLimitProxy AccessLimitProxy() {
