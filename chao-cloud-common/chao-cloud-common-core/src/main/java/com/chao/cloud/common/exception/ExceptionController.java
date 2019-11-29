@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.context.request.ServletWebRequest;
 import org.springframework.web.context.request.WebRequest;
 
+import com.chao.cloud.common.annotation.ExcludeAnnotation;
 import com.chao.cloud.common.base.BaseHttpServlet;
 import com.chao.cloud.common.entity.Response;
 
@@ -27,14 +28,16 @@ import lombok.extern.slf4j.Slf4j;
 
 /**
  * Springboot全局异常统一处理
+ * 
  * @author 薛超
  * @since 2019年8月1日
  * @version 1.0.5
  */
 @RestController
+@ExcludeAnnotation
 @EnableConfigurationProperties({ ServerProperties.class })
 @Slf4j
-public class ExceptionControllerError implements ErrorController, BaseHttpServlet {
+public class ExceptionController implements ErrorController, BaseHttpServlet {
 
 	private static final String ERROR_PATH = "/error";
 
@@ -45,10 +48,11 @@ public class ExceptionControllerError implements ErrorController, BaseHttpServle
 
 	/**
 	 * 初始化ExceptionController
-	 * @param errorAttributes  {@link ErrorAttributes}
+	 * 
+	 * @param errorAttributes {@link ErrorAttributes}
 	 */
 	@Autowired
-	public ExceptionControllerError(ErrorAttributes errorAttributes) {
+	public ExceptionController(ErrorAttributes errorAttributes) {
 		Assert.notNull(errorAttributes, "ErrorAttributes must not be null");
 		this.errorAttributes = errorAttributes;
 	}
@@ -72,10 +76,8 @@ public class ExceptionControllerError implements ErrorController, BaseHttpServle
 	/**
 	 * Determine if the stacktrace attribute should be included.
 	 * 
-	 * @param request
-	 *            the source request
-	 * @param produces
-	 *            the media type produced (or {@code MediaType.ALL})
+	 * @param request  the source request
+	 * @param produces the media type produced (or {@code MediaType.ALL})
 	 * @return if the stacktrace attribute should be included
 	 */
 	protected boolean isIncludeStackTrace(HttpServletRequest request, MediaType produces) {

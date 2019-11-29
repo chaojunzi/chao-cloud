@@ -1,4 +1,4 @@
-package com.chao.cloud.common.web;
+package com.chao.cloud.common.web.controller;
 
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -14,6 +14,7 @@ import lombok.Data;
 
 /**
  * 健康检查
+ * 
  * @author 薛超
  * @since 2019年8月1日
  * @version 1.0.5

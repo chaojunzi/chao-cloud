@@ -94,6 +94,12 @@
 				<groupId>com.bbossgroups.plugins</groupId>
 				<artifactId>bboss-elasticsearch-spring-boot-starter</artifactId>
 				<version>${bboss-elasticsearch.version}</version>
+				<exclusions>
+					<exclusion>
+						<artifactId>slf4j-log4j12</artifactId>
+						<groupId>org.slf4j</groupId>
+					</exclusion>
+				</exclusions>
 			</dependency>
 			<!-- local -->
 			<dependency>

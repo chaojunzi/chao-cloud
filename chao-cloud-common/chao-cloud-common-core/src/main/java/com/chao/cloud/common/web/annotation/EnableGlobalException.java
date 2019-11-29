@@ -9,13 +9,13 @@ import java.lang.annotation.Target;
 import org.springframework.context.annotation.Import;
 
 import com.chao.cloud.common.exception.ExceptionControllerAdvice;
-import com.chao.cloud.common.exception.ExceptionControllerError;
+import com.chao.cloud.common.exception.ExceptionController;
 
 @Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
 @Import({ //
-		ExceptionControllerError.class, // 全局异常处理
+		ExceptionController.class, // 全局异常处理
 		ExceptionControllerAdvice.class, // 全局控制层异常处理
 })
 public @interface EnableGlobalException {

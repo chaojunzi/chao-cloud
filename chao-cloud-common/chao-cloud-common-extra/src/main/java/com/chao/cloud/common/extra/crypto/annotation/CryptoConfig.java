@@ -16,9 +16,10 @@ import lombok.Data;
 @Configuration
 @ConfigurationProperties(prefix = "chao.cloud.crypto")
 public class CryptoConfig {
+
 	/**
 	 * 使用多种配置 不要局限
 	 */
-	String type;
+	private String type;
 
 }

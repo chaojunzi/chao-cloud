@@ -1,4 +1,4 @@
-package com.chao.cloud.common.web.convert;
+package com.chao.cloud.common.web.controller;
 
 import java.lang.reflect.Method;
 import java.util.List;
@@ -14,7 +14,6 @@ import org.aopalliance.intercept.MethodInvocation;
 import com.chao.cloud.common.base.BaseHttpServlet;
 import com.chao.cloud.common.constant.ExceptionConstant;
 import com.chao.cloud.common.constant.ResultCodeEnum;
-import com.chao.cloud.common.core.ControllerInterceptor;
 import com.chao.cloud.common.entity.Response;
 
 import cn.hutool.core.util.StrUtil;
@@ -22,7 +21,7 @@ import cn.hutool.json.JSONUtil;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
-public class ConvertInterceptor implements ControllerInterceptor, BaseHttpServlet {
+public class ControllerInterceptor implements IControllerInterceptor, BaseHttpServlet {
 
 	@Override
 	public Object invoke(MethodInvocation invocation) throws Throwable {

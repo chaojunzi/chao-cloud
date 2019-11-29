@@ -19,8 +19,8 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurationSupp
 import com.chao.cloud.common.annotation.ArgumentAnnotation;
 import com.chao.cloud.common.core.ApplicationOperation;
 import com.chao.cloud.common.core.WebMvcConfiguration;
-import com.chao.cloud.common.web.HealthController;
-import com.chao.cloud.common.web.convert.JsonHttpMessageConverter;
+import com.chao.cloud.common.web.controller.HealthController;
+import com.chao.cloud.common.web.controller.JsonHttpMessageConverter;
 
 import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.util.ArrayUtil;
