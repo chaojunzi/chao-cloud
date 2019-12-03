@@ -1,4 +1,4 @@
-package com.chao.cloud.common.extra.crypto.annotation;
+package com.chao.cloud.common.web.crypto.annotaion;
 
 import java.lang.annotation.Documented;
 import java.lang.annotation.ElementType;

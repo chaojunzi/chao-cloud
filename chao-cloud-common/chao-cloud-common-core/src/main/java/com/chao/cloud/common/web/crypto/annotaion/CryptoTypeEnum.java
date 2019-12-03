@@ -1,4 +1,4 @@
-package com.chao.cloud.common.extra.crypto.annotation;
+package com.chao.cloud.common.web.crypto.annotaion;
 
 /**
  * 解密参数类型

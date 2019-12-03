@@ -7,7 +7,6 @@ import org.springframework.context.annotation.Configuration;
 
 import com.chao.cloud.common.web.controller.ControllerAutoProxyCreator;
 import com.chao.cloud.common.web.controller.ControllerInterceptor;
-import com.chao.cloud.common.web.controller.IControllerInterceptor;
 
 import cn.hutool.core.lang.Assert;
 import lombok.Data;
@@ -24,18 +23,23 @@ import lombok.Data;
 @ConfigurationProperties(prefix = "chao.cloud.controller")
 public class ControllerConfig {
 
-	private String interceptorNames = "controllerInterceptor";
+	private static final String INTERCEPTOR_NAMWE = "controllerInterceptor";
+
+	private String interceptorNames = INTERCEPTOR_NAMWE;
 	private boolean proxyTargetClass = true;
+	private Integer order = Integer.MAX_VALUE;
 
 	/**
 	 * bean -拦截器
 	 * 
 	 * @return {@link ControllerInterceptor}
 	 */
-	@Bean(name = "controllerInterceptor")
-	@ConditionalOnMissingBean(IControllerInterceptor.class)
-	public ControllerInterceptor convertInterceptor() {
-		return new ControllerInterceptor();
+	@Bean(name = INTERCEPTOR_NAMWE)
+	@ConditionalOnMissingBean(ControllerInterceptor.class)
+	public ControllerInterceptor convertInterceptor(ControllerConfig config) {
+		ControllerInterceptor interceptor = new ControllerInterceptor();
+		interceptor.setOrder(config.getOrder());
+		return interceptor;
 	}
 
 	/**

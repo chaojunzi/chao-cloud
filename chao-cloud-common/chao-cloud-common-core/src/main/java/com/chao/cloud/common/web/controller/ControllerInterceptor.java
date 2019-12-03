@@ -9,7 +9,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.aopalliance.intercept.MethodInterceptor;
 import org.aopalliance.intercept.MethodInvocation;
+import org.springframework.core.Ordered;
 
 import com.chao.cloud.common.base.BaseHttpServlet;
 import com.chao.cloud.common.constant.ExceptionConstant;
@@ -18,10 +20,13 @@ import com.chao.cloud.common.entity.Response;
 
 import cn.hutool.core.util.StrUtil;
 import cn.hutool.json.JSONUtil;
+import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
-public class ControllerInterceptor implements IControllerInterceptor, BaseHttpServlet {
+@Data
+public class ControllerInterceptor implements MethodInterceptor, BaseHttpServlet, Ordered {
+	private int order;
 
 	@Override
 	public Object invoke(MethodInvocation invocation) throws Throwable {
