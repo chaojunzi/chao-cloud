@@ -33,6 +33,7 @@
 		<maven-gpg-plugin.version>1.6</maven-gpg-plugin.version>
 		<nexus-staging-maven-plugin.version>1.6.7</nexus-staging-maven-plugin.version>
 		<maven-release-plugin.version>2.3.2</maven-release-plugin.version>
+		<maven-jar-plugin.version>3.1.1</maven-jar-plugin.version>
 		<!-- 字节码|代理 -->
 		<javassist.version>3.12.1.GA</javassist.version>
 		<lombok.version>1.18.8</lombok.version>
@@ -41,7 +42,7 @@
 		<!-- 字段校验 -->
 		<hibernate-validator.version>6.0.17.Final</hibernate-validator.version>
 		<!-- 超级工具类 -->
-		<hutool-all.version>5.0.6</hutool-all.version>
+		<hutool-all.version>5.0.7</hutool-all.version>
 		<commons-pool2.version>2.6.2</commons-pool2.version>
 		<commons-net.version>3.6</commons-net.version>
 		<poi-version>3.17</poi-version>

@@ -1,27 +1,23 @@
 package com.chao.cloud.common.web.crypto.annotaion;
 
+import java.lang.annotation.Documented;
 import java.lang.annotation.ElementType;
-import java.lang.annotation.Inherited;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * 解密注解
- * 
+ *  加密注解
  * @author 薛超
- * @since 2019年11月28日
+ * @since 2019年12月3日
  * @version 1.0.8
  */
-@Target({ ElementType.FIELD, ElementType.PARAMETER })
-@Inherited
+@Target({ ElementType.METHOD, ElementType.TYPE })
 @Retention(RetentionPolicy.RUNTIME)
-public @interface Crypto {
+@Documented
+public @interface EncryptResponse {
 	/**
-	 * 解密类型
-	 * 
-	 * @return {@link CryptoTypeEnum}
+	 * 是否对结果加密
 	 */
-	CryptoTypeEnum type() default CryptoTypeEnum.RSA;
-
+	boolean value() default true;
 }
