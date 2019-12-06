@@ -6,8 +6,6 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 import org.aopalliance.intercept.MethodInterceptor;
 import org.aopalliance.intercept.MethodInvocation;
@@ -72,13 +70,6 @@ public class ControllerInterceptor implements MethodInterceptor, BaseHttpServlet
 		log.info("【执行时间】[{}s]]", (after - before) / 1000000000.0);
 		log.info("end------------------------------------------------------------------------------");
 		return obj;
-	}
-
-	public boolean isInclude(Object object) {
-		return (object instanceof HttpServletRequest//
-				|| object instanceof HttpServletResponse//
-				|| object instanceof HttpSession//
-		);
 	}
 
 }

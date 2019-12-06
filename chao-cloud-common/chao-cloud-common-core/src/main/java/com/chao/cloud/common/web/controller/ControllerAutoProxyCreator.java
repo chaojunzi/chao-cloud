@@ -6,6 +6,7 @@ import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Controller;
 
 import com.chao.cloud.common.annotation.ExcludeAnnotation;
+import com.chao.cloud.common.web.annotation.WebConstant;
 
 import cn.hutool.core.annotation.AnnotationUtil;
 
@@ -19,20 +20,15 @@ import cn.hutool.core.annotation.AnnotationUtil;
 @SuppressWarnings("serial")
 public class ControllerAutoProxyCreator extends AbstractAutoProxyCreator {
 
-	private static final String CGLIB_FLAG = "$$EnhancerBySpringCGLIB$$";
-
 	@Nullable
 	protected Object[] getAdvicesAndAdvisorsForBean(Class<?> beanClass, String beanName,
 			@Nullable TargetSource targetSource) {
+		// 抽取cglib
+		if (beanClass.getName().contains(WebConstant.CGLIB_FLAG)) {
+			beanClass = beanClass.getSuperclass();
+		}
 		if (isController(beanClass)) {
 			return PROXY_WITHOUT_ADDITIONAL_INTERCEPTORS;
-		}
-		// 抽取cglib
-		if (beanClass.getName().contains(CGLIB_FLAG)) {
-			Class<?> superclass = beanClass.getSuperclass();
-			if (isController(superclass)) {
-				return PROXY_WITHOUT_ADDITIONAL_INTERCEPTORS;
-			}
 		}
 		return DO_NOT_PROXY;
 	}

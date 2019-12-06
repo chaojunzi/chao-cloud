@@ -9,6 +9,7 @@ import java.lang.reflect.Proxy;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 import com.chao.cloud.common.annotation.TreeAnnotation;
@@ -22,9 +23,11 @@ import cn.hutool.core.exceptions.ExceptionUtil;
 import cn.hutool.core.lang.Assert;
 import cn.hutool.core.util.ObjectUtil;
 import cn.hutool.core.util.ReflectUtil;
+import cn.hutool.core.util.StrUtil;
 
 /**
  * 实体转换
+ * 
  * @author 薛超
  * @since 2019年8月28日
  * @version 1.0.7
@@ -32,9 +35,10 @@ import cn.hutool.core.util.ReflectUtil;
 public final class EntityUtil {
 	/**
 	 * 修改注解中的值
+	 * 
 	 * @param annotation 注解
-	 * @param k 方法名
-	 * @param v 值
+	 * @param k          方法名
+	 * @param v          值
 	 */
 	public static void putAnnotationValue(Annotation annotation, String k, Object v) {
 		try {
@@ -50,11 +54,12 @@ public final class EntityUtil {
 	}
 
 	/**
-	 * 重新赋值 private  final 修饰的属性
-	 * @param obj 原始对象
+	 * 重新赋值 private final 修饰的属性
+	 * 
+	 * @param obj       原始对象
 	 * @param fieldName 属性名字
-	 * @param value 值
-	 * @throws Exception 反射中的异常 
+	 * @param value     值
+	 * @throws Exception 反射中的异常
 	 */
 	public static void setPrivateFinalField(Object obj, String fieldName, Object value) throws Exception {
 		Field field = ReflectUtil.getField(obj instanceof Class ? (Class<?>) obj : obj.getClass(), fieldName);
@@ -68,7 +73,8 @@ public final class EntityUtil {
 
 	/**
 	 * 移除左对象中和右边相同的属性值（用于判断对象是否发生改变）
-	 * @param left 操作的对象
+	 * 
+	 * @param left  操作的对象
 	 * @param right 对比的对象
 	 */
 	public static void leftDuplicateRemoval(Object left, Object right) {
@@ -86,10 +92,11 @@ public final class EntityUtil {
 
 	/**
 	 * 转换list
-	 * @param <S> 源参数泛型
-	 * @param <T> 目标参数泛型
-	 * @param source  要转换的list
-	 * @param clazz 需要转换的 class
+	 * 
+	 * @param <S>    源参数泛型
+	 * @param <T>    目标参数泛型
+	 * @param source 要转换的list
+	 * @param clazz  需要转换的 class
 	 * @return {@link List}
 	 */
 	public static <T, S> List<T> listConver(List<S> source, Class<T> clazz) {
@@ -103,12 +110,11 @@ public final class EntityUtil {
 	}
 
 	/**
-	 * 1.解析树形数据-实现接口型
-	 * 递归算法
-	 * 实体类需要实现 {@link TreeEntity}
-	 * @param <E> entity泛型
+	 * 1.解析树形数据-实现接口型 递归算法 实体类需要实现 {@link TreeEntity}
+	 * 
+	 * @param <E>             entity泛型
 	 * @param entityList（数据源）
-	 * @param topId 顶级id（八大基本类型或String）
+	 * @param topId           顶级id（八大基本类型或String）
 	 * @return {@link TreeEntity}
 	 */
 	public static <E extends TreeEntity<E>> List<E> toTreeList(List<E> entityList, Serializable topId) {
@@ -124,12 +130,11 @@ public final class EntityUtil {
 	}
 
 	/**
-	 * 1.解析树形数据-注解型
-	 * 递归算法
-	 * 实体类需要增加注解  {@link TreeAnnotation}
-	 * @param <T> 目标参数泛型
+	 * 1.解析树形数据-注解型 递归算法 实体类需要增加注解 {@link TreeAnnotation}
+	 * 
+	 * @param <T>             目标参数泛型
 	 * @param entityList（数据源）
-	 * @param topId 顶级id（八大基本类型或String）
+	 * @param topId           顶级id（八大基本类型或String）
 	 * @return {@link List}
 	 */
 	public static <T> List<T> toTreeAnnoList(List<T> entityList, Serializable topId) {
@@ -151,10 +156,11 @@ public final class EntityUtil {
 
 	/**
 	 * 递归填充子集
-	 * @param <E> 目标参数泛型
+	 * 
+	 * @param <E>        目标参数泛型
 	 * @param entityList 数据源
-	 * @param root 根对象
-	 * @return  {@link TreeEntity}
+	 * @param root       根对象
+	 * @return {@link TreeEntity}
 	 */
 	public static <E extends TreeEntity<E>> E recursiveFill(List<E> entityList, E root) {
 		Object parentId = root.getId();
@@ -171,9 +177,10 @@ public final class EntityUtil {
 
 	/**
 	 * 递归填充子集
+	 * 
 	 * @param entityList（数据源）
-	 * @param root 根对象
-	 * @param treeMap 字段属性的必要条件
+	 * @param root            根对象
+	 * @param treeMap         字段属性的必要条件
 	 */
 	public static void recursiveFill(List<?> entityList, Object root, Map<TreeEnum, Field> treeMap) {
 		Object parentId = ReflectUtil.getFieldValue(root, treeMap.get(TreeEnum.ID));
@@ -186,6 +193,60 @@ public final class EntityUtil {
 		subList.forEach(s -> recursiveFill(entityList, s, treeMap));
 		// 返回
 		ReflectUtil.setFieldValue(root, treeMap.get(TreeEnum.SUB_LIST), subList);
+	}
+
+	/**
+	 * 将list转为树结构map
+	 *
+	 * @param entityList   目标集合
+	 * @param topId        顶级id
+	 * @param idName       id名称
+	 * @param parentIdName 父级id名称
+	 * @param childrenName 子集名称
+	 * @return map集合
+	 */
+	public static <E> List<Map<String, Object>> toMapTree(List<E> entityList, Serializable topId, String idName,
+			String parentIdName, String childrenName) {
+		if (CollUtil.isEmpty(entityList)) {
+			return Collections.emptyList();
+		}
+		final List<Map<String, Object>> collect = entityList.stream().map(BeanUtil::beanToMap)
+				.collect(Collectors.toList());
+		return collect.stream().map(e -> {
+			final Object obj = e.get(parentIdName);
+			if (StrUtil.isBlankIfStr(obj)) {
+				return null;
+			}
+			final String parentId = obj.toString();
+			if (parentId.equals(topId)) {
+				getChildren(collect, e, idName, parentIdName, childrenName);
+				return e;
+			}
+			return null;
+		}).filter(Objects::nonNull).collect(Collectors.toList());
+	}
+
+	/**
+	 * 获取字集
+	 *
+	 * @param entityList   目标集合
+	 * @param parentMap    父集合
+	 * @param idName       id名
+	 * @param parentIdName 父级id名称
+	 * @param childrenName 子集名称
+	 */
+	public static void getChildren(List<Map<String, Object>> entityList, Map<String, Object> parentMap, String idName,
+			String parentIdName, String childrenName) {
+		final Object id = parentMap.get(idName);
+		final List<Map<String, Object>> collect = entityList.stream().map(e -> {
+			final Object parentId = e.get(parentIdName);
+			if (parentId.equals(id)) {
+				getChildren(entityList, e, idName, parentIdName, childrenName);
+				return e;
+			}
+			return null;
+		}).filter(Objects::nonNull).collect(Collectors.toList());
+		parentMap.put(childrenName, collect);
 	}
 
 }

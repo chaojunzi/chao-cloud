@@ -49,7 +49,7 @@
 		<com.vdurmont.version>4.0.0</com.vdurmont.version>
 		<hanlp.version>portable-1.7.2</hanlp.version>
 		<google.zxing.version>3.3.3</google.zxing.version>
-		<baidu.aip.version>4.11.3</baidu.aip.version>
+		<baidu.aip.version>4.12.0</baidu.aip.version>
 		<mp3spi.version>1.9.5.4</mp3spi.version>
 		<!-- mysql -->
 		<druid-spring.version>1.1.18</druid-spring.version>
@@ -289,6 +289,16 @@
 				<groupId>com.baidu.aip</groupId>
 				<artifactId>java-sdk</artifactId>
 				<version>${baidu.aip.version}</version>
+				<exclusions>
+					<exclusion>
+						<groupId>org.slf4j</groupId>
+						<artifactId>slf4j-api</artifactId>
+					</exclusion>
+					<exclusion>
+						<groupId>org.slf4j</groupId>
+						<artifactId>slf4j-simple</artifactId>
+					</exclusion>
+				</exclusions>
 			</dependency>
 		</dependencies>
 	</dependencyManagement>

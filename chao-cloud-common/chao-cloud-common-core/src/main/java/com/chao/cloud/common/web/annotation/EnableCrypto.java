@@ -1,4 +1,4 @@
-package com.chao.cloud.common.web.crypto.annotaion;
+package com.chao.cloud.common.web.annotation;
 
 import java.lang.annotation.Documented;
 import java.lang.annotation.ElementType;
@@ -7,6 +7,8 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 import org.springframework.context.annotation.Import;
+
+import com.chao.cloud.common.web.config.CryptoConfig;
 
 /**
  * 接口参数解密

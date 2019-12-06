@@ -17,6 +17,7 @@ import lombok.extern.slf4j.Slf4j;
 
 /**
  * controller 增强器
+ * 
  * @author 薛超
  * @since 2019年8月1日
  * @version 1.0.5
@@ -29,6 +30,7 @@ public class ExceptionControllerAdvice implements BaseHttpServlet {
 
 	/**
 	 * 全局异常捕捉处理
+	 * 
 	 * @param ex {@link Exception}
 	 * @return {@link Response}
 	 */
@@ -48,6 +50,7 @@ public class ExceptionControllerAdvice implements BaseHttpServlet {
 
 	@ExceptionHandler(value = { BindException.class })
 	public Response<String> errorHandler(BindException ex) {
+		log.error("参数绑定异常", ex);
 		FieldError fieldError = ex.getFieldError();
 		String errorMessage = StrUtil.format(errorTemplate, fieldError.getDefaultMessage(), fieldError.getField(),
 				fieldError.getRejectedValue());
