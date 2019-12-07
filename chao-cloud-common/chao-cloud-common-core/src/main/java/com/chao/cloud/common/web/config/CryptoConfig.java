@@ -13,6 +13,7 @@ import org.springframework.context.annotation.Configuration;
 import com.chao.cloud.common.exception.BusinessException;
 import com.chao.cloud.common.web.annotation.WebConstant;
 import com.chao.cloud.common.web.crypto.CryptoAutoProxyCreator;
+import com.chao.cloud.common.web.crypto.CryptoController;
 import com.chao.cloud.common.web.crypto.CryptoInterceptor;
 import com.chao.cloud.common.web.crypto.CryptoTypeEnum;
 
@@ -69,12 +70,19 @@ public class CryptoConfig implements InitializingBean {
 	 * @return {@link CryptoAutoProxyCreator}
 	 */
 	@Bean
-	public CryptoAutoProxyCreator CryptoAutoProxyCreator(CryptoConfig config) {
+	public CryptoAutoProxyCreator cryptoAutoProxyCreator(CryptoConfig config) {
 		CryptoAutoProxyCreator creator = new CryptoAutoProxyCreator();
 		creator.setProxyTargetClass(config.proxyTargetClass);
 		Assert.notBlank(config.getInterceptorNames(), "interceptorNames 不能为空");
 		creator.setInterceptorNames(config.getInterceptorNames());
 		return creator;
+	}
+
+	@Bean
+	public CryptoController cryptoController(CryptoConfig config) {
+		CryptoController cryptoController = new CryptoController();
+		cryptoController.setCryptoConfig(config);
+		return cryptoController;
 	}
 
 	@Override
