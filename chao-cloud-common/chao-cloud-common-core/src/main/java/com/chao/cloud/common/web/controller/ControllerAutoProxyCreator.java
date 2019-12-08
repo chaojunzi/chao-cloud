@@ -27,7 +27,7 @@ public class ControllerAutoProxyCreator extends AbstractAutoProxyCreator {
 		if (beanClass.getName().contains(WebConstant.CGLIB_FLAG)) {
 			beanClass = beanClass.getSuperclass();
 		}
-		if (isController(beanClass)) {
+		if (this.isController(beanClass)) {
 			return PROXY_WITHOUT_ADDITIONAL_INTERCEPTORS;
 		}
 		return DO_NOT_PROXY;

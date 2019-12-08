@@ -35,7 +35,7 @@ public class ControllerConfig {
 	 */
 	@Bean(name = WebConstant.CONTROLLER_INTERCEPTOR)
 	@ConditionalOnMissingBean(ControllerInterceptor.class)
-	public ControllerInterceptor convertInterceptor(ControllerConfig config) {
+	public ControllerInterceptor controllerInterceptor(ControllerConfig config) {
 		ControllerInterceptor interceptor = new ControllerInterceptor();
 		interceptor.setOrder(config.getOrder());
 		return interceptor;

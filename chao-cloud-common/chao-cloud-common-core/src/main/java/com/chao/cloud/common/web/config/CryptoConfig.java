@@ -57,7 +57,7 @@ public class CryptoConfig implements InitializingBean {
 	 */
 	@Bean(name = WebConstant.CRYPTO_INTERCEPTOR)
 	@ConditionalOnMissingBean(CryptoInterceptor.class)
-	public CryptoInterceptor convertInterceptor(CryptoConfig config) {
+	public CryptoInterceptor cryptoInterceptor(CryptoConfig config) {
 		CryptoInterceptor interceptor = new CryptoInterceptor();
 		interceptor.setOrder(config.getOrder());
 		interceptor.setConfig(config);

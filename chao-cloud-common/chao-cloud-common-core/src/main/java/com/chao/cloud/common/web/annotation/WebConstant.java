@@ -21,6 +21,10 @@ public interface WebConstant {
 	 */
 	String CRYPTO_INTERCEPTOR = "cryptoInterceptor";
 	/**
+	 * 接口签名拦截器名称
+	 */
+	String SIGN_INTERCEPTOR = "signInterceptor";
+	/**
 	 * Controller执行顺序
 	 */
 	Integer CONTROLLER_ORDER = Integer.MAX_VALUE;
@@ -28,4 +32,8 @@ public interface WebConstant {
 	 * Crypto执行顺序
 	 */
 	Integer CRYPTO_ORDER = 1;
+	/**
+	 * Sign执行顺序
+	 */
+	Integer SIGN_ORDER = CRYPTO_ORDER + 10;
 }
