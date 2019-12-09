@@ -39,6 +39,8 @@ chao-cloud: springboot 拓展工具包
        * [Spring-核心配置](#-Spring-%E6%A0%B8%E5%BF%83%E9%85%8D%E7%BD%AE)
        * [全局异常处理](#-%E5%85%A8%E5%B1%80%E5%BC%82%E5%B8%B8%E5%A4%84%E7%90%86)
        * [全局参数校验](#-%E5%85%A8%E5%B1%80%E5%8F%82%E6%95%B0%E6%A0%A1%E9%AA%8C)
+       * [接口参数解密](#-%E6%8E%A5%E5%8F%A3%E5%8F%82%E6%95%B0%E8%A7%A3%E5%AF%86)
+       * [接口参数签名](#-%E6%8E%A5%E5%8F%A3%E5%8F%82%E6%95%B0%E7%AD%BE%E5%90%8D)
        * [web](#-web)
        * [新建一个web项目](#-%E6%96%B0%E5%BB%BA%E4%B8%80%E4%B8%AAweb%E9%A1%B9%E7%9B%AE)
    * chao-cloud-common-extra  
@@ -54,6 +56,7 @@ chao-cloud: springboot 拓展工具包
        * [语音识别-百度AI](#-%E8%AF%AD%E9%9F%B3%E8%AF%86%E5%88%AB-%E7%99%BE%E5%BA%A6AI)
        * [微信小程序](#-%E5%BE%AE%E4%BF%A1%E5%B0%8F%E7%A8%8B%E5%BA%8F)
        * [微信支付](#-%E5%BE%AE%E4%BF%A1%E6%94%AF%E4%BB%98)
+       * [XSS-跨站点脚本编制](#-XSS)
    * chao-cloud-common-config  
        * [接口权限校验](#-%E6%8E%A5%E5%8F%A3%E6%9D%83%E9%99%90%E6%A0%A1%E9%AA%8C)
        * [跨域访问](#-%E8%B7%A8%E5%9F%9F%E8%AE%BF%E9%97%AE)
@@ -120,10 +123,11 @@ chao-cloud 几乎所有功能都采取插件化处理，以注解和配置文件
 		 	├─exception 		//异常类，BusinessException
 		 	├─util			//工具类，透明背景验证码，权限（2的权的和）校验，EntityUtil递归树，list转换
 		 	└─web			//web（全局参数校验，controller拦截，全局异常，核心，健康检查，资源访问，参数解析等）
-		 	  ├─annotation		//注解 application exception valid web
-		 	  ├─config 		//配置aop application valid web
-		 	  ├─convert 		//rest 参数拦截返回值转换
-		 	  └─HealthController	//健康监测API
+		 	  ├─annotation		//注解 application crypto exception sign valid web
+		 	  ├─config 		//配置 application controller crypto sign valid web
+		 	  ├─controller 		//controller 代理-> 执行时间统计，健康检查，返回值处理等
+		 	  ├─crypto 		//接口参数解密
+		 	  └─sign	//接口参数签名
 		 
 	2.chao-cloud-common-extra 
 		│
@@ -137,7 +141,8 @@ chao-cloud 几乎所有功能都采取插件化处理，以注解和配置文件
 		 	├─token 		//拦截表单重复提交
 		 	├─tx 			//微服务分布式事务（springcloud+seata+feign）
 		 	├─voice 		//百度AI-语音转文字
-		 	└─wx			//微信支付，微信小程序（单例）
+		 	├─wx			//微信支付，微信小程序（单例）
+		 	└─xss			//xss 跨站点脚本编制
 		 	
 	3.chao-cloud-common-config 
 		│
@@ -314,6 +319,68 @@ Hibernate Validator 附加的 constraint
   * 详情请点击[@参考1-普通版](https://www.jianshu.com/p/0bfe2318814f)      
   * 详情请点击[@参考2-springboot版](https://cloud.tencent.com/developer/article/1054194)      
   * 详情请点击[github@hibernate-validator](https://github.com/hibernate/hibernate-validator)      
+  
+### > 接口参数解密
+
+```java
+@EnableCrypto
+
+//简单用法
+@Crypto   //需要解密的参数
+
+//yaml
+chao:
+  cloud:
+    crypto:
+      charset: UTF-8  #编码方式
+      order: 1  #切面的执行顺序，1为第一
+      proxy-target-class: true  #CGLib动态代理织入增强
+      interceptor-names: cryptoInterceptor #拦截器的@Bean(name=) 默认已实现 
+      keys: #针对前端参数的不同加密方式进行配置
+        DES: #对称加密
+          secret-key: 
+        RSA: #非对称加密
+          private-key:
+          public-key: 
+```
+- 说明
+  * 在启动类增加@EnableCrypto  
+  * 使用方式：  
+      - 在method-> 参数前添加注解 @Crypto(CryptoTypeEnum)
+      - 注：可用于String类型的参数或Bean中 String类型的属性
+      - 范围：String String[] List<String> Set<String> Map<String,String> Bean(String 字段)
+      
+     
+### > 接口参数签名
+
+```java
+@EnableSign
+
+//简单用法
+@Sign   //需要签名的参数    
+
+//yaml
+chao:
+  cloud:
+    sign:
+      order: 11 #比【接口参数解密】要靠后一些执行
+      proxy-target-class: true  #CGLib动态代理织入增强
+      interceptor-names: signInterceptor   #拦截器的@Bean(name=) 默认已实现 
+      sign-type: MD5 #签名方式 MD5|SHA1|SHA256
+      timeout: 60 #超时时间默认60秒
+      
+```
+- 说明
+  * 在启动类增加@EnableSign  
+  * 使用方式：  
+      - 服务端：在method-> 参数前前添加注解 @Sign
+      - 前端：在header中添加请求头(http请求)
+      - Sign：参数签名为对Map参数按照key的顺序排序后拼接为字符串，然后根据提供的签名算法生成签名字符串 {k}{v}{k}{v}{k}{v}...（包含：Timestamp{时间戳毫秒数}）
+      - Timestamp：当前时间的毫秒数 
+      - 注：可用于简单值类型的参数或Bean中 简单值类型的属性以及Map接收的简单值参数
+      - 范围：String等简单值类型  Map<String,Object> Bean(简单值 字段)
+      
+     
       
 ### > web
 
@@ -656,6 +723,23 @@ chao:
   * 在调用类注入 WxPayService
   * 详情请点击[@WxJava-sdk](https://github.com/Wechat-Group/WxJava)
   * 详情请点击[@微信支付开发文档](https://github.com/Wechat-Group/WxJava/wiki/%E5%BE%AE%E4%BF%A1%E6%94%AF%E4%BB%98%E5%BC%80%E5%8F%91%E6%96%87%E6%A1%A3)
+  
+### > XSS
+```java
+@EnableXssFilter
+ 
+//yaml 配置
+chao:
+  cloud:
+    xss:
+      filter-name: XSSFilter #过滤器名字
+      order: 0 #过滤器执行顺序
+      url-patterns: #匹配的路径
+```
+- 说明
+  * 在启动类增加@EnableXssFilter  
+  * XSS 跨站点脚本编制
+ 
   
 ### > 接口权限校验
 ```java
