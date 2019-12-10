@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>非对称加密算法-rsa</title>
+<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+<script src="../jsencrypt.js"></script>
+<script type="text/javascript">
+	var publicKey = "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAnYHOKVPCYbcoS8ni29szn//ZP1fsvKS+ZQgdouB2ihdojLGVzarIUzXtXJBgybBQmeu54LUeLOtCZEzf/DTc4OaAoamgRfs3Trhz0KRZsMkk10w4tYlP/RvSJIfoO7J4RkwQX6w0kmiXHq2ANsCvFOU3lPNyA+i5JSzantYgx9sGcbijOVrljWg63EDZ0wo5q7miwY740WPBkRUtheBk3IX7/Anf3jGDrcreYMiWBh2JdOzFVWWcDy8x3KFxv8d1YBWa06i9qHImaYDtcTEGPttXIVi/R7qqAQWi3r0vcvdmZr+ntPVt/EEk6UhdMNKoVN81m8jAdGKRkFiqAnH4xQIDAQAB";
+	$(function() {
+		//提交
+		$("button").click(function() {
+			var data = $("[name=data]").val();
+			if (data == '') {
+				alert("请输入");
+				return;
+			}
+			//加密
+			var encrypt = new JSEncrypt();
+			encrypt.setPublicKey(publicKey);
+			data = encrypt.encrypt(data);
+			console.log("加密数据：" + data);
+			$.ajax({
+				url : "",
+				data : {
+					'age' : data,
+					'param' : data,
+					'name' : data
+				},
+				dataType : "json",
+				success : function(d) {
+					alert(JSON.stringify(d));
+					console.log(d);
+				}
+			});
+		});
+	})
+</script>
+</head>
+<body>
+	加密字符串：
+	<input name="data">
+	<button>提交</button>
+</body>
+</html>

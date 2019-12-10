@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>对称加密算法-des</title>
+<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+<script type="text/javascript" src="../tripledes.js" ></script>
+<script type="text/javascript" src="../mode-ecb.js" ></script>
+<script type="text/javascript">
+$(function() {
+	function encryptByDES(value, key) {
+		  if(value == '') return '';
+		  var keyHex = CryptoJS.enc.Utf8.parse(key);
+		  var encrypted = CryptoJS.DES.encrypt(value, keyHex, {
+		  mode: CryptoJS.mode.ECB,
+		  padding: CryptoJS.pad.Pkcs7
+		  });
+		  return encrypted.toString();
+	 }
+	
+	//提交
+	$("button").click(function() {
+		var data = $("[name=data]").val();
+		if (data == '') {
+			alert("请输入");
+			return;
+		}
+		//加密
+		data = encryptByDES(data,"12345678");
+		alert("加密数据：" + data);
+		console.log(data);
+		$.ajax({
+			url : "",
+			data : {
+				data : data
+			},
+			dataType : "json",
+			success : function(d) {
+				alert(JSON.stringify(d));
+				console.log(d);
+			}
+		});
+	});
+})
+
+</script>
+</head>
+<body>
+	加密字符串：
+	<input name="data">
+	<button>提交</button>
+</body>
+</html>
