@@ -23,7 +23,7 @@
 		<!-- springcloud-cloud -->
 		<spring-cloud.version>Greenwich.RELEASE</spring-cloud.version>
 		<spring-cloud-alibaba.version>2.1.1.RELEASE</spring-cloud-alibaba.version>
-		<bboss-elasticsearch.version>5.9.5</bboss-elasticsearch.version>
+		<bboss-elasticsearch.version>5.9.8</bboss-elasticsearch.version>
 		<!-- 环境配置 -->
 		<java.version>1.8</java.version>
 		<java.encoding>UTF-8</java.encoding>
