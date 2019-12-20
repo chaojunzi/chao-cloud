@@ -8,6 +8,7 @@ import org.springframework.context.annotation.Configuration;
 import com.chao.cloud.common.web.annotation.WebConstant;
 import com.chao.cloud.common.web.controller.ControllerAutoProxyCreator;
 import com.chao.cloud.common.web.controller.ControllerInterceptor;
+import com.chao.cloud.common.web.controller.ResponseBodyHandler;
 
 import cn.hutool.core.lang.Assert;
 import lombok.Data;
@@ -53,6 +54,16 @@ public class ControllerConfig {
 		Assert.notBlank(config.getInterceptorNames(), "interceptorNames 不能为空");
 		creator.setInterceptorNames(config.getInterceptorNames());
 		return creator;
+	}
+
+	/**
+	 * 全局返回值统一处理
+	 * 
+	 * @return {@link ResponseBodyHandler}
+	 */
+	@Bean
+	public ResponseBodyHandler responseBodyHandler() {
+		return new ResponseBodyHandler();
 	}
 
 }
