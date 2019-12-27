@@ -8,18 +8,19 @@ import java.lang.annotation.Target;
 
 import org.springframework.context.annotation.Import;
 
-import com.chao.cloud.common.web.config.ApplicationCoreConfig;
+import com.chao.cloud.common.web.config.SpringConfig;
 
 /**
- * 全局的application配置核心配置
+ * 全局的Spring配置核心配置
+ * 
  * @author 薛超
- * @since 2019年8月1日
- * @version 1.0.5
+ * @since 2019年12月27日
+ * @version 1.0.8
  */
 @Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
-@Import(ApplicationCoreConfig.class)
-public @interface EnableCore {
+@Import(SpringConfig.class)
+public @interface EnableSpring {
 
 }

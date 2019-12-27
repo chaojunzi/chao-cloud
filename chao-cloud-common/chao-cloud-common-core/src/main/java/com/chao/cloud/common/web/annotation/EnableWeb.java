@@ -24,7 +24,7 @@ import com.chao.cloud.common.web.config.WebMvcConfig;
 		ControllerConfig.class, // controller 拦截和vo转换
 		WebMvcConfig.class,// web资源-参数处理
 })
-@EnableCore // 核心配置
+@EnableSpring // 核心配置
 @EnableValidator // 参数校验
 public @interface EnableWeb {
 

@@ -7,25 +7,28 @@ import org.springframework.core.convert.ConversionService;
 import org.springframework.format.support.FormattingConversionServiceFactoryBean;
 
 import com.chao.cloud.common.core.ApplicationRefreshed;
-import com.chao.cloud.common.core.SpringContextUtil;
+
+import cn.hutool.extra.spring.SpringUtil;
 
 /**
  * spring 核心配置
+ * 
  * @author 薛超
  * @since 2019年8月1日
  * @version 1.0.5
  */
 @Configuration
-public class ApplicationCoreConfig {
+public class SpringConfig {
 
 	/**
 	 * 全局spring容器
+	 * 
 	 * @param applicationContext {@link ApplicationContext}
-	 * @return {@link SpringContextUtil}
+	 * @return {@link SpringUtil}
 	 */
 	@Bean
-	public SpringContextUtil springContextUtil(ApplicationContext applicationContext) {
-		SpringContextUtil util = new SpringContextUtil();
+	public SpringUtil springContextUtil(ApplicationContext applicationContext) {
+		SpringUtil util = new SpringUtil();
 		util.setApplicationContext(applicationContext);
 		return util;
 	}
