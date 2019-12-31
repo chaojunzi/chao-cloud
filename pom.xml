@@ -53,7 +53,7 @@
 		<mp3spi.version>1.9.5.4</mp3spi.version>
 		<!-- mysql -->
 		<druid-spring.version>1.1.18</druid-spring.version>
-		<mybatis-plus.version>3.2.0</mybatis-plus.version>
+		<mybatis-plus.version>3.3.0</mybatis-plus.version>
 		<!-- json返回值 -->
 		<fastjson.version>1.2.58</fastjson.version>
 		<!-- 微信工具包 -->
