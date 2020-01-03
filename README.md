@@ -73,7 +73,7 @@ chao-cloud: springboot 拓展工具包
 <dependency>
 	<groupId>com.github.chaojunzi</groupId>
 	<artifactId>chao-cloud-parent</artifactId>
-	<version>1.0.7</version>
+	<version>1.0.8</version>
 </dependency>
 ```
 
@@ -83,7 +83,7 @@ chao-cloud: springboot 拓展工具包
 <dependency>
 	<groupId>com.github.chaojunzi</groupId>
 	<artifactId>chao-cloud-common-core</artifactId>
-	<version>1.0.7</version>
+	<version>1.0.8</version>
 </dependency>
 ```
 
@@ -93,7 +93,7 @@ chao-cloud: springboot 拓展工具包
 <dependency>
 	<groupId>com.github.chaojunzi</groupId>
 	<artifactId>chao-cloud-common-extra</artifactId>
-	<version>1.0.7</version>
+	<version>1.0.8</version>
 </dependency>
 ```
 **config 注解和配置↑** 
@@ -102,7 +102,7 @@ chao-cloud: springboot 拓展工具包
 <dependency>
 	<groupId>com.github.chaojunzi</groupId>
 	<artifactId>chao-cloud-common-config</artifactId>
-	<version>1.0.7</version>
+	<version>1.0.8</version>
 </dependency>
 ```
 	
@@ -444,7 +444,7 @@ spring:
 <parent>
 	<groupId>com.github.chaojunzi</groupId>
 	<artifactId>chao-cloud-parent</artifactId>
-	<version>1.0.7</version>
+	<version>1.0.8</version>
 </parent>
 <dependencies>
 	<dependency>
