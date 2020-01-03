@@ -57,7 +57,7 @@
 		<!-- json返回值 -->
 		<fastjson.version>1.2.58</fastjson.version>
 		<!-- 微信工具包 -->
-		<weixin-java-tools.version>3.5.0</weixin-java-tools.version>
+		<weixin-java-tools.version>3.6.0</weixin-java-tools.version>
 		<thoughtworks.version>1.4.11.1</thoughtworks.version>
 		<!-- shiro -->
 		<shiro.version>1.4.0</shiro.version>
