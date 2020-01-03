@@ -111,8 +111,8 @@ public class XSSServletRequest extends HttpServletRequestWrapper {
 	}
 
 	/**
-	 * 覆盖getHeader方法，将参数名和参数值都做xss过滤。<br/>
-	 * 如果需要获得原始的值，则通过super.getHeaders(name)来获取<br/>
+	 * 覆盖getHeader方法，将参数名和参数值都做xss过滤。<br>
+	 * 如果需要获得原始的值，则通过super.getHeaders(name)来获取<br>
 	 * getHeaderNames 也可能需要覆盖
 	 * 
 	 * @param name 请求头key

@@ -8,7 +8,7 @@ import java.util.regex.Pattern;
 import cn.hutool.core.util.StrUtil;
 
 /**
- * Xss过滤（标签|sql关键字|>转中文）
+ * Xss过滤（标签|sql关键字|转中文）
  * 
  * @author 薛超
  * @since 2019年11月12日
