@@ -62,6 +62,7 @@ public class ControllerConfig {
 	 * @return {@link ResponseBodyHandler}
 	 */
 	@Bean
+	@ConditionalOnMissingBean(ResponseBodyHandler.class)
 	public ResponseBodyHandler responseBodyHandler() {
 		return new ResponseBodyHandler();
 	}

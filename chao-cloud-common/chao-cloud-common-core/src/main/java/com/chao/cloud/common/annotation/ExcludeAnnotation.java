@@ -14,7 +14,7 @@ import java.lang.annotation.Target;
  * @since 2019年11月29日
  * @version 1.0.8
  */
-@Target(ElementType.TYPE)
+@Target({ ElementType.TYPE, ElementType.METHOD })
 @Inherited
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
