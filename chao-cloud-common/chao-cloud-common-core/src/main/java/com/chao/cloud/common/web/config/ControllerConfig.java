@@ -1,10 +1,14 @@
 package com.chao.cloud.common.web.config;
 
+import java.io.Serializable;
+
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+import com.chao.cloud.common.constant.ResultCodeEnum;
+import com.chao.cloud.common.entity.Response;
 import com.chao.cloud.common.web.annotation.WebConstant;
 import com.chao.cloud.common.web.controller.ControllerAutoProxyCreator;
 import com.chao.cloud.common.web.controller.ControllerInterceptor;
@@ -28,6 +32,13 @@ public class ControllerConfig {
 	private String interceptorNames = WebConstant.CONTROLLER_INTERCEPTOR;
 	private boolean proxyTargetClass = true;
 	private Integer order = WebConstant.CONTROLLER_ORDER;
+
+	/**
+	 * 返回值-类型
+	 */
+	private String responseClass = Response.class.getCanonicalName();
+	private Serializable okCode = ResultCodeEnum.CODE_200.code();// 正常返回码
+	private Serializable errorCode = ResultCodeEnum.CODE_500.code();// 异常返回码
 
 	/**
 	 * bean -拦截器
