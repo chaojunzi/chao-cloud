@@ -42,7 +42,7 @@
 		<!-- 字段校验 -->
 		<hibernate-validator.version>6.0.17.Final</hibernate-validator.version>
 		<!-- 超级工具类 -->
-		<hutool-all.version>5.1.0</hutool-all.version>
+		<hutool-all.version>5.1.1</hutool-all.version>
 		<commons-pool2.version>2.6.2</commons-pool2.version>
 		<commons-net.version>3.6</commons-net.version>
 		<poi-version>3.17</poi-version>
@@ -53,8 +53,8 @@
 		<mp3spi.version>1.9.5.4</mp3spi.version>
 		<!-- mysql -->
 		<druid-spring.version>1.1.18</druid-spring.version>
-		<mybatis-plus.version>3.3.0</mybatis-plus.version>
-		<mybatis-plus-dynamic-datasource.version>2.5.7</mybatis-plus-dynamic-datasource.version>
+		<mybatis-plus.version>3.3.1</mybatis-plus.version>
+		<mybatis-plus-dynamic-datasource.version>2.5.8</mybatis-plus-dynamic-datasource.version>
 		<!-- json返回值 -->
 		<fastjson.version>1.2.58</fastjson.version>
 		<!-- 微信工具包 -->
