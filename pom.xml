@@ -5,7 +5,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.github.chaojunzi</groupId>
 	<artifactId>chao-cloud-parent</artifactId>
-	<version>1.0.8</version>
+	<version>1.0.9</version>
 	<packaging>pom</packaging>
 	<parent>
 		<groupId>org.springframework.boot</groupId>
@@ -19,11 +19,11 @@
 
 	<properties>
 		<!-- 项目版本 -->
-		<chao.cloud.version>1.0.8</chao.cloud.version>
+		<chao.cloud.version>1.0.9</chao.cloud.version>
 		<!-- springcloud-cloud -->
 		<spring-cloud.version>Greenwich.RELEASE</spring-cloud.version>
-		<spring-cloud-alibaba.version>2.1.1.RELEASE</spring-cloud-alibaba.version>
-		<bboss-elasticsearch.version>5.9.8</bboss-elasticsearch.version>
+		<spring-cloud-alibaba.version>2.2.0.RELEASE</spring-cloud-alibaba.version>
+		<bboss-elasticsearch.version>6.0.2</bboss-elasticsearch.version>
 		<!-- 环境配置 -->
 		<java.version>1.8</java.version>
 		<java.encoding>UTF-8</java.encoding>
@@ -42,7 +42,7 @@
 		<!-- 字段校验 -->
 		<hibernate-validator.version>6.0.17.Final</hibernate-validator.version>
 		<!-- 超级工具类 -->
-		<hutool-all.version>5.1.1</hutool-all.version>
+		<hutool-all.version>5.1.3</hutool-all.version>
 		<commons-pool2.version>2.6.2</commons-pool2.version>
 		<commons-net.version>3.6</commons-net.version>
 		<poi-version>3.17</poi-version>

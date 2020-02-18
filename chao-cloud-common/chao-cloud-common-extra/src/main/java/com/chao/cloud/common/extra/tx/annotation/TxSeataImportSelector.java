@@ -30,6 +30,7 @@ import lombok.extern.slf4j.Slf4j;
 
 /**
  * 分布式事务整合
+ * 
  * @author 薛超
  * @since 2019年8月28日
  * @version 1.0.7
@@ -69,11 +70,12 @@ public class TxSeataImportSelector implements ImportSelector, EnvironmentAware {
 				// NacosConfiguration
 				EntityUtil.setPrivateFinalField(NacosConfiguration.class, "configService", configService);
 				//
-				NacosConfiguration configuration = new NacosConfiguration();
+				NacosConfiguration configuration = NacosConfiguration.getInstance();
 				// ConfigurationFactory
-				EntityUtil.setPrivateFinalField(ConfigurationFactory.class, "CONFIG_INSTANCE", configuration);
+				EntityUtil.setPrivateFinalField(ConfigurationFactory.class, "instance", configuration);
 				// 修改注册-nacos
-				EntityUtil.setPrivateFinalField(ConfigurationFactory.class, "DEFAULT_FILE_INSTANCE", configuration);
+				// EntityUtil.setPrivateFinalField(ConfigurationFactory.class,
+				// "DEFAULT_FILE_INSTANCE", configuration);
 				EntityUtil.setPrivateFinalField(ConfigurationFactory.class, "CURRENT_FILE_INSTANCE", configuration);
 				// 修改服务发现
 				NamingService namingService = NamingFactory.createNamingService(properties);
