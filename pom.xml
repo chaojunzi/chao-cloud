@@ -42,10 +42,10 @@
 		<!-- 字段校验 -->
 		<hibernate-validator.version>6.0.17.Final</hibernate-validator.version>
 		<!-- 超级工具类 -->
-		<hutool-all.version>5.1.4</hutool-all.version>
+		<hutool-all.version>5.2.1</hutool-all.version>
 		<commons-pool2.version>2.6.2</commons-pool2.version>
 		<commons-net.version>3.6</commons-net.version>
-		<poi-version>3.17</poi-version>
+		<poi-version>4.1.2</poi-version>
 		<com.vdurmont.version>4.0.0</com.vdurmont.version>
 		<hanlp.version>portable-1.7.2</hanlp.version>
 		<google.zxing.version>3.3.3</google.zxing.version>
