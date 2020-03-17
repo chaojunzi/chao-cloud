@@ -9,15 +9,16 @@ import java.lang.annotation.Target;
 import org.springframework.context.annotation.Import;
 
 /**
- * redis-spring
+ * redis 动态数据源
+ * 
  * @author 薛超
- * @since 2019年8月1日
- * @version 1.0.5
+ * @since 2020年3月17日
+ * @version 1.0.9
  */
 @Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
-@Import(RedisConfig.class)
-public @interface EnableRedisCache {
+@Import(RedisDynamicConfig.class)
+public @interface EnableRedisDynamic {
 
 }

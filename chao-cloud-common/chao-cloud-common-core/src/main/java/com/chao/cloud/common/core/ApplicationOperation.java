@@ -30,7 +30,7 @@ import cn.hutool.log.StaticLog;
  * @since 2019年8月1日
  * @version 1.0.5
  */
-public class ApplicationOperation {
+public final class ApplicationOperation {
 
 	/**
 	 * 根据接口获取所有的实现类
@@ -54,6 +54,23 @@ public class ApplicationOperation {
 		getBeanDefinitionRegistry().removeBeanDefinition(beanId);
 	}
 
+	public static void registerBean(Class<?> clazz) {
+		// 获取classname
+		String className = clazz.getName();
+		// classid
+		String simpleName = clazz.getSimpleName();
+		String beanId = StrUtil.lowerFirst(simpleName);
+		registerBeanDefinition(beanId, className);
+	}
+
+	public static void registerBean(String beanId, Class<?> clazz) {
+		registerBeanDefinition(beanId, clazz);
+	}
+
+	public static void registerBean(String beanId, BeanDefinition beanDefinition) {
+		getBeanDefinitionRegistry().registerBeanDefinition(beanId, beanDefinition);
+	}
+
 	/**
 	 * 注册bean
 	 * 
@@ -61,7 +78,7 @@ public class ApplicationOperation {
 	 * @param className bean的className， 三种获取方式： 1.直接书写，如：com.mvc.entity.User
 	 *                  2.User.class.getName 3.user.getClass().getName()
 	 */
-	public static void registerBean(String beanId, String className) {
+	public static void registerBeanDefinition(String beanId, String className) {
 		// get the BeanDefinitionBuilder
 		BeanDefinitionBuilder beanDefinitionBuilder = BeanDefinitionBuilder.genericBeanDefinition(className);
 		// get the BeanDefinition
@@ -70,13 +87,13 @@ public class ApplicationOperation {
 		getBeanDefinitionRegistry().registerBeanDefinition(beanId, beanDefinition);
 	}
 
-	public static void registerBean(Class<?> clazz) {
-		// 获取classname
-		String className = clazz.getName();
-		// classid
-		String simpleName = clazz.getSimpleName();
-		String beanId = StrUtil.lowerFirst(simpleName);
-		registerBean(beanId, className);
+	public static void registerBeanDefinition(String beanId, Class<?> clazz) {
+		// get the BeanDefinitionBuilder
+		BeanDefinitionBuilder beanDefinitionBuilder = BeanDefinitionBuilder.genericBeanDefinition(clazz);
+		// get the BeanDefinition
+		BeanDefinition beanDefinition = beanDefinitionBuilder.getBeanDefinition();
+		// register the bean
+		getBeanDefinitionRegistry().registerBeanDefinition(beanId, beanDefinition);
 	}
 
 	public static BeanDefinitionRegistry getBeanDefinitionRegistry() {

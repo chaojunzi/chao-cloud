@@ -3,6 +3,7 @@ package com.chao.cloud.common.web.config;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.annotation.Order;
 import org.springframework.core.convert.ConversionService;
 import org.springframework.format.support.FormattingConversionServiceFactoryBean;
 
@@ -27,6 +28,7 @@ public class SpringConfig {
 	 * @return {@link SpringUtil}
 	 */
 	@Bean
+	@Order(value = Integer.MIN_VALUE)
 	public SpringUtil springContextUtil(ApplicationContext applicationContext) {
 		SpringUtil util = new SpringUtil();
 		util.setApplicationContext(applicationContext);
