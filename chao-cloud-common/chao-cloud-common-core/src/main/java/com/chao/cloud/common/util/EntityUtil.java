@@ -124,8 +124,13 @@ public final class EntityUtil {
 		// 获取顶层元素集合
 		List<E> resultList = entityList.stream().filter(e -> e.getParentId() == null || e.getParentId().equals(topId))
 				.collect(Collectors.toList());
+		// 数据整合-根据parentId 装成 HashMap
+		Map<Serializable, List<E>> parentIdMap = entityList.stream().collect(Collectors.groupingBy(e -> {
+			Serializable parentId = e.getParentId();
+			return parentId != null ? parentId : StrUtil.EMPTY;
+		}));
 		// 递归获取每个顶层元素的子数据集合
-		resultList.forEach(r -> recursiveFill(entityList, r));
+		resultList.forEach(r -> recursiveFill(r, parentIdMap));
 		return resultList;
 	}
 
@@ -148,9 +153,13 @@ public final class EntityUtil {
 				.filter(e -> ReflectUtil.getFieldValue(e, treeMap.get(TreeEnum.PARENT_ID)) == null
 						|| ReflectUtil.getFieldValue(e, treeMap.get(TreeEnum.PARENT_ID)).equals(topId))
 				.collect(Collectors.toList());
-		// 数据整合
+		// 数据整合-根据parentId 装成 HashMap
+		Map<Serializable, List<T>> parentIdMap = entityList.stream().collect(Collectors.groupingBy(e -> {
+			Serializable parentId = (Serializable) ReflectUtil.getFieldValue(e, treeMap.get(TreeEnum.PARENT_ID));
+			return parentId != null ? parentId : StrUtil.EMPTY;
+		}));
 		// 递归获取每个顶层元素的子数据集合
-		resultList.forEach(r -> recursiveFill(entityList, r, treeMap));
+		resultList.forEach(r -> recursiveFill(r, treeMap, parentIdMap));
 		return resultList;
 	}
 
@@ -162,37 +171,42 @@ public final class EntityUtil {
 	 * @param root       根对象
 	 * @return {@link TreeEntity}
 	 */
-	public static <E extends TreeEntity<E>> E recursiveFill(List<E> entityList, E root) {
+	public static <E extends TreeEntity<E>> E recursiveFill(E root, Map<Serializable, List<E>> parentIdMap) {
 		Object parentId = root.getId();
 		Assert.notNull(parentId, "[Id 异常：{}]", root);
 		// 循环并获取子集对象
-		List<E> subList = entityList.stream().filter(e -> parentId.equals(e.getParentId()))
-				.collect(Collectors.toList());
+		List<E> children = parentIdMap.get(parentId);
+		if (children == null) {
+			children = Collections.emptyList();
+		}
 		// 递归子集
-		subList.forEach(s -> recursiveFill(entityList, s));
+		children.forEach(s -> recursiveFill(s, parentIdMap));
 		// 返回
-		root.setSubList(subList);
+		root.setSubList(children);
 		return root;
 	}
 
 	/**
 	 * 递归填充子集
 	 * 
-	 * @param entityList（数据源）
-	 * @param root            根对象
-	 * @param treeMap         字段属性的必要条件
+	 * @param root        根对象
+	 * @param treeMap     字段属性的必要条件
+	 * @param parentIdMap 以parentId 为key的List集合
+	 * 
 	 */
-	public static void recursiveFill(List<?> entityList, Object root, Map<TreeEnum, Field> treeMap) {
+	public static <T> T recursiveFill(T root, Map<TreeEnum, Field> treeMap, Map<Serializable, List<T>> parentIdMap) {
 		Object parentId = ReflectUtil.getFieldValue(root, treeMap.get(TreeEnum.ID));
 		Assert.notNull(parentId, "[Id 异常：{}]", root);
 		// 循环并获取子集对象
-		List<?> subList = entityList.stream()
-				.filter(e -> parentId.equals(ReflectUtil.getFieldValue(e, treeMap.get(TreeEnum.PARENT_ID))))
-				.collect(Collectors.toList());
+		List<T> children = parentIdMap.get(parentId);
+		if (children == null) {
+			children = Collections.emptyList();
+		}
 		// 递归子集
-		subList.forEach(s -> recursiveFill(entityList, s, treeMap));
+		children.forEach(s -> recursiveFill(s, treeMap, parentIdMap));
 		// 返回
-		ReflectUtil.setFieldValue(root, treeMap.get(TreeEnum.SUB_LIST), subList);
+		ReflectUtil.setFieldValue(root, treeMap.get(TreeEnum.SUB_LIST), children);
+		return root;
 	}
 
 	/**
