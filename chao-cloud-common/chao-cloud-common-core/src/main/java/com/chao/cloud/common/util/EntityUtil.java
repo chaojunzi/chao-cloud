@@ -10,6 +10,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 import com.chao.cloud.common.annotation.TreeAnnotation;
@@ -114,24 +115,27 @@ public final class EntityUtil {
 	 * 
 	 * @param <E>             entity泛型
 	 * @param entityList（数据源）
-	 * @param topId           顶级id（八大基本类型或String）
 	 * @return {@link TreeEntity}
 	 */
-	public static <E extends TreeEntity<E>> List<E> toTreeList(List<E> entityList, Serializable topId) {
+	public static <E extends TreeEntity<E>> List<E> toTreeList(List<E> entityList) {
 		if (CollUtil.isEmpty(entityList)) {
 			return Collections.emptyList();
 		}
+		// 数据整合-根据id 组装成 HashSet
+		Set<Serializable> idSet = entityList.stream().map(TreeEntity::getId).collect(Collectors.toSet());
 		// 获取顶层元素集合
-		List<E> resultList = entityList.stream().filter(e -> e.getParentId() == null || e.getParentId().equals(topId))
-				.collect(Collectors.toList());
+		List<E> rootList = entityList.stream().filter(e -> {
+			Serializable parentId = e.getParentId();
+			return StrUtil.isBlankIfStr(parentId) || !idSet.contains(parentId);
+		}).collect(Collectors.toList());
 		// 数据整合-根据parentId 装成 HashMap
 		Map<Serializable, List<E>> parentIdMap = entityList.stream().collect(Collectors.groupingBy(e -> {
 			Serializable parentId = e.getParentId();
 			return parentId != null ? parentId : StrUtil.EMPTY;
 		}));
 		// 递归获取每个顶层元素的子数据集合
-		resultList.forEach(r -> recursiveFill(r, parentIdMap));
-		return resultList;
+		rootList.forEach(r -> recursiveFill(r, parentIdMap));
+		return rootList;
 	}
 
 	/**
@@ -139,28 +143,31 @@ public final class EntityUtil {
 	 * 
 	 * @param <T>             目标参数泛型
 	 * @param entityList（数据源）
-	 * @param topId           顶级id（八大基本类型或String）
 	 * @return {@link List}
 	 */
-	public static <T> List<T> toTreeAnnoList(List<T> entityList, Serializable topId) {
+	public static <T> List<T> toTreeAnnoList(List<T> entityList) {
 		if (CollUtil.isEmpty(entityList)) {
 			return Collections.emptyList();
 		}
 		// 校验实体类是否具备解析条件
 		Map<TreeEnum, Field> treeMap = TreeEnum.convertTreeMap(entityList.get(0).getClass());
+		// 数据整合-根据id 组装成 HashSet
+		Set<Serializable> idSet = entityList.stream()
+				.map(e -> (Serializable) ReflectUtil.getFieldValue(e, treeMap.get(TreeEnum.ID)))
+				.collect(Collectors.toSet());
 		// 获取顶层元素集合
-		List<T> resultList = entityList.stream()
-				.filter(e -> ReflectUtil.getFieldValue(e, treeMap.get(TreeEnum.PARENT_ID)) == null
-						|| ReflectUtil.getFieldValue(e, treeMap.get(TreeEnum.PARENT_ID)).equals(topId))
-				.collect(Collectors.toList());
+		List<T> rootList = entityList.stream().filter(e -> {
+			Object parentId = ReflectUtil.getFieldValue(e, treeMap.get(TreeEnum.PARENT_ID));
+			return StrUtil.isBlankIfStr(parentId) || !idSet.contains(parentId);
+		}).collect(Collectors.toList());
 		// 数据整合-根据parentId 装成 HashMap
 		Map<Serializable, List<T>> parentIdMap = entityList.stream().collect(Collectors.groupingBy(e -> {
 			Serializable parentId = (Serializable) ReflectUtil.getFieldValue(e, treeMap.get(TreeEnum.PARENT_ID));
 			return parentId != null ? parentId : StrUtil.EMPTY;
 		}));
 		// 递归获取每个顶层元素的子数据集合
-		resultList.forEach(r -> recursiveFill(r, treeMap, parentIdMap));
-		return resultList;
+		rootList.forEach(r -> recursiveFill(r, treeMap, parentIdMap));
+		return rootList;
 	}
 
 	/**
