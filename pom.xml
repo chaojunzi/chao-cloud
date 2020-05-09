@@ -22,7 +22,7 @@
 		<chao.cloud.version>1.0.9</chao.cloud.version>
 		<!-- springcloud-cloud -->
 		<spring-cloud.version>Greenwich.RELEASE</spring-cloud.version>
-		<spring-cloud-alibaba.version>2.2.0.RELEASE</spring-cloud-alibaba.version>
+		<spring-cloud-alibaba.version>2.2.1.RELEASE</spring-cloud-alibaba.version>
 		<bboss-elasticsearch.version>6.0.2</bboss-elasticsearch.version>
 		<!-- 环境配置 -->
 		<java.version>1.8</java.version>
@@ -42,7 +42,7 @@
 		<!-- 字段校验 -->
 		<hibernate-validator.version>6.0.17.Final</hibernate-validator.version>
 		<!-- 超级工具类 -->
-		<hutool-all.version>5.3.2</hutool-all.version>
+		<hutool-all.version>5.3.3</hutool-all.version>
 		<commons-pool2.version>2.6.2</commons-pool2.version>
 		<commons-net.version>3.6</commons-net.version>
 		<poi-version>4.1.2</poi-version>
@@ -58,7 +58,7 @@
 		<!-- json返回值 -->
 		<fastjson.version>1.2.58</fastjson.version>
 		<!-- 微信工具包 -->
-		<weixin-java-tools.version>3.6.0</weixin-java-tools.version>
+		<weixin-java-tools.version>3.7.0</weixin-java-tools.version>
 		<thoughtworks.version>1.4.11.1</thoughtworks.version>
 		<!-- shiro -->
 		<shiro.version>1.5.0</shiro.version>
