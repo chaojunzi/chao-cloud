@@ -26,6 +26,12 @@
 			<groupId>com.vdurmont</groupId>
 			<artifactId>emoji-java</artifactId>
 		</dependency>
+		<!-- sharding 分库分表 -->
+		<dependency>
+			<groupId>org.apache.shardingsphere</groupId>
+			<artifactId>sharding-jdbc-spring-boot-starter</artifactId>
+			<optional>true</optional>
+		</dependency>
 		<!-- mysql-connector-java jar -->
 		<dependency>
 			<groupId>mysql</groupId>

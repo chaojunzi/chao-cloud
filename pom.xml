@@ -52,13 +52,14 @@
 		<baidu.aip.version>4.12.0</baidu.aip.version>
 		<mp3spi.version>1.9.5.4</mp3spi.version>
 		<!-- mysql -->
-		<druid-spring.version>1.1.18</druid-spring.version>
+		<druid.version>1.1.18</druid.version>
 		<mybatis-plus.version>3.3.1</mybatis-plus.version>
 		<mybatis-plus-dynamic-datasource.version>2.5.8</mybatis-plus-dynamic-datasource.version>
+		<sharding-jdbc.version>4.1.0</sharding-jdbc.version>
 		<!-- json返回值 -->
 		<fastjson.version>1.2.58</fastjson.version>
 		<!-- 微信工具包 -->
-		<weixin-java-tools.version>3.7.0</weixin-java-tools.version>
+		<weixin-java-tools.version>3.8.0</weixin-java-tools.version>
 		<thoughtworks.version>1.4.11.1</thoughtworks.version>
 		<!-- shiro -->
 		<shiro.version>1.5.0</shiro.version>
@@ -240,7 +241,12 @@
 			<dependency>
 				<groupId>com.alibaba</groupId>
 				<artifactId>druid-spring-boot-starter</artifactId>
-				<version>${druid-spring.version}</version>
+				<version>${druid.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.alibaba</groupId>
+				<artifactId>druid</artifactId>
+				<version>${druid.version}</version>
 			</dependency>
 			<!-- mybatis-plus -->
 			<dependency>
@@ -257,6 +263,12 @@
 				<groupId>com.baomidou</groupId>
 				<artifactId>dynamic-datasource-spring-boot-starter</artifactId>
 				<version>${mybatis-plus-dynamic-datasource.version}</version>
+			</dependency>
+			<!-- sharding 分库分表 -->
+			<dependency>
+				<groupId>org.apache.shardingsphere</groupId>
+				<artifactId>sharding-jdbc-spring-boot-starter</artifactId>
+				<version>${sharding-jdbc.version}</version>
 			</dependency>
 			<!--shiro -->
 			<dependency>
