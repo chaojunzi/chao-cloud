@@ -8,7 +8,8 @@ import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import cn.hutool.core.comparator.CompareUtil;
+import org.apache.shardingsphere.sharding.merge.dql.orderby.CompareUtil;
+
 import cn.hutool.core.date.DateUtil;
 import cn.hutool.core.util.NumberUtil;
 import cn.hutool.core.util.StrUtil;
@@ -80,7 +81,7 @@ public enum DateStrategyEnum {
 	public List<String> findTables(Collection<String> tableNames, Date startDate, Date endDate) {
 		Date now = DateUtil.date();
 		// 开始日期
-		if (endDate != null && DateUtil.compare(startDate, now) > 0) {
+		if (startDate != null && DateUtil.compare(startDate, now) > 0) {
 			return Collections.emptyList();
 		}
 		String start = convertDateStr(startDate);
