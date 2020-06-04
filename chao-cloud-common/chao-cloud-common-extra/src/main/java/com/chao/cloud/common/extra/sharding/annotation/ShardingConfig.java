@@ -84,7 +84,11 @@ public class ShardingConfig implements InitializingBean {
 		Map<String, YamlTableRuleConfiguration> tables = ruleProp.getTables();
 		tables.forEach((t, r) -> {
 			// 获取字段
-			YamlComplexShardingStrategyConfiguration complex = r.getTableStrategy().getComplex();
+			YamlShardingStrategyConfiguration tableStrategy = r.getTableStrategy();
+			if (tableStrategy == null) {
+				return;
+			}
+			YamlComplexShardingStrategyConfiguration complex = tableStrategy.getComplex();
 			if (complex == null || !DateShardingAlgorithm.class.getName().equals(complex.getAlgorithmClassName())) {
 				log.warn("table: {} 无complex配置，不参与自定义日期解析");
 				return;

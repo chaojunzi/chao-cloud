@@ -8,8 +8,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import org.apache.shardingsphere.sharding.merge.dql.orderby.CompareUtil;
-
+import cn.hutool.core.comparator.CompareUtil;
 import cn.hutool.core.date.DateUtil;
 import cn.hutool.core.util.NumberUtil;
 import cn.hutool.core.util.StrUtil;
