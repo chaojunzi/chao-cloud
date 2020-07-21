@@ -42,7 +42,7 @@
 		<!-- 字段校验 -->
 		<hibernate-validator.version>6.0.17.Final</hibernate-validator.version>
 		<!-- 超级工具类 -->
-		<hutool-all.version>5.3.8</hutool-all.version>
+		<hutool-all.version>5.3.9</hutool-all.version>
 		<commons-pool2.version>2.6.2</commons-pool2.version>
 		<commons-net.version>3.6</commons-net.version>
 		<poi-version>4.1.2</poi-version>
@@ -53,7 +53,7 @@
 		<mp3spi.version>1.9.5.4</mp3spi.version>
 		<!-- mysql -->
 		<druid.version>1.1.18</druid.version>
-		<mybatis-plus.version>3.3.1</mybatis-plus.version>
+		<mybatis-plus.version>3.3.2</mybatis-plus.version>
 		<mybatis-plus-dynamic-datasource.version>2.5.8</mybatis-plus-dynamic-datasource.version>
 		<sharding-jdbc.version>4.1.0</sharding-jdbc.version>
 		<!-- json返回值 -->

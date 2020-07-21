@@ -11,7 +11,9 @@ import org.apache.shardingsphere.api.sharding.complex.ComplexKeysShardingValue;
 import com.chao.cloud.common.extra.sharding.annotation.ShardingConfig;
 import com.google.common.collect.Range;
 
+import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.lang.Assert;
+import cn.hutool.core.util.StrUtil;
 import lombok.extern.slf4j.Slf4j;
 
 /**
@@ -50,6 +52,12 @@ public class DateShardingAlgorithm implements ComplexKeysShardingAlgorithm<Date>
 				end = range.upperEndpoint();
 			}
 			tableList = ShardingConfig.DATE_STRATEGY.findTables(tableNames, start, end);
+		}
+		if (CollUtil.isEmpty(tableList)) {
+			String tableName = CollUtil.getFirst(tableNames);
+			// 空表
+			tableList = CollUtil.toList(
+					StrUtil.subPre(tableName, tableName.length() - DateStrategyEnum.MONTH_PATTERN.length() - 1));
 		}
 		return tableList;
 	}
