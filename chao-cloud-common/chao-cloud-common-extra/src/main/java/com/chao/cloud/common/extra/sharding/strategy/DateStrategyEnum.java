@@ -12,6 +12,7 @@ import cn.hutool.core.comparator.CompareUtil;
 import cn.hutool.core.date.DateUtil;
 import cn.hutool.core.util.NumberUtil;
 import cn.hutool.core.util.StrUtil;
+import lombok.RequiredArgsConstructor;
 
 /**
  * 日期策略
@@ -20,6 +21,7 @@ import cn.hutool.core.util.StrUtil;
  * @since 2020年5月28日
  * @version 1.0.9
  */
+@RequiredArgsConstructor
 public enum DateStrategyEnum {
 
 	/**
@@ -49,11 +51,7 @@ public enum DateStrategyEnum {
 
 	public static final String MONTH_PATTERN = "yyyyMM";
 
-	private int month;
-
-	DateStrategyEnum(int month) {
-		this.month = month;
-	}
+	private final int month;
 
 	/**
 	 * 获取要查询的表名
