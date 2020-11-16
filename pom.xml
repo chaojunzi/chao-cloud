@@ -60,7 +60,7 @@
 		<fastjson.version>1.2.58</fastjson.version>
 		<!-- 微信工具包 -->
 		<weixin-java-tools.version>3.9.0</weixin-java-tools.version>
-		<thoughtworks.version>1.4.11.1</thoughtworks.version>
+		<thoughtworks.version>1.4.13-java7</thoughtworks.version>
 		<!-- shiro -->
 		<shiro.version>1.5.0</shiro.version>
 		<shiro.thymeleaf.version>2.0.0</shiro.thymeleaf.version>
