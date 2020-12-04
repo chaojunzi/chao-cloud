@@ -8,20 +8,21 @@ import java.util.Map;
 import org.apache.shardingsphere.api.sharding.complex.ComplexKeysShardingAlgorithm;
 import org.apache.shardingsphere.api.sharding.complex.ComplexKeysShardingValue;
 
-import com.chao.cloud.common.extra.sharding.annotation.ShardingConfig;
+import com.chao.cloud.common.extra.sharding.annotation.ShardingProperties;
 import com.google.common.collect.Range;
 
 import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.lang.Assert;
 import cn.hutool.core.util.StrUtil;
+import cn.hutool.extra.spring.SpringUtil;
 import lombok.extern.slf4j.Slf4j;
 
 /**
  * 根据日期分片-根据时间按照年月分片
  * 
  * @author 薛超
- * @since 2020年5月28日
- * @version 1.0.9
+ * @since 2020年5月29日
+ * @version 1.0.0
  */
 @Slf4j
 public class DateShardingAlgorithm implements ComplexKeysShardingAlgorithm<Date> {
@@ -29,21 +30,25 @@ public class DateShardingAlgorithm implements ComplexKeysShardingAlgorithm<Date>
 	@Override
 	public Collection<String> doSharding(Collection<String> tableNames,
 			ComplexKeysShardingValue<Date> complexKeysShardingValue) {
+		// 获取配置文件
+		ShardingProperties prop = SpringUtil.getBean(ShardingProperties.class);
+		DateStrategyEnum dateStrategy = prop.getDateStrategy();
+		//
 		List<String> tableList = null;
-		log.info("自定义按照日期进行分表");
 		String table = complexKeysShardingValue.getLogicTableName();
 		// 根据表获取相关字段
-		String column = ShardingConfig.TABLE_COLUMN_MAP.get(table);
-		Assert.notBlank(column, "table:{}, 未设置DateShardingAlgorithm分表", table);
+		String columnName = prop.getDateTableColumnMap().get(table);
+		Assert.notBlank(columnName, "table:{}, 未设置DateShardingAlgorithm分表", table);
+		log.info("Complex:Table:自定义分片;tableName={};columnName={}", table, columnName);
 		// 日期精确解析(= in)
 		Map<String, Collection<Date>> shardingMap = complexKeysShardingValue.getColumnNameAndShardingValuesMap();
-		if (shardingMap.containsKey(column)) {
-			tableList = ShardingConfig.DATE_STRATEGY.findTables(tableNames, shardingMap.get(column));
+		if (shardingMap.containsKey(columnName)) {
+			tableList = dateStrategy.findTables(tableNames, shardingMap.get(columnName));
 		}
 		// 范围日期解析
 		Map<String, Range<Date>> rangeMap = complexKeysShardingValue.getColumnNameAndRangeValuesMap();
-		if (rangeMap.containsKey(column)) {
-			Range<Date> range = rangeMap.get(column);
+		if (rangeMap.containsKey(columnName)) {
+			Range<Date> range = rangeMap.get(columnName);
 			Date start = null, end = null;
 			if (range.hasLowerBound()) {
 				start = range.lowerEndpoint();
@@ -51,7 +56,7 @@ public class DateShardingAlgorithm implements ComplexKeysShardingAlgorithm<Date>
 			if (range.hasUpperBound()) {
 				end = range.upperEndpoint();
 			}
-			tableList = ShardingConfig.DATE_STRATEGY.findTables(tableNames, start, end);
+			tableList = dateStrategy.findTables(tableNames, start, end);
 		}
 		if (CollUtil.isEmpty(tableList)) {
 			String tableName = CollUtil.getFirst(tableNames);

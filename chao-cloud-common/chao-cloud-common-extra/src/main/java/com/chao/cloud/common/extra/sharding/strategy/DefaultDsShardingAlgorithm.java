@@ -1,50 +1,56 @@
 package com.chao.cloud.common.extra.sharding.strategy;
 
-import java.util.ArrayList;
 import java.util.Collection;
-import java.util.List;
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
 
 import org.apache.shardingsphere.api.sharding.complex.ComplexKeysShardingAlgorithm;
 import org.apache.shardingsphere.api.sharding.complex.ComplexKeysShardingValue;
 
 import com.chao.cloud.common.extra.sharding.annotation.ShardingConfig;
+import com.chao.cloud.common.extra.sharding.annotation.ShardingProperties;
 
 import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.util.StrUtil;
+import cn.hutool.extra.spring.SpringUtil;
 import lombok.extern.slf4j.Slf4j;
 
 /**
  * 默认分库策略
  * 
  * @author 薛超
- * @since 2020年5月28日
- * @version 1.0.9
+ * @since 2020年5月29日
+ * @version 1.0.0
  */
 @Slf4j
 public class DefaultDsShardingAlgorithm implements ComplexKeysShardingAlgorithm<String> {
-	// 分库字段-目前只支持一个
-	public static volatile String SHARDING_COLUMN = StrUtil.EMPTY;
 
 	@Override
 	public Collection<String> doSharding(Collection<String> collection,
 			ComplexKeysShardingValue<String> complexKeysShardingValue) {
+		ShardingProperties prop = SpringUtil.getBean(ShardingProperties.class);
+		String dsShardingColumn = prop.getDsShardingColumn();
 		// 获取表名
 		String table = complexKeysShardingValue.getLogicTableName();
-		log.info("自定义按照{}={}进行分片", table, SHARDING_COLUMN);
-		List<String> dsList = new ArrayList<>();
-		// 获取分表字段及字段值
+		Set<String> dsSet = new HashSet<>();
+		// 获取分库字段及字段值
 		Map<String, Collection<String>> map = complexKeysShardingValue.getColumnNameAndShardingValuesMap();
-		Collection<String> vals = map.get(SHARDING_COLUMN);
+		Collection<String> vals = map.get(dsShardingColumn);
+		log.info("Complex:DS:自定义分片;tableName={};columnName={},columnValue={}", table, dsShardingColumn,
+				CollUtil.join(vals, StrUtil.COMMA));
 		if (CollUtil.isNotEmpty(vals)) {
 			for (String v : vals) {
-				String ds = ShardingConfig.getDsByColumn(v);
+				String ds = SpringUtil.getBean(ShardingConfig.class).getDsByColumnValue(v);
 				if (StrUtil.isNotBlank(ds)) {
-					dsList.add(ds);
+					dsSet.add(ds);
 				}
 			}
 		}
-		return dsList;
+		if (CollUtil.isEmpty(dsSet)) {
+			dsSet.add(prop.getDefaultDsName());// 默认数据源
+		}
+		return dsSet;
 	}
 
 }

@@ -18,8 +18,8 @@ import lombok.RequiredArgsConstructor;
  * 日期策略
  * 
  * @author 薛超
- * @since 2020年5月28日
- * @version 1.0.9
+ * @since 2020年5月29日
+ * @version 1.0.0
  */
 @RequiredArgsConstructor
 public enum DateStrategyEnum {
