@@ -66,7 +66,8 @@ public class HintShardingColumnProxy {
 	}
 
 	/**
-	 * @ShardingColumn 优先于 @Api
+	 * 环绕拦截
+	 * 
 	 * @param pdj 切点对象
 	 * @return 调用方法结果
 	 * @throws Throwable 异常

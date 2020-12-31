@@ -41,10 +41,12 @@ public class ControllerConfig {
 	private Serializable errorCode = ResultCodeEnum.CODE_500.code();// 异常返回码
 
 	/**
-	 * bean -拦截器
+	 * controller拦截器
 	 * 
+	 * @param config {@link ControllerConfig}
 	 * @return {@link ControllerInterceptor}
 	 */
+
 	@Bean(name = WebConstant.CONTROLLER_INTERCEPTOR)
 	@ConditionalOnMissingBean(ControllerInterceptor.class)
 	public ControllerInterceptor controllerInterceptor(ControllerConfig config) {
@@ -56,6 +58,7 @@ public class ControllerConfig {
 	/**
 	 * 全局controller拦截
 	 * 
+	 * @param config {@link ControllerConfig}
 	 * @return {@link ControllerAutoProxyCreator}
 	 */
 	@Bean

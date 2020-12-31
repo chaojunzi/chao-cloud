@@ -53,6 +53,7 @@ public class CryptoConfig implements InitializingBean {
 	/**
 	 * Crypto-拦截器
 	 * 
+	 * @param config {@link CryptoConfig}
 	 * @return {@link CryptoInterceptor}
 	 */
 	@Bean(name = WebConstant.CRYPTO_INTERCEPTOR)
@@ -67,6 +68,7 @@ public class CryptoConfig implements InitializingBean {
 	/**
 	 * 全局Crypto拦截
 	 * 
+	 * @param config {@link CryptoConfig}
 	 * @return {@link CryptoAutoProxyCreator}
 	 */
 	@Bean

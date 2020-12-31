@@ -36,6 +36,7 @@ public class SignConfig {
 	/**
 	 * Sign-拦截器
 	 * 
+	 * @param config {@link SignConfig}
 	 * @return {@link SignInterceptor}
 	 */
 	@Bean(name = WebConstant.SIGN_INTERCEPTOR)
@@ -50,6 +51,7 @@ public class SignConfig {
 	/**
 	 * 全局Sign拦截
 	 * 
+	 * @param config {@link SignConfig}
 	 * @return {@link SignAutoProxyCreator}
 	 */
 	@Bean

@@ -72,7 +72,7 @@ public class RedisDynamicConfig implements InitializingBean {
 	/**
 	 * 注入spring
 	 * 
-	 * @param {@link RedisDynamicConfig}
+	 * @param redisDynamicConfig {@link RedisDynamicConfig}
 	 * @return {@link IRedisService}
 	 */
 	@Bean

@@ -56,7 +56,7 @@ public class ShardingExtraConfig implements InitializingBean {
 	/**
 	 * 获取ds
 	 * 
-	 * @param column 字段值 例：A01A02
+	 * @param columnValue 字段值
 	 * @return 数据源名称
 	 */
 	public String getDsByColumnValue(String columnValue) {

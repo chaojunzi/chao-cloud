@@ -69,7 +69,7 @@ public class SignInterceptor implements MethodInterceptor, BaseHttpServlet, Orde
 	 * 
 	 * @param signMap   签名参数Map
 	 * @param sign      请求头带过来的签名
-	 * @param timestamp
+	 * @param timestamp 时间戳
 	 */
 	protected void checkSign(Map<String, Object> signMap, String sign, Long timestamp) {
 		SignTypeEnum type = SignTypeEnum.getByType(config.getSignType());
@@ -114,6 +114,7 @@ public class SignInterceptor implements MethodInterceptor, BaseHttpServlet, Orde
 	 * 
 	 * @param args       参数列表
 	 * @param parameters 参数类型
+	 * @return 签名参数Map
 	 */
 	protected Map<String, Object> buildSignMap(Object[] args, Parameter[] parameters) {
 		// 获取参数map

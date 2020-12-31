@@ -11,25 +11,30 @@ import com.chao.cloud.common.extra.sharding.constant.ColumnType;
  * 分片类型转化注解
  * 
  * @author 薛超
- * @since 2020年11月30日
- * @version 1.0.0
+ * @since 2020年12月31日
+ * @version 1.0.9
  */
 @Target(ElementType.METHOD)
 @Retention(RetentionPolicy.RUNTIME)
 public @interface ShardingColumn {
 	/**
 	 * shardingCode 处理
+	 * 
+	 * @return true or false
 	 */
 	boolean shardingCode() default true;
 
 	/**
 	 * 字段 默认值
 	 * 
+	 * @return true or false
 	 */
 	boolean defaultSet() default true;
 
 	/**
 	 * 字段类型
+	 * 
+	 * @return {@link ColumnType}
 	 */
 	ColumnType type() default ColumnType.MODEL;
 

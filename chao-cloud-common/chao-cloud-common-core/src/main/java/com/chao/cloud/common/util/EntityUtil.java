@@ -249,9 +249,9 @@ public final class EntityUtil {
 	/**
 	 * 递归填充子集
 	 * 
-	 * @param <E>        目标参数泛型
-	 * @param entityList 数据源
-	 * @param root       根对象
+	 * @param <E>         目标参数泛型
+	 * @param root        根对象
+	 * @param parentIdMap 数据源
 	 * @return {@link TreeEntity}
 	 */
 	public static <E extends TreeEntity<E>> E recursiveFill(E root, Map<Serializable, List<E>> parentIdMap) {
@@ -277,6 +277,15 @@ public final class EntityUtil {
 	 * @param parentIdMap 以parentId 为key的List集合
 	 * 
 	 */
+	/**
+	 * 递归填充子集
+	 * 
+	 * @param <T>         目标参数泛型
+	 * @param root        根对象
+	 * @param treeMap     treeMap
+	 * @param parentIdMap 数据源
+	 * @return {@link TreeEntity}
+	 */
 	public static <T> T recursiveFill(T root, Map<TreeEnum, Field> treeMap, Map<Serializable, List<T>> parentIdMap) {
 		Object parentId = ReflectUtil.getFieldValue(root, treeMap.get(TreeEnum.ID));
 		Assert.notNull(parentId, "[Id 异常：{}]", root);
@@ -294,7 +303,8 @@ public final class EntityUtil {
 
 	/**
 	 * 将list转为树结构map
-	 *
+	 * 
+	 * @param <E>          目标参数泛型
 	 * @param entityList   目标集合
 	 * @param topId        顶级id
 	 * @param idName       id名称
