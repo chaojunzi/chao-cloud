@@ -7,6 +7,7 @@ import java.util.concurrent.ConcurrentHashMap;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
+import com.chao.cloud.common.extra.sharding.constant.ShardingConstant;
 import com.chao.cloud.common.extra.sharding.strategy.DateStrategyEnum;
 
 import cn.hutool.core.util.StrUtil;
@@ -17,12 +18,16 @@ import lombok.Setter;
  * 分库分表配置
  * 
  * @author 薛超
- * @since 2020年12月1日
- * @version 1.0.0
+ * @since 2020年12月31日
+ * @version 1.0.9
  */
 @Data
-@ConfigurationProperties(prefix = "chao.cloud.sharding")
+@ConfigurationProperties(prefix = ShardingConstant.SHARDING_PREFIX)
 public class ShardingProperties {
+	/**
+	 * 启用
+	 */
+	private boolean enable = true;
 	/**
 	 * 数据源：列集合<br>
 	 * ds0: <br>

@@ -8,6 +8,9 @@ package com.chao.cloud.common.extra.sharding.constant;
  * @version 1.0.0
  */
 public interface ShardingConstant {
+
+	String SHARDING_PREFIX = "chao.cloud.sharding";
+
 	/**
 	 * 分片代理
 	 */

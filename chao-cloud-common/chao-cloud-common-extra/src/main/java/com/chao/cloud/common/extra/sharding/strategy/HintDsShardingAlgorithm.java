@@ -7,7 +7,7 @@ import java.util.Set;
 import org.apache.shardingsphere.api.sharding.hint.HintShardingAlgorithm;
 import org.apache.shardingsphere.api.sharding.hint.HintShardingValue;
 
-import com.chao.cloud.common.extra.sharding.annotation.ShardingConfig;
+import com.chao.cloud.common.extra.sharding.annotation.ShardingExtraConfig;
 import com.chao.cloud.common.extra.sharding.annotation.ShardingProperties;
 
 import cn.hutool.core.collection.CollUtil;
@@ -40,7 +40,7 @@ public class HintDsShardingAlgorithm implements HintShardingAlgorithm<String> {
 		//
 		if (CollUtil.isNotEmpty(vals)) {
 			for (String v : vals) {
-				String ds = SpringUtil.getBean(ShardingConfig.class).getDsByColumnValue(v);
+				String ds = SpringUtil.getBean(ShardingExtraConfig.class).getDsByColumnValue(v);
 				if (StrUtil.isNotBlank(ds)) {
 					dsResult.add(ds);
 				}

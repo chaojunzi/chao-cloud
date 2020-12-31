@@ -26,6 +26,11 @@
 			<groupId>com.vdurmont</groupId>
 			<artifactId>emoji-java</artifactId>
 		</dependency>
+		<!-- license -->
+		<dependency>
+			<groupId>de.schlichtherle.truelicense</groupId>
+			<artifactId>truelicense-core</artifactId>
+		</dependency>
 		<!-- sharding 分库分表 -->
 		<dependency>
 			<groupId>org.apache.shardingsphere</groupId>
@@ -83,10 +88,6 @@
 		<dependency>
 			<groupId>com.thoughtworks.xstream</groupId>
 			<artifactId>xstream</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>dom4j</groupId>
-			<artifactId>dom4j</artifactId>
 		</dependency>
 		<dependency>
 			<groupId>com.github.binarywang</groupId>

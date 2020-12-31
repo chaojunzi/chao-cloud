@@ -8,7 +8,7 @@ import java.util.Set;
 import org.apache.shardingsphere.api.sharding.complex.ComplexKeysShardingAlgorithm;
 import org.apache.shardingsphere.api.sharding.complex.ComplexKeysShardingValue;
 
-import com.chao.cloud.common.extra.sharding.annotation.ShardingConfig;
+import com.chao.cloud.common.extra.sharding.annotation.ShardingExtraConfig;
 import com.chao.cloud.common.extra.sharding.annotation.ShardingProperties;
 
 import cn.hutool.core.collection.CollUtil;
@@ -41,7 +41,7 @@ public class DefaultDsShardingAlgorithm implements ComplexKeysShardingAlgorithm<
 				CollUtil.join(vals, StrUtil.COMMA));
 		if (CollUtil.isNotEmpty(vals)) {
 			for (String v : vals) {
-				String ds = SpringUtil.getBean(ShardingConfig.class).getDsByColumnValue(v);
+				String ds = SpringUtil.getBean(ShardingExtraConfig.class).getDsByColumnValue(v);
 				if (StrUtil.isNotBlank(ds)) {
 					dsSet.add(ds);
 				}

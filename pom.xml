@@ -10,7 +10,7 @@
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
-		<version>2.1.7.RELEASE</version>
+		<version>2.3.0.RELEASE</version>
 	</parent>
 
 	<name>${project.artifactId}</name>
@@ -42,7 +42,7 @@
 		<!-- 字段校验 -->
 		<hibernate-validator.version>6.0.17.Final</hibernate-validator.version>
 		<!-- 超级工具类 -->
-		<hutool-all.version>5.5.2</hutool-all.version>
+		<hutool-all.version>5.5.6</hutool-all.version>
 		<commons-pool2.version>2.6.2</commons-pool2.version>
 		<commons-net.version>3.6</commons-net.version>
 		<poi-version>4.1.2</poi-version>
@@ -53,19 +53,21 @@
 		<mp3spi.version>1.9.5.4</mp3spi.version>
 		<!-- mysql -->
 		<druid.version>1.1.18</druid.version>
-		<mybatis-plus.version>3.3.2</mybatis-plus.version>
-		<mybatis-plus-dynamic-datasource.version>2.5.8</mybatis-plus-dynamic-datasource.version>
-		<sharding-jdbc.version>4.1.0</sharding-jdbc.version>
+		<mybatis-plus.version>3.4.1</mybatis-plus.version>
+		<mybatis-plus-dynamic-datasource.version>3.3.1</mybatis-plus-dynamic-datasource.version>
+		<sharding-jdbc.version>4.1.1</sharding-jdbc.version>
 		<!-- json返回值 -->
 		<fastjson.version>1.2.58</fastjson.version>
 		<!-- 微信工具包 -->
-		<weixin-java-tools.version>3.9.0</weixin-java-tools.version>
-		<thoughtworks.version>1.4.11.1</thoughtworks.version>
+		<weixin-java-tools.version>4.0.0</weixin-java-tools.version>
+		<thoughtworks.version>1.4.15</thoughtworks.version>
 		<!-- shiro -->
 		<shiro.version>1.5.0</shiro.version>
 		<shiro.thymeleaf.version>2.0.0</shiro.thymeleaf.version>
 		<!-- 模板 -->
 		<apache.velocity.version>2.1</apache.velocity.version>
+		<!-- license -->
+		<truelicense.version>1.33</truelicense.version>
 	</properties>
 
 	<modules>
@@ -296,6 +298,11 @@
 				<groupId>org.apache.velocity</groupId>
 				<artifactId>velocity-engine-core</artifactId>
 				<version>${apache.velocity.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>de.schlichtherle.truelicense</groupId>
+				<artifactId>truelicense-core</artifactId>
+				<version>${truelicense.version}</version>
 			</dependency>
 			<!-- ai -->
 			<dependency>

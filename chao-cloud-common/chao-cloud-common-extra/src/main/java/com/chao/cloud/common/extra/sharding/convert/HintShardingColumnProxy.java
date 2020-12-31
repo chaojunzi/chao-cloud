@@ -12,7 +12,7 @@ import org.aspectj.lang.reflect.MethodSignature;
 
 import com.chao.cloud.common.exception.BusinessException;
 import com.chao.cloud.common.extra.sharding.annotation.ShardingColumn;
-import com.chao.cloud.common.extra.sharding.annotation.ShardingConfig;
+import com.chao.cloud.common.extra.sharding.annotation.ShardingExtraConfig;
 import com.chao.cloud.common.extra.sharding.annotation.ShardingProperties;
 import com.chao.cloud.common.extra.sharding.constant.ColumnType;
 import com.chao.cloud.common.extra.sharding.constant.ShardingConstant;
@@ -49,6 +49,10 @@ public class HintShardingColumnProxy {
 	 * @return 返回对象
 	 */
 	public static <T> T hintShardingCodeProxy(String shardingCode, Function<String, T> function) {
+		ShardingProperties prop = SpringUtil.getBean(ShardingProperties.class);
+		if (!prop.isEnable()) {
+			return function.apply(shardingCode);
+		}
 		// 设置shardingCode
 		if (StrUtil.isNotBlank(shardingCode)) {
 			HintManager instance = HintManager.getInstance();
@@ -115,21 +119,21 @@ public class HintShardingColumnProxy {
 	}
 
 	private String shardingCodeThrow(String code) {
-		ShardingProperties shardingProp = SpringUtil.getBean(ShardingProperties.class);
+		ShardingProperties prop = SpringUtil.getBean(ShardingProperties.class);
 		String shardingCode = convert.getShardingCode(code);
 		// 匹配数据源
 		boolean matches = true;
 		if (StrUtil.isBlank(shardingCode)) {
 			matches = false;
-		} else {// 判断shardingCode 是否包含符合的数据库
-			String ds = SpringUtil.getBean(ShardingConfig.class).getDsByColumnValue(shardingCode);
+		} else if (prop.isEnable()) {// 判断shardingCode 是否包含符合的数据库
+			String ds = SpringUtil.getBean(ShardingExtraConfig.class).getDsByColumnValue(shardingCode);
 			if (StrUtil.isBlank(ds)) {
 				matches = false;
 				shardingCode = null;
 			}
 		}
 		// 匹配失败
-		Assert.isFalse(!matches && shardingProp.getDsNum() > 1, "[sharding]未定义code:{}", code);
+		Assert.isFalse(!matches && prop.getDsNum() > 1, "[sharding]未定义code:{}", code);
 		// 设置默认值
 		if (StrUtil.isBlank(shardingCode)) {
 			shardingCode = ShardingConstant.DEFAULT_VALUE;

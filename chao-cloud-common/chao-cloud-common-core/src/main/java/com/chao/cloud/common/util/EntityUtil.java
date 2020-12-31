@@ -22,6 +22,8 @@ import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.exceptions.ExceptionUtil;
 import cn.hutool.core.lang.Assert;
+import cn.hutool.core.util.ArrayUtil;
+import cn.hutool.core.util.ClassUtil;
 import cn.hutool.core.util.ObjectUtil;
 import cn.hutool.core.util.ReflectUtil;
 import cn.hutool.core.util.StrUtil;
@@ -34,6 +36,80 @@ import cn.hutool.core.util.StrUtil;
  * @version 1.0.7
  */
 public final class EntityUtil {
+	/**
+	 * 空值转换
+	 * 
+	 * @param <T>  对象泛型
+	 * @param bean 对象实体
+	 * @return 对象
+	 */
+	public static <T> T nullToEmpty(T bean) {
+		if (bean != null && BeanUtil.isBean(bean.getClass())) {
+			Field[] fields = ReflectUtil.getFields(bean.getClass());
+			for (Field field : fields) {
+				Class<?> type = field.getType();
+				Object value = ReflectUtil.getFieldValue(bean, field);
+				// 字符串处理
+				if (type == String.class && value == null) {
+					ReflectUtil.setFieldValue(bean, field, StrUtil.EMPTY);
+					continue;
+				}
+				// 简单类型不进行处理
+				if (value == null || ClassUtil.isSimpleValueType(type)) {
+					continue;
+				}
+				// list
+				if (value instanceof List) {
+					nullToEmptyList((List) value);
+					continue;
+				}
+				// 数组
+				if (type.isArray()) {
+					nullToEmptyArray((Object[]) value);
+					continue;
+				}
+				// bean
+				if (BeanUtil.isBean(type)) {
+					nullToEmpty(value);
+					continue;
+				}
+			}
+		}
+		return bean;
+	}
+
+	/**
+	 * 空值转换
+	 * 
+	 * @param <T>  对象泛型
+	 * @param list 对象集合
+	 * @return 集合
+	 */
+	public static <T> List<T> nullToEmptyList(List<T> list) {
+		if (CollUtil.isNotEmpty(list)) {
+			for (Object bean : list) {
+				nullToEmpty(bean);
+			}
+		}
+		return list;
+	}
+
+	/**
+	 * 空值转换
+	 * 
+	 * @param <T>   对象泛型
+	 * @param array 对象数组
+	 * @return 数组
+	 */
+	public static <T> T[] nullToEmptyArray(T[] array) {
+		if (ArrayUtil.isNotEmpty(array)) {
+			for (Object bean : array) {
+				nullToEmpty(bean);
+			}
+		}
+		return array;
+	}
+
 	/**
 	 * 修改注解中的值
 	 * 

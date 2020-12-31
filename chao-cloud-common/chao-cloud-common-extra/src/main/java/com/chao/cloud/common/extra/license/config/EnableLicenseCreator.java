@@ -1,4 +1,4 @@
-package com.chao.cloud.common.extra.sharding.annotation;
+package com.chao.cloud.common.extra.license.config;
 
 import java.lang.annotation.Documented;
 import java.lang.annotation.ElementType;
@@ -9,16 +9,16 @@ import java.lang.annotation.Target;
 import org.springframework.context.annotation.Import;
 
 /**
- * ShardingJdbc-分库分表
+ * license 许可证-制作
  * 
  * @author 薛超
- * @since 2020年5月28日
+ * @since 2020年12月31日
  * @version 1.0.9
  */
 @Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
-@Import({ ShardingConfig.class })
-public @interface EnableShardingJdbc {
+@Import(LicenseCreatorConfig.class)
+public @interface EnableLicenseCreator {
 
 }
