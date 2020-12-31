@@ -1,6 +1,9 @@
 chao:
   cloud:
     sharding:
+      enable: true
+      ds-num: 1
+      default-ds-name: ds0
       ds-column-map:
         ds0: 1100-1200
         ds1: 1300-1400
@@ -8,6 +11,7 @@ chao:
         
 spring:
   shardingsphere:
+    enabled: ${chao.cloud.sharding.enable}
     datasource:
       names: ds0,ds1
       ds0:
@@ -23,7 +27,7 @@ spring:
         username: root
         password: test
     sharding:
-      default-data-source-name: ds0
+    #  default-data-source-name: ${chao.cloud.sharding.default-ds-name}
     # 水平拆分的数据库（表） 配置分库 + 分表策略 行表达式分片策略
     # 分库策略
       default-database-strategy:

@@ -48,9 +48,11 @@ chao-cloud: springboot 拓展工具包
        * [表情过滤](#-%E8%A1%A8%E6%83%85%E8%BF%87%E6%BB%A4)
        * [feign微服务接口调用](#-feign%E5%BE%AE%E6%9C%8D%E5%8A%A1%E6%8E%A5%E5%8F%A3%E8%B0%83%E7%94%A8)
        * [ftp连接池](#-ftp%E8%BF%9E%E6%8E%A5%E6%B1%A0)
+       * [license](#-license)       
        * [地图解析](#-%E5%9C%B0%E5%9B%BE%E8%A7%A3%E6%9E%90)
        * [mybatis-plus](#-mybatis-plus)
        * [mybatis-plus-generator](#-mybatis-plus-generator)
+       * [sharding-jdbc](#-sharding-jdbc)
        * [防止表单重复提交](#-%E9%98%B2%E6%AD%A2%E8%A1%A8%E5%8D%95%E9%87%8D%E5%A4%8D%E6%8F%90%E4%BA%A4)
        * [seata-分布式事务](#-seata-%E5%88%86%E5%B8%83%E5%BC%8F%E4%BA%8B%E5%8A%A1)
        * [语音识别-百度AI](#-%E8%AF%AD%E9%9F%B3%E8%AF%86%E5%88%AB-%E7%99%BE%E5%BA%A6AI)
@@ -73,7 +75,7 @@ chao-cloud: springboot 拓展工具包
 <dependency>
 	<groupId>com.github.chaojunzi</groupId>
 	<artifactId>chao-cloud-parent</artifactId>
-	<version>1.0.8</version>
+	<version>1.0.9</version>
 </dependency>
 ```
 
@@ -83,7 +85,7 @@ chao-cloud: springboot 拓展工具包
 <dependency>
 	<groupId>com.github.chaojunzi</groupId>
 	<artifactId>chao-cloud-common-core</artifactId>
-	<version>1.0.8</version>
+	<version>1.0.9</version>
 </dependency>
 ```
 
@@ -93,7 +95,7 @@ chao-cloud: springboot 拓展工具包
 <dependency>
 	<groupId>com.github.chaojunzi</groupId>
 	<artifactId>chao-cloud-common-extra</artifactId>
-	<version>1.0.8</version>
+	<version>1.0.9</version>
 </dependency>
 ```
 **config 注解和配置↑** 
@@ -102,7 +104,7 @@ chao-cloud: springboot 拓展工具包
 <dependency>
 	<groupId>com.github.chaojunzi</groupId>
 	<artifactId>chao-cloud-common-config</artifactId>
-	<version>1.0.8</version>
+	<version>1.0.9</version>
 </dependency>
 ```
 	
@@ -444,7 +446,7 @@ spring:
 <parent>
 	<groupId>com.github.chaojunzi</groupId>
 	<artifactId>chao-cloud-parent</artifactId>
-	<version>1.0.8</version>
+	<version>1.0.9</version>
 </parent>
 <dependencies>
 	<dependency>
@@ -531,7 +533,23 @@ chao:
 - 说明
   * 在启动类增加@EnableFtp  
   * 在调用类注入 IFileOperation
+
+### > license
       
+```java
+@EnableLicenseCreator  
+@EnableLicenseVerify  
+
+<!-- License -->
+<dependency>
+	<groupId>de.schlichtherle.truelicense</groupId>
+	<artifactId>truelicense-core</artifactId>
+</dependency>
+```
+- 说明
+  * 在启动类增加@EnableLicenseCreator-生成  
+  * 在启动类增加@EnableLicenseVerify-校验  
+
 ### > 地图解析
 
 ```java
@@ -617,7 +635,22 @@ chao:
   * 使用：autoGenerator.execute(out); //out 为输出流
   * 案例[@chao-cloud-generator](https://github.com/chaojunzi/chao-cloud-generator)
   * 详情请点击[原创@mybatis-plus-generator](https://mybatis.plus/guide/generator.html)
-  
+
+### > sharding-jdbc
+      
+```java
+@EnableShardingExtra
+
+<!-- sharding 分库分表 -->
+<dependency>
+	<groupId>org.apache.shardingsphere</groupId>
+	<artifactId>sharding-jdbc-spring-boot-starter</artifactId>
+	<optional>true</optional>
+</dependency>
+```
+- 说明
+  * 在启动类增加@EnableShardingExtra 
+
 ### > 防止表单重复提交
 
 ```java

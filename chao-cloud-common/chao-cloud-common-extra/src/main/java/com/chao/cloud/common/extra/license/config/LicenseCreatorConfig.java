@@ -6,10 +6,13 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.springframework.beans.factory.InitializingBean;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 import com.chao.cloud.common.extra.license.CustomKeyStoreParam;
+import com.chao.cloud.common.extra.license.creator.LicenseController;
 import com.chao.cloud.common.extra.license.creator.LicenseCreator;
 
 import cn.hutool.core.codec.Base64;
@@ -72,6 +75,12 @@ public class LicenseCreatorConfig implements InitializingBean, LicenseInit {
 	private SignAlgorithm algorithm = SignAlgorithm.SHA1withRSA;
 
 	private RSA rsa;
+
+	@Bean
+	@ConditionalOnMissingBean(LicenseController.class)
+	public LicenseController licenseController() {
+		return new LicenseController();
+	}
 
 	@Override
 	public void afterPropertiesSet() throws Exception {
