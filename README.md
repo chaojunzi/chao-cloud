@@ -645,7 +645,6 @@ chao:
 <dependency>
 	<groupId>org.apache.shardingsphere</groupId>
 	<artifactId>sharding-jdbc-spring-boot-starter</artifactId>
-	<optional>true</optional>
 </dependency>
 ```
 - 说明
