@@ -19,11 +19,13 @@ import com.chao.cloud.common.entity.TreeEntity;
 import com.chao.cloud.common.exception.BusinessException;
 
 import cn.hutool.core.bean.BeanUtil;
+import cn.hutool.core.bean.copier.CopyOptions;
 import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.exceptions.ExceptionUtil;
 import cn.hutool.core.lang.Assert;
 import cn.hutool.core.util.ArrayUtil;
 import cn.hutool.core.util.ClassUtil;
+import cn.hutool.core.util.ModifierUtil;
 import cn.hutool.core.util.ObjectUtil;
 import cn.hutool.core.util.ReflectUtil;
 import cn.hutool.core.util.StrUtil;
@@ -356,4 +358,81 @@ public final class EntityUtil {
 		parentMap.put(childrenName, collect);
 	}
 
+	/**
+	 * 判断对象是否不为空
+	 * 
+	 * @param <T>    对象泛型
+	 * @param entity 实体对象
+	 * @return true or false
+	 */
+	public static <T> boolean isNotEmpty(T entity) {
+		return !isEmpty(entity);
+	}
+
+	/**
+	 * 判断对象是否为空
+	 * 
+	 * @param <T>    对象泛型
+	 * @param entity 实体对象
+	 * @return true or false
+	 */
+	public static <T> boolean isEmpty(T entity) {
+		if (entity == null) {
+			return true;
+		}
+		String[] ignoreFiledNames = CollUtil.toList(ReflectUtil.getFields(entity.getClass()))//
+				.stream()//
+				.filter(f -> Modifier.isStatic(f.getModifiers()))//
+				.map(Field::getName)//
+				.distinct()//
+				.toArray(String[]::new);
+		return BeanUtil.isEmpty(entity, ignoreFiledNames);// 排除静态属性
+	}
+
+	/**
+	 * 对象属性覆盖
+	 * 
+	 * @param <T>       目标对象类型
+	 * @param source    源对象
+	 * @param beanClass 目标对象类型
+	 * @return 目标对象
+	 */
+	public static <T> T fieldCopy(Object source, Class<T> beanClass) {
+		return fieldCopy(source, beanClass, CopyOptions.create().ignoreCase(), true);
+	}
+
+	/**
+	 * 对象属性覆盖
+	 * 
+	 * @param <T>       目标对象类型
+	 * @param source    源对象
+	 * @param beanClass 目标对象类型
+	 * @param options   {@link CopyOptions}
+	 * @param isDown    是否递归
+	 * @return 目标对象
+	 */
+	public static <T> T fieldCopy(Object source, Class<T> beanClass, CopyOptions options, boolean isDown) {
+		T t = ReflectUtil.newInstance(beanClass);
+		BeanUtil.copyProperties(source, t, options);
+		if (!isDown) {// 是否向下-递归
+			return t;
+		}
+		Field[] fields = ReflectUtil.getFields(beanClass);
+		if (fields == null) {
+			return t;
+		}
+		for (Field field : fields) {
+			if (ModifierUtil.isStatic(field)) {
+				continue;
+			}
+			Class<?> beanType = field.getType();
+			if (ClassUtil.isSimpleTypeOrArray(beanType))
+				continue;
+			if (BeanUtil.isBean(beanType)) {
+				Object v = fieldCopy(source, beanType);
+				ReflectUtil.setFieldValue(t, field, v);
+			}
+		}
+		return t;
+	}
 }
