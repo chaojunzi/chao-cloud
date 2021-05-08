@@ -63,7 +63,7 @@
 		<weixin-java-tools.version>4.0.0</weixin-java-tools.version>
 		<thoughtworks.version>1.4.15</thoughtworks.version>
 		<!-- shiro -->
-		<shiro.version>1.5.0</shiro.version>
+		<shiro.version>1.6.0</shiro.version>
 		<shiro.thymeleaf.version>2.0.0</shiro.thymeleaf.version>
 		<!-- 模板 -->
 		<apache.velocity.version>2.1</apache.velocity.version>
