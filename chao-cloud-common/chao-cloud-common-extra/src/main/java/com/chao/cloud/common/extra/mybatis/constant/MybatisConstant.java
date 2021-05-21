@@ -12,6 +12,7 @@ public interface MybatisConstant {
 	 * 只查询一条 limit 1
 	 */
 	String LIMIT_1 = "LIMIT 1";
+	String LIMIT_1_MYSQL = "LIMIT 1";
 	String LIMIT_1_ORACLE = "ROWNUM = 1";
 	/**
 	 * 第一页
@@ -21,4 +22,6 @@ public interface MybatisConstant {
 	 * 默认size 为1000
 	 */
 	Integer SIZE = 1000;
+
+	String ASK = "?";
 }

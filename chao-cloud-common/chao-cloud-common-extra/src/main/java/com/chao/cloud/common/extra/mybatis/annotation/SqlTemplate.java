@@ -1,4 +1,4 @@
-package com.chao.cloud.common.extra.mybatis.common;
+package com.chao.cloud.common.extra.mybatis.annotation;
 
 import cn.hutool.core.util.StrUtil;
 import lombok.AllArgsConstructor;

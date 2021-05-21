@@ -53,15 +53,15 @@
 		<mp3spi.version>1.9.5.4</mp3spi.version>
 		<!-- mysql -->
 		<druid.version>1.1.18</druid.version>
-		<mybatis-plus.version>3.4.2</mybatis-plus.version>
+		<mybatis-plus.version>3.4.3</mybatis-plus.version>
 		<mybatis-plus-generator.version>3.4.1</mybatis-plus-generator.version>
-		<mybatis-plus-dynamic-datasource.version>3.3.1</mybatis-plus-dynamic-datasource.version>
+		<mybatis-plus-dynamic-datasource.version>3.3.5</mybatis-plus-dynamic-datasource.version>
 		<sharding-jdbc.version>4.1.1</sharding-jdbc.version>
 		<!-- json返回值 -->
 		<fastjson.version>1.2.58</fastjson.version>
 		<!-- 微信工具包 -->
 		<weixin-java-tools.version>4.0.0</weixin-java-tools.version>
-		<thoughtworks.version>1.4.16</thoughtworks.version>
+		<thoughtworks.version>1.4.17</thoughtworks.version>
 		<!-- shiro -->
 		<shiro.version>1.7.1</shiro.version>
 		<shiro.thymeleaf.version>2.0.0</shiro.thymeleaf.version>
