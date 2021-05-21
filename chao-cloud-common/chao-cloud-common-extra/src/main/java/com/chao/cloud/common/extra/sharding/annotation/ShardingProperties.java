@@ -62,5 +62,9 @@ public class ShardingProperties {
 	 */
 	@Setter(lombok.AccessLevel.NONE)
 	private Map<String, String> dateTableColumnMap = new ConcurrentHashMap<>();
+	/**
+	 * 补全表节点
+	 */
+	private boolean completeTableNodes = true;
 
 }

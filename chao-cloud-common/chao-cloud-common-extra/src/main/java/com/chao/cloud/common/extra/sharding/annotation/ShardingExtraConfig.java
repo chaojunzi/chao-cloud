@@ -1,6 +1,7 @@
 package com.chao.cloud.common.extra.sharding.annotation;
 
 import java.lang.reflect.Field;
+import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
@@ -16,6 +17,7 @@ import org.apache.shardingsphere.shardingjdbc.jdbc.core.context.ShardingRuntimeC
 import org.apache.shardingsphere.shardingjdbc.jdbc.core.datasource.ShardingDataSource;
 import org.apache.shardingsphere.shardingjdbc.spring.boot.SpringBootConfiguration;
 import org.apache.shardingsphere.shardingjdbc.spring.boot.sharding.SpringBootShardingRuleConfigurationProperties;
+import org.apache.shardingsphere.underlying.common.config.inline.InlineExpressionParser;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.AutoConfigureAfter;
@@ -23,10 +25,12 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Configuration;
 
 import com.chao.cloud.common.extra.sharding.constant.ShardingConstant;
+import com.chao.cloud.common.extra.sharding.plugin.TableActualNodesComplete;
 import com.chao.cloud.common.extra.sharding.strategy.DateShardingAlgorithm;
 
 import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.lang.Assert;
+import cn.hutool.core.map.MapUtil;
 import cn.hutool.core.util.ReflectUtil;
 import cn.hutool.core.util.StrUtil;
 import cn.hutool.extra.spring.SpringUtil;
@@ -118,6 +122,18 @@ public class ShardingExtraConfig implements InitializingBean {
 			String shardingColumns = complex.getShardingColumns();// 此处是单字段解析
 			dateTableColumnMap.put(t, shardingColumns);
 		});
+		// 补全表节点
+		if (prop.isCompleteTableNodes() && shardingDataSource != null && MapUtil.isNotEmpty(tables)) {
+			// 解析数据表结构
+			Map<String, List<String>> tableNodes = MapUtil.newHashMap();
+			tables.forEach((t, r) -> {
+				String nodes = r.getActualDataNodes();
+				if (StrUtil.isNotBlank(nodes)) {
+					tableNodes.put(t, new InlineExpressionParser(nodes).splitAndEvaluate());
+				}
+			});
+			SpringUtil.getBean(TableActualNodesComplete.class).sourceOfTableName(shardingDataSource, tableNodes);
+		}
 	}
 
 	private void setDefaultDsName(String defaultDsName) {
