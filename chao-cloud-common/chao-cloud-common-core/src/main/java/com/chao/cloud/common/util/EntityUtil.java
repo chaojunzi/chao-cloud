@@ -23,6 +23,8 @@ import cn.hutool.core.bean.copier.CopyOptions;
 import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.exceptions.ExceptionUtil;
 import cn.hutool.core.lang.Assert;
+import cn.hutool.core.lang.func.Func1;
+import cn.hutool.core.lang.func.LambdaUtil;
 import cn.hutool.core.util.ArrayUtil;
 import cn.hutool.core.util.ClassUtil;
 import cn.hutool.core.util.ModifierUtil;
@@ -38,6 +40,25 @@ import cn.hutool.core.util.StrUtil;
  * @version 1.0.7
  */
 public final class EntityUtil {
+
+	/**
+	 * 获取属性-根据lambda表达式<br>
+	 * 注：此方法对Map可能无效
+	 * 
+	 * @param <T>    实体类型
+	 * @param <R>    返回值类型
+	 * @param entity 实体对象
+	 * @param func   属性表达式：Entity::getId
+	 * @return 属性值
+	 */
+	public static <T, R> R getProperty(Object entity, Func1<T, R> func) {
+		if (ObjectUtil.isNull(entity)) {
+			return null;
+		}
+		String methodName = LambdaUtil.getMethodName(func);
+		return BeanUtil.getProperty(entity, StrUtil.getGeneralField(methodName));
+	}
+
 	/**
 	 * 空值转换
 	 * 
