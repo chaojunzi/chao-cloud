@@ -51,7 +51,7 @@ public final class EntityUtil {
 	 * @param func   属性表达式：Entity::getId
 	 * @return 属性值
 	 */
-	public static <T, R> R getProperty(Object entity, Func1<T, R> func) {
+	public static <T, R> R getProperty(T entity, Func1<T, R> func) {
 		if (ObjectUtil.isNull(entity)) {
 			return null;
 		}
