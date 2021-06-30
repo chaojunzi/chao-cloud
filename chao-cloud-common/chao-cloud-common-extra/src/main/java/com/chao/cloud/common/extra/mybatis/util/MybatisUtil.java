@@ -16,6 +16,7 @@ import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 import com.baomidou.mybatisplus.annotation.DbType;
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.core.conditions.AbstractWrapper;
 import com.baomidou.mybatisplus.core.conditions.ISqlSegment;
 import com.baomidou.mybatisplus.core.conditions.Wrapper;
@@ -30,6 +31,7 @@ import com.baomidou.mybatisplus.core.metadata.TableInfoHelper;
 import com.baomidou.mybatisplus.core.toolkit.Constants;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.core.toolkit.support.SFunction;
+import com.baomidou.mybatisplus.core.toolkit.support.SerializedLambda;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.chao.cloud.common.extra.mybatis.annotation.QueryCondition;
@@ -40,6 +42,7 @@ import com.chao.cloud.common.extra.mybatis.common.FuncExps;
 import com.chao.cloud.common.extra.mybatis.common.SqlTemplate;
 import com.chao.cloud.common.extra.mybatis.constant.MybatisConstant;
 
+import cn.hutool.core.annotation.AnnotationUtil;
 import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.convert.Convert;
 import cn.hutool.core.date.DateUtil;
@@ -364,6 +367,30 @@ public interface MybatisUtil {
 
 	static <T> AbstractWrapper<T, ?, ?> parseQueryCondition(Object param, Class<T> beanClass, boolean isLambda) {
 		return parseQueryCondition(param, beanClass, isLambda ? Wrappers.<T>lambdaQuery() : Wrappers.<T>query());
+	}
+
+	/**
+	 * 根据实体获取列名
+	 * 
+	 * @param func 表达式
+	 * @return column
+	 */
+	static <T, R> String getColumn(SFunction<T, R> func) {
+		SerializedLambda lambda = SerializedLambda.resolve(func);
+		// 获取实体类型
+		Class<?> entityClass = lambda.getImplClass();
+		// 获取方法类型
+		String fieldName = StrUtil.getGeneralField(lambda.getImplMethodName());
+		// 获取属性
+		Field field = ReflectUtil.getField(entityClass, fieldName);
+		TableField tableField = AnnotationUtil.getAnnotation(field, TableField.class);
+		if (tableField != null) {
+			String column = tableField.value();
+			if (StrUtil.isNotBlank(column)) {
+				return column;
+			}
+		}
+		return StrUtil.toUnderlineCase(fieldName);
 	}
 
 	/**

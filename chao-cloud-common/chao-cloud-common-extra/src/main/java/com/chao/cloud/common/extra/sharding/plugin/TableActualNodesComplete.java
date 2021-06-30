@@ -13,7 +13,6 @@ import com.baomidou.mybatisplus.annotation.DbType;
 
 import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.exceptions.ExceptionUtil;
-import cn.hutool.core.util.ArrayUtil;
 import cn.hutool.core.util.StrUtil;
 import cn.hutool.db.Db;
 import cn.hutool.db.DbUtil;
@@ -93,8 +92,8 @@ public interface TableActualNodesComplete {
 		List<DsTableNodes> tableList = CollUtil.newArrayList();
 		tableNodes.forEach((t, n) -> {
 			Map<String, List<String>> dsTables = n.stream().collect(//
-					Collectors.groupingBy(s -> StrUtil.split(s, StrUtil.DOT)[0], // key
-							Collectors.mapping(s -> ArrayUtil.get(StrUtil.split(s, StrUtil.DOT), -1), //
+					Collectors.groupingBy(s -> StrUtil.split(s, StrUtil.DOT).get(0), // key
+							Collectors.mapping(s -> CollUtil.getLast(StrUtil.split(s, StrUtil.DOT)), //
 									Collectors.toList())));
 			// 构造节点信息
 			dsTables.forEach((ds, nodes) -> {

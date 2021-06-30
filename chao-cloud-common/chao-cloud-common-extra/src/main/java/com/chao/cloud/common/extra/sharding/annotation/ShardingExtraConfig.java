@@ -98,7 +98,8 @@ public class ShardingExtraConfig implements InitializingBean {
 			String columns = complex.getShardingColumns();
 			Assert.notBlank(columns, "Complex 默认分库列不能为空");
 			// 获取第一个字段
-			prop.setDsShardingColumn(StrUtil.split(columns, StrUtil.COMMA)[0]);
+			List<String> columnList = StrUtil.split(columns, StrUtil.COMMA);
+			prop.setDsShardingColumn(columnList.get(0));
 			// 构造columnValueDsMap->用于分库时匹配
 			prop.getDsColumnMap().forEach((ds, list) -> {
 				list.forEach(l -> columnValueDsMap.put(l, ds));
