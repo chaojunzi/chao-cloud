@@ -13,9 +13,14 @@ public interface ShardingColumnConvert {
 	/**
 	 * 获取shardingCode
 	 * 
-	 * @param code 转换为shardingCode 处理
-	 * @return shardingCode
+	 * @param orgCode 开票网点编码
+	 * @return {@link ShardingColumnModel}
 	 */
-	String getShardingCode(String code);
+	ShardingColumnModel getShardingColumnModel(String orgCode);
+
+	static ShardingColumnModel buildShardingColumnModel(String orgCode) {
+		return ShardingColumnModel.of()//
+				.setOrgCode(orgCode);// 开票网点编码
+	}
 
 }

@@ -14,12 +14,10 @@ import com.chao.cloud.common.exception.BusinessException;
 import com.chao.cloud.common.extra.sharding.annotation.ShardingColumn;
 import com.chao.cloud.common.extra.sharding.annotation.ShardingExtraConfig;
 import com.chao.cloud.common.extra.sharding.annotation.ShardingProperties;
-import com.chao.cloud.common.extra.sharding.constant.ColumnType;
 import com.chao.cloud.common.extra.sharding.constant.ShardingConstant;
 import com.chao.cloud.common.extra.sharding.convert.ShardingModel.ShardingJson;
 
 import cn.hutool.core.exceptions.ExceptionUtil;
-import cn.hutool.core.lang.Assert;
 import cn.hutool.core.util.ArrayUtil;
 import cn.hutool.core.util.StrUtil;
 import cn.hutool.extra.spring.SpringUtil;
@@ -43,10 +41,10 @@ public class HintShardingColumnProxy {
 	 * 慎用：此方法会给ThreadLocal 存放变量<br>
 	 * 注：请不要嵌套使用
 	 * 
-	 * @param <T>          返回对象类型
-	 * @param shardingCode 分库标识
-	 * @param function     对shardingCode 操作处理
-	 * @return 返回对象
+	 * @param <T>
+	 * @param shardingCode
+	 * @param function
+	 * @return
 	 */
 	public static <T> T hintShardingCodeProxy(String shardingCode, Function<String, T> function) {
 		ShardingProperties prop = SpringUtil.getBean(ShardingProperties.class);
@@ -66,11 +64,10 @@ public class HintShardingColumnProxy {
 	}
 
 	/**
-	 * 环绕拦截
-	 * 
-	 * @param pdj 切点对象
-	 * @return 调用方法结果
-	 * @throws Throwable 异常
+	 * @ShardingColumn 优先于 @Api
+	 * @param pdj
+	 * @return
+	 * @throws Throwable
 	 */
 	@Around(value = ShardingConstant.SHARDING_PROXY)
 	public Object around(ProceedingJoinPoint pdj) throws Throwable {
@@ -91,37 +88,41 @@ public class HintShardingColumnProxy {
 	private String getShardingCode(Method method, Object[] args) {
 		// 解析@ShardingColumn
 		ShardingColumn shardingColumn = method.getAnnotation(ShardingColumn.class);
-		if (shardingColumn == null || !shardingColumn.shardingCode()) {
-			return null;
-		}
-		// 解析model
-		if (shardingColumn.type() == ColumnType.MODEL) {
-			Object model = ArrayUtil.firstNonNull(args);
-			if (model instanceof ShardingModel) {
-				return this.columnModel((ShardingModel) model, shardingColumn.defaultSet());
+		if (shardingColumn != null && shardingColumn.shardingCode()) {
+			switch (shardingColumn.type()) {
+			case MODEL: // 解析model
+				Object model = ArrayUtil.firstNonNull(args);
+				if (model instanceof ShardingModel) {
+					return this.columnModel((ShardingModel) model, //
+							shardingColumn.defaultSet(), //
+							shardingColumn.validateOrgCode());
+				}
+				throw new BusinessException("参数 args[0] 未继承 ShardingModel");
+			case JSON:// 解析json
+				return this.columnJson(args);
+			default:
+				break;
 			}
-			throw new BusinessException("参数 args[0] 未继承 ShardingModel");
-
-		}
-		// 解析json
-		if (shardingColumn.type() == ColumnType.JSON) {
-			return this.columnJson(args);
+			return null;
 		}
 		return null;
 	}
 
 	// orgCode 转shardingCode
-	private String columnModel(ShardingModel model, boolean defaultSet) { // 方法参数处理
-		String shardingCode = this.shardingCodeThrow(model.getCode());
+	private String columnModel(ShardingModel model, boolean defaultSet, boolean validateOrgCode) { // 方法参数处理
+		ShardingColumnModel m = this.shardingCodeThrow(model.getCode(), validateOrgCode);
+		String shardingCode = m.getShardingCode();
 		if (defaultSet) { // 设置默认值
 			model.setShardingCode(shardingCode);
 		}
 		return shardingCode;
 	}
 
-	private String shardingCodeThrow(String code) {
+	private ShardingColumnModel shardingCodeThrow(String orgCode, boolean validateOrgCode) {
 		ShardingProperties prop = SpringUtil.getBean(ShardingProperties.class);
-		String shardingCode = convert.getShardingCode(code);
+		ShardingColumnModel m = convert.getShardingColumnModel(orgCode);
+		//
+		String shardingCode = m.getShardingCode();
 		// 匹配数据源
 		boolean matches = true;
 		if (StrUtil.isBlank(shardingCode)) {
@@ -130,16 +131,24 @@ public class HintShardingColumnProxy {
 			String ds = SpringUtil.getBean(ShardingExtraConfig.class).getDsByColumnValue(shardingCode);
 			if (StrUtil.isBlank(ds)) {
 				matches = false;
-				shardingCode = null;
 			}
 		}
-		// 匹配失败
-		Assert.isFalse(!matches && prop.getDsNum() > 1, "[sharding]未定义code:{}", code);
+		// 数据源大于1执行校验
+		if (prop.getDsNum() > 1) {
+			// 匹配失败
+			if (!matches) {
+				throw new BusinessException("未匹配到数据源");
+			}
+			if (validateOrgCode && !m.isOrgExist()) {
+				throw new BusinessException("无效的code");
+			}
+		}
 		// 设置默认值
 		if (StrUtil.isBlank(shardingCode)) {
 			shardingCode = ShardingConstant.DEFAULT_VALUE;
+			m.setShardingCode(shardingCode);
 		}
-		return shardingCode;
+		return m;
 	}
 
 	// json直接获取

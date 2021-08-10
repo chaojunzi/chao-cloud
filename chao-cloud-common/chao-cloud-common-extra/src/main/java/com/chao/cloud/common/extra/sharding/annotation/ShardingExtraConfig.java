@@ -6,6 +6,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.stream.Collectors;
 
 import org.apache.shardingsphere.api.config.sharding.ShardingRuleConfiguration;
 import org.apache.shardingsphere.core.rule.ShardingDataSourceNames;
@@ -21,7 +22,9 @@ import org.apache.shardingsphere.underlying.common.config.inline.InlineExpressio
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.AutoConfigureAfter;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 import com.chao.cloud.common.extra.sharding.constant.ShardingConstant;
@@ -57,6 +60,13 @@ public class ShardingExtraConfig implements InitializingBean {
 	@Autowired(required = false)
 	private ShardingDataSource shardingDataSource;
 
+	@Bean
+	@ConditionalOnMissingBean(TableActualNodesComplete.class)
+	public TableActualNodesComplete TableActualNodesComplete() {
+		return new TableActualNodesComplete() {
+		};
+	}
+
 	/**
 	 * 获取ds
 	 * 
@@ -88,9 +98,15 @@ public class ShardingExtraConfig implements InitializingBean {
 		// prop.setDefaultDsName(dsName);
 		// Assert.notBlank(dsName, "spring.shardingsphere.sharding.defaultDataSourceName
 		// 不能为空");
-		Assert.notBlank(prop.getDefaultDsName(), ShardingConstant.SHARDING_PREFIX + ".default-ds-name 不能为空");
+		String defaultDsName = prop.getDefaultDsName();
+		Assert.notBlank(defaultDsName, "aisino.sharding.default-ds-name 不能为空");
+		boolean isDs = shardingDataSource.getDataSourceMap().containsKey(defaultDsName);
+		Assert.state(isDs, "不存在的数据源:{}", defaultDsName);
 		// 设置默认数据源
-		this.setDefaultDsName(prop.getDefaultDsName());
+		this.setDefaultDsName(defaultDsName);
+		// 计算数据源总数
+		List<String> dsList = new InlineExpressionParser(prop.getDsExps()).splitAndEvaluate();
+		prop.setDsNum(CollUtil.size(dsList));
 		// 获取默认分库策略
 		YamlShardingStrategyConfiguration dds = ruleProp.getDefaultDatabaseStrategy();
 		if (dds != null && dds.getComplex() != null) {
@@ -98,8 +114,7 @@ public class ShardingExtraConfig implements InitializingBean {
 			String columns = complex.getShardingColumns();
 			Assert.notBlank(columns, "Complex 默认分库列不能为空");
 			// 获取第一个字段
-			List<String> columnList = StrUtil.split(columns, StrUtil.COMMA);
-			prop.setDsShardingColumn(columnList.get(0));
+			prop.setDsShardingColumn(StrUtil.split(columns, StrUtil.COMMA).get(0));
 			// 构造columnValueDsMap->用于分库时匹配
 			prop.getDsColumnMap().forEach((ds, list) -> {
 				list.forEach(l -> columnValueDsMap.put(l, ds));
@@ -128,13 +143,18 @@ public class ShardingExtraConfig implements InitializingBean {
 			// 解析数据表结构
 			Map<String, List<String>> tableNodes = MapUtil.newHashMap();
 			tables.forEach((t, r) -> {
-				String nodes = r.getActualDataNodes();
-				if (StrUtil.isNotBlank(nodes)) {
-					tableNodes.put(t, new InlineExpressionParser(nodes).splitAndEvaluate());
+				List<String> nodes = new InlineExpressionParser(r.getActualDataNodes()).splitAndEvaluate();
+				nodes = nodes.stream().filter(n -> StrUtil.startWith(n, prop.getDsPrefix()))
+						.collect(Collectors.toList());
+				if (CollUtil.isNotEmpty(nodes)) {
+					tableNodes.put(t, nodes);
 				}
 			});
-			SpringUtil.getBean(TableActualNodesComplete.class).sourceOfTableName(shardingDataSource, tableNodes);
+			// 补全
+			TableActualNodesComplete complete = SpringUtil.getBean(TableActualNodesComplete.class);
+			complete.sourceOfTableName(shardingDataSource, tableNodes, defaultDsName);
 		}
+
 	}
 
 	private void setDefaultDsName(String defaultDsName) {

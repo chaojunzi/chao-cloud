@@ -19,23 +19,23 @@ import com.chao.cloud.common.extra.sharding.constant.ColumnType;
 public @interface ShardingColumn {
 	/**
 	 * shardingCode 处理
-	 * 
-	 * @return true or false
 	 */
 	boolean shardingCode() default true;
 
 	/**
 	 * 字段 默认值
 	 * 
-	 * @return true or false
 	 */
 	boolean defaultSet() default true;
 
 	/**
-	 * 字段类型
-	 * 
-	 * @return {@link ColumnType}
+	 * 校验部门是否存在
 	 */
-	ColumnType type() default ColumnType.MODEL;
+	boolean validateOrgCode() default false;
+
+	/**
+	 * 字段类型
+	 */
+	ColumnType type() default ColumnType.JSON;
 
 }

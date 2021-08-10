@@ -4,15 +4,21 @@ import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
+
+import javax.sql.DataSource;
 
 import org.apache.shardingsphere.api.sharding.complex.ComplexKeysShardingAlgorithm;
 import org.apache.shardingsphere.api.sharding.complex.ComplexKeysShardingValue;
+import org.apache.shardingsphere.shardingjdbc.jdbc.core.datasource.ShardingDataSource;
 
 import com.chao.cloud.common.extra.sharding.annotation.ShardingProperties;
+import com.chao.cloud.common.extra.sharding.plugin.TableActualNodesComplete;
 import com.google.common.collect.Range;
 
 import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.lang.Assert;
+import cn.hutool.core.util.ReUtil;
 import cn.hutool.core.util.StrUtil;
 import cn.hutool.extra.spring.SpringUtil;
 import lombok.extern.slf4j.Slf4j;
@@ -32,18 +38,28 @@ public class DateShardingAlgorithm implements ComplexKeysShardingAlgorithm<Date>
 			ComplexKeysShardingValue<Date> complexKeysShardingValue) {
 		// 获取配置文件
 		ShardingProperties prop = SpringUtil.getBean(ShardingProperties.class);
+		String table = complexKeysShardingValue.getLogicTableName();
+		// 自动生成表
+		if (prop.isCompleteTableNodes()) {
+			// 逻辑表对应的表节点
+			tableNames = TableActualNodesComplete.TBALE_NODES_MAP.get(table);
+		}
+		// 日期分表策略
 		DateStrategyEnum dateStrategy = prop.getDateStrategy();
 		//
 		List<String> tableList = null;
-		String table = complexKeysShardingValue.getLogicTableName();
 		// 根据表获取相关字段
 		String columnName = prop.getDateTableColumnMap().get(table);
 		Assert.notBlank(columnName, "table:{}, 未设置DateShardingAlgorithm分表", table);
-		log.info("Complex:Table:自定义分片;tableName={};columnName={}", table, columnName);
 		// 日期精确解析(= in)
 		Map<String, Collection<Date>> shardingMap = complexKeysShardingValue.getColumnNameAndShardingValuesMap();
 		if (shardingMap.containsKey(columnName)) {
-			tableList = dateStrategy.findTables(tableNames, shardingMap.get(columnName));
+			// 获取时间范围
+			Collection<Date> dateList = shardingMap.get(columnName);
+			// 生成表节点
+			this.createTableNodes(prop, table, dateStrategy, dateList);
+			//
+			tableList = dateStrategy.findTables(tableNames, dateList);
 		}
 		// 范围日期解析
 		Map<String, Range<Date>> rangeMap = complexKeysShardingValue.getColumnNameAndRangeValuesMap();
@@ -61,10 +77,58 @@ public class DateShardingAlgorithm implements ComplexKeysShardingAlgorithm<Date>
 		if (CollUtil.isEmpty(tableList)) {
 			String tableName = CollUtil.getFirst(tableNames);
 			// 空表
-			tableList = CollUtil.toList(
-					StrUtil.subPre(tableName, tableName.length() - DateStrategyEnum.MONTH_PATTERN.length() - 1));
+			tableList = CollUtil.toList(ReUtil.delLast("_\\d+", tableName));
 		}
+		// 打印
+		log.info("【日期】【{}】Table={}.{}", CollUtil.join(tableList, StrUtil.COMMA), table, columnName);
 		return tableList;
+	}
+
+	/**
+	 * 生成表节点
+	 * 
+	 * @param prop         配置
+	 * @param sourceTable  逻辑表
+	 * @param dateStrategy 日期策略
+	 * @param dateList     时间范围
+	 */
+	private synchronized void createTableNodes(ShardingProperties prop, String sourceTable,
+			DateStrategyEnum dateStrategy, Collection<Date> dateList) {
+		if (!prop.isCompleteTableNodes()) {
+			return;
+		}
+		// 只有insert才会生成表节点（只有一个值）
+		if (CollUtil.size(dateList) != 1) {
+			return;
+		}
+		// 判断时间
+		Set<String> nodeSet = TableActualNodesComplete.TBALE_NODES_MAP.get(sourceTable);
+		// 获取当前节点
+		String currNode = dateStrategy.getCurrentTableNode(sourceTable, CollUtil.getFirst(dateList));
+		if (StrUtil.isBlank(currNode) || nodeSet.contains(currNode)) {
+			return;
+		}
+		// 生成表->获取全部数据源
+		Map<String, DataSource> dsMap = SpringUtil.getBean(ShardingDataSource.class).getDataSourceMap();
+		// 获取表结构
+		String sourceTableDDL = TableActualNodesComplete.getSourceTableDDL(dsMap.get(prop.getDefaultDsName()),
+				sourceTable);
+		// 要生成的节点
+		List<String> targetTables = CollUtil.toList(currNode);
+		dsMap.forEach((dsName, ds) -> {
+			if (!StrUtil.startWith(dsName, prop.getDsPrefix())) {
+				return;
+			}
+			try {
+				TableActualNodesComplete.createTable(sourceTable, sourceTableDDL, dsName, ds, targetTables);
+			} catch (Exception e) {
+				if (CollUtil.isNotEmpty(nodeSet)) {
+					nodeSet.remove(currNode);
+				}
+				// 生成表结构失败
+				throw e;
+			}
+		});
 	}
 
 }

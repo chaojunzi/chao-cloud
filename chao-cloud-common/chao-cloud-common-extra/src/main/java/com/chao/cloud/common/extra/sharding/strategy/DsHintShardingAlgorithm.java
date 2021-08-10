@@ -24,7 +24,7 @@ import lombok.extern.slf4j.Slf4j;
  * @version 1.0.0
  */
 @Slf4j
-public class HintDsShardingAlgorithm implements HintShardingAlgorithm<String> {
+public class DsHintShardingAlgorithm implements HintShardingAlgorithm<String> {
 
 	@Override
 	public Collection<String> doSharding(Collection<String> dsList, HintShardingValue<String> shardingValue) {
@@ -34,7 +34,6 @@ public class HintDsShardingAlgorithm implements HintShardingAlgorithm<String> {
 		String table = shardingValue.getLogicTableName();
 		// 获取传进来的值
 		Collection<String> vals = shardingValue.getValues();
-		log.info("Hint:自定义分片;tableName={};shardingValue={}", table, CollUtil.join(vals, StrUtil.COMMA));
 		// 返回数据源
 		Set<String> dsResult = new HashSet<>();
 		//
@@ -49,6 +48,8 @@ public class HintDsShardingAlgorithm implements HintShardingAlgorithm<String> {
 		if (CollUtil.isEmpty(dsResult)) {
 			dsResult.add(prop.getDefaultDsName());// 默认数据源
 		}
+		log.info("【Hint】【{}】{}=[{}]", CollUtil.join(dsResult, StrUtil.COMMA), table,
+				CollUtil.join(vals, StrUtil.COMMA));
 		return dsResult;
 	}
 

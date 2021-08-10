@@ -37,8 +37,6 @@ public class DefaultDsShardingAlgorithm implements ComplexKeysShardingAlgorithm<
 		// 获取分库字段及字段值
 		Map<String, Collection<String>> map = complexKeysShardingValue.getColumnNameAndShardingValuesMap();
 		Collection<String> vals = map.get(dsShardingColumn);
-		log.info("Complex:DS:自定义分片;tableName={};columnName={},columnValue={}", table, dsShardingColumn,
-				CollUtil.join(vals, StrUtil.COMMA));
 		if (CollUtil.isNotEmpty(vals)) {
 			for (String v : vals) {
 				String ds = SpringUtil.getBean(ShardingExtraConfig.class).getDsByColumnValue(v);
@@ -50,6 +48,8 @@ public class DefaultDsShardingAlgorithm implements ComplexKeysShardingAlgorithm<
 		if (CollUtil.isEmpty(dsSet)) {
 			dsSet.add(prop.getDefaultDsName());// 默认数据源
 		}
+		log.info("【DS:default】【{}】{}.{}=[{}]", CollUtil.join(dsSet, StrUtil.COMMA), table, dsShardingColumn,
+				CollUtil.join(vals, StrUtil.COMMA));
 		return dsSet;
 	}
 

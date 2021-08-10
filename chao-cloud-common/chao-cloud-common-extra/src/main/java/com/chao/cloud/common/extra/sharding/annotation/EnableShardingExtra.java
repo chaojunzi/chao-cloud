@@ -8,6 +8,8 @@ import java.lang.annotation.Target;
 
 import org.springframework.context.annotation.Import;
 
+import cn.hutool.extra.spring.EnableSpringUtil;
+
 /**
  * 自定义分库分表配置-扩展
  * 
@@ -18,6 +20,7 @@ import org.springframework.context.annotation.Import;
 @Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
+@EnableSpringUtil
 @Import({ ShardingConfig.class, ShardingExtraConfig.class })
 public @interface EnableShardingExtra {
 

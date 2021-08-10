@@ -42,6 +42,18 @@ public class ShardingProperties {
 	 */
 	private DateStrategyEnum dateStrategy = DateStrategyEnum.MONTH_12;
 	/**
+	 * 日期表达式
+	 */
+	private String dateExps = "202$->{0..1}0$->{1..3}";
+	/**
+	 * 数据源前缀
+	 */
+	private String dsPrefix = "ds";
+	/**
+	 * 数据源表达式
+	 */
+	private String dsExps = "ds0";
+	/**
 	 * 数据源数量：默认1
 	 */
 	private int dsNum = 1;
@@ -55,7 +67,6 @@ public class ShardingProperties {
 	 * 默认数据源name
 	 */
 	private String defaultDsName;
-
 	/**
 	 * 日期分表：table:列名<br>
 	 * 无需配置：自动填装

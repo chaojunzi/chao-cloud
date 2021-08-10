@@ -1,5 +1,8 @@
 package com.chao.cloud.common.extra.sharding.annotation;
 
+import java.util.Map;
+
+import org.springframework.beans.factory.InitializingBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -7,6 +10,8 @@ import org.springframework.context.annotation.Configuration;
 import com.chao.cloud.common.extra.sharding.convert.HintShardingColumnProxy;
 import com.chao.cloud.common.extra.sharding.convert.ShardingColumnConvert;
 
+import cn.hutool.core.map.MapUtil;
+import cn.hutool.core.util.StrUtil;
 import cn.hutool.extra.spring.SpringUtil;
 import lombok.Getter;
 
@@ -19,29 +24,28 @@ import lombok.Getter;
  */
 @Getter
 @Configuration
-public class ShardingConfig {
-
-	@Bean
-	@ConditionalOnMissingBean(SpringUtil.class)
-	SpringUtil springUtil() {
-		return new SpringUtil();
-	}
-
-	@Bean
-	ShardingProperties shardingProperties() {
-		return new ShardingProperties();
-	}
-
-	@Bean
-	@ConditionalOnMissingBean(ShardingColumnConvert.class)
-	ShardingColumnConvert shardingColumnConvert() {
-		// 返回原字段
-		return orgCode -> orgCode;
-	}
+public class ShardingConfig implements InitializingBean {
 
 	@Bean
 	@ConditionalOnMissingBean(HintShardingColumnProxy.class)
 	HintShardingColumnProxy hintShardingColumnProxy(ShardingColumnConvert convert) {
 		return new HintShardingColumnProxy(convert);
+	}
+
+	@Bean
+	public ShardingProperties shardingProperties() {
+		return new ShardingProperties();
+	}
+
+	@Override
+	public void afterPropertiesSet() throws Exception {
+		Map<String, ShardingColumnConvert> shardingConvertMap = SpringUtil.getBeansOfType(ShardingColumnConvert.class);
+		//
+		if (MapUtil.isEmpty(shardingConvertMap)) {
+			// 注册默认的列转换
+			String beanName = StrUtil.lowerFirst(ShardingColumnConvert.class.getSimpleName());
+			// 分片 orgCode 处理
+			SpringUtil.registerBean(beanName, (ShardingColumnConvert) ShardingColumnConvert::buildShardingColumnModel);
+		}
 	}
 }

@@ -109,6 +109,38 @@ public enum DateStrategyEnum {
 	}
 
 	/**
+	 * 获取当前表节点
+	 * 
+	 * @param logicTableName 逻辑表
+	 * @return 表真实节点
+	 */
+	public String getCurrentTableNode(String logicTableName) {
+		// 年月
+		String yearMonth = this.convertDateStr(DateUtil.date());
+		// 真实节点
+		return StrUtil.format("{}_{}", logicTableName, yearMonth);
+	}
+
+	/**
+	 * 获取当前表节点
+	 * 
+	 * @param logicTableName 逻辑表
+	 * @param columnVal      日期条件
+	 * @return 表真实节点
+	 */
+	public String getCurrentTableNode(String logicTableName, Date columnVal) {
+		// 年月
+		String yearMonth = this.convertDateStr(DateUtil.date());
+		// 日期在同一区间
+		if (StrUtil.equals(yearMonth, this.convertDateStr(columnVal))) {
+			// 真实节点
+			return StrUtil.format("{}_{}", logicTableName, yearMonth);
+		}
+		//
+		return null;
+	}
+
+	/**
 	 * 获取时间的年份和月份然后进行落点
 	 * 
 	 */
