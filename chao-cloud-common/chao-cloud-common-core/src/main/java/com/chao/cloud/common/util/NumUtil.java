@@ -58,7 +58,7 @@ public class NumUtil {
 	public static String formatNumber(Number num, int scale) {
 		String pattern = NumUtil.POUND;
 		if (scale > 0) {
-			pattern = StrUtil.format("{}.{}", NumUtil.POUND, StrUtil.repeat(NumUtil.ZERO, scale));
+			pattern = StrUtil.format("0.{}", StrUtil.repeat(NumUtil.ZERO, scale));
 		}
 		return NumberUtil.decimalFormat(pattern, num);
 	}
@@ -75,6 +75,19 @@ public class NumUtil {
 			return NumberUtil.round(number.doubleValue(), scale);
 		}
 		return NumberUtil.toBigDecimal(numStr);
+	}
+
+	/**
+	 * 删除数字类型字符串 -> 前面的0
+	 * 
+	 * @param num
+	 * @return 数字字符串
+	 */
+	public static String delZeroPre(String num) {
+		if (!NumberUtil.isNumber(num)) {
+			return num;
+		}
+		return NumberUtil.toStr(NumberUtil.parseNumber(num));
 	}
 
 }

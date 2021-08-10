@@ -1,5 +1,4 @@
-﻿<project
-	xmlns="http://maven.apache.org/POM/4.0.0"
+﻿<project xmlns="http://maven.apache.org/POM/4.0.0"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
@@ -43,6 +42,7 @@
 		<hibernate-validator.version>6.0.17.Final</hibernate-validator.version>
 		<!-- 超级工具类 -->
 		<hutool-all.version>5.7.7</hutool-all.version>
+		<bcprov.version>1.68</bcprov.version>
 		<commons-pool2.version>2.6.2</commons-pool2.version>
 		<commons-net.version>3.6</commons-net.version>
 		<poi-version>4.1.2</poi-version>
@@ -161,6 +161,12 @@
 				<groupId>cn.hutool</groupId>
 				<artifactId>hutool-all</artifactId>
 				<version>${hutool-all.version}</version>
+			</dependency>
+			<!-- 国密算法 -->
+			<dependency>
+				<groupId>org.bouncycastle</groupId>
+				<artifactId>bcprov-jdk15to18</artifactId>
+				<version>${bcprov.version}</version>
 			</dependency>
 			<!-- 基于Hutool-二维码生成和处理 -->
 			<dependency>

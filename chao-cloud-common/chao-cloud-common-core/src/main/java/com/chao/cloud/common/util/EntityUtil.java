@@ -6,11 +6,13 @@ import java.lang.reflect.Field;
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Modifier;
 import java.lang.reflect.Proxy;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
+import java.util.function.Consumer;
 import java.util.stream.Collectors;
 
 import com.chao.cloud.common.annotation.TreeAnnotation;
@@ -40,6 +42,71 @@ import cn.hutool.core.util.StrUtil;
  * @version 1.0.7
  */
 public final class EntityUtil {
+
+	/**
+	 * 操作bean中的属性；忽略大小写
+	 * 
+	 * @param bean      实体类
+	 * @param fieldName 属性名称
+	 * @param consumer  消费者函数
+	 */
+	@SuppressWarnings("unchecked")
+	public static <T> void funcPropertyField(Object bean, String fieldName, Consumer<T> consumer) {
+		editProperty(bean, b -> {
+			Field[] fields = ReflectUtil.getFields(b.getClass());
+			if (ArrayUtil.isEmpty(fields)) {
+				return;
+			}
+			// 匹配属性
+			for (Field field : fields) {
+				if (StrUtil.equalsIgnoreCase(field.getName(), fieldName)) {
+					// 获取属性值
+					Object v = ReflectUtil.getFieldValue(b, field);
+					consumer.accept((T) v);
+				}
+			}
+		});
+	}
+
+	/**
+	 * 编辑bean中
+	 * 
+	 * @param <T>      对象类型
+	 * @param bean     实体类
+	 * @param consumer 编辑方法
+	 * @return
+	 */
+	@SuppressWarnings("unchecked")
+	public static Object editProperty(Object bean, Consumer<Object> consumer) {
+		// 递归bean
+		if (bean == null) {
+			return null;
+		}
+		Class<?> beanClass = bean.getClass();
+		boolean simpleType = ClassUtil.isSimpleTypeOrArray(beanClass);
+		if (simpleType) {
+			return bean;
+		}
+		// 集合
+		if (bean instanceof Collection<?>) {
+			Collection<Object> coll = (Collection<Object>) bean;
+			coll.forEach(o -> editProperty(o, consumer));
+			return bean;
+		}
+		boolean isBean = BeanUtil.isBean(beanClass);
+		if (isBean) {
+			// 获取属性
+			Field[] fields = ReflectUtil.getFields(beanClass);
+			for (Field field : fields) {
+				Object val = ReflectUtil.getFieldValue(bean, field);
+				// 递归
+				editProperty(val, consumer);
+			}
+			// 消费
+			consumer.accept(bean);
+		}
+		return bean;
+	}
 
 	/**
 	 * 获取属性-根据lambda表达式<br>
