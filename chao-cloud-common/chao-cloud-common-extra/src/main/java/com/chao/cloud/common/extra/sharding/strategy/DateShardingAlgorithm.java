@@ -4,7 +4,6 @@ import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 import javax.sql.DataSource;
 
@@ -13,12 +12,12 @@ import org.apache.shardingsphere.api.sharding.complex.ComplexKeysShardingValue;
 import org.apache.shardingsphere.shardingjdbc.jdbc.core.datasource.ShardingDataSource;
 
 import com.chao.cloud.common.extra.sharding.annotation.ShardingProperties;
+import com.chao.cloud.common.extra.sharding.constant.ShardingConstant;
 import com.chao.cloud.common.extra.sharding.plugin.TableActualNodesComplete;
 import com.google.common.collect.Range;
 
 import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.lang.Assert;
-import cn.hutool.core.util.ReUtil;
 import cn.hutool.core.util.StrUtil;
 import cn.hutool.extra.spring.SpringUtil;
 import lombok.extern.slf4j.Slf4j;
@@ -39,11 +38,6 @@ public class DateShardingAlgorithm implements ComplexKeysShardingAlgorithm<Date>
 		// 获取配置文件
 		ShardingProperties prop = SpringUtil.getBean(ShardingProperties.class);
 		String table = complexKeysShardingValue.getLogicTableName();
-		// 自动生成表
-		if (prop.isCompleteTableNodes()) {
-			// 逻辑表对应的表节点
-			tableNames = TableActualNodesComplete.TBALE_NODES_MAP.get(table);
-		}
 		// 日期分表策略
 		DateStrategyEnum dateStrategy = prop.getDateStrategy();
 		//
@@ -57,7 +51,7 @@ public class DateShardingAlgorithm implements ComplexKeysShardingAlgorithm<Date>
 			// 获取时间范围
 			Collection<Date> dateList = shardingMap.get(columnName);
 			// 生成表节点
-			this.createTableNodes(prop, table, dateStrategy, dateList);
+			this.createTableNodes(prop, table, tableNames, dateStrategy, dateList);
 			//
 			tableList = dateStrategy.findTables(tableNames, dateList);
 		}
@@ -77,7 +71,7 @@ public class DateShardingAlgorithm implements ComplexKeysShardingAlgorithm<Date>
 		if (CollUtil.isEmpty(tableList)) {
 			String tableName = CollUtil.getFirst(tableNames);
 			// 空表
-			tableList = CollUtil.toList(ReUtil.delLast("_\\d+", tableName));
+			tableList = CollUtil.toList(ShardingConstant.getTableNameOfNumberSuffix(tableName));
 		}
 		// 打印
 		log.info("【日期】【{}】Table={}.{}", CollUtil.join(tableList, StrUtil.COMMA), table, columnName);
@@ -89,11 +83,12 @@ public class DateShardingAlgorithm implements ComplexKeysShardingAlgorithm<Date>
 	 * 
 	 * @param prop         配置
 	 * @param sourceTable  逻辑表
+	 * @param tableNames   现有的所有表节点
 	 * @param dateStrategy 日期策略
 	 * @param dateList     时间范围
 	 */
 	private synchronized void createTableNodes(ShardingProperties prop, String sourceTable,
-			DateStrategyEnum dateStrategy, Collection<Date> dateList) {
+			Collection<String> tableNames, DateStrategyEnum dateStrategy, Collection<Date> dateList) {
 		if (!prop.isCompleteTableNodes()) {
 			return;
 		}
@@ -101,11 +96,9 @@ public class DateShardingAlgorithm implements ComplexKeysShardingAlgorithm<Date>
 		if (CollUtil.size(dateList) != 1) {
 			return;
 		}
-		// 判断时间
-		Set<String> nodeSet = TableActualNodesComplete.TBALE_NODES_MAP.get(sourceTable);
-		// 获取当前节点
+		// 获取当前节点-判断时间
 		String currNode = dateStrategy.getCurrentTableNode(sourceTable, CollUtil.getFirst(dateList));
-		if (StrUtil.isBlank(currNode) || nodeSet.contains(currNode)) {
+		if (StrUtil.isBlank(currNode) || tableNames.contains(currNode)) {
 			return;
 		}
 		// 生成表->获取全部数据源
@@ -122,9 +115,6 @@ public class DateShardingAlgorithm implements ComplexKeysShardingAlgorithm<Date>
 			try {
 				TableActualNodesComplete.createTable(sourceTable, sourceTableDDL, dsName, ds, targetTables);
 			} catch (Exception e) {
-				if (CollUtil.isNotEmpty(nodeSet)) {
-					nodeSet.remove(currNode);
-				}
 				// 生成表结构失败
 				throw e;
 			}

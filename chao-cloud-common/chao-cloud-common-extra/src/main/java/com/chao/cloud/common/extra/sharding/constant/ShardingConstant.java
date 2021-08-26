@@ -1,5 +1,10 @@
 package com.chao.cloud.common.extra.sharding.constant;
 
+import java.util.Map;
+
+import cn.hutool.core.map.MapUtil;
+import cn.hutool.core.util.ReUtil;
+
 /**
  * sharding常量参数
  * 
@@ -24,5 +29,30 @@ public interface ShardingConstant {
 	 * 默认值
 	 */
 	String DEFAULT_VALUE = "0000";
+	/**
+	 * 表->算法 映射
+	 */
+	Map<String, Class<?>> TABLE_ALGORITHM_MAP = MapUtil.newHashMap();
+
+	/**
+	 * 设置算法
+	 */
+	static void putTableAlgorithm(String tableName, Class<?> algorithmType) {
+		TABLE_ALGORITHM_MAP.put(tableName, algorithmType);
+	}
+
+	static Class<?> getTableAlgorithm(String tableName) {
+		return TABLE_ALGORITHM_MAP.get(tableName);
+	}
+
+	/**
+	 * 获取数字后缀的原表名
+	 * 
+	 * @param fullTableName 表全名
+	 * @return 基础表名
+	 */
+	static String getTableNameOfNumberSuffix(String fullTableName) {
+		return ReUtil.delLast("_\\d+", fullTableName);
+	}
 
 }

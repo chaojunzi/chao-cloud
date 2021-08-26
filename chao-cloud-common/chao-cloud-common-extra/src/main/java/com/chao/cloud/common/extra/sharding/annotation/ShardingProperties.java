@@ -42,10 +42,6 @@ public class ShardingProperties {
 	 */
 	private DateStrategyEnum dateStrategy = DateStrategyEnum.MONTH_12;
 	/**
-	 * 日期表达式
-	 */
-	private String dateExps = "202$->{0..1}0$->{1..3}";
-	/**
 	 * 数据源前缀
 	 */
 	private String dsPrefix = "ds";

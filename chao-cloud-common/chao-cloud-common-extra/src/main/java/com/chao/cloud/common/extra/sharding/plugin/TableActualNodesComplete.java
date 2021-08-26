@@ -5,40 +5,44 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Collectors;
 
 import javax.sql.DataSource;
 
+import org.apache.shardingsphere.core.rule.TableRule;
 import org.apache.shardingsphere.shardingjdbc.jdbc.core.datasource.ShardingDataSource;
+import org.apache.shardingsphere.underlying.common.rule.DataNode;
 
 import com.baomidou.mybatisplus.annotation.DbType;
+import com.chao.cloud.common.extra.sharding.constant.ShardingConstant;
+import com.chao.cloud.common.extra.sharding.strategy.DateShardingAlgorithm;
+import com.google.common.collect.Maps;
+import com.google.common.collect.Sets;
 
 import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.exceptions.ExceptionUtil;
-import cn.hutool.core.map.multi.SetValueMap;
+import cn.hutool.core.util.ReflectUtil;
 import cn.hutool.core.util.StrUtil;
 import cn.hutool.db.DbUtil;
 import cn.hutool.db.meta.MetaUtil;
+import cn.hutool.extra.spring.SpringUtil;
 import cn.hutool.log.StaticLog;
 
 /**
  * 自动补全表节点
  * 
  * @author 薛超
- * @since 2021年5月21日
- * @version 1.0.9
+ * @since 2021年8月23日
+ * @version 1.0.0
  */
 public interface TableActualNodesComplete {
+
 	/**
 	 * 表结构ddl缓存
 	 */
 	Map<String, WeakReference<String>> TABLE_DDL_CACHE = new ConcurrentHashMap<>();
-	/**
-	 * (已经存在)表:->节点映射 <br>
-	 * 例如：t_invoice_create:[t_invoice_create_202101]
-	 */
-	SetValueMap<String, String> TBALE_NODES_MAP = new SetValueMap<>(new ConcurrentHashMap<>());
 	/**
 	 * 表定义语言
 	 */
@@ -67,8 +71,8 @@ public interface TableActualNodesComplete {
 				List<String> tables = MetaUtil.getTables(ds);
 				// 生成数据表
 				tNodesMap.forEach((sourceTable, nodes) -> {
-					// 缓存表节点
-					TBALE_NODES_MAP.put(sourceTable, CollUtil.newHashSet(nodes));
+					// 整合需要缓存表节点
+					cacheTableNodes(dsName, sourceTable, nodes, tables);
 					// 需要生成的表
 					Collection<String> needTables = CollUtil.subtract(nodes, tables);
 					// 生成表节点
@@ -82,6 +86,31 @@ public interface TableActualNodesComplete {
 		default:
 			break;
 		}
+	}
+
+	/**
+	 * 缓存表节点
+	 * 
+	 * @param dsName      数据源名称
+	 * @param tableName   逻辑表名称
+	 * @param nodes       配置的表节点
+	 * @param existTables 已经存在的所有的表
+	 */
+	default void cacheTableNodes(String dsName, String tableName, List<String> nodes, List<String> existTables) {
+		// 获取算法
+		Class<?> tableAlgorithm = ShardingConstant.getTableAlgorithm(tableName);
+		// 日期算法
+		if (tableAlgorithm == DateShardingAlgorithm.class) {
+			// 过滤此表的所有已存在的表结点
+			Collection<String> existNodes = CollUtil.filterNew(existTables,
+					t -> StrUtil.equals(tableName, ShardingConstant.getTableNameOfNumberSuffix(t)));
+			if (CollUtil.isNotEmpty(nodes)) {
+				nodes.addAll(existNodes);
+			}
+		}
+		// 刷新配置信息
+		refreshDatasource(dsName, tableName, nodes);
+
 	}
 
 	/**
@@ -103,13 +132,14 @@ public interface TableActualNodesComplete {
 			// 目标数据源创建
 			try {
 				DbUtil.use(targetDs).execute(createTableSql);
-				TBALE_NODES_MAP.putValue(sourceTable, targetTable);
 				StaticLog.info("表创建成功:table={}.{}", targetDsName, targetTable);
 			} catch (Exception e) {
 				StaticLog.error(e, "表创建失败:table={}.{}", targetDsName, targetTable);
 				throw ExceptionUtil.wrapRuntime(e);
 			}
 		});
+		// 刷新数据源
+		refreshDatasource(targetDsName, sourceTable, targetTables);
 
 	}
 
@@ -135,6 +165,7 @@ public interface TableActualNodesComplete {
 	 * 节点分组
 	 * 
 	 * @param tableNodes 表节点
+	 * @return 数据源:{逻辑表:[真实表]}
 	 */
 	static Map<String, Map<String, List<String>>> build(Map<String, List<String>> tableNodes) {
 		List<DsTableNodes> tableList = CollUtil.newArrayList();
@@ -147,7 +178,9 @@ public interface TableActualNodesComplete {
 			dsTables.forEach((ds, nodes) -> {
 				DsTableNodes dtn = DsTableNodes.of().setDsName(ds);
 				// 加入基础表节点
-				nodes.add(t);
+				if (!CollUtil.contains(nodes, t)) {
+					nodes.add(t);
+				}
 				//
 				dtn.getTableNodes().put(t, nodes);// 设置表节点
 				tableList.add(dtn);
@@ -161,6 +194,43 @@ public interface TableActualNodesComplete {
 					t1.putAll(t2);
 					return t1;
 				}));
+	}
+
+	/**
+	 * 动态刷新数据源
+	 * 
+	 * @param dsName    数据源名称
+	 * @param tableName 逻辑表
+	 * @param nodes     真实表
+	 */
+	static void refreshDatasource(String dsName, String tableName, Collection<String> nodes) {
+		ShardingDataSource shardingDataSource = SpringUtil.getBean(ShardingDataSource.class);
+		TableRule tableRule = shardingDataSource.getRuntimeContext().getRule().getTableRule(tableName);
+		// 1.动态刷新：actualDataNodes
+		List<DataNode> actualDataNodes = tableRule.getActualDataNodes();
+		nodes.forEach(n -> {
+			DataNode node = new DataNode(dsName, n);
+			if (!CollUtil.contains(actualDataNodes, node)) {
+				actualDataNodes.add(node);
+			}
+		});
+		//
+		Set<String> actualTables = Sets.newHashSet();
+		Map<DataNode, Integer> dataNodeIndexMap = Maps.newHashMap();
+		// 修改节点索引
+		CollUtil.forEach(actualDataNodes, (n, i) -> {
+			actualTables.add(n.getTableName());
+			dataNodeIndexMap.put(n, i);
+		});
+		ReflectUtil.setFieldValue(tableRule, "actualDataNodes", actualDataNodes);
+		// 2.动态刷新：actualTables
+		ReflectUtil.setFieldValue(tableRule, "actualTables", actualTables);
+		// 3.动态刷新：dataNodeIndexMap
+		ReflectUtil.setFieldValue(tableRule, "dataNodeIndexMap", dataNodeIndexMap);
+		// 4.动态刷新：datasourceToTablesMap
+		Map<String, Collection<String>> datasourceToTablesMap = Maps.newHashMap();
+		datasourceToTablesMap.put(dsName, actualTables);
+		ReflectUtil.setFieldValue(tableRule, "datasourceToTablesMap", datasourceToTablesMap);
 	}
 
 }
