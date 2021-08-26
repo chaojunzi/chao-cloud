@@ -6,6 +6,7 @@ import java.lang.reflect.Field;
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Modifier;
 import java.lang.reflect.Proxy;
+import java.lang.reflect.Type;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
@@ -25,8 +26,10 @@ import cn.hutool.core.bean.copier.CopyOptions;
 import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.exceptions.ExceptionUtil;
 import cn.hutool.core.lang.Assert;
+import cn.hutool.core.lang.TypeReference;
 import cn.hutool.core.lang.func.Func1;
 import cn.hutool.core.lang.func.LambdaUtil;
+import cn.hutool.core.stream.StreamUtil;
 import cn.hutool.core.util.ArrayUtil;
 import cn.hutool.core.util.ClassUtil;
 import cn.hutool.core.util.ModifierUtil;
@@ -124,6 +127,37 @@ public final class EntityUtil {
 		}
 		String methodName = LambdaUtil.getMethodName(func);
 		return BeanUtil.getProperty(entity, StrUtil.getGeneralField(methodName));
+	}
+
+	public static <T, R> void setProperty(T entity, Func1<T, R> func, R val) {
+		if (ObjectUtil.isNull(entity)) {
+			return;
+		}
+		String methodName = LambdaUtil.getMethodName(func);
+		BeanUtil.setProperty(entity, StrUtil.getGeneralField(methodName), val);
+	}
+
+	@SuppressWarnings("unchecked")
+	public static <T, R> R getProperty(T entity, TypeReference<R> type) {
+		if (ObjectUtil.isNull(entity)) {
+			return null;
+		}
+		Type t = type.getType();
+		Field field = StreamUtil.of(ReflectUtil.getFields(entity.getClass())).filter(f -> f.getGenericType().equals(t))
+				.findFirst().orElse(null);
+		Assert.notNull(field, "无效的类型:{}", t.getTypeName());
+		return (R) ReflectUtil.getFieldValue(entity, field);
+	}
+
+	public static <T, R> void setProperty(T entity, TypeReference<R> type, R val) {
+		if (ObjectUtil.isNull(entity)) {
+			return;
+		}
+		Type t = type.getType();
+		Field field = StreamUtil.of(ReflectUtil.getFields(entity.getClass())).filter(f -> f.getGenericType().equals(t))
+				.findFirst().orElse(null);
+		Assert.notNull(field, "无效的类型:{}", t.getTypeName());
+		ReflectUtil.setFieldValue(entity, field, val);
 	}
 
 	/**

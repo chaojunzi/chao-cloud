@@ -18,12 +18,13 @@ import org.apache.shardingsphere.underlying.common.rule.DataNode;
 import com.baomidou.mybatisplus.annotation.DbType;
 import com.chao.cloud.common.extra.sharding.constant.ShardingConstant;
 import com.chao.cloud.common.extra.sharding.strategy.DateShardingAlgorithm;
+import com.chao.cloud.common.util.EntityUtil;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 
 import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.exceptions.ExceptionUtil;
-import cn.hutool.core.util.ReflectUtil;
+import cn.hutool.core.lang.TypeReference;
 import cn.hutool.core.util.StrUtil;
 import cn.hutool.db.DbUtil;
 import cn.hutool.db.meta.MetaUtil;
@@ -203,6 +204,9 @@ public interface TableActualNodesComplete {
 	 * @param tableName 逻辑表
 	 * @param nodes     真实表
 	 */
+	/**
+	 * 动态刷新数据源
+	 */
 	static void refreshDatasource(String dsName, String tableName, Collection<String> nodes) {
 		ShardingDataSource shardingDataSource = SpringUtil.getBean(ShardingDataSource.class);
 		TableRule tableRule = shardingDataSource.getRuntimeContext().getRule().getTableRule(tableName);
@@ -222,15 +226,22 @@ public interface TableActualNodesComplete {
 			actualTables.add(n.getTableName());
 			dataNodeIndexMap.put(n, i);
 		});
-		ReflectUtil.setFieldValue(tableRule, "actualDataNodes", actualDataNodes);
+		EntityUtil.setProperty(tableRule, TableRule::getActualDataNodes, actualDataNodes);
 		// 2.动态刷新：actualTables
-		ReflectUtil.setFieldValue(tableRule, "actualTables", actualTables);
+		EntityUtil.setProperty(tableRule, new TypeReference<Set<String>>() {
+		}, actualTables);
 		// 3.动态刷新：dataNodeIndexMap
-		ReflectUtil.setFieldValue(tableRule, "dataNodeIndexMap", dataNodeIndexMap);
+		EntityUtil.setProperty(tableRule, new TypeReference<Map<DataNode, Integer>>() {
+		}, dataNodeIndexMap);
 		// 4.动态刷新：datasourceToTablesMap
-		Map<String, Collection<String>> datasourceToTablesMap = Maps.newHashMap();
-		datasourceToTablesMap.put(dsName, actualTables);
-		ReflectUtil.setFieldValue(tableRule, "datasourceToTablesMap", datasourceToTablesMap);
+		Map<String, Collection<String>> datasourceToTablesMap = EntityUtil.getProperty(tableRule,
+				new TypeReference<Map<String, Collection<String>>>() {
+				});
+		if (datasourceToTablesMap.containsKey(dsName)) {
+			Collection<String> tables = datasourceToTablesMap.get(dsName);
+			tables.addAll(nodes);
+		} else {
+			datasourceToTablesMap.put(dsName, actualTables);
+		}
 	}
-
 }
