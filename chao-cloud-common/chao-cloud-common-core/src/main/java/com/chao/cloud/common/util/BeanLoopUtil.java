@@ -19,7 +19,7 @@ import cn.hutool.core.util.TypeUtil;
  * @since 2021年5月21日
  * @version 1.0.9
  */
-public final class BeanTypeUtil {
+public final class BeanLoopUtil {
 
 	private static final WeakCache<Class<?>, Class<?>> BEAN_TYPE_CACHE = CacheUtil.newWeakCache(30000L);
 
@@ -32,7 +32,16 @@ public final class BeanTypeUtil {
 	 * @param beanType         实体类类型
 	 * @param collTypeConsumer 集合中的class类型
 	 */
-	public static void recursionCollType(Class<?> beanType, Consumer<Class<?>> collTypeConsumer) {
+	/**
+	 * 递归操作集合class<br>
+	 * 注：允许互相引用 <br>
+	 * 1.A->B->A <br>
+	 * 2.A->A
+	 * 
+	 * @param beanType         实体类类型
+	 * @param beanTypeConsumer 集合中的class类型
+	 */
+	public static void loopBeanType(Class<?> beanType, Consumer<Class<?>> beanTypeConsumer) {
 		if (ClassUtil.isSimpleTypeOrArray(beanType)) {
 			return;
 		}
@@ -40,6 +49,8 @@ public final class BeanTypeUtil {
 			if (BEAN_TYPE_CACHE.containsKey(beanType)) {
 				return;
 			}
+			// 处理
+			beanTypeConsumer.accept(beanType);
 			BEAN_TYPE_CACHE.put(beanType, beanType);
 			// 遍历bean中的属性
 			Field[] fields = ReflectUtil.getFields(beanType);
@@ -47,17 +58,15 @@ public final class BeanTypeUtil {
 				Class<?> sourceType = TypeUtil.getClass(field);
 				if (!ClassUtil.isAssignable(Collection.class, sourceType)) {
 					// 深层递归
-					recursionCollType(sourceType, collTypeConsumer);
+					loopBeanType(sourceType, beanTypeConsumer);
 					continue;
 				}
 				// 处理集合类型
 				Type type = TypeUtil.getTypeArgument(field.getGenericType(), 0);
 				if (type != null) {
 					Class<?> collType = TypeUtil.getClass(type);
-					// 处理
-					collTypeConsumer.accept(collType);
 					// 再次递归
-					recursionCollType(collType, collTypeConsumer);
+					loopBeanType(collType, beanTypeConsumer);
 				}
 			}
 		}

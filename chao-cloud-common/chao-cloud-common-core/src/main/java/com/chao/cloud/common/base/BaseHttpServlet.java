@@ -23,6 +23,23 @@ public interface BaseHttpServlet extends BaseLogger {
 	}
 
 	/**
+	 * 获取request
+	 * 
+	 * @return {@link HttpServletRequest}
+	 */
+	static HttpServletRequest getSafeRequest() {
+		try {
+			ServletRequestAttributes attr = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
+			if (attr != null) {
+				return attr.getRequest();
+			}
+
+		} catch (Exception e) {
+		}
+		return null;
+	}
+
+	/**
 	 * 获取response
 	 * 
 	 * @return {@link HttpServletResponse}
@@ -36,7 +53,7 @@ public interface BaseHttpServlet extends BaseLogger {
 	/**
 	 * 获取请求地址
 	 * 
-	 * @param request httpRequest
+	 * @param request       httpRequest
 	 * @param realm_current 例如：http://www.dcdyxxx.com 不要+/ 当前域名
 	 * @return String
 	 */
@@ -55,6 +72,7 @@ public interface BaseHttpServlet extends BaseLogger {
 
 	/**
 	 * 判断方法是不是ajax
+	 * 
 	 * @param request httpRequest
 	 * @return boolean
 	 */
@@ -69,6 +87,7 @@ public interface BaseHttpServlet extends BaseLogger {
 
 	/**
 	 * 是否包含
+	 * 
 	 * @param object 对象
 	 * @return boolean
 	 */

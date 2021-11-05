@@ -12,6 +12,7 @@ import com.chao.cloud.common.base.BaseHttpServlet;
 import com.chao.cloud.common.constant.ResultCodeEnum;
 import com.chao.cloud.common.entity.Response;
 
+import cn.hutool.core.util.ArrayUtil;
 import cn.hutool.core.util.StrUtil;
 import lombok.extern.slf4j.Slf4j;
 
@@ -40,6 +41,14 @@ public class ExceptionControllerAdvice implements BaseHttpServlet {
 		// 判断是否为 ajax 请求
 		HttpServletRequest request = getRequest();
 		if (requestIsAjax(request)) {
+			if (ex instanceof NullPointerException) {// 空指针
+				StackTraceElement ste = ArrayUtil.firstNonNull(ex.getStackTrace());
+				return Response.error(StrUtil.format("【空指针异常】: {}.{}({}:{})", //
+						ste.getClassName(), //
+						ste.getMethodName(), //
+						ste.getFileName(), //
+						ste.getLineNumber()));
+			}
 			return Response.result(ResultCodeEnum.CODE_500.code(), ex.getMessage());
 		}
 		// 返回错误页面

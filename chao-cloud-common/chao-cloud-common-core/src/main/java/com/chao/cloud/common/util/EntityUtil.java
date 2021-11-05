@@ -2,6 +2,7 @@ package com.chao.cloud.common.util;
 
 import java.io.Serializable;
 import java.lang.annotation.Annotation;
+import java.lang.ref.WeakReference;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Modifier;
@@ -12,23 +13,30 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+import java.util.Optional;
 import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.Consumer;
 import java.util.stream.Collectors;
 
+import com.chao.cloud.common.annotation.FieldAlias;
 import com.chao.cloud.common.annotation.TreeAnnotation;
 import com.chao.cloud.common.constant.TreeEnum;
 import com.chao.cloud.common.entity.TreeEntity;
 import com.chao.cloud.common.exception.BusinessException;
 
+import cn.hutool.core.annotation.AnnotationUtil;
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.bean.copier.CopyOptions;
 import cn.hutool.core.collection.CollUtil;
+import cn.hutool.core.convert.Converter;
+import cn.hutool.core.convert.ConverterRegistry;
 import cn.hutool.core.exceptions.ExceptionUtil;
 import cn.hutool.core.lang.Assert;
 import cn.hutool.core.lang.TypeReference;
 import cn.hutool.core.lang.func.Func1;
 import cn.hutool.core.lang.func.LambdaUtil;
+import cn.hutool.core.map.MapUtil;
 import cn.hutool.core.stream.StreamUtil;
 import cn.hutool.core.util.ArrayUtil;
 import cn.hutool.core.util.ClassUtil;
@@ -36,6 +44,8 @@ import cn.hutool.core.util.ModifierUtil;
 import cn.hutool.core.util.ObjectUtil;
 import cn.hutool.core.util.ReflectUtil;
 import cn.hutool.core.util.StrUtil;
+import cn.hutool.json.JSONObject;
+import cn.hutool.json.JSONUtil;
 
 /**
  * 实体转换
@@ -45,6 +55,143 @@ import cn.hutool.core.util.StrUtil;
  * @version 1.0.7
  */
 public final class EntityUtil {
+
+	public static final CopyOptions COPY_OPTIONS = CopyOptions.create()//
+			.setIgnoreError(true)//
+			.setIgnoreCase(true)//
+			.setIgnoreNullValue(true);
+	/**
+	 * bean属性拷贝映射
+	 */
+	private static final Map<Class<?>, WeakReference<CopyOptions>> BEAN_OPTIONS_MAP = new ConcurrentHashMap<>();
+	/**
+	 * 自定义的别名注解;须有value() 方法；否则不生效
+	 */
+	private static final List<Class<? extends Annotation>> FIELD_ALIAS_ANNO_LIST = CollUtil.newArrayList();
+
+	static {
+		// 设置别名注解
+		setFieldAliasAnno(FieldAlias.class);
+	}
+
+	public static synchronized void setFieldAliasAnno(Class<? extends Annotation> anno) {
+		Assert.notNull(anno, "属性映射注解不能为空");
+		if (FIELD_ALIAS_ANNO_LIST.contains(anno)) {
+			return;
+		}
+		FIELD_ALIAS_ANNO_LIST.add(anno);
+	}
+
+	/**
+	 * xml转bean
+	 * 
+	 * @param <T>      bean泛型
+	 * @param xml      xml
+	 * @param beanType 实体类型
+	 * @return 转换后的bean
+	 */
+	public static <T> T xmlToBean(String xml, Class<T> beanType) {
+		return xmlToBean(xml, beanType, null);
+	}
+
+	public static <T> T xmlToBean(String xml, Class<T> beanType, String expression) {
+		Assert.notBlank(xml, "xml 不能为空");
+		JSONObject json = JSONUtil.xmlToJson(xml);
+		if (StrUtil.isBlank(expression)) {
+			return toBean(json, beanType);
+		}
+		Object obj = json.getByPath(expression);
+		if (ObjectUtil.isNull(obj)) {
+			return null;
+		}
+		return toBean(obj, beanType);
+	}
+
+	public static <T> T toBean(Object source, Class<T> beanType) {
+		Assert.notNull(source, "source 不能为空");
+		Assert.notNull(beanType, "beanType 不能为空");
+		// 获取此类转换器
+		ConverterRegistry registry = ConverterRegistry.getInstance();
+		Converter<T> converter = registry.getCustomConverter(beanType);
+		if (converter == null) {
+			// 递归类的属性
+			BeanLoopUtil.loopBeanType(beanType, type -> {
+				registry.putCustom(type, (value, deaultValue) -> {
+					CopyOptions options = getCopyOptions(type);
+					return BeanUtil.toBean(value, type, options);
+				});
+			});
+		}
+		// 开始转换
+		return registry.convert(beanType, source);
+	}
+
+	public static Map<String, String> getFieldMapping(Class<?> beanType) {
+		Map<String, String> fieldMap = MapUtil.newHashMap();
+		if (beanType == null) {
+			return fieldMap;
+		}
+		Field[] fields = ReflectUtil.getFields(beanType);
+		StreamUtil.of(fields).forEach(f -> {
+			// 其他属性
+			FIELD_ALIAS_ANNO_LIST.forEach(annoType -> {
+				String alias = AnnotationUtil.getAnnotationValue(f, annoType);
+				if (StrUtil.isNotBlank(alias)) {
+					// 后面的会替换掉新的
+					fieldMap.put(alias, f.getName());
+				}
+			});
+
+		});
+		return fieldMap;
+
+	}
+
+	public static <R, T> void setFieldValue(R obj, Class<T> fieldType, T value) {
+		setFieldValue(obj, fieldType, value, null);
+	}
+
+	public static CopyOptions getCopyOptions(Class<?> beanType) {
+		return Optional.ofNullable(BEAN_OPTIONS_MAP.get(beanType))//
+				.map(WeakReference::get)//
+				.orElseGet(() -> {
+					Map<String, String> mapping = getFieldMapping(beanType);
+					CopyOptions options = CopyOptions//
+							.create()//
+							.setFieldMapping(mapping)//
+							.ignoreCase()//
+							.ignoreError()//
+							.ignoreNullValue();
+					BEAN_OPTIONS_MAP.put(beanType, new WeakReference<>(options));
+					return options;
+				});
+	}
+
+	/**
+	 * 修改第一个属性类型
+	 * 
+	 * @param <R>       对象类型
+	 * @param <T>       值类型
+	 * @param obj       基本对象
+	 * @param fieldType 属性类型
+	 * @param value     属性值
+	 * @param consumer  消费
+	 */
+	public static <R, T> void setFieldValue(R obj, Class<T> fieldType, T value, Consumer<T> consumer) {
+		if (obj == null || value == null) {
+			return;
+		}
+		// 获取所有属性
+		Class<R> objType = ClassUtil.getClass(obj);
+		Field field = ArrayUtil.firstMatch(f -> f.getType() == fieldType, ReflectUtil.getFields(objType));
+		//
+		if (field != null) {
+			ReflectUtil.setFieldValue(obj, field, value);
+		}
+		if (consumer != null) {
+			consumer.accept(value);
+		}
+	}
 
 	/**
 	 * 操作bean中的属性；忽略大小写
@@ -167,6 +314,7 @@ public final class EntityUtil {
 	 * @param bean 对象实体
 	 * @return 对象
 	 */
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public static <T> T nullToEmpty(T bean) {
 		if (bean != null && BeanUtil.isBean(bean.getClass())) {
 			Field[] fields = ReflectUtil.getFields(bean.getClass());
