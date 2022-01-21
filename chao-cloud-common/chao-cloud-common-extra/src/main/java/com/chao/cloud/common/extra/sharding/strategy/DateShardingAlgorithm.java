@@ -11,9 +11,10 @@ import org.apache.shardingsphere.api.sharding.complex.ComplexKeysShardingAlgorit
 import org.apache.shardingsphere.api.sharding.complex.ComplexKeysShardingValue;
 import org.apache.shardingsphere.shardingjdbc.jdbc.core.datasource.ShardingDataSource;
 
+import com.chao.cloud.common.extra.mybatis.common.DateStrategyEnum;
 import com.chao.cloud.common.extra.sharding.annotation.ShardingProperties;
 import com.chao.cloud.common.extra.sharding.constant.ShardingConstant;
-import com.chao.cloud.common.extra.sharding.plugin.TableActualNodesComplete;
+import com.chao.cloud.common.extra.sharding.plugin.ShardingActualNodesComplete;
 import com.google.common.collect.Range;
 
 import cn.hutool.core.collection.CollUtil;
@@ -104,7 +105,7 @@ public class DateShardingAlgorithm implements ComplexKeysShardingAlgorithm<Date>
 		// 生成表->获取全部数据源
 		Map<String, DataSource> dsMap = SpringUtil.getBean(ShardingDataSource.class).getDataSourceMap();
 		// 获取表结构
-		String sourceTableDDL = TableActualNodesComplete.getSourceTableDDL(dsMap.get(prop.getDefaultDsName()),
+		String sourceTableDDL = ShardingActualNodesComplete.getSourceTableDDL(dsMap.get(prop.getDefaultDsName()),
 				sourceTable);
 		// 要生成的节点
 		List<String> targetTables = CollUtil.toList(currNode);
@@ -113,7 +114,7 @@ public class DateShardingAlgorithm implements ComplexKeysShardingAlgorithm<Date>
 				return;
 			}
 			try {
-				TableActualNodesComplete.createTable(sourceTable, sourceTableDDL, dsName, ds, targetTables);
+				ShardingActualNodesComplete.createTable(sourceTable, sourceTableDDL, dsName, ds, targetTables);
 			} catch (Exception e) {
 				// 生成表结构失败
 				throw e;

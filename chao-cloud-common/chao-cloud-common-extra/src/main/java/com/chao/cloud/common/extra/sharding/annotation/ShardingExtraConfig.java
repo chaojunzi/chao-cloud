@@ -28,7 +28,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 import com.chao.cloud.common.extra.sharding.constant.ShardingConstant;
-import com.chao.cloud.common.extra.sharding.plugin.TableActualNodesComplete;
+import com.chao.cloud.common.extra.sharding.plugin.ShardingActualNodesComplete;
 import com.chao.cloud.common.extra.sharding.strategy.DateShardingAlgorithm;
 
 import cn.hutool.core.collection.CollUtil;
@@ -61,9 +61,9 @@ public class ShardingExtraConfig implements InitializingBean {
 	private ShardingDataSource shardingDataSource;
 
 	@Bean
-	@ConditionalOnMissingBean(TableActualNodesComplete.class)
-	public TableActualNodesComplete TableActualNodesComplete() {
-		return new TableActualNodesComplete() {
+	@ConditionalOnMissingBean(ShardingActualNodesComplete.class)
+	public ShardingActualNodesComplete TableActualNodesComplete() {
+		return new ShardingActualNodesComplete() {
 		};
 	}
 
@@ -151,7 +151,7 @@ public class ShardingExtraConfig implements InitializingBean {
 				}
 			});
 			// 补全
-			TableActualNodesComplete complete = SpringUtil.getBean(TableActualNodesComplete.class);
+			ShardingActualNodesComplete complete = SpringUtil.getBean(ShardingActualNodesComplete.class);
 			complete.sourceOfTableName(shardingDataSource, tableNodes, defaultDsName);
 		}
 

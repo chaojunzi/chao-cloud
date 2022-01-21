@@ -38,7 +38,7 @@ import cn.hutool.log.StaticLog;
  * @since 2021年8月23日
  * @version 1.0.0
  */
-public interface TableActualNodesComplete {
+public interface ShardingActualNodesComplete {
 
 	/**
 	 * 表结构ddl缓存

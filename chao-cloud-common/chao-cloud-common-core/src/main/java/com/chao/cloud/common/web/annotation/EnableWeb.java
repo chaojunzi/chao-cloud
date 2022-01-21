@@ -10,6 +10,7 @@ import org.springframework.context.annotation.Import;
 
 import com.chao.cloud.common.web.config.ControllerConfig;
 import com.chao.cloud.common.web.config.SecretConfig;
+import com.chao.cloud.common.web.config.VersionConfig;
 import com.chao.cloud.common.web.config.WebMvcConfig;
 
 /**
@@ -25,7 +26,8 @@ import com.chao.cloud.common.web.config.WebMvcConfig;
 @Import({ //
 		ControllerConfig.class, // controller 拦截和vo转换
 		WebMvcConfig.class, // web资源-参数处理
-		SecretConfig.class// 参数加密
+		SecretConfig.class, // 参数加密
+		VersionConfig.class,// 版本号
 })
 @EnableSpring // 核心配置
 @EnableValidator // 参数校验

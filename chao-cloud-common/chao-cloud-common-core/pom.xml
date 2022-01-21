@@ -43,8 +43,8 @@
 		</dependency>
 		<!-- spring mvc jar -->
 		<dependency>
-			<groupId>org.springframework</groupId>
-			<artifactId>spring-webmvc</artifactId>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-web</artifactId>
 			<optional>true</optional>
 		</dependency>
 		<!-- config -->

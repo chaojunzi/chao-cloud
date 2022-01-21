@@ -1,5 +1,8 @@
 package com.chao.cloud.common.extra.mybatis.annotation;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.context.properties.ConfigurationProperties;
@@ -16,11 +19,17 @@ import com.baomidou.mybatisplus.extension.plugins.inner.PaginationInnerIntercept
 
 import cn.hutool.extra.spring.SpringUtil;
 import lombok.Data;
+import lombok.Getter;
 
 @Data
 @Configuration
 @ConfigurationProperties(prefix = Constants.MYBATIS_PLUS)
 public class MybatisPlusConfig {
+	/**
+	 * 数据源文件
+	 */
+	@Getter
+	private static final List<String> dbFileList = new ArrayList<>();
 
 	/**
 	 * 数据源类型:默认mysql
