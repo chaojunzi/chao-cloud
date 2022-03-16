@@ -29,6 +29,7 @@ import cn.hutool.core.annotation.AnnotationUtil;
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.bean.copier.CopyOptions;
 import cn.hutool.core.collection.CollUtil;
+import cn.hutool.core.convert.Convert;
 import cn.hutool.core.convert.Converter;
 import cn.hutool.core.convert.ConverterRegistry;
 import cn.hutool.core.exceptions.ExceptionUtil;
@@ -216,6 +217,108 @@ public final class EntityUtil {
 				}
 			}
 		});
+	}
+
+	/**
+	 * 获取bean中的属性
+	 * 
+	 * @param <T>      字段类型
+	 * @param bean     实体类
+	 * @param fields   字段列表
+	 * @param propType 字段类型
+	 * @return 字段值
+	 */
+	public static <T> T getProperty(Object bean, String[] fields, Class<T> propType) {
+		for (String fieldName : fields) {
+			Object value = get(bean, fieldName);
+			if (value != null) {
+				return Convert.convert(propType, value);
+			}
+		}
+		return null;
+	}
+
+	/**
+	 * 获取对象-递归算法
+	 * 
+	 * @param obj 元对象
+	 */
+	private static Object get(Object bean, String fieldName) {
+		if (bean == null) {// back
+			return null;
+		}
+		Class<?> classType = bean.getClass();
+		// 集合-----------------------------------------------------
+		if (bean instanceof Collection) {
+			return getByColl(bean, fieldName);
+		}
+		// Bean------------------------------------------------------
+		if (BeanUtil.isBean(classType)) {
+			return getByBean(bean, fieldName);
+		}
+		return null;
+	}
+
+	/**
+	 * 获取集合对象属性
+	 * 
+	 * @param obj       对象
+	 * @param fieldName 属性名称
+	 * @return 属性值
+	 */
+	@SuppressWarnings("unchecked")
+	private static Object getByColl(Object obj, String fieldName) {
+		boolean isSet = obj instanceof Set;
+		boolean isList = obj instanceof List;
+		if (!isList && !isSet) {
+			return null;
+		}
+		Collection<Object> coll = (Collection<Object>) obj;
+		for (Object o : coll) {
+			Object v = get(o, fieldName);
+			if (v != null) {
+				return v;
+			}
+		}
+		return null;
+	}
+
+	/**
+	 * 获取实体属性
+	 * 
+	 * @param obj       对象
+	 * @param fieldName 属性名称
+	 * @return 属性值
+	 */
+	private static Object getByBean(Object obj, String fieldName) {
+		Field[] fields = ReflectUtil.getFields(obj.getClass());
+		if (ArrayUtil.isEmpty(fields)) {
+			return null;
+		}
+		for (Field field : fields) {
+			if (ModifierUtil.isStatic(field)) {
+				continue;
+			}
+			Object v = ReflectUtil.getFieldValue(obj, field);
+			// 忽略大小写
+			if (StrUtil.equalsIgnoreCase(fieldName, field.getName())) {
+				return v;
+			}
+			// 判断是否为bean
+			if (ClassUtil.isSimpleTypeOrArray(field.getType())) {
+				continue;
+			}
+			if (v == null) {
+				continue;
+			}
+			// 返回值
+			Object r = get(v, fieldName);
+			if (r != null) {
+				return r;
+			}
+
+		}
+		return null;
 	}
 
 	/**
