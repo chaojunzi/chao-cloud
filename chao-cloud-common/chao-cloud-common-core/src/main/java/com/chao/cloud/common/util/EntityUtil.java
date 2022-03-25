@@ -647,14 +647,6 @@ public final class EntityUtil {
 	/**
 	 * 递归填充子集
 	 * 
-	 * @param root        根对象
-	 * @param treeMap     字段属性的必要条件
-	 * @param parentIdMap 以parentId 为key的List集合
-	 * 
-	 */
-	/**
-	 * 递归填充子集
-	 * 
 	 * @param <T>         目标参数泛型
 	 * @param root        根对象
 	 * @param treeMap     treeMap
