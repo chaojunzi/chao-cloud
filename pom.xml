@@ -41,7 +41,7 @@
 		<!-- 字段校验 -->
 		<hibernate-validator.version>6.0.17.Final</hibernate-validator.version>
 		<!-- 超级工具类 -->
-		<hutool-all.version>5.8.1</hutool-all.version>
+		<hutool-all.version>5.8.2</hutool-all.version>
 		<bcprov.version>1.68</bcprov.version>
 		<commons-pool2.version>2.6.2</commons-pool2.version>
 		<commons-net.version>3.6</commons-net.version>
