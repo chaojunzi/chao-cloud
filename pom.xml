@@ -57,6 +57,7 @@
 		<mybatis-plus-generator.version>3.4.1</mybatis-plus-generator.version>
 		<mybatis-plus-dynamic-datasource.version>3.4.1</mybatis-plus-dynamic-datasource.version>
 		<sharding-jdbc.version>4.1.1</sharding-jdbc.version>
+		<sharding-jdbc-core.version>5.2.0</sharding-jdbc-core.version>
 		<!-- json返回值 -->
 		<fastjson.version>1.2.58</fastjson.version>
 		<!-- 微信工具包 -->
@@ -273,13 +274,67 @@
 				<artifactId>dynamic-datasource-spring-boot-starter</artifactId>
 				<version>${mybatis-plus-dynamic-datasource.version}</version>
 			</dependency>
-			<!-- sharding 分库分表 -->
+			<!-- sharding4.1.1 分库分表 -->
 			<dependency>
 				<groupId>org.apache.shardingsphere</groupId>
 				<artifactId>sharding-jdbc-spring-boot-starter</artifactId>
 				<version>${sharding-jdbc.version}</version>
 			</dependency>
 			<!--shiro -->
+			<!-- https://mvnrepository.com/artifact/org.apache.shardingsphere/shardingsphere-jdbc-core-spring-boot-starter -->
+            <dependency>
+                <groupId>org.apache.shardingsphere</groupId>
+                <artifactId>shardingsphere-jdbc-core-spring-boot-starter</artifactId>
+                <version>${sharding-jdbc-core.version}</version>
+            </dependency>
+            <!-- 数据分片 -->
+            <dependency>
+                <groupId>org.apache.shardingsphere</groupId>
+                <artifactId>shardingsphere-sharding-spring-boot-starter</artifactId>
+                <version>${sharding-jdbc-core.version}</version>
+            </dependency>
+            <!-- 影子库 -->
+            <dependency>
+                <groupId>org.apache.shardingsphere</groupId>
+                <artifactId>shardingsphere-shadow-spring-boot-starter</artifactId>
+                <version>${sharding-jdbc-core.version}</version>
+            </dependency>
+            <!-- 数据发现 -->
+            <dependency>
+                <groupId>org.apache.shardingsphere</groupId>
+                <artifactId>shardingsphere-db-discovery-spring-boot-starter</artifactId>
+                <version>${sharding-jdbc-core.version}</version>
+            </dependency>
+            <!-- 数据加密 -->
+            <dependency>
+                <groupId>org.apache.shardingsphere</groupId>
+                <artifactId>shardingsphere-encrypt-spring-boot-starter</artifactId>
+                <version>${sharding-jdbc-core.version}</version>
+            </dependency>
+            <!-- 读写分离 -->
+            <dependency>
+                <groupId>org.apache.shardingsphere</groupId>
+                <artifactId>shardingsphere-readwrite-splitting-spring-boot-starter</artifactId>
+                <version>${sharding-jdbc-core.version}</version>
+            </dependency>
+            <!-- 基础设置 -->
+            <dependency>
+                <groupId>org.apache.shardingsphere</groupId>
+                <artifactId>shardingsphere-jdbc-spring-boot-starter-infra</artifactId>
+                <version>${sharding-jdbc-core.version}</version>
+            </dependency>
+            <!-- 分布式事务 -->
+            <dependency>
+                <groupId>org.apache.shardingsphere</groupId>
+                <artifactId>shardingsphere-jdbc-transaction-spring</artifactId>
+                <version>${sharding-jdbc-core.version}</version>
+            </dependency>
+            <!-- sql解析 -->
+            <dependency>
+                <groupId>org.apache.shardingsphere</groupId>
+                <artifactId>shardingsphere-parser-spring-boot-starter</artifactId>
+                <version>${sharding-jdbc-core.version}</version>
+            </dependency>
 			<dependency>
 				<groupId>org.apache.shiro</groupId>
 				<artifactId>shiro-core</artifactId>

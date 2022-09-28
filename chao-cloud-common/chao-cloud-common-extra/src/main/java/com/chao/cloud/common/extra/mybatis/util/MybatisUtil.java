@@ -3,6 +3,8 @@ package com.chao.cloud.common.extra.mybatis.util;
 import java.lang.ref.WeakReference;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
+import java.sql.Connection;
+import java.sql.DatabaseMetaData;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -14,6 +16,8 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.Consumer;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
+
+import javax.sql.DataSource;
 
 import com.baomidou.mybatisplus.annotation.DbType;
 import com.baomidou.mybatisplus.annotation.TableField;
@@ -34,6 +38,7 @@ import com.baomidou.mybatisplus.core.toolkit.support.SFunction;
 import com.baomidou.mybatisplus.core.toolkit.support.SerializedLambda;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.baomidou.mybatisplus.extension.toolkit.JdbcUtils;
 import com.chao.cloud.common.extra.mybatis.annotation.QueryCondition;
 import com.chao.cloud.common.extra.mybatis.common.ApplySql;
 import com.chao.cloud.common.extra.mybatis.common.ApplySql.ApplySqlSegment;
@@ -46,12 +51,14 @@ import cn.hutool.core.annotation.AnnotationUtil;
 import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.convert.Convert;
 import cn.hutool.core.date.DateUtil;
+import cn.hutool.core.exceptions.ExceptionUtil;
 import cn.hutool.core.lang.Assert;
 import cn.hutool.core.util.ArrayUtil;
 import cn.hutool.core.util.ClassUtil;
 import cn.hutool.core.util.ReUtil;
 import cn.hutool.core.util.ReflectUtil;
 import cn.hutool.core.util.StrUtil;
+import cn.hutool.db.DbUtil;
 import cn.hutool.extra.spring.SpringUtil;
 
 /**
@@ -519,5 +526,27 @@ public interface MybatisUtil {
 			listPageRecursion(current + 1, size, service, wrapper, result);
 		}
 		return result;
+	}
+
+	static DatabaseMetaData getMetaData(DataSource ds) {
+		Connection conn = null;
+		try {
+			conn = ds.getConnection();
+			return conn.getMetaData();
+		} catch (Exception e) {
+			throw ExceptionUtil.wrapRuntime(e);
+		} finally {
+			DbUtil.close(conn);
+		}
+	}
+
+	static DbType getDbType(DataSource ds) {
+		try {
+			DatabaseMetaData metaData = getMetaData(ds);
+			return JdbcUtils.getDbType(metaData.getURL());
+		} catch (Exception e) {
+			throw ExceptionUtil.wrapRuntime(e);
+		}
+
 	}
 }

@@ -3,7 +3,7 @@ package com.chao.cloud.common.extra.sharding.convert;
 import java.lang.reflect.Method;
 import java.util.function.Function;
 
-import org.apache.shardingsphere.api.hint.HintManager;
+import org.apache.shardingsphere.infra.hint.HintManager;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.Signature;
 import org.aspectj.lang.annotation.Around;

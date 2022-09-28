@@ -1,18 +1,22 @@
-package com.chao.cloud.common.extra.sharding.strategy;
+package com.chao.cloud.common.extra.sharding.algorithm;
 
 import java.util.Collection;
 import java.util.HashSet;
+import java.util.Properties;
 import java.util.Set;
 
-import org.apache.shardingsphere.api.sharding.hint.HintShardingAlgorithm;
-import org.apache.shardingsphere.api.sharding.hint.HintShardingValue;
+import org.apache.shardingsphere.sharding.api.sharding.hint.HintShardingAlgorithm;
+import org.apache.shardingsphere.sharding.api.sharding.hint.HintShardingValue;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 
 import com.chao.cloud.common.extra.sharding.annotation.ShardingExtraConfig;
 import com.chao.cloud.common.extra.sharding.annotation.ShardingProperties;
+import com.chao.cloud.common.extra.sharding.enums.ShardingAlgorithmTypeEnum;
 
 import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.util.StrUtil;
-import cn.hutool.extra.spring.SpringUtil;
+import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 
 /**
@@ -26,10 +30,17 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class DsHintShardingAlgorithm implements HintShardingAlgorithm<String> {
 
+	@Getter
+	private Properties props;
+
+	@Autowired
+	private ShardingProperties prop;
+	@Autowired
+	@Lazy
+	private ShardingExtraConfig shardingExtraConfig;
+
 	@Override
 	public Collection<String> doSharding(Collection<String> dsList, HintShardingValue<String> shardingValue) {
-		// 获取配置信息
-		ShardingProperties prop = SpringUtil.getBean(ShardingProperties.class);
 		// 获取表名
 		String table = shardingValue.getLogicTableName();
 		// 获取传进来的值
@@ -39,7 +50,7 @@ public class DsHintShardingAlgorithm implements HintShardingAlgorithm<String> {
 		//
 		if (CollUtil.isNotEmpty(vals)) {
 			for (String v : vals) {
-				String ds = SpringUtil.getBean(ShardingExtraConfig.class).getDsByColumnValue(v);
+				String ds = shardingExtraConfig.getDsByColumnValue(v);
 				if (StrUtil.isNotBlank(ds)) {
 					dsResult.add(ds);
 				}
@@ -48,9 +59,18 @@ public class DsHintShardingAlgorithm implements HintShardingAlgorithm<String> {
 		if (CollUtil.isEmpty(dsResult)) {
 			dsResult.add(prop.getDefaultDsName());// 默认数据源
 		}
-		log.info("【Hint】【{}】{}=[{}]", CollUtil.join(dsResult, StrUtil.COMMA), table,
-				CollUtil.join(vals, StrUtil.COMMA));
+		log.info("【Hint-{}】: {}.{}", CollUtil.join(vals, StrUtil.COMMA), CollUtil.join(dsResult, StrUtil.COMMA), table);
 		return dsResult;
+	}
+
+	@Override
+	public String getType() {
+		return ShardingAlgorithmTypeEnum.DS_HINT.name();
+	}
+
+	@Override
+	public void init(Properties props) {
+		this.props = props;
 	}
 
 }

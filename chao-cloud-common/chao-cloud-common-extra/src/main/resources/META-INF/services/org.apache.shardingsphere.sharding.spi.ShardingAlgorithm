@@ -1,0 +1,4 @@
+com.chao.cloud.common.extra.sharding.algorithm.DsShardingCodeShardingAlgorithm
+com.chao.cloud.common.extra.sharding.algorithm.DsHintShardingAlgorithm
+com.chao.cloud.common.extra.sharding.algorithm.DsPartShardingAlgorithm
+com.chao.cloud.common.extra.sharding.algorithm.TableDateShardingAlgorithm

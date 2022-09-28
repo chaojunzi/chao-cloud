@@ -11,13 +11,20 @@ import java.util.stream.Collectors;
 
 import javax.sql.DataSource;
 
-import org.apache.shardingsphere.core.rule.TableRule;
-import org.apache.shardingsphere.shardingjdbc.jdbc.core.datasource.ShardingDataSource;
-import org.apache.shardingsphere.underlying.common.rule.DataNode;
+import org.apache.shardingsphere.driver.jdbc.core.datasource.ShardingSphereDataSource;
+import org.apache.shardingsphere.infra.datanode.DataNode;
+import org.apache.shardingsphere.infra.metadata.database.rule.ShardingSphereRuleMetaData;
+import org.apache.shardingsphere.infra.yaml.config.pojo.algorithm.YamlAlgorithmConfiguration;
+import org.apache.shardingsphere.mode.manager.ContextManager;
+import org.apache.shardingsphere.mode.metadata.MetaDataContexts;
+import org.apache.shardingsphere.sharding.rule.ShardingRule;
+import org.apache.shardingsphere.sharding.rule.TableRule;
+import org.apache.shardingsphere.sharding.spring.boot.rule.YamlShardingRuleSpringBootConfiguration;
 
 import com.baomidou.mybatisplus.annotation.DbType;
+import com.chao.cloud.common.extra.mybatis.util.MybatisUtil;
+import com.chao.cloud.common.extra.sharding.algorithm.TableDateShardingAlgorithm;
 import com.chao.cloud.common.extra.sharding.constant.ShardingConstant;
-import com.chao.cloud.common.extra.sharding.strategy.DateShardingAlgorithm;
 import com.chao.cloud.common.util.EntityUtil;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
@@ -35,10 +42,10 @@ import cn.hutool.log.StaticLog;
  * 自动补全表节点
  * 
  * @author 薛超
- * @since 2021年8月23日
+ * @since 2021年3月23日
  * @version 1.0.0
  */
-public interface ShardingActualNodesComplete {
+public interface TableActualNodesComplete {
 
 	/**
 	 * 表结构ddl缓存
@@ -58,12 +65,15 @@ public interface ShardingActualNodesComplete {
 	 * @param tableNodes         源表_节点
 	 * @param defaultDsName      默认数据源
 	 */
-	default void sourceOfTableName(ShardingDataSource shardingDataSource, Map<String, List<String>> tableNodes,
+	default void sourceOfTableName(ShardingSphereDataSource shardingDataSource, Map<String, List<String>> tableNodes,
 			String defaultDsName) {
-		DbType type = DbType.getDbType(shardingDataSource.getDatabaseType().getName());
+		//
+		DbType type = MybatisUtil.getDbType(shardingDataSource);
 		switch (type) {
 		case MYSQL:// 目前只支持mysql
-			Map<String, DataSource> dsMap = shardingDataSource.getDataSourceMap();
+			ContextManager contextManager = EntityUtil.getProperty(shardingDataSource, ContextManager.class);
+			String databaseName = EntityUtil.getProperty(shardingDataSource, String.class);
+			Map<String, DataSource> dsMap = contextManager.getDataSourceMap(databaseName);
 			// 节点分组
 			Map<String, Map<String, List<String>>> dsTableNodes = build(tableNodes);
 			// 生成表结构
@@ -99,9 +109,11 @@ public interface ShardingActualNodesComplete {
 	 */
 	default void cacheTableNodes(String dsName, String tableName, List<String> nodes, List<String> existTables) {
 		// 获取算法
-		Class<?> tableAlgorithm = ShardingConstant.getTableAlgorithm(tableName);
+		String tableAlgorithm = ShardingConstant.getTableAlgorithm(tableName);
 		// 日期算法
-		if (tableAlgorithm == DateShardingAlgorithm.class) {
+		YamlShardingRuleSpringBootConfiguration ruleProp = SpringUtil
+				.getBean(YamlShardingRuleSpringBootConfiguration.class);
+		if (isDateSharding(tableAlgorithm, ruleProp.getSharding().getShardingAlgorithms())) {
 			// 过滤此表的所有已存在的表结点
 			Collection<String> existNodes = CollUtil.filterNew(existTables,
 					t -> StrUtil.equals(tableName, ShardingConstant.getTableNameOfNumberSuffix(t)));
@@ -111,7 +123,18 @@ public interface ShardingActualNodesComplete {
 		}
 		// 刷新配置信息
 		refreshDatasource(dsName, tableName, nodes);
+	}
 
+	static boolean isDateSharding(String tableAlgorithm, Map<String, YamlAlgorithmConfiguration> shardingAlgorithms) {
+		TableDateShardingAlgorithm dateShardingAlgorithm = SpringUtil.getBean(TableDateShardingAlgorithm.class);
+		if (dateShardingAlgorithm.getClass().getName().equals(tableAlgorithm)) {
+			return true;
+		}
+		if (!shardingAlgorithms.containsKey(tableAlgorithm)) {
+			return false;
+		}
+		YamlAlgorithmConfiguration algorithm = shardingAlgorithms.get(tableAlgorithm);
+		return StrUtil.equalsIgnoreCase(algorithm.getType(), dateShardingAlgorithm.getType());
 	}
 
 	/**
@@ -166,7 +189,6 @@ public interface ShardingActualNodesComplete {
 	 * 节点分组
 	 * 
 	 * @param tableNodes 表节点
-	 * @return 数据源:{逻辑表:[真实表]}
 	 */
 	static Map<String, Map<String, List<String>>> build(Map<String, List<String>> tableNodes) {
 		List<DsTableNodes> tableList = CollUtil.newArrayList();
@@ -199,17 +221,13 @@ public interface ShardingActualNodesComplete {
 
 	/**
 	 * 动态刷新数据源
-	 * 
-	 * @param dsName    数据源名称
-	 * @param tableName 逻辑表
-	 * @param nodes     真实表
-	 */
-	/**
-	 * 动态刷新数据源
 	 */
 	static void refreshDatasource(String dsName, String tableName, Collection<String> nodes) {
-		ShardingDataSource shardingDataSource = SpringUtil.getBean(ShardingDataSource.class);
-		TableRule tableRule = shardingDataSource.getRuntimeContext().getRule().getTableRule(tableName);
+		ShardingSphereDataSource shardingDataSource = SpringUtil.getBean(ShardingSphereDataSource.class);
+		TableRule tableRule = getTableRule(shardingDataSource, tableName);
+		if (tableRule == null) {
+			return;
+		}
 		// 1.动态刷新：actualDataNodes
 		List<DataNode> actualDataNodes = tableRule.getActualDataNodes();
 		nodes.forEach(n -> {
@@ -244,4 +262,20 @@ public interface ShardingActualNodesComplete {
 			datasourceToTablesMap.put(dsName, actualTables);
 		}
 	}
+
+	static TableRule getTableRule(ShardingSphereDataSource shardingDataSource, String tableName) {
+		ContextManager contextManager = EntityUtil.getProperty(shardingDataSource, ContextManager.class);
+		MetaDataContexts metaDataContexts = contextManager.getMetaDataContexts();
+		ShardingSphereRuleMetaData ruleMetaData = metaDataContexts.getMetaData().getGlobalRuleMetaData();
+		// ShardingSphereMetaData
+		Collection<ShardingRule> ruleList = ruleMetaData.findRules(ShardingRule.class);
+		for (ShardingRule rule : ruleList) {
+			TableRule tableRule = rule.getTableRule(tableName);
+			if (tableRule != null) {
+				return tableRule;
+			}
+		}
+		return null;
+	}
+
 }

@@ -1,6 +1,5 @@
 package com.chao.cloud.common.extra.sharding.annotation;
 
-import java.lang.reflect.Field;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -8,19 +7,20 @@ import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Collectors;
 
-import org.apache.shardingsphere.api.config.sharding.ShardingRuleConfiguration;
-import org.apache.shardingsphere.core.rule.ShardingDataSourceNames;
-import org.apache.shardingsphere.core.rule.ShardingRule;
-import org.apache.shardingsphere.core.yaml.config.sharding.YamlShardingStrategyConfiguration;
-import org.apache.shardingsphere.core.yaml.config.sharding.YamlTableRuleConfiguration;
-import org.apache.shardingsphere.core.yaml.config.sharding.strategy.YamlComplexShardingStrategyConfiguration;
-import org.apache.shardingsphere.shardingjdbc.jdbc.core.context.ShardingRuntimeContext;
-import org.apache.shardingsphere.shardingjdbc.jdbc.core.datasource.ShardingDataSource;
-import org.apache.shardingsphere.shardingjdbc.spring.boot.SpringBootConfiguration;
-import org.apache.shardingsphere.shardingjdbc.spring.boot.sharding.SpringBootShardingRuleConfigurationProperties;
-import org.apache.shardingsphere.underlying.common.config.inline.InlineExpressionParser;
+import javax.sql.DataSource;
+
+import org.apache.shardingsphere.driver.jdbc.core.datasource.ShardingSphereDataSource;
+import org.apache.shardingsphere.infra.util.expr.InlineExpressionParser;
+import org.apache.shardingsphere.infra.yaml.config.pojo.algorithm.YamlAlgorithmConfiguration;
+import org.apache.shardingsphere.mode.manager.ContextManager;
+import org.apache.shardingsphere.sharding.spring.boot.rule.YamlShardingRuleSpringBootConfiguration;
+import org.apache.shardingsphere.sharding.yaml.config.YamlShardingRuleConfiguration;
+import org.apache.shardingsphere.sharding.yaml.config.rule.YamlTableRuleConfiguration;
+import org.apache.shardingsphere.sharding.yaml.config.strategy.sharding.YamlComplexShardingStrategyConfiguration;
+import org.apache.shardingsphere.sharding.yaml.config.strategy.sharding.YamlShardingStrategyConfiguration;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.SpringBootConfiguration;
 import org.springframework.boot.autoconfigure.AutoConfigureAfter;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
@@ -28,13 +28,12 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 import com.chao.cloud.common.extra.sharding.constant.ShardingConstant;
-import com.chao.cloud.common.extra.sharding.plugin.ShardingActualNodesComplete;
-import com.chao.cloud.common.extra.sharding.strategy.DateShardingAlgorithm;
+import com.chao.cloud.common.extra.sharding.plugin.TableActualNodesComplete;
+import com.chao.cloud.common.util.EntityUtil;
 
 import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.lang.Assert;
 import cn.hutool.core.map.MapUtil;
-import cn.hutool.core.util.ReflectUtil;
 import cn.hutool.core.util.StrUtil;
 import cn.hutool.extra.spring.SpringUtil;
 import lombok.extern.slf4j.Slf4j;
@@ -55,15 +54,15 @@ public class ShardingExtraConfig implements InitializingBean {
 	private final Map<String, String> columnValueDsMap = new ConcurrentHashMap<>();
 
 	@Autowired
-	private SpringBootShardingRuleConfigurationProperties ruleProp;
+	private YamlShardingRuleSpringBootConfiguration ruleProp;
 
 	@Autowired(required = false)
-	private ShardingDataSource shardingDataSource;
+	private ShardingSphereDataSource shardingDataSource;
 
 	@Bean
-	@ConditionalOnMissingBean(ShardingActualNodesComplete.class)
-	public ShardingActualNodesComplete TableActualNodesComplete() {
-		return new ShardingActualNodesComplete() {
+	@ConditionalOnMissingBean(TableActualNodesComplete.class)
+	public TableActualNodesComplete TableActualNodesComplete() {
+		return new TableActualNodesComplete() {
 		};
 	}
 
@@ -94,21 +93,18 @@ public class ShardingExtraConfig implements InitializingBean {
 	public void afterPropertiesSet() throws Exception {
 		ShardingProperties prop = SpringUtil.getBean(ShardingProperties.class);
 		// 默认数据源name
-		// String dsName = ruleProp.getDefaultDataSourceName();
-		// prop.setDefaultDsName(dsName);
-		// Assert.notBlank(dsName, "spring.shardingsphere.sharding.defaultDataSourceName
-		// 不能为空");
 		String defaultDsName = prop.getDefaultDsName();
-		Assert.notBlank(defaultDsName, "aisino.sharding.default-ds-name 不能为空");
-		boolean isDs = shardingDataSource.getDataSourceMap().containsKey(defaultDsName);
-		Assert.state(isDs, "不存在的数据源:{}", defaultDsName);
-		// 设置默认数据源
-		this.setDefaultDsName(defaultDsName);
+		Assert.notBlank(defaultDsName, "chao.cloud.sharding.default-ds-name 不能为空");
+		ContextManager contextManager = EntityUtil.getProperty(shardingDataSource, ContextManager.class);
+		String databaseName = EntityUtil.getProperty(shardingDataSource, String.class);
+		Map<String, DataSource> dsMap = contextManager.getDataSourceMap(databaseName);
+		Assert.state(dsMap.containsKey(defaultDsName), "请设置默认的数据源:{}", defaultDsName);
 		// 计算数据源总数
 		List<String> dsList = new InlineExpressionParser(prop.getDsExps()).splitAndEvaluate();
 		prop.setDsNum(CollUtil.size(dsList));
 		// 获取默认分库策略
-		YamlShardingStrategyConfiguration dds = ruleProp.getDefaultDatabaseStrategy();
+		YamlShardingRuleConfiguration shardingConfig = ruleProp.getSharding();
+		YamlShardingStrategyConfiguration dds = shardingConfig.getDefaultDatabaseStrategy();
 		if (dds != null && dds.getComplex() != null) {
 			YamlComplexShardingStrategyConfiguration complex = dds.getComplex();
 			String columns = complex.getShardingColumns();
@@ -121,7 +117,9 @@ public class ShardingExtraConfig implements InitializingBean {
 			});
 		}
 		// 解析规则
-		Map<String, YamlTableRuleConfiguration> tables = ruleProp.getTables();
+		Map<String, YamlTableRuleConfiguration> tables = shardingConfig.getTables();
+		// 分片算法汇总
+		Map<String, YamlAlgorithmConfiguration> shardingAlgorithms = shardingConfig.getShardingAlgorithms();
 		// 填装日期对应策略
 		Map<String, String> dateTableColumnMap = prop.getDateTableColumnMap();
 		tables.forEach((t, r) -> {
@@ -131,12 +129,21 @@ public class ShardingExtraConfig implements InitializingBean {
 				return;
 			}
 			YamlComplexShardingStrategyConfiguration complex = tableStrategy.getComplex();
-			if (complex == null || !DateShardingAlgorithm.class.getName().equals(complex.getAlgorithmClassName())) {
+			//
+			if (complex == null) {
 				log.warn("table: {} 无complex配置，不参与自定义日期解析");
+				return;
+			}
+			boolean d = TableActualNodesComplete.isDateSharding(complex.getShardingAlgorithmName(), shardingAlgorithms);
+			if (!d) {
+				log.warn("table: {} 非tableDate配置，不参与自定义日期解析");
 				return;
 			}
 			String shardingColumns = complex.getShardingColumns();// 此处是单字段解析
 			dateTableColumnMap.put(t, shardingColumns);
+			// 缓存算法
+			String algorithmName = complex.getShardingAlgorithmName();
+			ShardingConstant.putTableAlgorithm(t, algorithmName);
 		});
 		// 补全表节点
 		if (prop.isCompleteTableNodes() && shardingDataSource != null && MapUtil.isNotEmpty(tables)) {
@@ -151,26 +158,8 @@ public class ShardingExtraConfig implements InitializingBean {
 				}
 			});
 			// 补全
-			ShardingActualNodesComplete complete = SpringUtil.getBean(ShardingActualNodesComplete.class);
+			TableActualNodesComplete complete = SpringUtil.getBean(TableActualNodesComplete.class);
 			complete.sourceOfTableName(shardingDataSource, tableNodes, defaultDsName);
-		}
-
-	}
-
-	private void setDefaultDsName(String defaultDsName) {
-		if (shardingDataSource == null) {
-			return;
-		}
-		ShardingRuntimeContext runtimeContext = shardingDataSource.getRuntimeContext();
-		ShardingRule rule = runtimeContext.getRule();
-		ShardingDataSourceNames shardingDataSourceNames = rule.getShardingDataSourceNames();
-		Field ruleConfigField = CollUtil.toList(ReflectUtil.getFields(ShardingDataSourceNames.class)).stream()//
-				.filter(f -> f.getType() == ShardingRuleConfiguration.class)//
-				.findAny().orElse(null);
-		if (ruleConfigField != null) {
-			ShardingRuleConfiguration ruleConfig = (ShardingRuleConfiguration) ReflectUtil
-					.getFieldValue(shardingDataSourceNames, ruleConfigField);
-			ruleConfig.setDefaultDataSourceName(defaultDsName);
 		}
 	}
 

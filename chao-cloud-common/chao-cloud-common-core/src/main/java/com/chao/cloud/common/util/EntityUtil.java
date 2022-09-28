@@ -238,6 +238,18 @@ public final class EntityUtil {
 		return null;
 	}
 
+	@SuppressWarnings("unchecked")
+	public static <R, T> T getProperty(R entity, Class<T> propType) {
+		if (entity == null || propType == null) {
+			return null;
+		}
+		// 获取所有属性
+		Class<R> objType = ClassUtil.getClass(entity);
+		Field field = ArrayUtil.firstMatch(f -> f.getType() == propType, ReflectUtil.getFields(objType));
+		//
+		return (T) ReflectUtil.getFieldValue(entity, field);
+	}
+
 	/**
 	 * 获取对象-递归算法
 	 * 

@@ -32,16 +32,16 @@ public interface ShardingConstant {
 	/**
 	 * 表->算法 映射
 	 */
-	Map<String, Class<?>> TABLE_ALGORITHM_MAP = MapUtil.newHashMap();
+	Map<String, String> TABLE_ALGORITHM_MAP = MapUtil.newHashMap();
 
 	/**
 	 * 设置算法
 	 */
-	static void putTableAlgorithm(String tableName, Class<?> algorithmType) {
+	static void putTableAlgorithm(String tableName, String algorithmType) {
 		TABLE_ALGORITHM_MAP.put(tableName, algorithmType);
 	}
 
-	static Class<?> getTableAlgorithm(String tableName) {
+	static String getTableAlgorithm(String tableName) {
 		return TABLE_ALGORITHM_MAP.get(tableName);
 	}
 

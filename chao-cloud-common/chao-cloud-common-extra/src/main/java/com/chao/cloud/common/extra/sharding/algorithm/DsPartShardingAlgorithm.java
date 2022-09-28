@@ -1,20 +1,23 @@
-package com.chao.cloud.common.extra.sharding.strategy;
+package com.chao.cloud.common.extra.sharding.algorithm;
 
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Map;
+import java.util.Properties;
 import java.util.Set;
 
-import org.apache.shardingsphere.api.sharding.complex.ComplexKeysShardingAlgorithm;
-import org.apache.shardingsphere.api.sharding.complex.ComplexKeysShardingValue;
+import org.apache.shardingsphere.sharding.api.sharding.complex.ComplexKeysShardingAlgorithm;
+import org.apache.shardingsphere.sharding.api.sharding.complex.ComplexKeysShardingValue;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import com.chao.cloud.common.extra.sharding.annotation.ShardingProperties;
+import com.chao.cloud.common.extra.sharding.enums.ShardingAlgorithmTypeEnum;
 import com.google.common.collect.Range;
 
 import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.util.NumberUtil;
 import cn.hutool.core.util.StrUtil;
-import cn.hutool.extra.spring.SpringUtil;
+import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 
 /**
@@ -27,10 +30,15 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class DsPartShardingAlgorithm implements ComplexKeysShardingAlgorithm<String> {
 
+	@Autowired
+	private ShardingProperties prop;
+
+	@Getter
+	private Properties props;
+
 	@Override
 	public Collection<String> doSharding(Collection<String> dsList,
 			ComplexKeysShardingValue<String> complexKeysShardingValue) {
-		ShardingProperties prop = SpringUtil.getBean(ShardingProperties.class);
 		// 获取表名
 		String table = complexKeysShardingValue.getLogicTableName();
 		Set<String> dsSet = new HashSet<>();
@@ -62,7 +70,7 @@ public class DsPartShardingAlgorithm implements ComplexKeysShardingAlgorithm<Str
 		}
 		// 去掉不符合规则的数据源
 		dsList = CollUtil.intersection(dsList, dsSet);
-		log.info("【取余-{}】【{}】", table, CollUtil.join(dsList, StrUtil.COMMA));
+		log.info("【取余】: {}.{}", CollUtil.join(dsList, StrUtil.COMMA), table);
 		return dsList;
 	}
 
@@ -71,11 +79,20 @@ public class DsPartShardingAlgorithm implements ComplexKeysShardingAlgorithm<Str
 			return;
 		}
 		long number = NumberUtil.parseLong(val);
-		ShardingProperties prop = SpringUtil.getBean(ShardingProperties.class);
 		long index = number % prop.getDsNum();
 		String dsName = StrUtil.format("{}{}", prop.getDsPrefix(), index);
-		log.info("【取余】【{}%{}={}】{}.{}.{}={}", number, prop.getDsNum(), index, dsName, table, column, val);
+		log.info("【取余】: [{}%{}={}] {}.{}.{}={}", number, prop.getDsNum(), index, dsName, table, column, val);
 		dsSet.add(dsName);
+	}
+
+	@Override
+	public String getType() {
+		return ShardingAlgorithmTypeEnum.DS_PART.name();
+	}
+
+	@Override
+	public void init(Properties props) {
+		this.props = props;
 	}
 
 }

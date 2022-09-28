@@ -7,8 +7,8 @@ import java.util.concurrent.ConcurrentHashMap;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
-import com.chao.cloud.common.extra.mybatis.common.DateStrategyEnum;
 import com.chao.cloud.common.extra.sharding.constant.ShardingConstant;
+import com.chao.cloud.common.extra.sharding.enums.DateStrategyEnum;
 
 import cn.hutool.core.util.StrUtil;
 import lombok.Data;
@@ -24,6 +24,7 @@ import lombok.Setter;
 @Data
 @ConfigurationProperties(prefix = ShardingConstant.SHARDING_PREFIX)
 public class ShardingProperties {
+
 	/**
 	 * 启用
 	 */
