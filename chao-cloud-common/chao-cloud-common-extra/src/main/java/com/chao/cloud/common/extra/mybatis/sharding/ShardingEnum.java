@@ -1,8 +1,8 @@
-package com.chao.cloud.common.extra.mybatis.common;
+package com.chao.cloud.common.extra.mybatis.sharding;
 
 import java.util.function.Function;
 
-import com.chao.cloud.common.extra.mybatis.dynamic.DynamicTableRuleProperties.ShardingTableRule;
+import com.chao.cloud.common.extra.mybatis.config.ShardingTableProperties.ShardingTableRule;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
@@ -15,7 +15,7 @@ import lombok.RequiredArgsConstructor;
  * @version 1.0.0
  */
 @RequiredArgsConstructor
-public enum ShardEnum {
+public enum ShardingEnum {
 
 	/**
 	 * 默认不分片
@@ -24,15 +24,15 @@ public enum ShardEnum {
 	/**
 	 * 根据日期分片
 	 */
-	DATE(rule -> new DateTableNameHandler(rule)),
+	DATE(rule -> new DateShardingTableHandler(rule)),
 
 	/**
 	 * 请自行扩展...
 	 */
 	;@Getter
-	private final Function<ShardingTableRule, ShardTableHandler> handlerFunc;
+	private final Function<ShardingTableRule, ShardingTableHandler> handlerFunc;
 
-	public ShardTableHandler buildTableNameHandler(ShardingTableRule rule) {
+	public ShardingTableHandler buildTableNameHandler(ShardingTableRule rule) {
 		return handlerFunc.apply(rule);
 	}
 }

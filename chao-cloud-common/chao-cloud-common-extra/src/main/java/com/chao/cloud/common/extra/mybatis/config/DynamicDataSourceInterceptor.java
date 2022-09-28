@@ -1,4 +1,4 @@
-package com.chao.cloud.common.extra.mybatis.dynamic;
+package com.chao.cloud.common.extra.mybatis.config;
 
 import java.util.List;
 import java.util.Map;
@@ -8,16 +8,15 @@ import org.aopalliance.intercept.MethodInvocation;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.baomidou.dynamic.datasource.spring.boot.autoconfigure.DynamicDataSourceProperties;
 import com.baomidou.dynamic.datasource.toolkit.DynamicDataSourceContextHolder;
 import com.baomidou.mybatisplus.core.metadata.TableInfo;
 import com.baomidou.mybatisplus.core.metadata.TableInfoHelper;
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.chao.cloud.common.extra.mybatis.config.ShardingTableProperties.ShardingTableRule;
-import com.chao.cloud.common.extra.mybatis.dynamic.DynamicTableRuleProperties.TableRule;
+import com.chao.cloud.common.extra.mybatis.config.DynamicTableProperties.DynamicRule;
 
 import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.map.MapUtil;
+import cn.hutool.core.util.StrUtil;
 import lombok.extern.slf4j.Slf4j;
 
 /**
@@ -31,17 +30,22 @@ import lombok.extern.slf4j.Slf4j;
 public class DynamicDataSourceInterceptor implements MethodInterceptor, InitializingBean {
 
 	@Autowired
-	private DynamicTableRuleProperties prop;
-	@Autowired
-	private DynamicDataSourceProperties properties;
+	private DynamicTableProperties prop;
 
 	private Map<String, String> tableDataSourceMap = MapUtil.newHashMap();
 
 	@Override
 	public Object invoke(MethodInvocation invocation) throws Throwable {
+		if (!prop.isEnabled()) {
+			return invocation.proceed();
+		}
+		IService<?> service = (IService<?>) invocation.getThis();
+		String dsName = getDsName(service);
+		if (StrUtil.isBlank(dsName)) {
+			// 默认数据源
+			return invocation.proceed();
+		}
 		try {
-			IService<?> service = (IService<?>) invocation.getThis();
-			String dsName = getDsName(service);
 			log.info("【当前数据源】: {}", dsName);
 			DynamicDataSourceContextHolder.push(dsName);
 			// 执行
@@ -58,24 +62,18 @@ public class DynamicDataSourceInterceptor implements MethodInterceptor, Initiali
 		if (tableDataSourceMap.containsKey(tableName)) {
 			return tableDataSourceMap.get(tableName);
 		}
-		return properties.getPrimary();
+		return null;
 	}
 
 	@Override
 	public void afterPropertiesSet() throws Exception {
-		Map<String, TableRule> datasource = prop.getDatasource();
+		Map<String, DynamicRule> datasource = prop.getDatasource();
 		datasource.forEach((k, v) -> {
 			List<String> tables = v.getTables();
 			// 基础表名
 			if (CollUtil.isNotEmpty(tables)) {
 				tables.forEach(t -> tableDataSourceMap.put(t, k));
 			}
-			// 分片表
-			Map<String, ShardingTableRule> shardingTableRule = v.getShardingTableRule();
-			if (MapUtil.isNotEmpty(shardingTableRule)) {
-				shardingTableRule.keySet().forEach(t -> tableDataSourceMap.put(t, k));
-			}
 		});
 	}
-
 }

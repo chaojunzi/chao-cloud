@@ -1,4 +1,4 @@
-package com.chao.cloud.common.extra.mybatis.dynamic;
+package com.chao.cloud.common.extra.mybatis.config;
 
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -8,10 +8,7 @@ import javax.sql.DataSource;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
-import com.baomidou.dynamic.datasource.spring.boot.autoconfigure.DataSourceProperty;
-import com.baomidou.mybatisplus.annotation.DbType;
 import com.chao.cloud.common.extra.mybatis.common.DBConstant;
-import com.chao.cloud.common.extra.mybatis.config.ShardingTableProperties.ShardingTableRule;
 
 import lombok.Data;
 
@@ -24,24 +21,30 @@ import lombok.Data;
  */
 @Data
 @ConfigurationProperties(prefix = DBConstant.DYNAMIC_CONFIG_PREFIX)
-public class DynamicTableRuleProperties {
-
+public class DynamicTableProperties {
+	/**
+	 * 默认不启用
+	 */
+	private boolean enabled;
+	/**
+	 * 必须设置默认的库,默认master
+	 */
+	private String primary = "master";
 	/**
 	 * 每一个数据源
 	 */
-	private Map<String, TableRule> datasource = new LinkedHashMap<>();
-
+	private Map<String, DynamicRule> datasource = new LinkedHashMap<>();
+	/**
+	 * aop执行顺序
+	 */
 	private int order = 0;
 
 	/**
-	 * 参考{@link DataSourceProperty}
+	 * 参考 @{link
+	 * com.baomidou.dynamic.datasource.spring.boot.autoconfigure.DataSourceProperty}
 	 */
 	@Data
-	public static class TableRule {
-		/**
-		 * 数据源类型
-		 */
-		private DbType dbType = DbType.SQLITE;
+	public static class DynamicRule {
 		/**
 		 * 连接池名称(只是一个名称标识)</br>
 		 * 默认是配置文件上的名称
@@ -72,13 +75,14 @@ public class DynamicTableRuleProperties {
 		 */
 		private Boolean lazy;
 		/**
+		 * 是否隐藏->用于页面展示
+		 */
+		private boolean hide;
+		/**
 		 * 逻辑表
 		 */
 		private List<String> tables;
-		/**
-		 * 动态表名
-		 */
-		private Map<String, ShardingTableRule> shardingTableRule;
+
 	}
 
 }

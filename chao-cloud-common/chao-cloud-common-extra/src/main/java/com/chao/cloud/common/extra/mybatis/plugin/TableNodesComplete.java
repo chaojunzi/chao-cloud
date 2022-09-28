@@ -13,6 +13,11 @@ import com.baomidou.mybatisplus.annotation.DbType;
  */
 public interface TableNodesComplete {
 	/**
+	 * 动态数据源类型
+	 */
+	String DYNAMIC_DS_TYPE = "com.baomidou.dynamic.datasource.DynamicRoutingDataSource";
+
+	/**
 	 * 获取数据源类型
 	 * 
 	 * @return 类型

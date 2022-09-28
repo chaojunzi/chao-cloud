@@ -15,6 +15,14 @@ public interface MybatisConstant {
 	String LIMIT_1_MYSQL = "LIMIT 1";
 	String LIMIT_1_ORACLE = "ROWNUM = 1";
 	/**
+	 * 只查询一条
+	 */
+	String LIMIT_TEMPLATE = "LIMIT {},{}";
+	/**
+	 * 偏移量0
+	 */
+	int OFFSET_0 = 0;
+	/**
 	 * 第一页
 	 */
 	int CURRENT_PAGE = 1;

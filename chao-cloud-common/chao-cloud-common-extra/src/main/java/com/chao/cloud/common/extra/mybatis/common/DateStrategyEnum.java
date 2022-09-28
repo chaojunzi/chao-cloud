@@ -5,17 +5,9 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import com.baomidou.mybatisplus.annotation.TableName;
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.chao.cloud.common.extra.mybatis.dynamic.DynamicTableRuleProperties;
-import com.chao.cloud.common.extra.mybatis.dynamic.DynamicTableRuleProperties.ShardingTableRule;
-import com.chao.cloud.common.extra.mybatis.dynamic.DynamicTableRuleProperties.TableRule;
-
-import cn.hutool.core.annotation.AnnotationUtil;
 import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.comparator.CompareUtil;
 import cn.hutool.core.date.DateTime;
@@ -253,46 +245,6 @@ public enum DateStrategyEnum {
 	 */
 	private boolean compare(String d1, String d2) {
 		return CompareUtil.compare(d1, d2) >= 0;
-	}
-
-	public <T> QueryWrapper<T> buildQueryWrapper(QueryWrapper<T> wrapper, Class<T> entityType,
-			DynamicTableRuleProperties tableRuleProperties) {
-		// 获取表名
-		String tableName = AnnotationUtil.getAnnotation(entityType, TableName.class).value();
-		// 获取表分片规则
-		DateStrategyEnum dateStrategy = null;
-		String column = null;
-		Map<String, TableRule> datasource = tableRuleProperties.getDatasource();
-		for (TableRule tableRule : datasource.values()) {
-			Map<String, ShardingTableRule> shardingTableRule = tableRule.getShardingTableRule();
-			if (shardingTableRule.containsKey(tableName)) {
-				ShardingTableRule rule = shardingTableRule.get(tableName);
-				ShardEnum type = rule.getType();
-				if (type == ShardEnum.DATE) {
-					dateStrategy = rule.getDateStrategy();
-					column = rule.getColumn();
-				}
-				break;
-			}
-		}
-		if (ArrayUtil.hasNull(dateStrategy, column)) {
-			return wrapper;
-		}
-		// 获取时间临界值
-		DateTime current = DateUtil.date();
-		// 区间
-		int p = dateStrategy.hitPoint(current);
-		// m个月一张表
-		int m = dateStrategy.getMonth();
-		// 计算右边界
-		int right = p * m;
-		// 计算左边界
-		int left = right - m + 1;
-		// 获取年份
-		int year = DateUtil.year(current);
-		Date startDate = dateStrategy.buildDateByYearAndMonth(year, left);
-		Date endDate = dateStrategy.buildDateByYearAndMonth(year, right, true);
-		return wrapper.between(column, startDate, endDate);
 	}
 
 	public static void main(String[] args) {

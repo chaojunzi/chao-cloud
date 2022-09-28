@@ -12,11 +12,15 @@ import cn.hutool.core.util.StrUtil;
  * @version 1.0.0
  */
 public interface DBConstant {
-
+	String DS_CONFIG_PREFIX = "spring.datasource";
 	/**
-	 * 配置前缀
+	 * 动态数据源配置前缀
 	 */
 	String DYNAMIC_CONFIG_PREFIX = "spring.datasource.dynamic";
+	/**
+	 * 表分片规则
+	 */
+	String SHARDING_CONFIG_PREFIX = "spring.datasource.sharding";
 	/**
 	 * 默认数据库路径
 	 */

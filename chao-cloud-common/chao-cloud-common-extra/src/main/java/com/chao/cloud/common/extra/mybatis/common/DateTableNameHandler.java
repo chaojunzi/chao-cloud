@@ -8,6 +8,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.function.Function;
 
+import javax.sql.DataSource;
+
 import org.apache.ibatis.binding.MapperMethod.ParamMap;
 import org.apache.ibatis.mapping.SqlCommandType;
 
@@ -20,8 +22,10 @@ import com.baomidou.mybatisplus.core.enums.SqlKeyword;
 import com.baomidou.mybatisplus.core.metadata.TableFieldInfo;
 import com.baomidou.mybatisplus.core.metadata.TableInfo;
 import com.baomidou.mybatisplus.core.metadata.TableInfoHelper;
-import com.chao.cloud.common.extra.mybatis.dynamic.DynamicTableRuleProperties.ShardingTableRule;
+import com.chao.cloud.common.extra.mybatis.config.ShardingTableProperties.ShardingTableRule;
 import com.chao.cloud.common.extra.mybatis.plugin.TableNodesComplete;
+import com.chao.cloud.common.extra.mybatis.sharding.ShardingEnum;
+import com.chao.cloud.common.extra.mybatis.util.MybatisUtil;
 
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.collection.CollUtil;
@@ -82,9 +86,9 @@ public class DateTableNameHandler implements ShardTableHandler {
 	@Override
 	public String dynamicTableName(SqlCommandType type, String sql, String table, Object parameter) {
 		DateStrategyEnum dateStrategy = rule.getDateStrategy();
-		ShardEnum se = rule.getType();
+		ShardingEnum se = rule.getType();
 		// 非日期策略不支持分表
-		if (se != ShardEnum.DATE || dateStrategy == null) {
+		if (se != ShardingEnum.DATE || dateStrategy == null) {
 			return table;
 		}
 		// 根据列进行分片处理
@@ -159,12 +163,16 @@ public class DateTableNameHandler implements ShardTableHandler {
 	}
 
 	private TableNodesComplete getTableNodesComplete() {
+		// 获取当前数据源-并获取数据源类型
+		DataSource ds = SpringUtil.getBean(DataSource.class);
+		DbType dbType = MybatisUtil.getDbType(ds);
 		Map<String, TableNodesComplete> beans = SpringUtil.getBeansOfType(TableNodesComplete.class);
 		Assert.notNull(beans, "请注入一个生成表的实现类：{}", TableNodesComplete.class.getSimpleName());
-		DbType dbType = rule.getDbType();
 		TableNodesComplete complete = CollUtil.findOne(beans.values(), b -> b.getDbType() == dbType);
+		//
 		Assert.notNull(complete, "未找到该数据库表生成插件：{}", dbType);
 		return complete;
+
 	}
 
 	private List<Date> parseDate(SqlCommandType type, String table, Object parameter) {
