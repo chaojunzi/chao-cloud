@@ -59,7 +59,7 @@
 		<sharding-jdbc.version>4.1.1</sharding-jdbc.version>
 		<sharding-jdbc-core.version>5.2.0</sharding-jdbc-core.version>
 		<!-- json返回值 -->
-		<fastjson.version>1.2.58</fastjson.version>
+		<fastjson.version>1.2.83</fastjson.version>
 		<!-- 微信工具包 -->
 		<weixin-java-tools.version>4.0.0</weixin-java-tools.version>
 		<thoughtworks.version>1.4.17</thoughtworks.version>
