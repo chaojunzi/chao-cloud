@@ -44,7 +44,7 @@
 		<hutool-all.version>5.8.12</hutool-all.version>
 		<bcprov.version>1.68</bcprov.version>
 		<commons-pool2.version>2.6.2</commons-pool2.version>
-		<commons-net.version>3.6</commons-net.version>
+		<commons-net.version>3.9.0</commons-net.version>
 		<poi-version>4.1.2</poi-version>
 		<com.vdurmont.version>4.0.0</com.vdurmont.version>
 		<hanlp.version>portable-1.7.2</hanlp.version>
