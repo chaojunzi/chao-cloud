@@ -47,6 +47,11 @@
 			<artifactId>spring-boot-starter-web</artifactId>
 			<optional>true</optional>
 		</dependency>
+		<dependency>
+    			<groupId>org.yaml</groupId>
+    			<artifactId>snakeyaml</artifactId>
+    			<version>1.33</version>
+		</dependency>
 		<!-- config -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
